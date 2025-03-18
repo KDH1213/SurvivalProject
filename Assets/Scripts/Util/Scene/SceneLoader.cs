@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,12 +7,12 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : Singleton<SceneLoader>
 {
     public UnityEvent onStartLoadSceneEvent;
 
 
-    public string loadSceneAddress;
+    public string loadSceneAddress = "Assets/Scenes/LoadScene.unity";
     [SerializeField]
     private string NextSceneAddress;
     private bool isLoadScene = false;
@@ -65,7 +63,7 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log(sceneOperation.PercentComplete * 100f);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return null;
         }
 
         
@@ -74,17 +72,7 @@ public class SceneLoader : MonoBehaviour
 
         if (loadScene)
         {
-            var objectList = sceneOperation.Result.Scene.GetRootGameObjects();
-
-            foreach (var @object in objectList)
-            {
-                var sceneLoader = @object.GetComponent<SceneLoader>();
-                if (sceneLoader != null)
-                {
-                    sceneLoader.LoadNextScene(NextSceneAddress);
-                    break;
-                }
-            }
+            LoadNextScene(NextSceneAddress);
         }
         Addressables.Release(sceneOperation);
     }
