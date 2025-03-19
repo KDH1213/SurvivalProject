@@ -1,0 +1,54 @@
+{
+    "name": "TestControll",
+    "maps": [
+        {
+            "name": "player",
+            "id": "8fa81f2c-2baa-4e08-97a3-0f78583e9c9a",
+            "actions": [
+                {
+                    "name": "move",
+                    "type": "Value",
+                    "id": "61f1a590-cf35-4e31-8ecf-a42de1be258d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "rotate",
+                    "type": "Value",
+                    "id": "e29f2714-cc19-4f62-a38e-eb2a13354759",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a2a2924f-4bb5-4538-83ab-8150f9a35f81",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70ec4c00-002f-4551-aed2-e0be740eada1",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
