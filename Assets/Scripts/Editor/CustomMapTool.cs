@@ -142,9 +142,15 @@ public class CustomMapTool : EditorWindow
             {
                 OnEndSelete();
 
+                isSelect = true;
                 seleteIndex = i;
                 seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
-                seleteGameObject.GetComponent<Collider>().enabled = false;
+                var colliders = seleteGameObject.GetComponentsInChildren<Collider>();
+
+                foreach (var collider in colliders)
+                {
+                    collider.enabled = false;   
+                }
             }
                 // SetDrawTile(textureList[i].name);
         }
