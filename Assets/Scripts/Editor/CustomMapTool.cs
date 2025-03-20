@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
-using static Codice.Client.BaseCommands.Import.Commit;
 
 public class CustomMapTool : EditorWindow
 {
@@ -13,13 +11,16 @@ public class CustomMapTool : EditorWindow
     private Vector2 scrollPos = Vector2.zero;
 
     private Vector2 palletScrollPos = Vector2.zero;
+
     private bool isDraw = true;
     private bool isMouseDown = false;
     private bool isSelect = false;
+    private bool isDestory = false;
 
     private static string tabName;
 
     private int tabIndex;
+    private int seleteIndex;
 
     [MenuItem("Tools/MapEditor")]
     private static void Open()
@@ -37,11 +38,7 @@ public class CustomMapTool : EditorWindow
     private void OnDisable()
     {
         SceneView.duringSceneGui -= UpdateScene;
-
-        if (seleteGameObject != null)
-        {
-            DestroyImmediate(seleteGameObject);
-        }
+        OnEndSelete();
     }
 
     private void OnGUI()
@@ -51,22 +48,27 @@ public class CustomMapTool : EditorWindow
         // EditorGUI.indentLevel++;
 
         mapToolData = EditorGUILayout.ObjectField("MapToolData", mapToolData, typeof(MapToolData), true) as MapToolData;
-        isDraw = EditorGUILayout.Toggle("Drawable", isDraw);
+        EditorGUILayout.Space(10);
+        isDraw = EditorGUILayout.Toggle("그리기 시작", isDraw);
+        EditorGUILayout.Space(5);
+        isDestory = EditorGUILayout.Toggle("배치 오브젝트 삭제", isDestory);
+        EditorGUILayout.Space(10);
 
-        if(!isDraw)
+        if (!isDraw)
         {
-            isSelect = false;
-
-            if (seleteGameObject != null)
-            {
-                DestroyImmediate(seleteGameObject);
-                seleteGameObject = null;
-            }
+            OnEndSelete();
         }
 
         if (mapToolData != null)
         {
-            tabIndex = GUILayout.Toolbar(tabIndex, mapToolData.TabNameList.ToArray());
+            int currentIndex = GUILayout.Toolbar(tabIndex, mapToolData.TabNameList.ToArray());
+
+            if(currentIndex != tabIndex)
+            {
+                tabIndex = currentIndex; 
+                OnEndSelete();
+            }
+
             using (var scope = new GUILayout.VerticalScope(GUI.skin.window, GUILayout.Height(400)))
             {
                 palletScrollPos = EditorGUILayout.BeginScrollView(palletScrollPos, false, true);
@@ -76,6 +78,17 @@ public class CustomMapTool : EditorWindow
         }
 
         EditorGUILayout.EndScrollView();
+    }
+
+    private void OnEndSelete()
+    {
+        isSelect = false;
+
+        if (seleteGameObject != null)
+        {
+            DestroyImmediate(seleteGameObject);
+            seleteGameObject = null;
+        }
     }
 
     private Vector2 slotSize = new Vector2(100f, 100f);
@@ -127,14 +140,11 @@ public class CustomMapTool : EditorWindow
 
             if (selected)
             {
-                isSelect = selected;
+                OnEndSelete();
 
-                if (seleteGameObject != null)
-                {
-                    DestroyImmediate(seleteGameObject);
-                }
-
+                seleteIndex = i;
                 seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
+                seleteGameObject.GetComponent<Collider>().enabled = false;
             }
                 // SetDrawTile(textureList[i].name);
         }
@@ -164,7 +174,7 @@ public class CustomMapTool : EditorWindow
         var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         if (Physics.Raycast(ray, out var hitInfo, float.MaxValue))
         {
-            if (seleteGameObject != null)
+            if (isSelect && seleteGameObject != null)
             {
                 seleteGameObject.transform.position = hitInfo.point;
             }
@@ -172,12 +182,6 @@ public class CustomMapTool : EditorWindow
 
         if (e.button == 0)
         {
-            // var mouseWorldPosition = GetWorldPosition(sceneView);
-           
-          
-
-           
-
             switch (e.type)
             {
                 case EventType.MouseDown:
@@ -187,17 +191,10 @@ public class CustomMapTool : EditorWindow
                     break;
                 case EventType.MouseUp:
 
-                    if (seleteGameObject != null)
+                    if (isSelect && seleteGameObject != null)
                     {
-                        Instantiate(seleteGameObject, hitInfo.point, Quaternion.identity);
-                        //var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-                        //if (Physics.Raycast(ray, out var hitInfo, float.MaxValue))
-                        //{
-                        //    Instantiate(seleteGameObject, hitInfo.point, Quaternion.identity);
-                        //}
-
+                        Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][seleteIndex], hitInfo.point, Quaternion.identity);
                     }
-
 
                     isMouseDown = false;
                     GUIUtility.hotControl = 0;
