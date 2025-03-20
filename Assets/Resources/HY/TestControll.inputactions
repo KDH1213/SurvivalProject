@@ -6,7 +6,7 @@
             "id": "8fa81f2c-2baa-4e08-97a3-0f78583e9c9a",
             "actions": [
                 {
-                    "name": "move",
+                    "name": "moveAndRotate",
                     "type": "Value",
                     "id": "61f1a590-cf35-4e31-8ecf-a42de1be258d",
                     "expectedControlType": "Vector2",
@@ -15,13 +15,22 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "rotate",
-                    "type": "Value",
+                    "name": "attack",
+                    "type": "Button",
                     "id": "e29f2714-cc19-4f62-a38e-eb2a13354759",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "sit",
+                    "type": "Button",
+                    "id": "422b1a74-f25c-454a-a67c-d30dd4ca7875",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -32,18 +41,51 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "move",
+                    "action": "moveAndRotate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "70ec4c00-002f-4551-aed2-e0be740eada1",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "rotate",
+                    "action": "attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4e7af8f-4234-44fa-be78-b77ce03b65d4",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d76246c8-0d22-4b91-adb7-4b614ba5023a",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9741d34-60b0-412a-a702-75b027954eb2",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
