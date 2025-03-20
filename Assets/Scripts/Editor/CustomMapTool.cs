@@ -2,15 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
+using static Codice.Client.BaseCommands.Import.Commit;
 
 public class CustomMapTool : EditorWindow
 {
-    private GameObject testObject;
+    private MapToolData mapToolData;
+    private GameObject seleteGameObject;
+
     private Vector2 scrollPos = Vector2.zero;
+
+    private Vector2 palletScrollPos = Vector2.zero;
     private bool isDraw = true;
     private bool isMouseDown = false;
+    private bool isSelect = false;
 
-    [MenuItem("Tool/MapEditor")]
+    private static string tabName;
+
+    private int tabIndex;
+
+    [MenuItem("Tools/MapEditor")]
     private static void Open()
     {
         CustomMapTool window = (CustomMapTool)GetWindow(typeof(CustomMapTool), false, "TestMapTool", true);
@@ -27,10 +38,10 @@ public class CustomMapTool : EditorWindow
     {
         SceneView.duringSceneGui -= UpdateScene;
 
-        //if (brushTransfom != null)
-        //{
-        //    DestroyImmediate(brushTransfom.gameObject);
-        //}
+        if (seleteGameObject != null)
+        {
+            DestroyImmediate(seleteGameObject);
+        }
     }
 
     private void OnGUI()
@@ -39,11 +50,94 @@ public class CustomMapTool : EditorWindow
         EditorGUIUtility.labelWidth = 200;
         // EditorGUI.indentLevel++;
 
-        testObject = EditorGUILayout.ObjectField("GameObject", testObject, typeof(GameObject), true) as GameObject;
+        mapToolData = EditorGUILayout.ObjectField("MapToolData", mapToolData, typeof(MapToolData), true) as MapToolData;
         isDraw = EditorGUILayout.Toggle("Drawable", isDraw);
 
+        if(!isDraw)
+        {
+            isSelect = false;
+
+            if (seleteGameObject != null)
+            {
+                DestroyImmediate(seleteGameObject);
+                seleteGameObject = null;
+            }
+        }
+
+        if (mapToolData != null)
+        {
+            tabIndex = GUILayout.Toolbar(tabIndex, mapToolData.TabNameList.ToArray());
+            using (var scope = new GUILayout.VerticalScope(GUI.skin.window, GUILayout.Height(400)))
+            {
+                palletScrollPos = EditorGUILayout.BeginScrollView(palletScrollPos, false, true);
+                DrawTilePaletteCell();
+                EditorGUILayout.EndScrollView();
+            }
+        }
 
         EditorGUILayout.EndScrollView();
+    }
+
+    private Vector2 slotSize = new Vector2(100f, 100f);
+
+    void DrawTilePaletteCell()
+    {
+        int yPos = -1;
+        int xPos = 0;
+
+        var area = GUILayoutUtility.GetRect(slotSize.x, slotSize.y, GUI.skin.window, GUILayout.MaxWidth(slotSize.x), GUILayout.MaxHeight(slotSize.y));
+
+        var textureList = mapToolData.GetPreview(mapToolData.TabNameList[tabIndex]);
+        int indexCount = textureList.Count;
+
+        /*
+        //EditorGUILayout.BeginHorizontal();
+
+        //for (int i = 0; i < indexCount; ++i)
+        //{
+
+        //    if (GUILayout.RepeatButton(textureList[i]))
+        //    {
+        //    }
+
+        //    if (i % 5 == 0)
+        //    {
+        //        EditorGUILayout.EndHorizontal();
+        //        // EditorGUIUtility.fieldWidth = backup1;
+        //        // EditorGUIUtility.labelWidth = backup2;
+
+        //        EditorGUILayout.BeginHorizontal();
+        //    }
+
+        //}
+
+        //EditorGUILayout.EndHorizontal();
+        */
+
+        for (int i = 0; i < textureList.Count; ++i)
+        {
+            if (i % 7 == 0)
+            {
+                yPos++;
+                xPos = 0;
+                EditorGUILayout.Space();
+            }
+
+            bool selected = GUI.Button(new Rect(area) { x = slotSize.x * xPos++, y = slotSize.y * yPos }, textureList[i]);
+
+            if (selected)
+            {
+                isSelect = selected;
+
+                if (seleteGameObject != null)
+                {
+                    DestroyImmediate(seleteGameObject);
+                }
+
+                seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
+            }
+                // SetDrawTile(textureList[i].name);
+        }
     }
 
     private void UpdateScene(SceneView sceneView)
@@ -66,11 +160,23 @@ public class CustomMapTool : EditorWindow
     private void ProcessMouseInput(SceneView sceneView, Event e)
     {
         int id = GUIUtility.GetControlID(FocusType.Passive);
+        sceneView.Repaint();
+        var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+        if (Physics.Raycast(ray, out var hitInfo, float.MaxValue))
+        {
+            if (seleteGameObject != null)
+            {
+                seleteGameObject.transform.position = hitInfo.point;
+            }
+        }
 
-        if(e.button == 0)
+        if (e.button == 0)
         {
             // var mouseWorldPosition = GetWorldPosition(sceneView);
-            sceneView.Repaint();
+           
+          
+
+           
 
             switch (e.type)
             {
@@ -81,13 +187,14 @@ public class CustomMapTool : EditorWindow
                     break;
                 case EventType.MouseUp:
 
-                    if(testObject != null)
+                    if (seleteGameObject != null)
                     {
-                        var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-                        if (Physics.Raycast(ray, out var hitInfo,float.MaxValue))
-                        {
-                            Instantiate(testObject, hitInfo.point, Quaternion.identity);                            
-                        }
+                        Instantiate(seleteGameObject, hitInfo.point, Quaternion.identity);
+                        //var ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+                        //if (Physics.Raycast(ray, out var hitInfo, float.MaxValue))
+                        //{
+                        //    Instantiate(seleteGameObject, hitInfo.point, Quaternion.identity);
+                        //}
 
                     }
 
@@ -105,7 +212,7 @@ public class CustomMapTool : EditorWindow
 
     }
 
-        private Vector3 GetWorldPosition(SceneView sceneView)
+    private Vector3 GetWorldPosition(SceneView sceneView)
     {
         Vector3 mousePosition = Event.current.mousePosition;
 
