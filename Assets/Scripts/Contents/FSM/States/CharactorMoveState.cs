@@ -1,92 +1,49 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-//public class CharactorMoveState : CharactorBaseState
-//{
-//    [SerializeField] 
-//    private Vector2 movePoint;
+public class CharactorMoveState : CharactorBaseState
+{
+    [SerializeField]
+    private float moveSpeed;
 
-//    private Vector2 currentPosition;
-//    private Vector2 direction;
+    protected override void Awake()
+    {
+        base.Awake();
+        stateType = CharactorStateType.Move;
+    }
 
-//    protected override void Awake()
-//    {
-//        base.Awake();
-//        stateType = CharactorStateType.Move;
-//    }
+    public override void Enter()
+    {
+        if (playerFSM.Animator != null)
+            playerFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
+    }
 
-//    public override void Enter()
-//    {
-//        //currentPosition = monsterTransform.position;
-//        //moveSpeed = charactorFSM.GetStatValue(StatType.MovementSpeed);
-//        //GetMovePoint();
-//        if (charactorFSM.Animator != null)
-//            charactorFSM.Animator.SetBool(DHUtil.CharactorAnimationUtil.hashIsMove, true);
+    public override void ExecuteUpdate()
+    {
+        MoveAndRotate(playerFSM.MoveValue);
+    }
 
-//        if(direction.x < 0f && charactorFSM.IsFlip())
-//        {
-//            charactorFSM.OnFlip();
-//        }
-//        else if (direction.x > 0f && !charactorFSM.IsFlip())
-//        {
-//            charactorFSM.OnFlip();
-//        }
-//    }
+    public override void Exit()
+    {
+        if (playerFSM.Animator != null)
+        {
+            playerFSM.Animator.SetBool(AnimationHashCode.hashMove, false);
+        }
+    }
 
-//    public override void ExecuteUpdate()
-//    {
-//        Move();
-//    }
+    private void MoveAndRotate(Vector2 direction)
+    {
+        if (direction.sqrMagnitude < 0.01f)
+        {
+            playerFSM.ChangeState(CharactorStateType.Idle);
+            return;
+        }
 
-//    public override void Exit()
-//    {
-//        if (charactorFSM.Animator != null)
-//            charactorFSM.Animator.SetBool(DHUtil.CharactorAnimationUtil.hashIsMove, false);
-//    }
-
-//    public void Move()
-//    {
-//        currentPosition += direction * (Time.deltaTime * CharactorFSM.CharactorProfile.MoveSpeed);
-//        transform.position = currentPosition;
-
-//        if (IsCheckResult())
-//        {
-//            transform.position = movePoint;
-//            CharactorFSM.ChangeState(CharactorStateType.Idle);
-//        }
-//    }
-
-//    private void OnFilp()
-//    {
-//    }
-
-//    public void OnSetMovePoint(Vector2 movePoint)
-//    {
-//        currentPosition = transform.position;
-//        this.movePoint = movePoint;
-
-//        direction = movePoint - currentPosition;
-//        direction.Normalize();
-//    }
-
-//    public bool IsCheckResult()
-//    {
-//        Vector2 position;
-
-//        if (direction.x > 0f)
-//            position.x = Mathf.Min(movePoint.x, currentPosition.x);
-//        else
-//            position.x = Mathf.Max(movePoint.x, currentPosition.x);
-
-//        if (direction.y > 0f)
-//            position.y = Mathf.Min(movePoint.y, currentPosition.y);
-//        else
-//            position.y = Mathf.Max(movePoint.y, currentPosition.y);
-
-//        if (movePoint == position)
-//            return true;
-
-//        return false;
-//    }
-//}
+        // 이동 벡터 계산
+        Vector3 moveDir = new Vector3(direction.x, 0, direction.y).normalized;
+        transform.position += moveDir * (moveSpeed * Time.deltaTime);
+        // 이동하는 방향으로 캐릭터 회전
+        transform.rotation = Quaternion.LookRotation(moveDir);
+    }
+}
