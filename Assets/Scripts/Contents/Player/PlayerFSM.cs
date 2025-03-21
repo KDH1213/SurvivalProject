@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerFSM : FSMController<CharactorStateType>
 {
+    [SerializeField]
+    protected PlayerJoyStickInput joyStickInput;
+
     [field: SerializeField]
     public Animator Animator { get; private set; }
 
@@ -16,6 +20,9 @@ public class PlayerFSM : FSMController<CharactorStateType>
     public bool isMove = true;
     [HideInInspector]
     public bool CanAttack;
+
+    public Vector2 MoveValue { get; private set; }
+
 
     protected override void Awake()
     {
@@ -38,4 +45,10 @@ public class PlayerFSM : FSMController<CharactorStateType>
 
         StateTable[currentStateType].ExecuteUpdate();
     }
+
+    public void OnSetMoveValue(Vector2 moveValue)
+    {
+        this.MoveValue = moveValue;
+    }
+
 }

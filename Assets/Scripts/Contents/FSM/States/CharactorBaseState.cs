@@ -5,14 +5,12 @@ using UnityEngine;
 public class CharactorBaseState : BaseState<CharactorStateType>
 {
     protected PlayerFSM playerFSM;
-    protected PlayerJoyStickInput joyStickInput;
 
     public PlayerFSM PlayerFSM { get { return playerFSM; } }
 
     protected virtual void Awake()
     {
         playerFSM = GetComponent<PlayerFSM>();
-        joyStickInput = GetComponent<PlayerJoyStickInput>();
     }
     public override void Enter()
     {

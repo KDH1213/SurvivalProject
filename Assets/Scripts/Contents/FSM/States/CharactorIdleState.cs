@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class CharactorIdleState : CharactorBaseState
 {
-    [SerializeField]
-    protected LayerMask hitLayerMasks;
-
     //private AttackData attackData;
 
     //private OverlapCollider OverlapCollider;
@@ -34,9 +31,9 @@ public class CharactorIdleState : CharactorBaseState
 
     public override void ExecuteUpdate()
     {
-        if (isAttack)
+        if(PlayerFSM.MoveValue.sqrMagnitude > 0f)
         {
-            FindAttackTaget();
+            PlayerFSM.ChangeState(CharactorStateType.Move);
         }
     }
 
@@ -50,62 +47,6 @@ public class CharactorIdleState : CharactorBaseState
         yield return new WaitForSeconds(attackTime);
         isAttack = true;
     }
-
-    //private int FindeTarget(ref List<Collider2D> hitTargeList, int count)
-    //{
-    //    var routeMove = hitTargeList[0].GetComponent<IRouteMove>();
-    //    var damageable = hitTargeList[0].GetComponent<IDamageable>();
-    //    int targetIndex = 0;
-
-    //    if (damageable.IsDead)
-    //    {
-    //        targetIndex = -1;
-    //    }
-
-    //    for (int i = 1; i < count; ++i)
-    //    {
-    //        var targetDamageable = hitTargeList[i].GetComponent<IDamageable>();
-
-    //        if (targetDamageable.IsDead)
-    //            continue;
-    //        else if (targetIndex == -1)
-    //        {
-    //            targetIndex = i;
-    //            continue;
-    //        }
-
-    //        var target = hitTargeList[i].GetComponent<IRouteMove>();
-    //        if (routeMove.MoveIndex == target.MoveIndex)
-    //        {
-    //            if (routeMove.MoveDirection.x == 0f)
-    //            {
-    //                if ((routeMove.MoveDirection.y > 0f && routeMove.CurrentPosition.y < target.CurrentPosition.y)
-    //                    || routeMove.MoveDirection.y < 0f && routeMove.CurrentPosition.y > target.CurrentPosition.y)
-    //                {
-    //                    routeMove = target;
-    //                    targetIndex = i;
-    //                }
-    //            }
-    //            else
-    //            {
-    //                if ((routeMove.MoveDirection.x > 0f && routeMove.CurrentPosition.x < target.CurrentPosition.x)
-    //                      || routeMove.MoveDirection.x < 0f && routeMove.CurrentPosition.x > target.CurrentPosition.x)
-    //                {
-    //                    routeMove = target;
-    //                    targetIndex = i;
-    //                }
-    //            }
-    //        }
-    //        else if ((routeMove.MoveIndex > 0 && target.MoveIndex == 0) || routeMove.MoveIndex < target.MoveIndex)
-    //        {
-    //            routeMove = target;
-    //            targetIndex = i;
-    //        }
-    //    }
-
-    //    return targetIndex;
-    //}
-
 
     public void OnChangeStatus()
     {

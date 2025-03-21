@@ -1,17 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public class CharactorMoveState : CharactorBaseState
 {
     [SerializeField]
     private float moveSpeed;
-    [SerializeField]
-    private float rotateSpeed;
-
-    private Vector2 inputDirection;
 
     protected override void Awake()
     {
@@ -27,9 +21,7 @@ public class CharactorMoveState : CharactorBaseState
 
     public override void ExecuteUpdate()
     {
-        inputDirection = joyStickInput.inputDirection;
-
-        MoveAndRotate(inputDirection);
+        MoveAndRotate(playerFSM.MoveValue);
     }
 
     public override void Exit()
@@ -51,9 +43,7 @@ public class CharactorMoveState : CharactorBaseState
         // 이동 벡터 계산
         Vector3 moveDir = new Vector3(direction.x, 0, direction.y).normalized;
         transform.position += moveDir * (moveSpeed * Time.deltaTime);
-
         // 이동하는 방향으로 캐릭터 회전
-        Quaternion rotation = Quaternion.LookRotation(moveDir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotateSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.LookRotation(moveDir);
     }
 }
