@@ -125,3 +125,9 @@ public static class SortingLayer
 {
     public static readonly string Defalyle = "Default";
 }
+
+public class AnimationHashCode
+{
+    public static readonly int hashMove = Animator.StringToHash("walk");
+    public static readonly int hashAttack = Animator.StringToHash("attack");
+}

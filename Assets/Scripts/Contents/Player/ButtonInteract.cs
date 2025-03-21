@@ -6,30 +6,18 @@ using UnityEngine.InputSystem;
 
 public class ButtonInteract : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed;
-    [SerializeField]
-    private float rotateSpeed;
-
-    private Vector2 inputDirection;
-
-    [SerializeField]
-    private GameObject target;
-
-    private NavMeshAgent agent;
-    private PlayerCurrentState playerCurrentState;
+    private PlayerFSM playerFSM;
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        playerCurrentState = GetComponent<PlayerCurrentState>();
+        playerFSM = GetComponent<PlayerFSM>();
     }
 
     public void OnMainToolUsedAndAttck(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (playerFSM.CanAttack && context.phase == InputActionPhase.Performed )
         {
-            MainToolUsedAndAttack();
+            playerFSM.ChangeState(CharactorStateType.Attack);
         }
     }
 
@@ -55,11 +43,6 @@ public class ButtonInteract : MonoBehaviour
         {
             Build();
         }
-    }
-
-    private void MainToolUsedAndAttack()
-    {
-        Debug.Log("MainTool Used Or Attack!!");
     }
 
     private void Interact()

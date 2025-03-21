@@ -4,7 +4,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.EventSystems;
 
-public class FloatingJoystickInput : MonoBehaviour
+public class JoyStick : MonoBehaviour
 {
     [SerializeField] private RectTransform joystickBackground; // 조이스틱 배경
     [SerializeField] private RectTransform joystickHandle;     // 조이스틱 핸들
