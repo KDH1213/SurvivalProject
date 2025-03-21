@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "attack",
+                    "name": "mainToolAndAttack",
                     "type": "Button",
                     "id": "e29f2714-cc19-4f62-a38e-eb2a13354759",
                     "expectedControlType": "",
@@ -24,9 +24,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "sit",
+                    "name": "interact",
                     "type": "Button",
-                    "id": "422b1a74-f25c-454a-a67c-d30dd4ca7875",
+                    "id": "72c91ca7-ed86-402a-89f5-7402ef2216c6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "subTool",
+                    "type": "Button",
+                    "id": "3b0861f9-8c8c-48a8-b7c9-b33371564cec",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Building",
+                    "type": "Button",
+                    "id": "7d44f2ac-a1f1-435f-8467-800dbfb6ed55",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -52,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "attack",
+                    "action": "mainToolAndAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -63,29 +81,73 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "attack",
+                    "action": "mainToolAndAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "d76246c8-0d22-4b91-adb7-4b614ba5023a",
+                    "id": "ce014884-3c68-477d-8602-33bd75636705",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "subTool",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "271386ea-05fb-409e-a122-a4d214d2d600",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "subTool",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9217836-c61d-44cc-ad1d-18a641fd6c86",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Building",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc4a13f9-0531-491f-bff2-202f82f74cce",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Building",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3330a18-094f-4ea9-bbf6-38d42a37fc65",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "sit",
+                    "action": "interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "f9741d34-60b0-412a-a702-75b027954eb2",
+                    "id": "26bfce3b-36a4-4d7a-8dee-fbb005235842",
                     "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "sit",
+                    "action": "interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
