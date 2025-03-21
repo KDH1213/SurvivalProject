@@ -9,13 +9,20 @@ public class CustomMapTool : EditorWindow
     private GameObject seleteGameObject;
 
     private Vector2 scrollPos = Vector2.zero;
-
     private Vector2 palletScrollPos = Vector2.zero;
 
     private bool isDraw = true;
     private bool isMouseDown = false;
     private bool isSelect = false;
     private bool isDestory = false;
+
+    private bool isRotation = false;
+    private bool isAutoRotation = false;
+
+    private float currentRotation = 0f;
+    private float rotationSpeed = 10f;
+    private Quaternion rotationRotation = Quaternion.identity;
+
 
     private static string tabName;
 
@@ -89,6 +96,27 @@ public class CustomMapTool : EditorWindow
             }
             isDraw = true;
         }
+        else
+        {
+            isDraw = false;
+            currentRotation = 0f;
+        }
+
+        if (isDraw)
+        {
+            EditorGUILayout.Space(5);
+            ++EditorGUI.indentLevel;
+
+            isAutoRotation = EditorGUILayout.Toggle("자동 회전", isAutoRotation);
+
+            if (!isAutoRotation)
+            {
+                EditorGUILayout.Space(5);
+                EditorGUILayout.LabelField("q 버튼을 누르면 좌측 회전/ e 버튼을 누르면 우측 회전");
+                rotationSpeed = EditorGUILayout.FloatField("회전 속도", rotationSpeed);
+            }
+            --EditorGUI.indentLevel;
+        }
 
         EditorGUILayout.Space(5);
         if (EditorGUILayout.Toggle("배치 오브젝트 삭제", isDestory))
@@ -99,6 +127,11 @@ public class CustomMapTool : EditorWindow
             }
             isDestory = true;
         }
+        else
+        { 
+            isDestory = false;
+        }
+
         EditorGUILayout.Space(10);
     }
     private void OnEndSelete()
@@ -192,6 +225,30 @@ public class CustomMapTool : EditorWindow
 
     private void ProcecssKeyInput(SceneView sceneView, Event e)
     {
+        int id = GUIUtility.GetControlID(FocusType.Passive);
+        sceneView.Repaint();
+
+        if(!isDraw || seleteGameObject == null)
+        {
+            return;
+        }
+
+        if (e.isKey)
+        {
+            switch (e.keyCode)
+            {
+                case KeyCode.E:
+                    currentRotation += rotationSpeed;
+                    seleteGameObject.transform.rotation = Quaternion.Euler(0f, currentRotation, 0f);
+                    break;
+                case KeyCode.Q:
+                    currentRotation -= rotationSpeed;
+                    seleteGameObject.transform.rotation = Quaternion.Euler(0f, currentRotation, 0f);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private void ProcessMouseInput(SceneView sceneView, Event e)

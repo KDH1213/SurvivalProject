@@ -105,6 +105,19 @@ public class Stage : MonoBehaviour
 #endif
         }
 
+        var childrens = transform.GetComponentsInChildren<Transform>();
+        foreach (var child in childrens)
+        {
+#if UNITY_EDITOR
+            if (child.gameObject != gameObject)
+            {
+                DestroyImmediate(child.gameObject);
+            }
+#else
+            Destroy(gameObject);
+#endif
+        }
+
         tileList.Clear();
     }
 
