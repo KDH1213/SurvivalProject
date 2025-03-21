@@ -17,27 +17,44 @@ public class StageData : ScriptableObject
     [field: SerializeField]
     public GatherTypeMask CreateGatherType {  get; private set; }
 
+    [field : SerializeField]
+    public bool UseCreatePercent { get; private set; }
 
     [field: SerializeField]
-    public SerializedDictionary<GatherType, float> CreateGatherPercentTable = new SerializedDictionary<GatherType, float>();
+    public SerializedDictionary<GatherType, FloatMinMax> CreateGatherPercentTable = new SerializedDictionary<GatherType, FloatMinMax>();
+
+    [field: SerializeField]
+    public SerializedDictionary<GatherType, IntMinMax> CreateGatherCountTable = new SerializedDictionary<GatherType, IntMinMax>();
 
     [field: SerializeField]
     public SerializedDictionary<GatherType, GatherData> GatherDataTable = new SerializedDictionary<GatherType, GatherData>();
 
     [ContextMenu("CreateTable")]
-    private void OnCreatePercentTable()
+    private void OnCreateTable()
     {
         CreateGatherPercentTable.Clear();
-        GatherDataTable.Clear();
+        CreateGatherCountTable.Clear();
+
+        var gatherDataTable = new SerializedDictionary<GatherType, GatherData>();
 
         for (int i = (int)GatherType.None + 1; i < (int)GatherType.End; ++i)
         {
             if((1 << i & (uint)CreateGatherType) != 0)
             {
-                CreateGatherPercentTable.Add((GatherType)i, 0.1f);
-                GatherDataTable.Add((GatherType)i, null);
+                CreateGatherPercentTable.Add((GatherType)i, FloatMinMax.GetValue(0.1f, 0.1f));
+                CreateGatherCountTable.Add((GatherType)i, IntMinMax.GetValue(10, 15));
+
+                gatherDataTable.Add((GatherType)i, null);
+
+                if (GatherDataTable.ContainsKey((GatherType)i) && GatherDataTable.TryGetValue((GatherType)i, out var data))
+                {
+                    gatherDataTable[(GatherType)i] = data;
+                }
             }
         }
+
+        GatherDataTable.Clear();
+        GatherDataTable = gatherDataTable;
     }
 
     public GatherInfo GetRandomGatherInfo(GatherType gatherType)

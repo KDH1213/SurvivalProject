@@ -62,7 +62,15 @@ public class Stage : MonoBehaviour
         {
             if(stageData.CreateGatherPercentTable.ContainsKey((GatherType)i))
             {
-                map.CreateGather((GatherType)i, stageData.CreateGatherPercentTable[(GatherType)i]);
+                if(stageData.UseCreatePercent)
+                {
+                    map.CreateGather((GatherType)i, stageData.CreateGatherPercentTable[(GatherType)i].GetRendomValue());
+                }
+                else
+                {
+                    map.CreateGather((GatherType)i, stageData.CreateGatherCountTable[(GatherType)i].GetRendomValue());
+                }
+
             }
         }
 
