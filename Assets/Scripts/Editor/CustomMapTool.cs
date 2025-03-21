@@ -49,10 +49,8 @@ public class CustomMapTool : EditorWindow
 
         mapToolData = EditorGUILayout.ObjectField("MapToolData", mapToolData, typeof(MapToolData), true) as MapToolData;
         EditorGUILayout.Space(10);
-        isDraw = EditorGUILayout.Toggle("그리기 시작", isDraw);
-        EditorGUILayout.Space(5);
-        isDestory = EditorGUILayout.Toggle("배치 오브젝트 삭제", isDestory);
-        EditorGUILayout.Space(10);
+
+        SetToggle();
 
         if (!isDraw)
         {
@@ -80,6 +78,29 @@ public class CustomMapTool : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
+    private void SetToggle()
+    {
+
+        if (EditorGUILayout.Toggle("그리기 시작", isDraw))
+        {
+            if (!isDraw)
+            {
+                isDestory = EditorGUILayout.Toggle("배치 오브젝트 삭제", false);
+            }
+            isDraw = true;
+        }
+
+        EditorGUILayout.Space(5);
+        if (EditorGUILayout.Toggle("배치 오브젝트 삭제", isDestory))
+        {
+            if (!isDestory)
+            {
+                isDraw = EditorGUILayout.Toggle("그리기 시작", false);
+            }
+            isDestory = true;
+        }
+        EditorGUILayout.Space(10);
+    }
     private void OnEndSelete()
     {
         isSelect = false;
@@ -160,7 +181,7 @@ public class CustomMapTool : EditorWindow
     {
         // DisplayLines();
 
-        if (isDraw)
+        if (isDraw || isDestory)
         {
             Event e = Event.current;
             ProcecssKeyInput(sceneView, e);
@@ -184,6 +205,13 @@ public class CustomMapTool : EditorWindow
             {
                 seleteGameObject.transform.position = hitInfo.point;
             }
+
+            if(isDestory)
+            {
+                Handles.color = Color.red;
+                Bounds bounds = GetObjectBounds(hitInfo.collider.transform);
+                Handles.DrawWireCube(bounds.center, bounds.size);
+            }
         }
 
         if (e.button == 0)
@@ -202,6 +230,14 @@ public class CustomMapTool : EditorWindow
                         Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][seleteIndex], hitInfo.point, Quaternion.identity);
                     }
 
+                    if (isDestory)
+                    {
+                        if(hitInfo.collider != null)
+                        {
+                            DestroyImmediate(hitInfo.collider.gameObject);
+                        }
+                    }
+
                     isMouseDown = false;
                     GUIUtility.hotControl = 0;
                     e.Use();
@@ -214,7 +250,16 @@ public class CustomMapTool : EditorWindow
         }
 
     }
+    private Bounds GetObjectBounds(Transform target)
+    {
+        Renderer renderer = target.GetComponentInChildren<Renderer>();
+        if (renderer != null)
+        {
+            return renderer.bounds;
+        }
 
+        return new Bounds(target.position, Vector3.one);
+    }
     private Vector3 GetWorldPosition(SceneView sceneView)
     {
         Vector3 mousePosition = Event.current.mousePosition;
