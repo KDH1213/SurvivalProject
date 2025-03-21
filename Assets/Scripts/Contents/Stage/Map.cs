@@ -60,4 +60,9 @@ public class Map
             tiles[rand] = tile;
         }
     }
+
+    public void OnChangeGatherTypeToNone(int tileID)
+    {
+        tiles[tileID].SetGatherType(GatherType.None);
+    }
 }

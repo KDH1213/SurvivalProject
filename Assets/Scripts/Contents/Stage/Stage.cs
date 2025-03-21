@@ -12,10 +12,6 @@ public class Stage : MonoBehaviour
     [SerializeField]
     private Vector3 initPosition;
 
-    // TODO :: 테스트용 프리팹
-    [SerializeField]
-    private GameObject tilePrefab;
-
     private List<GameObject> tileList = new List<GameObject>();
 
     private Map map;
@@ -73,7 +69,8 @@ public class Stage : MonoBehaviour
                 }
                 else
                 {
-                    map.CreateGather((GatherType)i, stageData.CreateGatherCountTable[(GatherType)i].GetRendomValue());
+                    var count = stageData.CreateGatherCountTable[(GatherType)i].GetRendomValue();
+                    map.CreateGather((GatherType)i, count);
                 }
 
             }
@@ -90,7 +87,9 @@ public class Stage : MonoBehaviour
             var gatherInfo = stageData.GetRandomGatherInfo(tile.GatherType);
             createPosition += gatherInfo.offsetPosition;
 
-            Instantiate(gatherInfo.prefab, createPosition, Quaternion.identity, gatherTransform);
+            var gather = Instantiate(gatherInfo.prefab, createPosition, Quaternion.identity, gatherTransform).GetComponent<IGather>();
+            gather.TileID = tile.IndexID;
+            gather.OnEndInteractionEvent.AddListener(map.OnChangeGatherTypeToNone);
         }
     }
 
