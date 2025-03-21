@@ -15,10 +15,13 @@ public class StageData : ScriptableObject
     public int MapHeight { get; private set; }
 
     [field: SerializeField]
-    public GatherTypeMask CreateGatherType {  get; private set; }
+    public GatherTypeMask CreateGatherType { get; private set; }
 
-    [field : SerializeField]
+    [field: SerializeField]
     public bool UseCreatePercent { get; private set; }
+
+    [field: SerializeField]
+    public List<GameObject> TilePrefabList { get; private set; } = new List<GameObject>();
 
     [field: SerializeField]
     public SerializedDictionary<GatherType, FloatMinMax> CreateGatherPercentTable = new SerializedDictionary<GatherType, FloatMinMax>();
@@ -39,7 +42,7 @@ public class StageData : ScriptableObject
 
         for (int i = (int)GatherType.None + 1; i < (int)GatherType.End; ++i)
         {
-            if((1 << i & (uint)CreateGatherType) != 0)
+            if ((1 << i & (uint)CreateGatherType) != 0)
             {
                 CreateGatherPercentTable.Add((GatherType)i, FloatMinMax.GetValue(0.1f, 0.1f));
                 CreateGatherCountTable.Add((GatherType)i, IntMinMax.GetValue(10, 15));
@@ -60,5 +63,10 @@ public class StageData : ScriptableObject
     public GatherInfo GetRandomGatherInfo(GatherType gatherType)
     {
         return GatherDataTable[gatherType].GetRandomGatherInfo();
+    }
+
+    public GameObject GetRandomTile()
+    {
+        return TilePrefabList[Random.Range(0, TilePrefabList.Count)];
     }
 }

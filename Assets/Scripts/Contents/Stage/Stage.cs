@@ -28,7 +28,7 @@ public class Stage : MonoBehaviour
         }
     }
 
-    [ContextMenu("CreateTile")]
+    [ContextMenu("타일 생성")]
     private void CreateTile()
     {
         OnDestroyTile();
@@ -45,7 +45,7 @@ public class Stage : MonoBehaviour
         {
             for (int x = 0; x < stageData.MapWidth; ++x)
             {
-                var newGameObject = Instantiate(tilePrefab, position, Quaternion.identity, transform);
+                var newGameObject = Instantiate(stageData.GetRandomTile(), position, Quaternion.identity, transform);
                 position.x += stageData.TileSize.x;
                 tileList.Add(newGameObject);
             }
@@ -55,9 +55,14 @@ public class Stage : MonoBehaviour
         }
     }
 
-    [ContextMenu("CreateGather")]
+    [ContextMenu("상호작용 오브젝트 생성")]
     private void CreateGather()
     {
+        if(tileList.Count == 0)
+        {
+            return;
+        }
+
         for (int i = 0; i < (int)GatherType.End; ++i)
         {
             if(stageData.CreateGatherPercentTable.ContainsKey((GatherType)i))
@@ -89,7 +94,7 @@ public class Stage : MonoBehaviour
         }
     }
 
-    [ContextMenu("DestroyTile")]
+    [ContextMenu("타일 삭제")]
     private void OnDestroyTile()
     {
         foreach(GameObject tile in tileList)
