@@ -1,8 +1,5 @@
 using AYellowpaper.SerializedCollections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 
 [System.Serializable]
 public class FSMController<T> : MonoBehaviour
