@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8095118616602193182}
   - component: {fileID: 6319487284968774100}
   - component: {fileID: -7309225101607999769}
+  - component: {fileID: 5703441746200853206}
   m_Layer: 0
   m_Name: moss-simple-d
   m_TagString: Untagged
@@ -99,3 +100,19 @@ MonoBehaviour:
   onEndInteractionEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!208 &5703441746200853206
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526946178421684225}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.298, y: 0.078, z: 0.263}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.013, y: -0.0050000004, z: -0.024}
+  m_TimeToStationary: 0.5
