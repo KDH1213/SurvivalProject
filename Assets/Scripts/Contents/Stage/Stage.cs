@@ -87,7 +87,13 @@ public class Stage : MonoBehaviour
             var gatherInfo = stageData.GetRandomGatherInfo(tile.GatherType);
             createPosition += gatherInfo.offsetPosition;
 
+            if (gatherInfo.prefab.GetComponent<IGather>() == null)
+            {
+                gatherInfo.prefab.AddComponent<Gather>();
+            }
+
             var gather = Instantiate(gatherInfo.prefab, createPosition, Quaternion.identity, gatherTransform).GetComponent<IGather>();
+
             gather.TileID = tile.IndexID;
             gather.OnEndInteractionEvent.AddListener(map.OnChangeGatherTypeToNone);
         }

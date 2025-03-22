@@ -5,7 +5,9 @@ using UnityEngine.Events;
 
 public class Gather : MonoBehaviour, IGather
 {
-    public UnityEvent<int> OnEndInteractionEvent { get; set; }
+    public UnityEvent<int> OnEndInteractionEvent => onEndInteractionEvent;
+    public UnityEvent<int> onEndInteractionEvent;
+
     public int TileID { get; set; }
 
     public void OnInteraction()
