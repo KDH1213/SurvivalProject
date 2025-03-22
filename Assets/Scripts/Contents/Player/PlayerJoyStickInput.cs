@@ -11,10 +11,6 @@ public class PlayerJoyStickInput : MonoBehaviour
 
     public UnityEvent<Vector2> onMoveAndRotateEvent;
 
-    private void Awake()
-    {
-    }
-
     public void OnMoveAndRotate(InputAction.CallbackContext context)
     {
         inputDirection = context.ReadValue<Vector2>();

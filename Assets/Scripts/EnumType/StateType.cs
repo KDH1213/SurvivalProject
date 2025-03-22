@@ -13,17 +13,6 @@ public enum StateType
     End
 }
 
-public enum PlayerStateType
-{
-    Idle,
-    Move,
-    Dash,
-    Attack,
-    AttackWait,
-    Death,
-    End
-}
-
 public enum MonsterStateType
 {
     None,

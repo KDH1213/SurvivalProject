@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 [System.Serializable]
 public struct IntMinMax
 {
@@ -43,4 +45,11 @@ public struct FloatMinMax
     {
         return UnityEngine.Random.Range(min, max);
     }
+}
+
+public struct AnimationHashCode
+{
+    public static readonly int hashMove = Animator.StringToHash("walk");
+    public static readonly int hashAttack = Animator.StringToHash("attack");
+    //public static readonly int hashInteract = Animator.StringToHash("interact");
 }
