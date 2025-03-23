@@ -5,10 +5,18 @@ using UnityEngine;
 public class PreviewObject : MonoBehaviour
 {
     [SerializeField]
+    private PlacementInput inputManager;
+
+    [SerializeField]
     private float previewYOffset = 0.06f;
 
     [SerializeField]
     private GameObject previewObject;
+    [SerializeField]
+    private GameObject placementUI;
+
+    [SerializeField]
+    private Camera placementCamera;
 
     public bool IsPreview { get; private set; } 
 
@@ -21,10 +29,20 @@ public class PreviewObject : MonoBehaviour
         previewMaterialsInstance = new Material(previewMaterialsPrefeb);
     }
 
+    private void Update()
+    {
+        if(IsPreview)
+        {
+            placementUI.transform.position = placementCamera.WorldToScreenPoint(previewObject.transform.GetChild(0).position);
+        }
+        
+    }
     public void StartShowingPlacementPreview(GameObject prefeb)
     {
+        StopShowingPreview();
         previewObject = Instantiate(prefeb);
         PreparePreview(previewObject);
+        placementUI.SetActive(true);
         IsPreview = true;
     }
 
@@ -46,6 +64,8 @@ public class PreviewObject : MonoBehaviour
     {
         Destroy(previewObject);
         IsPreview = false;
+        placementUI.SetActive(false);
+        inputManager.ResetEvent();
     }
 
     public void UpdatePosition(Vector3 position, bool validity)
@@ -64,5 +84,9 @@ public class PreviewObject : MonoBehaviour
     private void MovePreview(Vector3 position)
     {
         previewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
+        
     }
+
+
+    
 }

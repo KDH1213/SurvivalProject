@@ -6,11 +6,9 @@ public class PlacementMode : MonoBehaviour
 {
     [SerializeField]
     private GameObject gridVisualization;
-    private PlacementSystem placementSystem;
 
     private void Start()
     {
-        placementSystem = GetComponent<PlacementSystem>();
         gridVisualization.SetActive(false);
     }
     public void SetPlacementMode()

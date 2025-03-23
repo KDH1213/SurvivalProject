@@ -17,6 +17,8 @@ public class PlacementSystem : MonoBehaviour
 
     public float gridCellCount;
 
+    
+
     private List<GameObject> placedGameObjects = new List<GameObject>();
     private void Start()
     {
@@ -25,31 +27,35 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            preview.StartShowingPlacementPreview(database.objects[0].Prefeb);
-            SetEvent();
+            selectedObjectIndex = 0;
+            preview.StartShowingPlacementPreview(database.objects[selectedObjectIndex].Prefeb);
+            preview.UpdatePosition(Vector3.zero, true);
+            inputManager.OnClickPlace += PlacePreview;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedObjectIndex = 1;
+            preview.StartShowingPlacementPreview(database.objects[selectedObjectIndex].Prefeb);
+            preview.UpdatePosition(Vector3.zero, true);
+            inputManager.OnClickPlace += PlacePreview;
         }
     }
 
-    private void PlaceStructure()
+    public void PlaceStructure()
     {
-        if (inputManager.IsPointerOverUi())
-        {
-            return;
-        }
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
         GameObject newObject = Instantiate(database.objects[selectedObjectIndex].Prefeb);
         newObject.transform.position = grid.CellToWorld(gridPosition);
         placedGameObjects.Add(newObject);
-
-        Debug.Log(gridPosition);
     }
 
     private void PlacePreview()
     {
+        //inputManager.OnClickPlace -= PlacePreview;
         if (inputManager.IsPointerOverUi())
         {
             return;
@@ -57,21 +63,6 @@ public class PlacementSystem : MonoBehaviour
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
-        preview.UpdatePosition(grid.CellToWorld(gridPosition),true);
-
-        Debug.Log(gridPosition);
+        preview.UpdatePosition(grid.CellToWorld(gridPosition), true);
     }
-
-    public void SetEvent()
-    {
-        if (preview.IsPreview)
-        {
-            inputManager.OnClickPlace += PlacePreview;
-        }
-        else
-        {
-            inputManager.OnClickPlace -= PlacePreview;
-        }
-    }
-
 }

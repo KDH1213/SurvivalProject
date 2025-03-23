@@ -37,7 +37,7 @@ public class PlacementInput : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, placementLayermask))
         {
-            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Placement"))
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Placement") && !IsPointerOverUi())
             {
                 LastPosition = hit.point;
                 DoPlacement();
@@ -50,9 +50,15 @@ public class PlacementInput : MonoBehaviour
         }
     }
 
+    public void ResetEvent()
+    {
+        OnClickPlace = null;
+    }
+
     private void DoPlacement()
     {
         OnClickPlace?.Invoke();
+        
     }
 
     private void DoObject()
