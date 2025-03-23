@@ -73,13 +73,13 @@ public class CustomMapTool : EditorWindow
                 tabIndex = currentIndex; 
                 OnEndSelete();
             }
-            palletScrollPos = EditorGUILayout.BeginScrollView(palletScrollPos, false, true);
-            DrawTilePaletteCell();
-            EditorGUILayout.EndScrollView();
-            //using (var scope = new GUILayout.VerticalScope(GUI.skin.window, GUILayout.Height(400)))
-            //{
-               
-            //}
+            
+            using (var scope = new GUILayout.VerticalScope(GUI.skin.window, GUILayout.Height(400)))
+            {
+                palletScrollPos = EditorGUILayout.BeginScrollView(palletScrollPos, false, true);
+                DrawTilePaletteCell();
+                EditorGUILayout.EndScrollView();
+            }
         }
 
         EditorGUILayout.EndScrollView();
@@ -195,42 +195,6 @@ public class CustomMapTool : EditorWindow
 
         EditorGUILayout.EndHorizontal();
 
-
-
-        //for (int i = 0; i < textureList.Count; ++i)
-        //{
-        //    if (i % 7 == 0)
-        //    {
-        //        yPos++;
-        //        xPos = 0;
-        //        EditorGUILayout.Space();
-        //    }
-
-
-        //    bool selected = GUI.Button(new Rect(area) { x = slotSize.x * xPos++, y = slotSize.y * yPos }, textureList[i]);
-
-        //    if (selected)
-        //    {
-        //        OnEndSelete();
-
-        //        isSelect = true;
-        //        seleteIndex = i;
-        //        seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
-        //        var colliders = seleteGameObject.GetComponentsInChildren<Collider>();
-
-        //        if (SceneView.sceneViews.Count > 0)
-        //        {
-        //            SceneView sceneView = (SceneView)SceneView.sceneViews[0];
-        //            sceneView.Focus();
-        //        }
-
-        //        foreach (var collider in colliders)
-        //        {
-        //            collider.enabled = false;   
-        //        }
-        //    }
-        //        // SetDrawTile(textureList[i].name);
-        //}
     }
 
     private void UpdateScene(SceneView sceneView)
