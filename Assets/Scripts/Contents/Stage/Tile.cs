@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile
+public class Tile : MonoBehaviour
 {
     public GatherType GatherType { get; private set; } = GatherType.None;
     public int IndexID { get; private set; }

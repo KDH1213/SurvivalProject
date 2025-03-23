@@ -18,6 +18,9 @@ public class StageData : ScriptableObject
     public GatherTypeMask CreateGatherType { get; private set; }
 
     [field: SerializeField]
+    public float ResetTime { get; private set; }
+
+    [field: SerializeField]
     public bool UseCreatePercent { get; private set; }
 
     [field: SerializeField]

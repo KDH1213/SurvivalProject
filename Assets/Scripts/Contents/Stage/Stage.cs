@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,14 +12,39 @@ public class Stage : MonoBehaviour
     private Vector3 initPosition;
 
     private List<GameObject> tileList = new List<GameObject>();
+    private List<GameObject> gatherList = new List<GameObject>();
+
+    private bool isReset = true;
+    private float resetTime;
 
     private Map map;
 
     private void Awake()
     {
-        if(map == null)
+        if (map == null)
         {
             CreateTile();
+        }
+
+        if(isReset)
+        {
+            OnDestroyGather();
+            CreateGather();
+        }
+    }
+
+    // TODO :: 추 후 세이브 로드 추가 시 삭제 예정
+    private void Update()
+    {
+        ResetStage();
+    }
+
+    private void ResetStage()
+    {
+        if (!isReset && resetTime < Time.time)
+        {
+            OnDestroyGather();
+            CreateGather();
         }
     }
 
@@ -72,7 +96,6 @@ public class Stage : MonoBehaviour
                     var count = stageData.CreateGatherCountTable[(GatherType)i].GetRendomValue();
                     map.CreateGather((GatherType)i, count);
                 }
-
             }
         }
 
@@ -92,11 +115,16 @@ public class Stage : MonoBehaviour
                 gatherInfo.prefab.AddComponent<Gather>();
             }
 
-            var gather = Instantiate(gatherInfo.prefab, createPosition, Quaternion.identity, gatherTransform).GetComponent<IGather>();
+            var newGather = Instantiate(gatherInfo.prefab, createPosition, Quaternion.identity, gatherTransform);
+            var gather = newGather.GetComponent<IGather>();
+            gatherList.Add(newGather);
 
             gather.TileID = tile.IndexID;
             gather.OnEndInteractionEvent.AddListener(map.OnChangeGatherTypeToNone);
         }
+
+        isReset = false;
+        resetTime = Time.time + stageData.ResetTime;
     }
 
     [ContextMenu("타일 삭제")]
@@ -114,6 +142,7 @@ public class Stage : MonoBehaviour
         var childrens = transform.GetComponentsInChildren<Transform>();
         foreach (var child in childrens)
         {
+
 #if UNITY_EDITOR
             if (child.gameObject != gameObject)
             {
@@ -127,4 +156,23 @@ public class Stage : MonoBehaviour
         tileList.Clear();
     }
 
+    private void OnDestroyGather()
+    {
+        int count = gatherList.Count;
+
+        for (int i = 0; i < count; ++i)
+        {
+            var gather = gatherList[i].GetComponent<IGather>();
+            gather.OnEndInteractionEvent?.Invoke(gather.TileID);
+            if (Application.isPlaying)
+            {
+                Destroy(gatherList[i]);
+            }
+            else
+            {
+                Destroy(gatherList[i]);
+            }
+        }
+        gatherList.Clear();
+    }
 }
