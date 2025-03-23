@@ -149,31 +149,27 @@ public class CustomMapTool : EditorWindow
 
     void DrawTilePaletteCell()
     {
-        int yPos = -1;
-        int xPos = 0;
-
-
         var textureList = mapToolData.GetPreview(mapToolData.TabNameList[tabIndex]);
         int indexCount = textureList.Count;
-        var area = GUILayoutUtility.GetRect(slotSize.x, slotSize.y, GUI.skin.window, GUILayout.MaxWidth(slotSize.x), GUILayout.MaxHeight(slotSize.y));
 
-        for (int i = 0; i < textureList.Count; ++i)
+        if (indexCount == 0)
         {
-            if (i % 7 == 0)
-            {
-                yPos++;
-                xPos = 0;
-                EditorGUILayout.Space();
-            }
+            return;
+        }
 
-            bool selected = GUI.Button(new Rect(area) { x = slotSize.x * xPos++, y = slotSize.y * yPos }, textureList[i]);
+        EditorGUILayout.BeginHorizontal();
+        int lineFeedIndex = 0;
 
-            if (selected)
+        for (int i = 0; i < indexCount; ++i)
+        {
+            ++lineFeedIndex;
+
+            if (GUILayout.RepeatButton(textureList[i], GUILayout.MaxWidth(slotSize.x), GUILayout.MaxHeight(slotSize.y)))
             {
                 OnEndSelete();
 
                 isSelect = true;
-                seleteIndex = i;
+                seleteIndex = 0;
                 seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
                 var colliders = seleteGameObject.GetComponentsInChildren<Collider>();
 
@@ -185,11 +181,56 @@ public class CustomMapTool : EditorWindow
 
                 foreach (var collider in colliders)
                 {
-                    collider.enabled = false;   
+                    collider.enabled = false;
                 }
             }
-                // SetDrawTile(textureList[i].name);
+
+            if (lineFeedIndex % 7 == 0)
+            {
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+            }
+
         }
+
+        EditorGUILayout.EndHorizontal();
+
+
+
+        //for (int i = 0; i < textureList.Count; ++i)
+        //{
+        //    if (i % 7 == 0)
+        //    {
+        //        yPos++;
+        //        xPos = 0;
+        //        EditorGUILayout.Space();
+        //    }
+
+
+        //    bool selected = GUI.Button(new Rect(area) { x = slotSize.x * xPos++, y = slotSize.y * yPos }, textureList[i]);
+
+        //    if (selected)
+        //    {
+        //        OnEndSelete();
+
+        //        isSelect = true;
+        //        seleteIndex = i;
+        //        seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
+        //        var colliders = seleteGameObject.GetComponentsInChildren<Collider>();
+
+        //        if (SceneView.sceneViews.Count > 0)
+        //        {
+        //            SceneView sceneView = (SceneView)SceneView.sceneViews[0];
+        //            sceneView.Focus();
+        //        }
+
+        //        foreach (var collider in colliders)
+        //        {
+        //            collider.enabled = false;   
+        //        }
+        //    }
+        //        // SetDrawTile(textureList[i].name);
+        //}
     }
 
     private void UpdateScene(SceneView sceneView)
@@ -308,7 +349,6 @@ public class CustomMapTool : EditorWindow
         mousePosition.x *= mult;
 
         Vector3 worldPosition = sceneView.camera.ScreenToWorldPoint(mousePosition);
-        // worldPosition.z = 0f;
 
         return worldPosition;
     }
