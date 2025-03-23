@@ -19,7 +19,7 @@ public class PlacementCameraSystem : MonoBehaviour
     [SerializeField]
     private float cameraDefaultFOV;
 
-    private Vector2 mousePos;
+    public Vector2 MousePos { get; private set; }
 
     private Vector2 startClickPos;
     private Vector2 endClickPos;
@@ -89,7 +89,7 @@ public class PlacementCameraSystem : MonoBehaviour
 
     public void MoveCamera(InputAction.CallbackContext value)
     {
-        mousePos = value.ReadValue<Vector2>();
+        MousePos = value.ReadValue<Vector2>();
 
         /*Vector2 dir = (startClickPos - mousePos).normalized;
         placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * 5f;*/
@@ -97,7 +97,7 @@ public class PlacementCameraSystem : MonoBehaviour
 
     public void OnDragMouse(InputAction.CallbackContext value)
     {
-        Vector2 dir = (startClickPos - mousePos).normalized;
+        Vector2 dir = (startClickPos - MousePos).normalized;
         if (Mathf.Abs(dir.x) < 0.2f)
         {
             dir.x = 0;
@@ -110,7 +110,7 @@ public class PlacementCameraSystem : MonoBehaviour
         placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * moveSpeed * Time.deltaTime;
         if (value.canceled)
         {
-            startClickPos = mousePos;
+            startClickPos = MousePos;
         }
     }
 
@@ -118,11 +118,11 @@ public class PlacementCameraSystem : MonoBehaviour
     {
         if (value.started)
         {
-            startClickPos = mousePos;
+            startClickPos = MousePos;
         }
         else if (value.canceled)
         {
-            endClickPos = mousePos;
+            endClickPos = MousePos;
         }
     }
 }
