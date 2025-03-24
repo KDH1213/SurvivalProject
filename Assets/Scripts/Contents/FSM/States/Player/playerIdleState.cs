@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerIdleState : PlayerBaseState
+public class PlayerIdleState : PlayerBaseState
 {
     //private AttackData attackData;
 
@@ -26,7 +26,6 @@ public class playerIdleState : PlayerBaseState
 
     public override void ExecuteUpdate()
     {
-
         if (playerFSM.isMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
         {
             PlayerFSM.ChangeState(PlayerStateType.Move);

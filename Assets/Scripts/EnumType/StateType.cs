@@ -12,14 +12,3 @@ public enum StateType
     Death,
     End
 }
-
-public enum MonsterStateType
-{
-    None,
-    Idle,
-    Move,
-    Hit,
-    Stun,
-    Death,
-    End
-}
