@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class ButtonInteract : MonoBehaviour
+public class PlayerButtonInteract : MonoBehaviour
 {
     private PlayerFSM playerFSM;
+
+    public UnityEvent onAttackEvent;
+    public UnityEvent onInteractEvent;
+    public UnityEvent onDamageEvent;
 
     private void Start()
     {
@@ -17,15 +22,15 @@ public class ButtonInteract : MonoBehaviour
     {
         if (playerFSM.CanAttack && context.phase == InputActionPhase.Performed )
         {
-            playerFSM.ChangeState(CharactorStateType.Attack);
+            onAttackEvent?.Invoke();
         }
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (playerFSM.IsPlayerInRange && context.phase == InputActionPhase.Performed)
         {
-            Interact();
+            onInteractEvent?.Invoke();
         }
     }
 
@@ -34,6 +39,7 @@ public class ButtonInteract : MonoBehaviour
         if(context.phase == InputActionPhase.Performed)
         {
             SubToolUsed();
+            onDamageEvent?.Invoke();
         }
     }
 

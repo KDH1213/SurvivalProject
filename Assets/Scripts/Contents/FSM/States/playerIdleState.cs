@@ -2,20 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharactorIdleState : CharactorBaseState
+public class playerIdleState : PlayerBaseState
 {
     //private AttackData attackData;
 
     //private OverlapCollider OverlapCollider;
 
-    private bool isAttack;
-
-    private float attackTime = 0f;
-
     protected override void Awake()
     {
         base.Awake();
-        stateType = CharactorStateType.Idle;
+        stateType = PlayerStateType.Idle;
 
         //attackData = CharactorFSM.AttackData;
     }
@@ -31,9 +27,9 @@ public class CharactorIdleState : CharactorBaseState
 
     public override void ExecuteUpdate()
     {
-        if(PlayerFSM.MoveValue.sqrMagnitude > 0f)
+        if(playerFSM.isMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
         {
-            PlayerFSM.ChangeState(CharactorStateType.Move);
+            PlayerFSM.ChangeState(PlayerStateType.Move);
         }
     }
 
@@ -41,12 +37,12 @@ public class CharactorIdleState : CharactorBaseState
     {
     }
 
-    private IEnumerator CoAttackReload()
-    {
-        isAttack = false;
-        yield return new WaitForSeconds(attackTime);
-        isAttack = true;
-    }
+    //private IEnumerator CoAttackReload()
+    //{
+    //    isAttack = false;
+    //    yield return new WaitForSeconds(attackTime);
+    //    isAttack = true;
+    //}
 
     public void OnChangeStatus()
     {

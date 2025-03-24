@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharactorMoveState : CharactorBaseState
+public class PlayerMoveState : PlayerBaseState
 {
     [SerializeField]
     private float moveSpeed;
@@ -10,7 +10,7 @@ public class CharactorMoveState : CharactorBaseState
     protected override void Awake()
     {
         base.Awake();
-        stateType = CharactorStateType.Move;
+        stateType = PlayerStateType.Move;
     }
 
     public override void Enter()
@@ -36,7 +36,7 @@ public class CharactorMoveState : CharactorBaseState
     {
         if (direction.sqrMagnitude < 0.01f)
         {
-            playerFSM.ChangeState(CharactorStateType.Idle);
+            playerFSM.ChangeState(PlayerStateType.Idle);
             return;
         }
 

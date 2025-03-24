@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharactorBaseState : BaseState<CharactorStateType>
+public class PlayerBaseState : BaseState<PlayerStateType>
 {
     protected PlayerFSM playerFSM;
 
