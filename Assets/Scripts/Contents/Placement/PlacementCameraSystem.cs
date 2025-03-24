@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlacementCameraSystem : MonoBehaviour
 {
     [SerializeField]
-    private Camera placementCamera;
+    public Camera placementCamera;
     [SerializeField]
     private Camera currentCamera;
 
@@ -38,13 +38,11 @@ public class PlacementCameraSystem : MonoBehaviour
     private void Start()
     {
         placementCamera.depth = -1;
-        placementCamera.gameObject.SetActive(false);
     }
 
     public void InPlacementCamera()
     {
         //currentCamera = Camera.current;
-        placementCamera.gameObject.SetActive(true);
         float depth = placementCamera.depth;
         placementCamera.transform.position = cameraDefaultPosition;
         placementCamera.transform.rotation = Quaternion.Euler(cameraDefaultRotation);
@@ -61,7 +59,6 @@ public class PlacementCameraSystem : MonoBehaviour
         currentCamera.depth = 10;
 
         placementCamera.transform.position = cameraDefaultPosition;
-        placementCamera.gameObject.SetActive(false);
     }
 
     public void OnZoomInAndOut(InputAction.CallbackContext value)
