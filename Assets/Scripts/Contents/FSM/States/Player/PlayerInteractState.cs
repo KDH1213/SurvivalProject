@@ -35,7 +35,7 @@ public class PlayerInteractState : PlayerBaseState
     {
         if (playerFSM.target == null)
         {
-            Debug.LogError("arget이 null입니다! 상호작용할 대상이 없습니다.");
+            Debug.LogError("target이 null입니다! 상호작용할 대상이 없습니다.");
             return;
         }
 

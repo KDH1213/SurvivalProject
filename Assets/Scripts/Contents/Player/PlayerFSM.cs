@@ -7,6 +7,8 @@ public class PlayerFSM : FSMController<PlayerStateType>
 {
     [field: SerializeField]
     public Animator Animator { get; private set; }
+    [field: SerializeField]
+    public CharacterController CC { get; private set; }
 
     [SerializeField]
     public float attackDelay = 5f;
@@ -20,6 +22,10 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public bool IsAttack;
     [HideInInspector]
     public GameObject target;
+
+    public static float gravity = -9.81f;
+    [HideInInspector]
+    public Vector3 velocity;
 
     public Vector2 MoveValue { get; private set; }
     public bool IsPlayerInRange { get; private set; }
