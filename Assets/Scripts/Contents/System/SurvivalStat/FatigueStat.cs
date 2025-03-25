@@ -8,6 +8,11 @@ public class FatigueStat : SurvivalStatBehaviour
     {
         survivalStatType = SurvivalStatType.Fatigue;
     }
+    public override void AddPenaltyValue(float value)
+    {
+        this.value += value;
+    }
+
 
     public override void OnStartPenalty()
     {

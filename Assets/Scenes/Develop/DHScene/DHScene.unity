@@ -3096,7 +3096,7 @@ Transform:
   m_GameObject: {fileID: 148403228}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.24, y: 10.22, z: -64.24}
+  m_LocalPosition: {x: 71.24, y: 9.46, z: -65.45}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12862,20 +12862,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 104818652544695384, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3077329245886870758, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.3200073
+      value: 38.31
       objectReference: {fileID: 0}
     - target: {fileID: 3077329245886870758, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 10.06
       objectReference: {fileID: 0}
     - target: {fileID: 3077329245886870758, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1
+      value: -31.18
       objectReference: {fileID: 0}
     - target: {fileID: 3077329245886870758, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
@@ -12911,6 +12916,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632884530578718145, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632884530578718145, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8081401019662844925, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
@@ -13035,8 +13050,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <SurvivalStatData>k__BackingField: {fileID: 0}
-  penaltyTable:
-    _serializedList: []
 --- !u!1 &601002126
 GameObject:
   m_ObjectHideFlags: 0

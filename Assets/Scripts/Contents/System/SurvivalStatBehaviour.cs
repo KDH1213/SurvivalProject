@@ -9,7 +9,7 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
     public SurvivalStatType PenaltyType { get { return survivalStatType; } }
 
     [SerializeField]
-    protected float maxValue;
+    protected float maxValue = 10000f;
 
     protected float value;
     protected bool isOnDebuff;
@@ -26,6 +26,11 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
         {
             return value / maxValue;
         }
+    }
+
+    public virtual void AddPenaltyValue(float value)
+    {
+        this.value += value;
     }
 
     public virtual void OnStartPenalty()

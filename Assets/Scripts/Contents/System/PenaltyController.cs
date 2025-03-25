@@ -1,10 +1,10 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-public class PenaltyController : MonoBehaviour
+public class PenaltyController : MonoBehaviour, IAct
 {
-    [field: SerializeField]
-    public SurvivalStatData SurvivalStatData { get; private set; }
+    //[field: SerializeField]
+    //public SurvivalStatData SurvivalStatData { get; private set; }
     private SerializedDictionary<SurvivalStatType, IPenalty> penaltyTable = new SerializedDictionary<SurvivalStatType, IPenalty>();
 
 
@@ -31,5 +31,14 @@ public class PenaltyController : MonoBehaviour
     public float CalculateAttackSpeedPenalty()
     {
         return 1f;
+    }
+
+    public void PlayAct(int id)
+    {
+        var actInfoList = ActManager.actDataTable[id].actInfoList;
+        foreach (var act in actInfoList)
+        {
+            penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
+        }
     }
 }

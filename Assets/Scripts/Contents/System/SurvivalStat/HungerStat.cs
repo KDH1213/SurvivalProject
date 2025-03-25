@@ -8,6 +8,11 @@ public class HungerStat : SurvivalStatBehaviour
     {
         survivalStatType = SurvivalStatType.Hunger;
     }
+    public override void AddPenaltyValue(float value)
+    {
+        this.value -= value;
+    }
+
 
     public override void OnStartPenalty()
     {

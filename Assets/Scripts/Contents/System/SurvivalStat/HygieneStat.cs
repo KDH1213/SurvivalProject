@@ -8,7 +8,10 @@ public class HygieneStat : SurvivalStatBehaviour
     {
         survivalStatType = SurvivalStatType.Hygiene;
     }
-
+    public override void AddPenaltyValue(float value)
+    {
+        this.value -= value;
+    }
     public override void OnStartPenalty()
     {
         base.OnStartPenalty();
