@@ -31,17 +31,6 @@ public class MonsterChaseState : MonsterBaseState
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            MonsterFSM.Hp -= 5f;
-            Debug.Log($"{MonsterFSM.Hp}");
-
-            if (MonsterFSM.Hp <= 0)
-            {
-                MonsterFSM.OnDeath();
-            }
-        }
-
         if (MonsterFSM.Target == null)
         {
             MonsterFSM.ChangeState(MonsterStateType.Idle);

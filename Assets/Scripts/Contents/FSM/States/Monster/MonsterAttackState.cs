@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class MonsterAttackState : MonsterBaseState
 {
-    private Coroutine attackCoroutine;
     private WaitForSeconds waitForSeconds = new WaitForSeconds(1f);
 
     protected override void Awake()
@@ -19,7 +18,8 @@ public class MonsterAttackState : MonsterBaseState
         Debug.Log("Monster: Attack State!!");
         MonsterFSM.SetIsAttack(true);
         MonsterFSM.SetIsChase(false);
-        attackCoroutine = StartCoroutine(CoAttack());
+
+        StartCoroutine(CoAttack());
     }
 
     public override void ExecuteUpdate()

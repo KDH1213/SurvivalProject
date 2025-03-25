@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class MonsterIdleState : MonsterBaseState
 {
-    private BaseData monsterData;
 
     protected override void Awake()
     {
         base.Awake();
         stateType = MonsterStateType.Idle;
 
-        monsterData = MonsterFSM.MonsterData;
     }
 
     public override void Enter()
@@ -25,17 +23,6 @@ public class MonsterIdleState : MonsterBaseState
         if (MonsterFSM.Target == null)
         {
             FindTarget();
-        }
-
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            MonsterFSM.Hp -= 5f;
-            Debug.Log($"{MonsterFSM.Hp}");
-
-            if (MonsterFSM.Hp <= 0)
-            {
-                MonsterFSM.OnDeath();
-            }
         }
 
         ChangeChaseState();

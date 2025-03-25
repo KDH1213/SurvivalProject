@@ -10,13 +10,7 @@ public class MonsterFSM : FSMController<MonsterStateType>
     [field: SerializeField]
     public NavMeshAgent Agent { get; private set; }
 
-    [field: SerializeField]
-    public BaseData MonsterData { get; set; }
-
     public Transform Target { get; set; }
-
-    [HideInInspector]
-    public float Hp { get; set; }
 
     [HideInInspector]
     public float aggroRange;
@@ -47,8 +41,6 @@ public class MonsterFSM : FSMController<MonsterStateType>
         isAttack = false;
         Speed = Agent.speed;
         aggroRange = 5f;
-
-        Hp = MonsterData.HP;
     }
 
     private void Update()
