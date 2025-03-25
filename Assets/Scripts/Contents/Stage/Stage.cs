@@ -19,19 +19,19 @@ public class Stage : MonoBehaviour
 
     private Map map;
 
-    private void Awake()
-    {
-        if (map == null)
-        {
-            CreateTile();
-        }
+    //private void Awake()
+    //{
+    //    if (map == null)
+    //    {
+    //        CreateTile();
+    //    }
 
-        if(isReset)
-        {
-            OnDestroyGather();
-            CreateGather();
-        }
-    }
+    //    if(isReset)
+    //    {
+    //        OnDestroyGather();
+    //        CreateGather();
+    //    }
+    //}
 
     // TODO :: 추 후 세이브 로드 추가 시 삭제 예정
     private void Update()
