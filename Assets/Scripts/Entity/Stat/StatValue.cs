@@ -27,7 +27,7 @@ public class StatValue
     public float AddValue(float addValue)
     {
         this.value += addValue;
-        this.value = System.Math.Max(minMaxValue.min, value);
+        this.value = System.Math.Max(minMaxValue.max, value);
 
         return this.value;
     }
