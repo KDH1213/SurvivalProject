@@ -26,11 +26,10 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Exit()
     {
-        playerFSM.ChangeState(PlayerStateType.Idle);
         playerFSM.isMove = true;
     }
 
-    public void OnEndAttackAnimation()
+    public void OnEndAttackAnimationPlayer()
     {
         if (playerFSM.CurrentStateType == PlayerStateType.Attack)
         {

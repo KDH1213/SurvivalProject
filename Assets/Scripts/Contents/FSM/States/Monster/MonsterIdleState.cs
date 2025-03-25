@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class MonsterIdleState : MonsterBaseState
 {
+    private BaseData monsterData;
+
     protected override void Awake()
     {
         base.Awake();
         stateType = MonsterStateType.Idle;
+
+        monsterData = MonsterFSM.MonsterData;
     }
 
     public override void Enter()
@@ -23,9 +27,20 @@ public class MonsterIdleState : MonsterBaseState
             FindTarget();
         }
 
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            MonsterFSM.Hp -= 5f;
+            Debug.Log($"{MonsterFSM.Hp}");
+
+            if (MonsterFSM.Hp <= 0)
+            {
+                MonsterFSM.OnDeath();
+            }
+        }
+
         ChangeChaseState();
 
-        if (MonsterFSM.IsChase)
+        if (MonsterFSM.isChase)
         {
             MonsterFSM.ChangeState(MonsterStateType.Chase);
         }
@@ -38,6 +53,11 @@ public class MonsterIdleState : MonsterBaseState
 
     private void FindTarget()
     {
+        if(MonsterFSM.Target != null)
+        {
+            return;
+        }
+
         Collider[] colliders = Physics.OverlapSphere(MonsterFSM.transform.position, MonsterFSM.aggroRange * 1.2f);
 
         foreach (var collider in colliders)
@@ -62,18 +82,11 @@ public class MonsterIdleState : MonsterBaseState
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.Target.position);
 
         // 플레이어를 발견하면 추적 시작
-        if (!MonsterFSM.IsChase && MonsterFSM.TargetDistance < MonsterFSM.aggroRange)
+        if (!MonsterFSM.isChase && MonsterFSM.TargetDistance < MonsterFSM.aggroRange)
         {
-            MonsterFSM.IsChase = true;
+            MonsterFSM.SetIsChase(true);
+            MonsterFSM.SetIsPlayerRange(true);
             Debug.Log("Monster: 플레이어 감지! 추적 시작");
-        }
-
-        // 너무 멀리 떨어지면 추적 중지
-        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.aggroRange * 1.5f)
-        {
-            MonsterFSM.IsChase = false;
-            MonsterFSM.Target = null; // 타겟 초기화
-            Debug.Log("Monster: 플레이어를 놓쳤습니다. Idle 상태로 변경");
         }
     }
 }
