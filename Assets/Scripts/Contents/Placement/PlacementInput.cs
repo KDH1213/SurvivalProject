@@ -20,10 +20,22 @@ public class PlacementInput : MonoBehaviour
 
     public event Action OnClickPlace;
 
-    public bool IsPointerOverUi()
-        => EventSystem.current.IsPointerOverGameObject();
+    public bool IsPointerOverUi { get; set;}
+        
 
     public bool IsPointerOverMap { get; private set; }
+
+    private void Update()
+    {
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            IsPointerOverUi = true;
+        }
+        else
+        {
+            IsPointerOverUi = false;
+        }
+    }
 
     public void SelectedMapPosition(InputAction.CallbackContext value)
     {
@@ -37,7 +49,7 @@ public class PlacementInput : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, placementLayermask))
         {
-            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Placement") && !IsPointerOverUi())
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Placement") && !IsPointerOverUi)
             {
                 LastPosition = hit.point;
                 OnClickPlace?.Invoke();

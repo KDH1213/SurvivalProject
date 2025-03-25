@@ -87,7 +87,7 @@ public class PreviewObject : MonoBehaviour
 
     private void PlacePreview()
     {
-        if (inputManager.IsPointerOverUi())
+        if (inputManager.IsPointerOverUi)
         {
             return;
         }
