@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStats : CharactorStats
 {
     [SerializeField]
-    private SurvivalStats survivalStats;
+    private PenaltyController survivalStats;
 
     protected override void Awake()
     {
@@ -13,7 +13,7 @@ public class PlayerStats : CharactorStats
 
         if (survivalStats == null)
         {
-            survivalStats = GetComponent<SurvivalStats>();
+            survivalStats = GetComponent<PenaltyController>();
         }
     }
 
@@ -21,7 +21,7 @@ public class PlayerStats : CharactorStats
     { 
         get
         {
-            return currentStatTable[StatType.MovementSpeed].Value * survivalStats.CalculateSpeedDebuff();
+            return currentStatTable[StatType.MovementSpeed].Value * survivalStats.CalculateSpeedPenalty();
         }
     }
     public float Hp
@@ -36,7 +36,7 @@ public class PlayerStats : CharactorStats
     {
         get
         {
-            return currentStatTable[StatType.AttackSpeed].Value * survivalStats.CalculateAttackSpeedDebuff();
+            return currentStatTable[StatType.AttackSpeed].Value * survivalStats.CalculateAttackSpeedPenalty();
         }
     }
 
