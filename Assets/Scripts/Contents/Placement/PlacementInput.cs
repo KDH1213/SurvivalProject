@@ -27,7 +27,8 @@ public class PlacementInput : MonoBehaviour
 
     private void Update()
     {
-        if(EventSystem.current.IsPointerOverGameObject())
+        Debug.Log(OnClickPlace);
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             IsPointerOverUi = true;
         }
@@ -49,14 +50,14 @@ public class PlacementInput : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, placementLayermask))
         {
-            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Placement") && !IsPointerOverUi)
+            if(!IsPointerOverUi)
             {
+                if(placementLayermask == LayerMask.NameToLayer("Object"))
+                {
+
+                }
                 LastPosition = hit.point;
                 OnClickPlace?.Invoke();
-            }
-            else
-            {
-
             }
         }
     }

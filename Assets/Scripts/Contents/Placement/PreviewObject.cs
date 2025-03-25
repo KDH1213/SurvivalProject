@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,16 +29,16 @@ public class PreviewObject : MonoBehaviour
 
     private void Update()
     {
-        if(IsPreview)
+        if (IsPreview)
         {
             placementUI.transform.position = inputManager.PlacementCamera.
                 WorldToScreenPoint(previewObject.transform.GetChild(0).position);
         }
+
         
     }
     public void StartShowingPlacementPreview(GameObject prefeb)
     {
-        StopShowingPreview();
         previewObject = Instantiate(prefeb);
         PreparePreview(previewObject);
         placementUI.SetActive(true);

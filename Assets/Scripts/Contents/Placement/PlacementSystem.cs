@@ -23,9 +23,12 @@ public class PlacementSystem : MonoBehaviour
 
     private List<GameObject> placedGameObjects = new List<GameObject>();
     private GridData gridData;
+    private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
     private void Start()
     {
+        SelectedObjectIndex = -1;
+        //inputManager = GetComponent<PlacementInput>();
         GetInputManager = inputManager;
         GetGrid = grid;
         gridData = new GridData();
@@ -34,18 +37,38 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (SelectedObjectIndex < 0)
         {
-            SelectedObjectIndex = 0;
-            preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
-            preview.UpdatePosition(Vector3.zero, true);
+            return;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        Vector3 mousePosition = inputManager.LastPosition;
+        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+
+        if (lastDetectedPosition != gridPosition)
         {
-            SelectedObjectIndex = 1;
-            preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
-            preview.UpdatePosition(Vector3.zero, true);
+            bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
+            preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
+            lastDetectedPosition = gridPosition;
         }
+        
+    }
+
+    public void StartPlacement(int ID)
+    {
+        StopPlacement();
+        SelectedObjectIndex = database.objects.FindIndex(data => data.ID == ID);
+        if (SelectedObjectIndex < 0)
+        {
+            Debug.LogError($"존재하지 않는 ID : {ID}");
+            return;
+        }
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
+    }
+
+    private void StopPlacement()
+    {
+        SelectedObjectIndex = -1;
+        preview.StopShowingPreview();
     }
 
     public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
@@ -72,7 +95,7 @@ public class PlacementSystem : MonoBehaviour
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1);
-        //preview.UpdatePosition(grid.CellToWorld(gridPosition), false);
+        preview.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, SelectedObjectIndex));
     }
 
     
