@@ -36,7 +36,7 @@ public class MonsterChaseState : MonsterBaseState
             MonsterFSM.ChangeState(MonsterStateType.Idle);
         }
 
-        MonsterFSM.Agent.SetDestination(MonsterFSM.Target.position);
+        MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
 
         // 타겟과의 거리 체크 및 상태 전환
         Chase();
@@ -54,7 +54,7 @@ public class MonsterChaseState : MonsterBaseState
 
     private void Chase()
     {
-        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.Target.position);
+        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
         // 너무 멀리 떨어지면 추적 중지
         if (MonsterFSM.isChase && MonsterFSM.TargetDistance > MonsterFSM.aggroRange * 1.5f)

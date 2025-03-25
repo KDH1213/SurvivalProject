@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class MonsterAttackState : MonsterBaseState
 {
-    private WaitForSeconds waitForSeconds = new WaitForSeconds(1f);
+    private float animationSpeed;
+    //private WaitForSeconds waitForSeconds = new WaitForSeconds(animationSpeed);
 
     protected override void Awake()
     {
@@ -15,16 +16,21 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Enter()
     {
+        animationSpeed = MonsterFSM.animationSpeed;
+
         Debug.Log("Monster: Attack State!!");
         MonsterFSM.SetIsAttack(true);
         MonsterFSM.SetIsChase(false);
+
+        Debug.Log($"Monster: {animationSpeed}");
+        MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
 
         StartCoroutine(CoAttack());
     }
 
     public override void ExecuteUpdate()
     {
-        if(!MonsterFSM.isAttack)
+        if (!MonsterFSM.isAttack)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
             MonsterFSM.ChangeState(MonsterStateType.Idle);
@@ -37,11 +43,15 @@ public class MonsterAttackState : MonsterBaseState
 
     public void OnEndAttackAnimationMonster()
     {
-        if(MonsterFSM.CurrentStateType == MonsterStateType.Attack)
-        {
-            MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.Target.position);
+        MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
 
-            if(MonsterFSM.TargetDistance > 1.0f)
+        if (MonsterFSM.CurrentStateType == MonsterStateType.Attack)
+        {
+            MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
+
+            MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
+
+            if (MonsterFSM.TargetDistance > 1.0f)
             {
                 MonsterFSM.SetIsAttack(false);
             }
@@ -50,11 +60,21 @@ public class MonsterAttackState : MonsterBaseState
 
     private IEnumerator CoAttack()
     {
-        while(MonsterFSM.isAttack)
+        WaitForSeconds waitForSeconds = new WaitForSeconds(animationSpeed);
+
+        while (MonsterFSM.isAttack)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
 
             yield return waitForSeconds;
+        }
+    }
+
+    public void OnMonsterAttack()
+    {
+        if (MonsterFSM.Target != null && MonsterFSM.Weapon != null)
+        {
+            MonsterFSM.Weapon.Execute(gameObject, MonsterFSM.Target);
         }
     }
 }

@@ -9,11 +9,22 @@ public class MonsterFSM : FSMController<MonsterStateType>
     public Animator Animator { get; private set; }
     [field: SerializeField]
     public NavMeshAgent Agent { get; private set; }
+    [field: SerializeField]
+    public Weapon Weapon { get; private set; }
+    [field: SerializeField]
+    public CharactorStats MonsterStats { get; private set; }
 
-    public Transform Target { get; set; }
+    [HideInInspector]
+    public GameObject Target { get; set; }
+
+    [HideInInspector]
+    public Transform TargetTransform { get; set; }
 
     [HideInInspector]
     public float aggroRange;
+
+    [HideInInspector]
+    public float animationSpeed;
 
     [HideInInspector]
     public float Speed { get; private set; }
@@ -41,6 +52,8 @@ public class MonsterFSM : FSMController<MonsterStateType>
         isAttack = false;
         Speed = Agent.speed;
         aggroRange = 5f;
+        animationSpeed = MonsterStats.GetStatValue(StatType.AttackSpeed);
+        Debug.Log($"Monster: {animationSpeed}");
     }
 
     private void Update()

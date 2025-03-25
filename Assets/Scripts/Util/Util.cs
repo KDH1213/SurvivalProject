@@ -47,7 +47,7 @@ public struct FloatMinMax
     }
 }
 
-public struct AnimationHashCode
+public static class AnimationHashCode
 {
     public static readonly int hashMove = Animator.StringToHash("walk");
     public static readonly int hashAttack = Animator.StringToHash("attack");

@@ -27,7 +27,7 @@ public class AttackDefinition : ScriptableObject
 
         if (damageInfo.critical)
         {
-            damage*= CriticalMultipler;
+            damage *= CriticalMultipler;
         }
         damageInfo.damage = Mathf.RoundToInt(damage);
 

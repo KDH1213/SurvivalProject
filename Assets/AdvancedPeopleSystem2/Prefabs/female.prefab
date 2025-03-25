@@ -92,6 +92,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8401640744121606736}
+    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8295998177603992672}
+    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7495051758863414188}
   m_SourcePrefab: {fileID: 100100000, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
 --- !u!95 &5272701081797501969 stripped
 Animator:
@@ -131,7 +139,8 @@ MonoBehaviour:
       Value: {fileID: 3585911724266889897}
   <Animator>k__BackingField: {fileID: 5272701081797501969}
   <Agent>k__BackingField: {fileID: 3264490063815481508}
-  <Stats>k__BackingField: {fileID: 0}
+  <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
+    type: 2}
   aggroRange: 0
   canAttack: 0
   isChase: 0
@@ -281,3 +290,39 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &8295998177603992672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272701081804789719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a03d77606a8224d8ff51c002f2bfdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalData: {fileID: 11400000, guid: 91ecb9b22c50d7340a8626b2e5ac47c6, type: 2}
+  currentStatTable:
+    _serializedList: []
+  hitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  damegedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7495051758863414188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272701081804789719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15e4710bbbd84c40a54226355b43d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
