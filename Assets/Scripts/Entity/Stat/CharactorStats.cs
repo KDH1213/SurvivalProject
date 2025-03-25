@@ -7,19 +7,19 @@ using UnityEngine.Events;
 public class CharactorStats : MonoBehaviour
 {
     [SerializeField]
-    private StatData originalData;
+    protected StatData originalData;
 
     [SerializedDictionary, SerializeField]
-    private SerializedDictionary<StatType, StatValue> currentStatTable = new SerializedDictionary<StatType, StatValue>();
+    protected SerializedDictionary<StatType, StatValue> currentStatTable = new SerializedDictionary<StatType, StatValue>();
     public SerializedDictionary<StatType, StatValue> CurrentStatTable { get { return currentStatTable; } }
 
-    public bool IsDead { get; private set; } = false;
+    public bool IsDead { get; protected set; } = false;
 
     public UnityEvent hitEvent;
     public UnityEvent deathEvent;
     public UnityEvent damegedEvent;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         originalData.CopyStat(ref currentStatTable);
     }
