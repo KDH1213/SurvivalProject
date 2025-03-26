@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlacementCameraSystem : MonoBehaviour
 {
     [SerializeField]
-    private Camera placementCamera;
+    public Camera placementCamera;
     [SerializeField]
     private Camera currentCamera;
+    [SerializeField]
+    private PlacementInput inputManager;
 
     [SerializeField]
     private Vector3 cameraDefaultPosition;
@@ -38,13 +41,12 @@ public class PlacementCameraSystem : MonoBehaviour
     private void Start()
     {
         placementCamera.depth = -1;
-        placementCamera.gameObject.SetActive(false);
+        //inputManager = GetComponent<PlacementInput>();
     }
 
     public void InPlacementCamera()
     {
         //currentCamera = Camera.current;
-        placementCamera.gameObject.SetActive(true);
         float depth = placementCamera.depth;
         placementCamera.transform.position = cameraDefaultPosition;
         placementCamera.transform.rotation = Quaternion.Euler(cameraDefaultRotation);
@@ -61,7 +63,6 @@ public class PlacementCameraSystem : MonoBehaviour
         currentCamera.depth = 10;
 
         placementCamera.transform.position = cameraDefaultPosition;
-        placementCamera.gameObject.SetActive(false);
     }
 
     public void OnZoomInAndOut(InputAction.CallbackContext value)
@@ -97,6 +98,10 @@ public class PlacementCameraSystem : MonoBehaviour
 
     public void OnDragMouse(InputAction.CallbackContext value)
     {
+        if(inputManager.IsPointerOverUi)
+        {
+            return;
+        }
         Vector2 dir = (startClickPos - MousePos).normalized;
         if (Mathf.Abs(dir.x) < 0.2f)
         {
@@ -116,6 +121,7 @@ public class PlacementCameraSystem : MonoBehaviour
 
     public void OnClick(InputAction.CallbackContext value)
     {
+          // ½ºÅ©¸° ÁÂÇ¥
         if (value.started)
         {
             startClickPos = MousePos;

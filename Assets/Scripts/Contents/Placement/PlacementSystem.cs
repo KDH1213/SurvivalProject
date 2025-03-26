@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -13,34 +14,67 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField]
     private PlacementObjectList database;
-    private int selectedObjectIndex = 0;
+    public int SelectedObjectIndex { get; set; }
 
     public float gridCellCount;
 
-    
+    public PlacementInput GetInputManager { get; private set; }
+    public Grid GetGrid { get; private set; }
 
     private List<GameObject> placedGameObjects = new List<GameObject>();
+    private GridData gridData;
+    private Vector3Int lastDetectedPosition = Vector3Int.zero;
+
     private void Start()
     {
+        SelectedObjectIndex = -1;
+        //inputManager = GetComponent<PlacementInput>();
+        GetInputManager = inputManager;
+        GetGrid = grid;
+        gridData = new GridData();
         grid.cellSize = Vector3.one * 10 / gridCellCount;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (SelectedObjectIndex < 0)
         {
-            selectedObjectIndex = 0;
-            preview.StartShowingPlacementPreview(database.objects[selectedObjectIndex].Prefeb);
-            preview.UpdatePosition(Vector3.zero, true);
-            inputManager.OnClickPlace += PlacePreview;
+            return;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        Vector3 mousePosition = inputManager.LastPosition;
+        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+
+        if (lastDetectedPosition != gridPosition)
         {
-            selectedObjectIndex = 1;
-            preview.StartShowingPlacementPreview(database.objects[selectedObjectIndex].Prefeb);
-            preview.UpdatePosition(Vector3.zero, true);
-            inputManager.OnClickPlace += PlacePreview;
+            bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
+            preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
+            lastDetectedPosition = gridPosition;
         }
+        
+    }
+
+    public void StartPlacement(int ID)
+    {
+        StopPlacement();
+        SelectedObjectIndex = database.objects.FindIndex(data => data.ID == ID);
+        if (SelectedObjectIndex < 0)
+        {
+            Debug.LogError($"존재하지 않는 ID : {ID}");
+            return;
+        }
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
+    }
+
+    private void StopPlacement()
+    {
+        SelectedObjectIndex = -1;
+        preview.StopShowingPreview();
+    }
+
+    public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    {
+        Debug.Log(gridPosition);
+        return gridData.CanPlaceObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size);
     }
 
     public void PlaceStructure()
@@ -48,21 +82,21 @@ public class PlacementSystem : MonoBehaviour
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
-        GameObject newObject = Instantiate(database.objects[selectedObjectIndex].Prefeb);
-        newObject.transform.position = grid.CellToWorld(gridPosition);
-        placedGameObjects.Add(newObject);
-    }
-
-    private void PlacePreview()
-    {
-        //inputManager.OnClickPlace -= PlacePreview;
-        if (inputManager.IsPointerOverUi())
+        bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
+        if (!placementValidity)
         {
             return;
         }
-        Vector3 mousePosition = inputManager.LastPosition;
-        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
-        preview.UpdatePosition(grid.CellToWorld(gridPosition), true);
+        GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].Prefeb);
+        newObject.transform.position = grid.CellToWorld(gridPosition);
+        placedGameObjects.Add(newObject);
+
+        gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
+            database.objects[SelectedObjectIndex].ID,
+            placedGameObjects.Count - 1);
+        preview.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, SelectedObjectIndex));
     }
+
+    
 }

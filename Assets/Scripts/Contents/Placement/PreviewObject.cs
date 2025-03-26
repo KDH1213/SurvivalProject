@@ -1,49 +1,49 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PreviewObject : MonoBehaviour
 {
+
     [SerializeField]
+    private PlacementSystem placementSystem;
     private PlacementInput inputManager;
-
-    [SerializeField]
-    private float previewYOffset = 0.06f;
-
-    [SerializeField]
-    private GameObject previewObject;
     [SerializeField]
     private GameObject placementUI;
 
     [SerializeField]
-    private Camera placementCamera;
-
-    public bool IsPreview { get; private set; } 
-
+    private float previewYOffset = 0.06f;
+    public bool IsPreview { get; private set; }
+    [SerializeField]
+    private GameObject previewObject;
     [SerializeField]
     private Material previewMaterialsPrefeb;
     private Material previewMaterialsInstance;
 
     private void Start()
     {
+        inputManager = placementSystem.GetInputManager;
         previewMaterialsInstance = new Material(previewMaterialsPrefeb);
     }
 
     private void Update()
     {
-        if(IsPreview)
+        if (IsPreview)
         {
-            placementUI.transform.position = placementCamera.WorldToScreenPoint(previewObject.transform.GetChild(0).position);
+            placementUI.transform.position = inputManager.PlacementCamera.
+                WorldToScreenPoint(previewObject.transform.GetChild(0).position);
         }
+
         
     }
     public void StartShowingPlacementPreview(GameObject prefeb)
     {
-        StopShowingPreview();
         previewObject = Instantiate(prefeb);
         PreparePreview(previewObject);
         placementUI.SetActive(true);
         IsPreview = true;
+        inputManager.OnClickPlace += PlacePreview;
     }
 
     private void PreparePreview(GameObject previewObject)
@@ -65,7 +65,7 @@ public class PreviewObject : MonoBehaviour
         Destroy(previewObject);
         IsPreview = false;
         placementUI.SetActive(false);
-        inputManager.ResetEvent();
+        inputManager.OnClickPlace -= PlacePreview;
     }
 
     public void UpdatePosition(Vector3 position, bool validity)
@@ -84,9 +84,20 @@ public class PreviewObject : MonoBehaviour
     private void MovePreview(Vector3 position)
     {
         previewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
-        
     }
 
+    private void PlacePreview()
+    {
+        if (inputManager.IsPointerOverUi)
+        {
+            return;
+        }
+        Vector3 mousePosition = inputManager.LastPosition;
+        Vector3Int gridPosition = placementSystem.GetGrid.WorldToCell(mousePosition);
 
-    
+        bool placementValidity = placementSystem.CheckPlacementValidity(gridPosition, placementSystem.SelectedObjectIndex);
+
+        UpdatePosition(placementSystem.GetGrid.CellToWorld(gridPosition), placementValidity);
+    }
+
 }
