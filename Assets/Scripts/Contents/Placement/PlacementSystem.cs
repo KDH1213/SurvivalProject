@@ -116,11 +116,15 @@ public class PlacementSystem : MonoBehaviour
 
     public void SelectStructure(PlacementObject obj)
     {
+        if(preview.IsPreview)
+        {
+            return;
+        }
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
         int id = gridData.RemoveObjectAt(gridPosition);
-        Destroy(obj.gameObject);
+        Destroy(obj.transform.parent.gameObject);
         StartPlacement(id);
     }
 }

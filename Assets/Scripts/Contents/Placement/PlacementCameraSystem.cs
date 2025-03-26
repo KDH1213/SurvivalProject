@@ -43,7 +43,7 @@ public class PlacementCameraSystem : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10f;
 
-    private bool isDrag;
+    public bool IsDrag { get; private set; }
 
     private void Start()
     {
@@ -121,6 +121,7 @@ public class PlacementCameraSystem : MonoBehaviour
             }
             else
             {
+                IsDrag = true;
                 Vector2 dir = (startClickPos - MousePos).normalized;
                 if (Mathf.Abs(dir.x) < 0.2f)
                 {
@@ -139,6 +140,7 @@ public class PlacementCameraSystem : MonoBehaviour
         if (value.canceled)
         {
             startClickPos = MousePos;
+            IsDrag = false;
         }
     }
 

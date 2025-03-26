@@ -40,7 +40,7 @@ public class PlacementInput : MonoBehaviour
 
     public void SelectedMapPosition(InputAction.CallbackContext value)
     {
-        if (IsPointerOverUi)
+        if (IsPointerOverUi || cameraSys.IsDrag)
         {
             return;
         }
