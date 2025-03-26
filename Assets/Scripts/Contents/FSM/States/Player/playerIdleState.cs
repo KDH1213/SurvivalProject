@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerBaseState
 {
-    //private AttackData attackData;
-
-    //private OverlapCollider OverlapCollider;
-
     protected override void Awake()
     {
         base.Awake();
         stateType = PlayerStateType.Idle;
-
-        //attackData = CharactorFSM.AttackData;
     }
 
     private void Start()

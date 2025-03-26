@@ -11,8 +11,6 @@ public class MonsterFSM : FSMController<MonsterStateType>
     public NavMeshAgent Agent { get; private set; }
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
-    [field: SerializeField]
-    public CharactorStats MonsterStats { get; private set; }
 
     [HideInInspector]
     public GameObject Target { get; set; }
@@ -23,44 +21,30 @@ public class MonsterFSM : FSMController<MonsterStateType>
     [HideInInspector]
     public float aggroRange;
 
-    [HideInInspector]
-    public float animationSpeed;
+    public bool CanAttack { get; private set; }
 
-    [HideInInspector]
-    public float Speed { get; private set; }
+    public bool IsChase { get; private set; }
 
-    [HideInInspector]
-    public bool canAttack;
+    public bool IsAttack { get; private set; }
 
-    [HideInInspector]
-    public bool isChase;
-
-    [HideInInspector]
-    public bool isAttack;
-
-    [HideInInspector]
     public float TargetDistance { get; set; }
 
-    [HideInInspector]
-    public bool isPlayerInRange;
+    public bool IsPlayerInRange { get; private set; }
 
-    [HideInInspector]
-    public bool isDead;
+    public bool IsDead { get; private set; }
 
     protected override void Awake()
     {
-        canAttack = false;
-        isChase = false;
-        isPlayerInRange = false;
-        isAttack = false;
-        isDead = false;
-        Speed = Agent.speed;
+        CanAttack = false;
+        IsChase = false;
+        IsPlayerInRange = false;
+        IsAttack = false;
+        IsDead = false;
         aggroRange = 5f; 
     }
 
     private void Start()
     {
-        animationSpeed = MonsterStats.GetStatValue(StatType.AttackSpeed);
     }
 
     private void Update()
@@ -70,28 +54,28 @@ public class MonsterFSM : FSMController<MonsterStateType>
 
     public void SetCanAttack(bool value)
     {
-        canAttack = value;
+        CanAttack = value;
     }
 
     public void SetIsChase(bool value)
     {
-        isChase = value;
+        IsChase = value;
     }
 
     public void SetIsPlayerRange(bool value)
     {
-        isPlayerInRange = value;
+        IsPlayerInRange = value;
     }
 
     public void SetIsAttack(bool value)
     {
-        isAttack = value;
+        IsAttack = value;
     }
 
     public void OnDeath()
     {
         Debug.Log("Monster: Die!!");
-        isDead = true;
+        IsDead = true;
         ChangeState(MonsterStateType.Death);
     }
 }

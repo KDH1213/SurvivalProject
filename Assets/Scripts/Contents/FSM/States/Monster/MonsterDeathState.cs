@@ -13,6 +13,7 @@ public class MonsterDeathState : MonsterBaseState
     public override void Enter()
     {
         Debug.Log("Monster: Daath State!!");
+        Debug.Log($"Monster: {MonsterFSM.IsDead}");
     }
 
     public override void ExecuteUpdate()

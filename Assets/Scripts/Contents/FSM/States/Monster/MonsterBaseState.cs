@@ -5,11 +5,13 @@ using UnityEngine;
 public class MonsterBaseState : BaseState<MonsterStateType>
 {
     protected MonsterFSM monsterFSM;
+    protected MonsterStats MonsterStats { get; private set; }
     public MonsterFSM MonsterFSM { get { return monsterFSM; } }
 
     protected virtual void Awake()
     {
         monsterFSM = GetComponent<MonsterFSM>();
+        MonsterStats = GetComponent<MonsterStats>();
     }
 
     public override void Enter()

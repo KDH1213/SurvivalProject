@@ -16,7 +16,7 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Enter()
     {
-        animationSpeed = MonsterFSM.animationSpeed;
+        animationSpeed = MonsterStats.AttackSpeed;
 
         Debug.Log("Monster: Attack State!!");
         MonsterFSM.SetIsAttack(true);
@@ -29,7 +29,7 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void ExecuteUpdate()
     {
-        if (!MonsterFSM.isAttack)
+        if (!MonsterFSM.IsAttack)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
             MonsterFSM.ChangeState(MonsterStateType.Idle);
@@ -61,7 +61,7 @@ public class MonsterAttackState : MonsterBaseState
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(animationSpeed);
 
-        while (MonsterFSM.isAttack)
+        while (MonsterFSM.IsAttack)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
 

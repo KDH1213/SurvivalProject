@@ -10999,9 +10999,8 @@ GameObject:
   - component: {fileID: 3077329245886870758}
   - component: {fileID: 1379409574410569205}
   - component: {fileID: 104818652544695384}
-  - component: {fileID: 119742865810919291}
   - component: {fileID: 1306929191199562914}
-  - component: {fileID: 2303271944394833822}
+  - component: {fileID: 1068120905921239531}
   - component: {fileID: 4766854409604859175}
   - component: {fileID: 8282308662441228423}
   - component: {fileID: 7368231591438987210}
@@ -11249,7 +11248,7 @@ LODGroup:
     - renderer: {fileID: 6047200707159439978}
     - renderer: {fileID: 6988798427859009133}
   m_Enabled: 1
---- !u!114 &119742865810919291
+--- !u!114 &1306929191199562914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11258,9 +11257,121 @@ MonoBehaviour:
   m_GameObject: {fileID: 8081401019662844925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 642ff6ad26ae308499b895dd06da569b, type: 3}
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 38e39e8371db7a540bb3ed09aa396434,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1068120905921239531}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnMoveAndRotate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 61f1a590-cf35-4e31-8ecf-a42de1be258d
+    m_ActionName: player/moveAndRotate
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1068120905921239531}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnMainToolUsedAndAttck
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e29f2714-cc19-4f62-a38e-eb2a13354759
+    m_ActionName: player/attack[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1068120905921239531}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 72c91ca7-ed86-402a-89f5-7402ef2216c6
+    m_ActionName: player/interact[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1068120905921239531}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnSubToolUsed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3b0861f9-8c8c-48a8-b7c9-b33371564cec
+    m_ActionName: player/subTool[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1068120905921239531}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnBuild
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7d44f2ac-a1f1-435f-8467-800dbfb6ed55
+    m_ActionName: player/Building[/Keyboard/b]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &1068120905921239531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d6a5809200f334488b673737522ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputDirection: {x: 0, y: 0}
   onAttackEvent:
     m_PersistentCalls:
       m_Calls:
@@ -11291,133 +11402,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onDamageEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &1306929191199562914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8081401019662844925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 38e39e8371db7a540bb3ed09aa396434,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2303271944394833822}
-        m_TargetAssemblyTypeName: PlayerJoyStickInput, Assembly-CSharp
-        m_MethodName: OnMoveAndRotate
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 61f1a590-cf35-4e31-8ecf-a42de1be258d
-    m_ActionName: player/moveAndRotate
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 119742865810919291}
-        m_TargetAssemblyTypeName: ButtonInteract, Assembly-CSharp
-        m_MethodName: OnMainToolUsedAndAttck
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e29f2714-cc19-4f62-a38e-eb2a13354759
-    m_ActionName: player/attack[/Keyboard/z]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 119742865810919291}
-        m_TargetAssemblyTypeName: ButtonInteract, Assembly-CSharp
-        m_MethodName: OnInteract
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 72c91ca7-ed86-402a-89f5-7402ef2216c6
-    m_ActionName: player/interact[/Keyboard/x]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 119742865810919291}
-        m_TargetAssemblyTypeName: ButtonInteract, Assembly-CSharp
-        m_MethodName: OnSubToolUsed
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 3b0861f9-8c8c-48a8-b7c9-b33371564cec
-    m_ActionName: player/subTool[/Keyboard/c]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 119742865810919291}
-        m_TargetAssemblyTypeName: ButtonInteract, Assembly-CSharp
-        m_MethodName: OnBuild
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 7d44f2ac-a1f1-435f-8467-800dbfb6ed55
-    m_ActionName: player/Building[/Keyboard/b]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &2303271944394833822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8081401019662844925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2210125ae3c9eb64884f7ae2875f37c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputDirection: {x: 0, y: 0}
   onMoveAndRotateEvent:
     m_PersistentCalls:
       m_Calls:
@@ -11461,7 +11445,6 @@ MonoBehaviour:
   <CharacterController>k__BackingField: {fileID: 7632884530578718145}
   <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
     type: 2}
-  <PlayerStats>k__BackingField: {fileID: 4433569904149242453}
   useMove: 1
   attackRange: 0
   onTargetInteractEvent:

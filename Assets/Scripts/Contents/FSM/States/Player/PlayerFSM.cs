@@ -12,8 +12,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public CharacterController CharacterController { get; private set; }
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
-    [field: SerializeField]
-    public CharactorStats PlayerStats { get; private set; }
 
     public GameObject Target { get; set; }
 
@@ -36,7 +34,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
 
     protected override void Awake()
     {
-        CanAttack = true; 
+        SetCanAttack(true);
         OnEndAttack();
 
         IsPlayerInRange = false;
@@ -53,11 +51,13 @@ public class PlayerFSM : FSMController<PlayerStateType>
         StateTable[currentStateType].ExecuteUpdate();
     }
 
+    // TODO :: // TODO :: TestPlayer -> PlayerInputHandler -> On Move And Rotate Event에 연결
     public void OnSetMoveValue(Vector2 moveValue)
     {
         this.MoveValue = moveValue;
     }
 
+    // TODO :: TestPlayer -> PlayerInputHandler -> On Attack Event에 연결
     public void OnInputAttack()
     {
         if(CanAttack)
@@ -66,6 +66,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
         }
     }
 
+    // TODO :: TestPlayer -> PlayerInputHandler -> On Interact Event에 연결
     public void OnSetInteract()
     {
         Debug.Log($"OnSetInteract 호출됨!");
@@ -83,6 +84,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
        
     }
 
+    // TODO :: 지금은 TestObject 스크립트에서 사용 중
     public void OnSetIsPlayerInRange(bool value)
     {
         Debug.Log($"OnSetIsPlayerInRange 호출됨!");

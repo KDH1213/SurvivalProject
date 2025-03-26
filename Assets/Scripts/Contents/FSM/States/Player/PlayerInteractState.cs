@@ -31,7 +31,7 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Exit()
     {
-        //playerFSM.ChangeState(PlayerStateType.Idle);
+
     }
 
     public void InteractObject()

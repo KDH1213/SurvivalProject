@@ -27,7 +27,7 @@ public class MonsterIdleState : MonsterBaseState
 
         ChangeChaseState();
 
-        if (MonsterFSM.isChase)
+        if (MonsterFSM.IsChase)
         {
             MonsterFSM.ChangeState(MonsterStateType.Chase);
         }
@@ -70,7 +70,7 @@ public class MonsterIdleState : MonsterBaseState
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
         // 플레이어를 발견하면 추적 시작
-        if (!MonsterFSM.isChase && MonsterFSM.TargetDistance < MonsterFSM.aggroRange)
+        if (!MonsterFSM.IsChase && MonsterFSM.TargetDistance < MonsterFSM.aggroRange)
         {
             MonsterFSM.SetIsChase(true);
             MonsterFSM.SetIsPlayerRange(true);

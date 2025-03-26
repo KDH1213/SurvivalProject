@@ -21,12 +21,12 @@ public class MonsterChaseState : MonsterBaseState
         }
 
         MonsterFSM.Agent.isStopped = false;  // 네비게이션 활성화
-        MonsterFSM.Agent.speed = MonsterFSM.Speed;
+        MonsterFSM.Agent.speed = MonsterStats.Speed;
     }
 
     public override void ExecuteUpdate()
     {
-        if (MonsterFSM.canAttack && MonsterFSM.isAttack)
+        if (MonsterFSM.CanAttack && MonsterFSM.IsAttack)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
@@ -57,7 +57,7 @@ public class MonsterChaseState : MonsterBaseState
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
         // 너무 멀리 떨어지면 추적 중지
-        if (MonsterFSM.isChase && MonsterFSM.TargetDistance > MonsterFSM.aggroRange * 1.5f)
+        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.aggroRange * 1.5f)
         {
             MonsterFSM.SetIsChase(false);
             MonsterFSM.SetIsPlayerRange(false);
@@ -69,7 +69,7 @@ public class MonsterChaseState : MonsterBaseState
         {
             MonsterFSM.SetCanAttack(true);
             MonsterFSM.SetIsChase(false);
-            MonsterFSM.Agent.speed = MonsterFSM.Speed * 0.5f;  // 가까워질수록 속도 줄이기
+            MonsterFSM.Agent.speed = MonsterStats.Speed * 0.5f;  // 가까워질수록 속도 줄이기
 
             MonsterFSM.ChangeState(MonsterStateType.Attack);
 
