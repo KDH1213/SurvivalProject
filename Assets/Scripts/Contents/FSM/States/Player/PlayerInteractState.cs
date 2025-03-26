@@ -15,7 +15,7 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        playerFSM.useMove = false;
+        playerFSM.OnSetUseMove(false);
         Debug.Log("CurrentState is Interact!");
         InteractObject();
     }
@@ -24,7 +24,7 @@ public class PlayerInteractState : PlayerBaseState
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            playerFSM.useMove = true;
+            playerFSM.OnSetUseMove(true);
             playerFSM.ChangeState(PlayerStateType.Idle);
         }
     }
@@ -36,20 +36,11 @@ public class PlayerInteractState : PlayerBaseState
 
     public void InteractObject()
     {
-        if (playerFSM.Target == null)
+        if(target != null)
         {
-            Debug.LogError("target이 null입니다! 상호작용할 대상이 없습니다.");
-            return;
+            Debug.Log($"Player: Interact {target.name}");
         }
 
-        var targetComponent = playerFSM.Target.GetComponent<TestObject>();
-        if (targetComponent == null)
-        {
-            Debug.LogError("target에 TestObject 컴포넌트가 없습니다!");
-            return;
-        }
-
-        Debug.Log($"상호작용: {targetComponent.name}");
     }
 
     public void OnSetTarget(GameObject target)

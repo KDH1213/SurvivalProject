@@ -39,7 +39,7 @@ public class PlayerInputHandler : MonoBehaviour
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> interact¿¡ ¿¬°á
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (playerFSM.IsPlayerInRange && context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed)
         {
             onInteractEvent?.Invoke();
         }

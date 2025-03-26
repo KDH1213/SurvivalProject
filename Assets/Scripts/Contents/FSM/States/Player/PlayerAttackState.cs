@@ -65,7 +65,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         if (PlayerFSM.Target != null)
         {
-            var currentTarget = PlayerFSM.Target.GetComponent<MonsterFSM>();
+            MonsterFSM currentTarget = PlayerFSM.Target.GetComponent<MonsterFSM>();
             if (currentTarget == null || currentTarget.IsDead)
             {
                 Debug.Log($"Player: {PlayerFSM.Target.name} ªÁ∏¡! ≈∏∞Ÿ «ÿ¡¶");
@@ -86,10 +86,16 @@ public class PlayerAttackState : PlayerBaseState
 
         for (int i = 0; i < index; ++i)
         {
-            if (attackTargets[i] == null) break;
+            if (attackTargets[i] == null)
+            {
+                break;
+            }
 
-            var target = attackTargets[i].GetComponent<MonsterFSM>();
-            if (target == null || target.IsDead) continue;
+            MonsterFSM target = attackTargets[i].GetComponent<MonsterFSM>();
+            if (target == null || target.IsDead)
+            {
+                continue;
+            }
 
             Vector3 directionToTarget = (attackTargets[i].transform.position - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, attackTargets[i].transform.position);

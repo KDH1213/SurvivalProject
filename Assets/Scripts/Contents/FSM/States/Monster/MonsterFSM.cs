@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
-public class MonsterFSM : FSMController<MonsterStateType>
+public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
 {
+    [SerializeField]
+    private Button button;
+
     [field: SerializeField]
     public Animator Animator { get; private set; }
     [field: SerializeField]
@@ -32,6 +36,9 @@ public class MonsterFSM : FSMController<MonsterStateType>
     public bool IsPlayerInRange { get; private set; }
 
     public bool IsDead { get; private set; }
+    public bool CanRouting { get; private set; }
+
+    public bool IsInteractable => IsDead;
 
     protected override void Awake()
     {
@@ -40,6 +47,7 @@ public class MonsterFSM : FSMController<MonsterStateType>
         IsPlayerInRange = false;
         IsAttack = false;
         IsDead = false;
+        CanRouting = false;
         aggroRange = 5f; 
     }
 
@@ -72,10 +80,23 @@ public class MonsterFSM : FSMController<MonsterStateType>
         IsAttack = value;
     }
 
+    // TODO :: TestMonster -> DestructedEvent 이벤트에 연결
     public void OnDeath()
     {
         Debug.Log("Monster: Die!!");
         IsDead = true;
+        CanRouting = true;
         ChangeState(MonsterStateType.Death);
+    }
+
+    public void Interact(GameObject interactor)
+    {
+        button.gameObject.SetActive(true);
+    }
+
+    // TODO :: 임시 / CancleButton의 On Click 이벤트에 연결
+    public void OnButtonOff()
+    {
+        button.gameObject.SetActive(false);
     }
 }

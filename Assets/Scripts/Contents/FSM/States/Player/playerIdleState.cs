@@ -16,6 +16,7 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void Enter()
     {
+        PlayerFSM.InteractableTarget = null;
     }
 
     public override void ExecuteUpdate()
