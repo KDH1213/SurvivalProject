@@ -22,6 +22,7 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void Enter()
     {
+        PlayerFSM.SetCanAttack(true);
     }
 
     public override void ExecuteUpdate()

@@ -33,13 +33,13 @@ public class PlayerInteractState : PlayerBaseState
 
     public void InteractObject()
     {
-        if (playerFSM.target == null)
+        if (playerFSM.Target == null)
         {
             Debug.LogError("target이 null입니다! 상호작용할 대상이 없습니다.");
             return;
         }
 
-        var targetComponent = playerFSM.target.GetComponent<TestObject>();
+        var targetComponent = playerFSM.Target.GetComponent<TestObject>();
         if (targetComponent == null)
         {
             Debug.LogError("target에 TestObject 컴포넌트가 없습니다!");

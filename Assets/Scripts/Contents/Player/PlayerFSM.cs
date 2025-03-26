@@ -10,48 +10,41 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public Animator Animator { get; private set; }
     [field: SerializeField]
     public CharacterController CC { get; private set; }
+    [field: SerializeField]
+    public Weapon Weapon { get; private set; }
+    [field: SerializeField]
+    public CharactorStats PlayerStats { get; private set; }
 
-    [SerializeField]
-    public float attackDelay = 5f;
+    public GameObject Target { get; set; }
 
-    private float attackTime;
     [HideInInspector]
     public bool isMove = true;
+
     [HideInInspector]
     public bool CanAttack;
+
     [HideInInspector]
     public bool IsAttack;
+
     [HideInInspector]
-    public GameObject target;
+    public float attackRange;
 
     public Vector2 MoveValue { get; private set; }
+
     public bool IsPlayerInRange { get; private set; }
 
 
     protected override void Awake()
     {
-        attackTime = attackDelay;
         CanAttack = true;
         IsAttack = false;
 
         IsPlayerInRange = false;
-
-        target = null;
+        attackRange = 2f;
     }
 
     private void Update()
     {
-        if (!CanAttack)
-        {
-            attackTime += Time.deltaTime;
-        }
-
-        if (attackTime >= attackDelay)
-        {
-            CanAttack = true;
-            attackTime = attackDelay;
-        }
-
         StateTable[currentStateType].ExecuteUpdate();
     }
 
@@ -79,13 +72,13 @@ public class PlayerFSM : FSMController<PlayerStateType>
         IsPlayerInRange = value;
     }
 
-    public void ResetAttackTime()
-    {
-        attackTime = 0f;
-    }
-
     public void SetCanAttack(bool value)
     {
         CanAttack = value;
+    }
+
+    public void OnDeath()
+    {
+        ChangeState(PlayerStateType.Idle);
     }
 }

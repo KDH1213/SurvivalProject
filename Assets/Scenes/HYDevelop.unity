@@ -724,18 +724,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &153021078 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8295998177603992672, guid: da2414e75410d674081bbb43c436c19d,
-    type: 3}
-  m_PrefabInstance: {fileID: 7231569684160152980}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a03d77606a8224d8ff51c002f2bfdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &177983835
 GameObject:
   m_ObjectHideFlags: 0
@@ -3214,6 +3202,18 @@ Transform:
   - {fileID: 464981131}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1621287292 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 993513553613902823, guid: 226405ed50c9e3f41844037cac5bab94,
+    type: 3}
+  m_PrefabInstance: {fileID: 2030048881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a03d77606a8224d8ff51c002f2bfdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1648030107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3830,6 +3830,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4766854409604859175, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: <Weapon>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
+        type: 2}
+    - target: {fileID: 4766854409604859175, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: <PlayerStats>k__BackingField
+      value: 
+      objectReference: {fileID: 1621287292}
     - target: {fileID: 8081401019662844925, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: m_Name
@@ -3848,11 +3859,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 767134693837628423, guid: da2414e75410d674081bbb43c436c19d,
-        type: 3}
-      propertyPath: <MonsterStats>k__BackingField
-      value: 
-      objectReference: {fileID: 153021078}
     - target: {fileID: 5272701081804789719, guid: da2414e75410d674081bbb43c436c19d,
         type: 3}
       propertyPath: m_Name

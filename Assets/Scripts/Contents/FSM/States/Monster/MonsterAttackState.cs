@@ -22,7 +22,6 @@ public class MonsterAttackState : MonsterBaseState
         MonsterFSM.SetIsAttack(true);
         MonsterFSM.SetIsChase(false);
 
-        Debug.Log($"Monster: {animationSpeed}");
         MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
 
         StartCoroutine(CoAttack());

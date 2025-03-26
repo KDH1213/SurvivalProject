@@ -23,7 +23,7 @@ public class TestObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerFSM.OnSetIsPlayerInRange(true);
-            playerFSM.target = gameObject;
+            playerFSM.Target = gameObject;
             Debug.Log("Can Interact!!");
         }
     }
@@ -33,7 +33,7 @@ public class TestObject : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             playerFSM.OnSetIsPlayerInRange(false);
-            playerFSM.target = null;
+            playerFSM.Target = null;
             Debug.Log("Can't Interact!!");
         }
     }
@@ -51,7 +51,7 @@ public class TestObject : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerFSM.target = null;
+        playerFSM.Target = null;
         Destroy(gameObject);
     }
 }
