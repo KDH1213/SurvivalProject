@@ -44,20 +44,23 @@ public class MonsterFSM : FSMController<MonsterStateType>
     [HideInInspector]
     public bool isPlayerInRange;
 
+    [HideInInspector]
+    public bool isDead;
+
     protected override void Awake()
     {
         canAttack = false;
         isChase = false;
         isPlayerInRange = false;
         isAttack = false;
+        isDead = false;
         Speed = Agent.speed;
-        aggroRange = 5f;
+        aggroRange = 5f; 
     }
 
     private void Start()
     {
         animationSpeed = MonsterStats.GetStatValue(StatType.AttackSpeed);
-        Debug.Log($"Monster: {animationSpeed}");
     }
 
     private void Update()
@@ -87,6 +90,8 @@ public class MonsterFSM : FSMController<MonsterStateType>
 
     public void OnDeath()
     {
+        Debug.Log("Monster: Die!!");
+        isDead = true;
         ChangeState(MonsterStateType.Death);
     }
 }
