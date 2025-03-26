@@ -22,12 +22,11 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void Enter()
     {
-        PlayerFSM.SetCanAttack(true);
     }
 
     public override void ExecuteUpdate()
     {
-        if (playerFSM.isMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
+        if (PlayerFSM.MoveValue.sqrMagnitude > 0f)
         {
             PlayerFSM.ChangeState(PlayerStateType.Move);
         }

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInteractState : PlayerBaseState
 {
+    private GameObject target;
+
     protected override void Awake()
     {
         base.Awake();
@@ -12,7 +15,7 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        playerFSM.isMove = false;
+        playerFSM.useMove = false;
         Debug.Log("CurrentState is Interact!");
         InteractObject();
     }
@@ -21,7 +24,7 @@ public class PlayerInteractState : PlayerBaseState
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            playerFSM.isMove = true;
+            playerFSM.useMove = true;
             playerFSM.ChangeState(PlayerStateType.Idle);
         }
     }
@@ -47,5 +50,13 @@ public class PlayerInteractState : PlayerBaseState
         }
 
         Debug.Log($"상호작용: {targetComponent.name}");
+    }
+
+    public void OnSetTarget(GameObject target)
+    {
+        this.target = target;
+
+        // 타겟 별 애니메이션 호출
+
     }
 }

@@ -9,7 +9,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
     [field: SerializeField]
     public Animator Animator { get; private set; }
     [field: SerializeField]
-    public CharacterController CC { get; private set; }
+    public CharacterController CharacterController { get; private set; }
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
     [field: SerializeField]
@@ -18,13 +18,10 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public GameObject Target { get; set; }
 
     [HideInInspector]
-    public bool isMove = true;
+    public bool useMove = true;
+    public bool CanAttack { get; private set; }
 
-    [HideInInspector]
-    public bool CanAttack;
-
-    [HideInInspector]
-    public bool IsAttack;
+    public bool IsAttack { get; private set; }
 
     [HideInInspector]
     public float attackRange;
@@ -34,13 +31,21 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public bool IsPlayerInRange { get; private set; }
 
 
+    public UnityEvent<GameObject> onTargetInteractEvent;
+
+
     protected override void Awake()
     {
-        CanAttack = true;
-        IsAttack = false;
+        CanAttack = true; 
+        OnEndAttack();
 
         IsPlayerInRange = false;
         attackRange = 2f;
+    }
+
+    private void Start()
+    {
+        onTargetInteractEvent.AddListener(((PlayerInteractState)StateTable[PlayerStateType.Interact]).OnSetTarget);
     }
 
     private void Update()
@@ -53,17 +58,29 @@ public class PlayerFSM : FSMController<PlayerStateType>
         this.MoveValue = moveValue;
     }
 
-    public void OnSetAttack()
+    public void OnInputAttack()
     {
-        Debug.Log($"OnSetAttack »£√‚µ !");
-        IsAttack = true;
-        ChangeState(PlayerStateType.Attack);
+        if(CanAttack)
+        {
+            ChangeState(PlayerStateType.Attack);
+        }
     }
 
     public void OnSetInteract()
     {
         Debug.Log($"OnSetInteract »£√‚µ !");
-        ChangeState(PlayerStateType.Interact);
+
+        bool isFindTarget = false;
+        // TODO :: øπΩ√ƒ⁄µÂ
+
+        if(isFindTarget)
+        {
+            GameObject taget = gameObject;
+            onTargetInteractEvent?.Invoke(taget);
+
+            ChangeState(PlayerStateType.Interact);
+        }
+       
     }
 
     public void OnSetIsPlayerInRange(bool value)
@@ -80,5 +97,10 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public void OnDeath()
     {
         ChangeState(PlayerStateType.Idle);
+    }
+
+    public void OnEndAttack()
+    {
+        IsAttack = false;
     }
 }

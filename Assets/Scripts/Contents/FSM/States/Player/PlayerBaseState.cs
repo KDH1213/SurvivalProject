@@ -5,12 +5,14 @@ using UnityEngine;
 public class PlayerBaseState : BaseState<PlayerStateType>
 {
     protected PlayerFSM playerFSM;
+    protected PlayerStats PlayerStats { get; private set; }
 
     public PlayerFSM PlayerFSM { get { return playerFSM; } }
 
     protected virtual void Awake()
     {
         playerFSM = GetComponent<PlayerFSM>();
+        PlayerStats = GetComponent<PlayerStats>();
     }
     public override void Enter()
     {

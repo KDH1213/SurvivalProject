@@ -11009,8 +11009,14 @@ GameObject:
   - component: {fileID: 6548592573739144491}
   - component: {fileID: 9123206664054667473}
   - component: {fileID: 7632884530578718145}
-  - component: {fileID: 993513553613902823}
   - component: {fileID: 5414295956953434688}
+  - component: {fileID: 4433569904149242453}
+  - component: {fileID: 6015766806403488649}
+  - component: {fileID: 4888348775712051221}
+  - component: {fileID: 7720668712684393975}
+  - component: {fileID: 2602794882264074313}
+  - component: {fileID: 9038930653935902974}
+  - component: {fileID: 5337073670899731825}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Player
@@ -11260,7 +11266,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4766854409604859175}
         m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
-        m_MethodName: OnSetAttack
+        m_MethodName: OnInputAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11452,12 +11458,15 @@ MonoBehaviour:
     - Key: 3
       Value: {fileID: 6548592573739144491}
   <Animator>k__BackingField: {fileID: 1379409574410569205}
-  <CC>k__BackingField: {fileID: 7632884530578718145}
-  attackDelay: 5
-  isMove: 1
-  CanAttack: 0
-  IsAttack: 0
-  target: {fileID: 0}
+  <CharacterController>k__BackingField: {fileID: 7632884530578718145}
+  <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
+    type: 2}
+  <PlayerStats>k__BackingField: {fileID: 4433569904149242453}
+  useMove: 1
+  attackRange: 0
+  onTargetInteractEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8282308662441228423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11506,7 +11515,6 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
-  moveSpeed: 5
 --- !u!114 &6348002441938118340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11531,6 +11539,9 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
+  attackTargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &6548592573739144491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11603,7 +11614,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 2, z: 0}
---- !u!114 &993513553613902823
+--- !u!114 &5414295956953434688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11612,7 +11623,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8081401019662844925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a03d77606a8224d8ff51c002f2bfdc, type: 3}
+  m_Script: {fileID: 11500000, guid: b15e4710bbbd84c40a54226355b43d62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4433569904149242453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b9eb58e483610408f67b652283eed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   originalData: {fileID: 11400000, guid: 3b8f33158d8a2504895dd2ac375cb507, type: 2}
@@ -11627,7 +11650,8 @@ MonoBehaviour:
   damegedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5414295956953434688
+  survivalStats: {fileID: 6015766806403488649}
+--- !u!114 &6015766806403488649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11636,9 +11660,79 @@ MonoBehaviour:
   m_GameObject: {fileID: 8081401019662844925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15e4710bbbd84c40a54226355b43d62, type: 3}
+  m_Script: {fileID: 11500000, guid: 621435245462cc0498841320eefa74e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4888348775712051221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df3139f8cb409749a6e0de0ab783f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  survivalStatType: 0
+  maxValue: 10000
+--- !u!114 &7720668712684393975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55612b834bfc95144a4b7def943a6276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  survivalStatType: 1
+  maxValue: 10000
+--- !u!114 &2602794882264074313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7f4af66fe5e384aa85f9cbce67a753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  survivalStatType: 4
+  maxValue: 10000
+--- !u!114 &9038930653935902974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7c84943195a424eaf1f92ce3fd39a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  survivalStatType: 3
+  maxValue: 10000
+--- !u!114 &5337073670899731825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c7c86579cc2c14cbf2687cf065b312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  survivalStatType: 2
+  maxValue: 10000
 --- !u!1 &8107886998491019709
 GameObject:
   m_ObjectHideFlags: 0

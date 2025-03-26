@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
-    [SerializeField]
-    private float moveSpeed;
-
     protected override void Awake()
     {
         base.Awake();
@@ -46,10 +43,10 @@ public class PlayerMoveState : PlayerBaseState
         //// 이동하는 방향으로 캐릭터 회전
         //transform.rotation = Quaternion.LookRotation(moveDir);
 
-        Vector3 dir = new Vector3(direction.x, 0, direction.y) * moveSpeed;
+        Vector3 dir = new Vector3(direction.x, 0, direction.y) * PlayerStats.Speed;
 
         transform.rotation = Quaternion.LookRotation(dir);
 
-        PlayerFSM.CC.Move(dir * Time.deltaTime);
+        PlayerFSM.CharacterController.Move(dir * Time.deltaTime);
     }
 }

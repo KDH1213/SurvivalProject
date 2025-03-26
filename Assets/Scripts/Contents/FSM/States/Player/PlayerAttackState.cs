@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
+    [SerializeField]
+    private LayerMask attackTargetLayerMask;
+
+    private Collider[] attackTargets = new Collider[5];
+
+    private bool isChangeMove = true;
+
     protected override void Awake()
     {
         base.Awake();
@@ -13,37 +20,31 @@ public class PlayerAttackState : PlayerBaseState
     public override void Enter()
     {
         PlayerFSM.SetCanAttack(false);
-
         FindTarget();
 
         playerFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
+        isChangeMove = true;
     }
 
     public override void ExecuteUpdate()
     {
-        if (playerFSM.isMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
+        if (isChangeMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
         {
-            PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
             PlayerFSM.ChangeState(PlayerStateType.Move);
-        }
-
-        if (playerFSM.IsAttack)
-        {
-            playerFSM.ChangeState(PlayerStateType.Attack);
         }
     }
 
     public override void Exit()
     {
-        playerFSM.isMove = true;
+        PlayerFSM.SetCanAttack(true);
+        PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
     }
 
     public void OnEndAttackAnimationPlayer()
     {
         if (playerFSM.CurrentStateType == PlayerStateType.Attack)
         {
-            playerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
-            playerFSM.IsAttack = false;
+            playerFSM.OnEndAttack();
             playerFSM.ChangeState(PlayerStateType.Idle);
         }
     }
@@ -51,7 +52,7 @@ public class PlayerAttackState : PlayerBaseState
     //TODO: Resources/Animation/PlayerAttackAnim 애니메이션 이벤트에 연결
     public void OnAttackPlayer()
     {
-        playerFSM.isMove = false;
+        isChangeMove = false;
 
         if (PlayerFSM.Weapon != null)
         {
@@ -66,24 +67,27 @@ public class PlayerAttackState : PlayerBaseState
             return;
         }
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, PlayerFSM.attackRange);
+        // TODO :: 충돌체크 수정 할 예정
+        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
 
-        foreach (Collider collider in colliders)
+        for (int i = 0; i < index; ++i)
         {
-            if (collider.CompareTag("Monster"))
+            if (attackTargets[i] == null)
             {
-                var target = collider.GetComponent<MonsterFSM>();
-                if (target != null && !target.isDead)
-                {
-                    PlayerFSM.Target = collider.gameObject;
-                    Debug.Log($"Player: {PlayerFSM.Target.name} 발견! 타겟 설정 완료");
-                }
-                else
-                {
-                    Debug.Log("Player: 타겟 설정 불가");
-                }
-                return;
+                break;
             }
+
+            var target = attackTargets[i].GetComponent<MonsterFSM>();
+            if (target != null && !target.isDead)
+            {
+                PlayerFSM.Target = attackTargets[i].gameObject;
+                Debug.Log($"Player: {PlayerFSM.Target.name} 발견! 타겟 설정 완료");
+            }
+            else
+            {
+                Debug.Log("Player: 타겟 설정 불가");
+            }
+            return;
         }
     }
 }

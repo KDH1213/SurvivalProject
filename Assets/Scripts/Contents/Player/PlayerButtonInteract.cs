@@ -11,6 +11,7 @@ public class PlayerButtonInteract : MonoBehaviour
 
     public UnityEvent onAttackEvent;
     public UnityEvent onInteractEvent;
+
     public UnityEvent onDamageEvent;
 
     private void Start()
