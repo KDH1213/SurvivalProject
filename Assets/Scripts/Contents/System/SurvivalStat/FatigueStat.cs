@@ -4,15 +4,49 @@ using UnityEngine;
 
 public class FatigueStat : SurvivalStatBehaviour
 {
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float startPenaltyPersent = 0.7f;
+
+    [SerializeField]
+    private float extraValue = 1.5f;
+    private bool isExtraValue = false;
+
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Fatigue;
     }
     public override void AddPenaltyValue(float value)
     {
-        this.value += value;
+        if(isExtraValue)
+        {
+            this.value += value * extraValue;
+        }
+        else
+        {
+            this.value += value;
+        }
+
+        if (!isOnDebuff && IsActivationCheckPenalty())
+        {
+            OnStartPenalty();
+        }
     }
 
+    public void SubPenaltyValue(float value)
+    {
+        this.value -= value;
+
+        if (isOnDebuff && !IsActivationCheckPenalty())
+        {
+            OnStopPenalty();
+        }
+    }
+
+    protected override bool IsActivationCheckPenalty()
+    {
+        return value > maxValue * startPenaltyPersent;
+    }
 
     public override void OnStartPenalty()
     {
@@ -22,5 +56,14 @@ public class FatigueStat : SurvivalStatBehaviour
     public override void OnStopPenalty()
     {
         base.OnStopPenalty();
+    }
+
+    public void OnStartThirstPenalty()
+    {
+        isExtraValue = true;
+    }
+    public void OnEndThirstPenalty()
+    {
+        isExtraValue = false;
     }
 }

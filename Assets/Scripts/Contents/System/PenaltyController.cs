@@ -6,29 +6,37 @@ public class PenaltyController : MonoBehaviour, IAct
     //[field: SerializeField]
     //public SurvivalStatData SurvivalStatData { get; private set; }
     private SerializedDictionary<SurvivalStatType, IPenalty> penaltyTable = new SerializedDictionary<SurvivalStatType, IPenalty>();
-
-
+    [SerializeField]
+    private PlayerStats playerStats;
 
     private void Awake()
     {
+        playerStats = GetComponent<PlayerStats>();
+
         penaltyTable.Clear();
 
-        var debuffs = GetComponents<IPenalty>();
+        var penaltys = GetComponents<IPenalty>();
 
-        foreach (var debuff in debuffs)
+        foreach (var penalty in penaltys)
         {
-            penaltyTable.Add(debuff.PenaltyType, debuff);
+            penaltyTable.Add(penalty.PenaltyType, penalty);
         }
 
     }
 
-    public float CalculateSpeedPenalty()
+    public float CalculatePenaltySpeed()
     {
-        // if (survivalStatTable[SurvivalStatType.Hunger] < )
-        return 1f;
+        if(penaltyTable[SurvivalStatType.Hunger].IsOnPenalty)
+        {
+            return 0.2f;
+        }
+        else
+        {
+            return 1f;
+        }
     }
 
-    public float CalculateAttackSpeedPenalty()
+    public float CalculatePenaltyAttackSpeed()
     {
         return 1f;
     }
@@ -40,5 +48,13 @@ public class PenaltyController : MonoBehaviour, IAct
         {
             penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
         }
+    }
+
+    public void StartPenaltyHpDown()
+    {
+        var takeDamage = GetComponent<AttackedTakeDamage>();
+        DamageInfo damageInfo = new DamageInfo();
+        damageInfo.damage = playerStats.GetStat(StatType.HP).MaxValue * 0.01f;
+        takeDamage.OnAttack(this.gameObject, damageInfo);
     }
 }

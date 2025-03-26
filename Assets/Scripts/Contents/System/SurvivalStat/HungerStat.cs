@@ -1,18 +1,95 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HungerStat : SurvivalStatBehaviour
 {
+    public UnityEvent onHpPenaltyEvnet;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float startPenaltyPersent = 0.5f;
+
+    [SerializeField]
+    private float valueDownTime = 0.5f;
+    [SerializeField]
+    private float hpDownTime = 5f;
+
+    private bool isHpDown;
+    private float currentTime = 0f;
+
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Hunger;
+        value = maxValue;
     }
-    public override void AddPenaltyValue(float value)
+    private void Update()
     {
-        this.value -= value;
+        currentTime += Time.deltaTime;
+
+        if(isOnDebuff)
+        {
+            if (value <= 0f)
+            {
+                CheckHpDown();
+            }
+            else
+            {
+                CheckValueDown();
+            }
+        }
+        else
+        {
+            CheckValueDown();
+            if (!isOnDebuff && IsActivationCheckPenalty())
+            {
+                OnStartPenalty();
+            }
+        }
     }
 
+    private void CheckValueDown()
+    {
+        if (currentTime >= valueDownTime)
+        {
+            currentTime -= valueDownTime;
+            value -= maxValue * 0.01f;
+        }
+    }
+
+    private void CheckHpDown()
+    {
+        if (currentTime >= hpDownTime)
+        {
+            currentTime -= hpDownTime;
+            onHpPenaltyEvnet?.Invoke();
+        }
+    }
+
+    protected override bool IsActivationCheckPenalty()
+    {
+        return value < maxValue * startPenaltyPersent;
+    }
+
+    public override void AddPenaltyValue(float value)
+    {
+        this.value += value;
+
+        if (!isOnDebuff && IsActivationCheckPenalty())
+        {
+            OnStartPenalty();
+        }
+        else if (isOnDebuff)
+        {
+            isOnDebuff = IsActivationCheckPenalty();
+
+            if(!isOnDebuff)
+            {
+                OnStopPenalty();
+            }
+        }
+    }
 
     public override void OnStartPenalty()
     {

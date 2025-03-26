@@ -21,7 +21,7 @@ public class PlayerStats : CharactorStats
     { 
         get
         {
-            return currentStatTable[StatType.MovementSpeed].Value * survivalStats.CalculateSpeedPenalty();
+            return currentStatTable[StatType.MovementSpeed].Value * survivalStats.CalculatePenaltySpeed();
         }
     }
     public float Hp
@@ -36,7 +36,7 @@ public class PlayerStats : CharactorStats
     {
         get
         {
-            return currentStatTable[StatType.AttackSpeed].Value * survivalStats.CalculateAttackSpeedPenalty();
+            return currentStatTable[StatType.AttackSpeed].Value * survivalStats.CalculatePenaltyAttackSpeed();
         }
     }
 

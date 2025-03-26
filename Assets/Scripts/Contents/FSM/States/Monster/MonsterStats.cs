@@ -4,24 +4,16 @@ using UnityEngine;
 
 public class MonsterStats : CharactorStats
 {
-    [SerializeField]
-    private PenaltyController survivalStats;
-
     protected override void Awake()
     {
         originalData.CopyStat(ref currentStatTable);
-
-        if (survivalStats == null)
-        {
-            survivalStats = GetComponent<PenaltyController>();
-        }
     }
 
     public float Speed
     {
         get
         {
-            return currentStatTable[StatType.MovementSpeed].Value * survivalStats.CalculateSpeedPenalty();
+            return currentStatTable[StatType.MovementSpeed].Value;
         }
     }
     public float Hp
@@ -36,7 +28,7 @@ public class MonsterStats : CharactorStats
     {
         get
         {
-            return currentStatTable[StatType.AttackSpeed].Value * survivalStats.CalculateAttackSpeedPenalty();
+            return currentStatTable[StatType.AttackSpeed].Value;
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
 {
@@ -15,9 +16,17 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
     protected bool isOnDebuff;
     public bool IsOnPenalty { get { return isOnDebuff; } }
 
+    public UnityEvent onStartPenaltyEvent;
+    public UnityEvent onEndPenaltyEvent;
+
     protected virtual void Awake()
     {
         
+    }
+
+    protected virtual bool IsActivationCheckPenalty()
+    {
+        return false;
     }
 
     public float Persent
@@ -35,11 +44,13 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
 
     public virtual void OnStartPenalty()
     {
-        isOnDebuff = true;
-    }
+        isOnDebuff = true; 
+        onStartPenaltyEvent?.Invoke();
+    }                      
 
     public virtual void OnStopPenalty()
     {
-        isOnDebuff= false;
+        isOnDebuff= false; 
+        onEndPenaltyEvent?.Invoke();
     }
 }
