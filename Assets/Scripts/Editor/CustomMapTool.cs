@@ -171,6 +171,7 @@ public class CustomMapTool : EditorWindow
                 isSelect = true;
                 seleteIndex = 0;
                 seleteGameObject = Instantiate(mapToolData.tabGameObjectTable[mapToolData.TabNameList[tabIndex]][i]);
+                seleteIndex = i;
                 var colliders = seleteGameObject.GetComponentsInChildren<Collider>();
 
                 if (SceneView.sceneViews.Count > 0)
