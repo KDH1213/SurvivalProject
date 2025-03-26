@@ -52,6 +52,10 @@ public class MonsterFSM : FSMController<MonsterStateType>
         isAttack = false;
         Speed = Agent.speed;
         aggroRange = 5f;
+    }
+
+    private void Start()
+    {
         animationSpeed = MonsterStats.GetStatValue(StatType.AttackSpeed);
         Debug.Log($"Monster: {animationSpeed}");
     }
