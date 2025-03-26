@@ -5,15 +5,22 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
+using static Cinemachine.CinemachineVirtualCameraBase;
+using DG.Tweening;
 
 public class PlacementCameraSystem : MonoBehaviour
 {
     [SerializeField]
-    public Camera placementCamera;
+    private CinemachineVirtualCamera placementCamera;
     [SerializeField]
-    private Camera currentCamera;
+    private CinemachineVirtualCamera currentCamera;
     [SerializeField]
     private PlacementInput inputManager;
+    [SerializeField]
+    private CinemachineBlendListCamera blendList;
+
+    private CinemachineVirtualCameraBase vCam1;
+    private CinemachineVirtualCameraBase vCam2;
 
     [SerializeField]
     private Vector3 cameraDefaultPosition;
@@ -40,51 +47,54 @@ public class PlacementCameraSystem : MonoBehaviour
 
     private void Start()
     {
-        placementCamera.depth = -1;
         //inputManager = GetComponent<PlacementInput>();
+        blendList.m_Loop = false;
+
+        vCam1 = currentCamera.GetComponent<CinemachineVirtualCameraBase>();
+        vCam2 = placementCamera.GetComponent<CinemachineVirtualCameraBase>();
+
+        blendList.m_Instructions[0].m_VirtualCamera = vCam1;
+        blendList.m_Instructions[1].m_VirtualCamera = vCam1;
+
+        blendList.m_Instructions[1].m_Blend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+        blendList.m_Instructions[1].m_Blend.m_Time = 0.3f;
     }
 
     public void InPlacementCamera()
     {
-        //currentCamera = Camera.current;
-        float depth = placementCamera.depth;
         placementCamera.transform.position = cameraDefaultPosition;
-        placementCamera.transform.rotation = Quaternion.Euler(cameraDefaultRotation);
-        placementCamera.fieldOfView = cameraDefaultFOV;
+        placementCamera.m_Lens.FieldOfView = cameraDefaultFOV;
 
-        placementCamera.depth = 10;
-        currentCamera.depth = -1;
+        blendList.m_Instructions[0].m_VirtualCamera = vCam1;
+        blendList.m_Instructions[1].m_VirtualCamera = vCam2;
     }
 
     public void OutPlacementCamera()
     {
-        float depth = placementCamera.depth;
-        placementCamera.depth = -1;
-        currentCamera.depth = 10;
-
-        placementCamera.transform.position = cameraDefaultPosition;
+        blendList.m_Instructions[0].m_VirtualCamera = vCam2;
+        blendList.m_Instructions[1].m_VirtualCamera = vCam1;
     }
 
     public void OnZoomInAndOut(InputAction.CallbackContext value)
     {
         float axis = value.ReadValue<float>();
         if (axis < 0)
-        {
-            if (placementCamera.fieldOfView <= minZoom)
+        {   
+            if (placementCamera.m_Lens.FieldOfView <= minZoom)
             {
-                placementCamera.fieldOfView = minZoom;
+                placementCamera.m_Lens.FieldOfView = minZoom;
                 return;
             }
-            placementCamera.fieldOfView -= scrollSpeed;
+            placementCamera.m_Lens.FieldOfView -= scrollSpeed;
         }
         else if (axis > 0)
         {
-            if (placementCamera.fieldOfView >= maxZoom)
+            if (placementCamera.m_Lens.FieldOfView >= maxZoom)
             {
-                placementCamera.fieldOfView = maxZoom;
+                placementCamera.m_Lens.FieldOfView = maxZoom;
                 return;
             }
-            placementCamera.fieldOfView += scrollSpeed;
+            placementCamera.m_Lens.FieldOfView += scrollSpeed;
         }
     }
 
@@ -102,17 +112,30 @@ public class PlacementCameraSystem : MonoBehaviour
         {
             return;
         }
-        Vector2 dir = (startClickPos - MousePos).normalized;
-        if (Mathf.Abs(dir.x) < 0.2f)
+
+        if (value.performed)
         {
-            dir.x = 0;
-        }
-        if (Mathf.Abs(dir.y) < 0.2f)
-        {
-            dir.y = 0;
+            if (inputManager.IsObjectSelected)
+            {
+                
+            }
+            else
+            {
+                Vector2 dir = (startClickPos - MousePos).normalized;
+                if (Mathf.Abs(dir.x) < 0.2f)
+                {
+                    dir.x = 0;
+                }
+                if (Mathf.Abs(dir.y) < 0.2f)
+                {
+                    dir.y = 0;
+                }
+
+                placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * moveSpeed * Time.deltaTime;
+            }
         }
         
-        placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * moveSpeed * Time.deltaTime;
+        
         if (value.canceled)
         {
             startClickPos = MousePos;
