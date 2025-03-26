@@ -14,4 +14,12 @@ public class PlacementData
         ID = iD;
         PlaceObjectIndex = placeObjectIndex;
     }
+
+    public void OrderPlaceObjectIndex(int removeIndex)
+    {
+        if(PlaceObjectIndex > removeIndex)
+        {
+            PlaceObjectIndex--;
+        }
+    }
 }

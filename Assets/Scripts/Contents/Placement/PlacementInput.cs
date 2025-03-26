@@ -4,30 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class PlacementInput : MonoBehaviour
 {
     [SerializeField]
     private PlacementCameraSystem cameraSys;
-
     [SerializeField]
-    public Camera PlacementCamera => cameraSys.placementCamera;
+    private PlacementSystem placementSys;
 
     public Vector3 LastPosition { get; private set; }
 
     [SerializeField]
     private LayerMask placementLayermask;
+    [SerializeField]
+    private LayerMask bothLayermask;
 
     public event Action OnClickPlace;
 
     public bool IsPointerOverUi { get; set;}
-        
-
     public bool IsPointerOverMap { get; private set; }
+    public bool IsObjectSelected { get; private set; }
 
     private void Update()
     {
-        Debug.Log(OnClickPlace);
         if (EventSystem.current.IsPointerOverGameObject())
         {
             IsPointerOverUi = true;
@@ -40,25 +40,81 @@ public class PlacementInput : MonoBehaviour
 
     public void SelectedMapPosition(InputAction.CallbackContext value)
     {
-        if (value.phase != InputActionPhase.Started)
+        if (IsPointerOverUi)
         {
             return;
         }
+        if (value.performed)
+        {
+            GameObject hit = GetClickHit()?.gameObject;
+            if (hit == null)
+            {
+                return;
+            }
+            
+            if (value.interaction is HoldInteraction)
+            {
+                if(hit.layer == LayerMask.NameToLayer("Object"))
+                {
+                    IsObjectSelected = true;
+                    Debug.Log("Ãæµ¹!");
+                }
+            }
+
+            else if (value.interaction is PressInteraction)  
+            {
+                
+                if (hit.layer == LayerMask.NameToLayer("Object") )
+                {
+                    PlacementObject placementObject = hit.GetComponent<PlacementObject>();
+                    if(placementObject.IsPlaced)
+                    {
+                        placementSys.SelectStructure(placementObject);
+                    }
+                    else
+                    {
+                        OnClickPlace?.Invoke();
+                    }
+                }
+                else
+                {
+                    OnClickPlace?.Invoke();
+                }
+                
+            }
+            
+        }
+
+        if (value.canceled)
+        {
+            
+            IsObjectSelected = false;
+            Debug.Log("Äµ½½!");
+        }
+    }
+
+    public Collider GetClickHit()
+    {
         Vector3 mousePos = cameraSys.MousePos;
-        mousePos.z = PlacementCamera.nearClipPlane;
-        Ray ray = PlacementCamera.ScreenPointToRay(mousePos);
+        mousePos.z = Camera.main.nearClipPlane;
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, placementLayermask))
         {
-            if(!IsPointerOverUi)
-            {
-                if(placementLayermask == LayerMask.NameToLayer("Object"))
-                {
-
-                }
-                LastPosition = hit.point;
-                OnClickPlace?.Invoke();
-            }
+            LastPosition = hit.point;
+            IsPointerOverMap = true;
         }
+        else
+        {
+            IsPointerOverMap = false;
+        }
+
+        if (Physics.Raycast(ray, out hit, 100f, bothLayermask))
+        {
+            return hit.collider;
+        }
+        return null;
     }
+
+    
 }
