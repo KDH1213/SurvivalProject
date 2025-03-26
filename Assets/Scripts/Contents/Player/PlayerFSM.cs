@@ -24,10 +24,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
     [HideInInspector]
     public GameObject target;
 
-    public static float gravity = -9.81f;
-    [HideInInspector]
-    public Vector3 velocity;
-
     public Vector2 MoveValue { get; private set; }
     public bool IsPlayerInRange { get; private set; }
 

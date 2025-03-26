@@ -51,8 +51,9 @@ public class MonsterIdleState : MonsterBaseState
         {
             if (collider.CompareTag("Player"))
             {
-                MonsterFSM.Target = collider.transform;
-                Debug.Log($"Monster: {collider.name} 발견! 타겟 설정 완료");
+                MonsterFSM.Target = collider.gameObject;
+                MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
+                Debug.Log($"Monster: {MonsterFSM.Target.name} 발견! 타겟 설정 완료");
                 ChangeChaseState(); // 타겟을 찾으면 바로 추적 여부 결정
                 return;
             }
@@ -66,7 +67,7 @@ public class MonsterIdleState : MonsterBaseState
             return;
         }
 
-        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.Target.position);
+        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
         // 플레이어를 발견하면 추적 시작
         if (!MonsterFSM.isChase && MonsterFSM.TargetDistance < MonsterFSM.aggroRange)
