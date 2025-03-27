@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,4 +17,6 @@ public class PlacementObjectInfo
     public Vector2Int Size { get; private set; } = Vector2Int.one;
     [field: SerializeField]
     public GameObject Prefeb { get; private set; }
+    [field: SerializedDictionary("Kinds", "Count")]
+    public Dictionary<string, int> Bulid { get; private set; }
 }

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PreviewObject : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PreviewObject : MonoBehaviour
     private PlacementInput inputManager;
     [SerializeField]
     private GameObject placementUI;
+    [SerializeField]
+    private GameObject distroyButton;
 
     [SerializeField]
     private float previewYOffset = 0.06f;
@@ -37,10 +40,17 @@ public class PreviewObject : MonoBehaviour
 
         
     }
-    public void StartShowingPlacementPreview(GameObject prefeb)
+    public void StartShowingPlacementPreview(GameObject prefeb, PlacementObject obj = null)
     {
         previewObject = Instantiate(prefeb);
-        PlacePreview();
+        if (obj != null)
+        {
+            PlacePreview2(obj.Position);
+        }
+        else
+        {
+            PlacePreview();
+        }
         PreparePreview(previewObject);
         placementUI.SetActive(true);
         IsPreview = true;
@@ -66,7 +76,18 @@ public class PreviewObject : MonoBehaviour
         Destroy(previewObject);
         IsPreview = false;
         placementUI.SetActive(false);
+        distroyButton.SetActive(false);
         inputManager.OnClickPlace -= PlacePreview;
+    }
+
+    public void StopShowingPreviewToButton()
+    {
+        if (placementSystem.SelectedObject != null)
+        {
+            placementSystem.SelectedObject.transform.parent.gameObject.SetActive(true);
+            placementSystem.SelectedObject = null;
+        }
+        StopShowingPreview();
     }
 
     public void UpdatePosition(Vector3 position, bool validity)
@@ -89,16 +110,21 @@ public class PreviewObject : MonoBehaviour
 
     private void PlacePreview()
     {
-        if (inputManager.IsPointerOverUi)
-        {
-            return;
-        }
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = placementSystem.GetGrid.WorldToCell(mousePosition);
 
         bool placementValidity = placementSystem.CheckPlacementValidity(gridPosition, placementSystem.SelectedObjectIndex);
 
         UpdatePosition(placementSystem.GetGrid.CellToWorld(gridPosition), placementValidity);
+    }
+
+    private void PlacePreview2(Vector3Int gridPosition)
+    {
+
+        bool placementValidity = placementSystem.CheckPlacementValidity(gridPosition, placementSystem.SelectedObjectIndex);
+        distroyButton.SetActive(true);
+        UpdatePosition(placementSystem.GetGrid.CellToWorld(gridPosition), placementValidity);
+        inputManager.SetLastPos(placementSystem.GetGrid.CellToWorld(gridPosition));
     }
 
 }

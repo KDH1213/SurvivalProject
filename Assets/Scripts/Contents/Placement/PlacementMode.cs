@@ -14,7 +14,6 @@ public class PlacementMode : MonoBehaviour
 
     private void Start()
     {
-        OutPlacementMode();
     }
     public void SetPlacementMode()
     {

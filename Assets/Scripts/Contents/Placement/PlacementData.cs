@@ -8,10 +8,10 @@ public class PlacementData
     public int ID { get; private set; }
     public int PlaceObjectIndex { get; private set; }
 
-    public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placeObjectIndex)
+    public PlacementData(List<Vector3Int> occupiedPositions, int ID, int placeObjectIndex)
     {
         this.occupiedPositions = occupiedPositions;
-        ID = iD;
+        this.ID = ID;
         PlaceObjectIndex = placeObjectIndex;
     }
 
