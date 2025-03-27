@@ -40,10 +40,6 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
 
     public bool IsInteractable => IsDead;
 
-    protected float curHealth; //* 현재 체력
-    public float maxHealth; //* 최대 체력
-    protected MonsterStats MonsterStats { get; private set; }
-
     protected override void Awake()
     {
         CanAttack = true;
@@ -53,7 +49,6 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
         IsDead = false;
         CanRouting = false;
         aggroRange = 5f;
-        MonsterStats = GetComponent<MonsterStats>();
     }
 
     private void Update()

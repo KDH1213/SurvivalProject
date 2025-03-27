@@ -41,11 +41,8 @@ public class PlayerFSM : FSMController<PlayerStateType>
 
     public UnityEvent<GameObject> onTargetInteractEvent;
 
-    protected PlayerStats PlayerStats { get; private set; }
-
     protected override void Awake()
     {
-        PlayerStats = GetComponent<PlayerStats>();
 
         SetCanAttack(true);
         OnSetUseMove(true);
