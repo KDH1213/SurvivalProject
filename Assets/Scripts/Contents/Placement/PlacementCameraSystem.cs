@@ -45,7 +45,7 @@ public class PlacementCameraSystem : MonoBehaviour
 
     public bool IsDrag { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         //inputManager = GetComponent<PlacementInput>();
         blendList.m_Loop = false;
@@ -53,11 +53,11 @@ public class PlacementCameraSystem : MonoBehaviour
         vCam1 = currentCamera.GetComponent<CinemachineVirtualCameraBase>();
         vCam2 = placementCamera.GetComponent<CinemachineVirtualCameraBase>();
 
-        blendList.m_Instructions[0].m_VirtualCamera = vCam1;
-        blendList.m_Instructions[1].m_VirtualCamera = vCam1;
+        //blendList.m_Instructions[0].m_VirtualCamera = vCam1;
+        //blendList.m_Instructions[1].m_VirtualCamera = vCam1;
 
-        blendList.m_Instructions[1].m_Blend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
-        blendList.m_Instructions[1].m_Blend.m_Time = 0.3f;
+        //blendList.m_Instructions[1].m_Blend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+        //blendList.m_Instructions[1].m_Blend.m_Time = 0.3f;
     }
 
     public void InPlacementCamera()

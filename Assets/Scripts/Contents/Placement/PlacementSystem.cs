@@ -28,7 +28,7 @@ public class PlacementSystem : MonoBehaviour
     private GridData gridData;
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
-    private void Start()
+    private void Awake()
     {
         SelectedObjectIndex = -1;
         //inputManager = GetComponent<PlacementInput>();
