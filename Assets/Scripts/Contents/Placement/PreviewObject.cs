@@ -31,7 +31,7 @@ public class PreviewObject : MonoBehaviour
     {
         if (IsPreview)
         {
-            placementUI.transform.position = inputManager.PlacementCamera.
+            placementUI.transform.position = Camera.main.
                 WorldToScreenPoint(previewObject.transform.GetChild(0).position);
         }
 
@@ -40,6 +40,7 @@ public class PreviewObject : MonoBehaviour
     public void StartShowingPlacementPreview(GameObject prefeb)
     {
         previewObject = Instantiate(prefeb);
+        PlacePreview();
         PreparePreview(previewObject);
         placementUI.SetActive(true);
         IsPreview = true;
