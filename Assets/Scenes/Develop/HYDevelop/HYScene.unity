@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 36269503}
   - component: {fileID: 36269502}
   - component: {fileID: 36269501}
+  - component: {fileID: 36269505}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -484,6 +485,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &36269505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36269499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 6d6ee56dea9a49147915d9d56f448f68, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &123024077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,6 +1550,16 @@ PrefabInstance:
       propertyPath: button
       value: 
       objectReference: {fileID: 19059405}
+    - target: {fileID: 3264490063815481508, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_WalkableMask
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264490063815481508, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5272701081804789719, guid: da2414e75410d674081bbb43c436c19d,
         type: 3}
       propertyPath: m_Name
@@ -1572,6 +1614,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401640744121606736, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2087,7 +2134,7 @@ GameObject:
   - component: {fileID: 1564316195}
   - component: {fileID: 1564316194}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Maps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
@@ -2497,6 +2544,16 @@ PrefabInstance:
       propertyPath: button
       value: 
       objectReference: {fileID: 19059405}
+    - target: {fileID: 3264490063815481508, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_WalkableMask
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264490063815481508, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5272701081804789719, guid: da2414e75410d674081bbb43c436c19d,
         type: 3}
       propertyPath: m_Name
@@ -2551,6 +2608,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401640744121606736, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

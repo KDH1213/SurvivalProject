@@ -11558,7 +11558,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8081401019662844925}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -11648,6 +11648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621435245462cc0498841320eefa74e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStats: {fileID: 0}
 --- !u!114 &4888348775712051221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11662,6 +11663,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   survivalStatType: 0
   maxValue: 10000
+  onStartPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  startPenaltyPersent: 0.7
+  extraValue: 1.5
 --- !u!114 &7720668712684393975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11676,6 +11685,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   survivalStatType: 1
   maxValue: 10000
+  onStartPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onHpPenaltyEvnet:
+    m_PersistentCalls:
+      m_Calls: []
+  startPenaltyPersent: 0.5
+  valueDownTime: 0.5
+  hpDownTime: 5
 --- !u!114 &2602794882264074313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11690,6 +11711,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   survivalStatType: 4
   maxValue: 10000
+  onStartPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &9038930653935902974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11704,6 +11731,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   survivalStatType: 3
   maxValue: 10000
+  onStartPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5337073670899731825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11718,6 +11751,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   survivalStatType: 2
   maxValue: 10000
+  onStartPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  startPenaltyPersent: 0.5
+  valueDownTime: 0.5
 --- !u!1 &8107886998491019709
 GameObject:
   m_ObjectHideFlags: 0
