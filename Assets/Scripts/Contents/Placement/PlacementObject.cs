@@ -6,4 +6,5 @@ public class PlacementObject : MonoBehaviour
 {
     public bool IsPlaced { get; set; }
     public PlacementData PlacementData { get; set; }
+    public Vector3Int Position { get; set; }
 }

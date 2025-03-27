@@ -24,10 +24,10 @@ public class GridData
         }
     }
 
-    public int RemoveObjectAt(Vector3Int gridPosition)
+    public int RemoveObjectAt(PlacementObject obj)
     {
-        int placeObjectIndex = placedObject[gridPosition].PlacementData.PlaceObjectIndex;
-        int id = placedObject[gridPosition].PlacementData.ID;
+        int placeObjectIndex = obj.PlacementData.PlaceObjectIndex;
+        int id = obj.PlacementData.ID;
         var objList = placedObject.Where(v => v.Value.PlacementData.PlaceObjectIndex == placeObjectIndex).ToList();
         foreach (var item in objList)
         {

@@ -38,7 +38,7 @@ public class PlacementInput : MonoBehaviour
         }
     }
 
-    public void SelectedMapPosition(InputAction.CallbackContext value)
+    public void OnInputClick(InputAction.CallbackContext value)
     {
         if (IsPointerOverUi || cameraSys.IsDrag)
         {
@@ -54,33 +54,21 @@ public class PlacementInput : MonoBehaviour
             
             if (value.interaction is HoldInteraction)
             {
-                if(hit.layer == LayerMask.NameToLayer("Object"))
+                PlacementObject placementObject = hit.GetComponent<PlacementObject>();
+                if (hit.layer == LayerMask.NameToLayer("Object") && placementObject.IsPlaced)
                 {
                     IsObjectSelected = true;
                     Debug.Log("Ãæµ¹!");
+                }
+                else
+                {
+
                 }
             }
 
             else if (value.interaction is PressInteraction)  
             {
-                
-                if (hit.layer == LayerMask.NameToLayer("Object") )
-                {
-                    PlacementObject placementObject = hit.GetComponent<PlacementObject>();
-                    if(placementObject.IsPlaced)
-                    {
-                        placementSys.SelectStructure(placementObject);
-                    }
-                    else
-                    {
-                        OnClickPlace?.Invoke();
-                    }
-                }
-                else
-                {
-                    OnClickPlace?.Invoke();
-                }
-                
+                CheckPressHit(hit);
             }
             
         }
@@ -116,5 +104,28 @@ public class PlacementInput : MonoBehaviour
         return null;
     }
 
-    
+    private void CheckPressHit(GameObject hit)
+    {
+        if (hit.layer == LayerMask.NameToLayer("Object"))
+        {
+            PlacementObject placementObject = hit.GetComponent<PlacementObject>();
+            if (placementObject.IsPlaced && placementSys.SelectStructure(placementObject))
+            {
+
+            }
+            else
+            {
+                OnClickPlace?.Invoke();
+            }
+        }
+        else
+        {
+            OnClickPlace?.Invoke();
+        }
+    }
+
+    public void SetLastPos(Vector3 pos)
+    {
+        LastPosition = pos;
+    }
 }
