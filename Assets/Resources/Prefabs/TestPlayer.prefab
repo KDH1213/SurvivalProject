@@ -11648,7 +11648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621435245462cc0498841320eefa74e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStats: {fileID: 0}
+  playerStats: {fileID: 4433569904149242453}
 --- !u!114 &4888348775712051221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11693,7 +11693,19 @@ MonoBehaviour:
       m_Calls: []
   onHpPenaltyEvnet:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6015766806403488649}
+        m_TargetAssemblyTypeName: PenaltyController, Assembly-CSharp
+        m_MethodName: OnStartPenaltyHpDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   startPenaltyPersent: 0.5
   valueDownTime: 0.5
   hpDownTime: 5
@@ -11753,10 +11765,34 @@ MonoBehaviour:
   maxValue: 10000
   onStartPenaltyEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4888348775712051221}
+        m_TargetAssemblyTypeName: FatigueStat, Assembly-CSharp
+        m_MethodName: OnStartThirstPenalty
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onEndPenaltyEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4888348775712051221}
+        m_TargetAssemblyTypeName: FatigueStat, Assembly-CSharp
+        m_MethodName: OnEndThirstPenalty
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   startPenaltyPersent: 0.5
   valueDownTime: 0.5
 --- !u!1 &8107886998491019709
