@@ -40,6 +40,12 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
 
     public bool IsInteractable => IsDead;
 
+    protected float curHealth; //* 현재 체력
+    public float maxHealth; //* 최대 체력
+    protected MonsterStats MonsterStats { get; private set; }
+
+    public Slider HpBarSlider;
+
     protected override void Awake()
     {
         CanAttack = true;
@@ -48,12 +54,14 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
         IsAttack = false;
         IsDead = false;
         CanRouting = false;
-        aggroRange = 5f; 
+        aggroRange = 5f;
+        MonsterStats = GetComponent<MonsterStats>();
     }
 
     private void Start()
     {
-
+        SetHp(MonsterStats.Hp);
+        //HpBarSlider.transform.SetP
     }
 
     private void Update()
@@ -99,5 +107,19 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
     public void OnButtonOff()
     {
         button.gameObject.SetActive(false);
+    }
+
+    public void SetHp(float amount)
+    {
+        maxHealth = amount;
+        curHealth = maxHealth;
+    }
+
+    public void CheckHp() //*HP 갱신
+    {
+        if (HpBarSlider != null)
+        {
+            HpBarSlider.value = MonsterStats.Hp / maxHealth;
+        }
     }
 }

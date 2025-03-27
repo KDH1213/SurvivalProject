@@ -759,6 +759,9 @@ MonoBehaviour:
   <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
     type: 2}
   aggroRange: 0
+  maxHealth: 0
+  HpBarSlider: {fileID: 9125057790489592195, guid: fa529e77d0352ca4485a1c475582cabf,
+    type: 3}
 --- !u!195 &3264490063815481508
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -950,6 +953,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats: {fileID: 0}
+  speedDownPersent: 0.2
+  penaltyAttackSpeedPersent: 0.5
 --- !u!114 &4201301101808922029
 MonoBehaviour:
   m_ObjectHideFlags: 0

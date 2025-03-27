@@ -18,8 +18,9 @@ public class MonsterAttackState : MonsterBaseState
         animationSpeed = MonsterStats.AttackSpeed;
         MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
         MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
+        MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
 
-        // StartCoroutine(CoAttack());
+        StartCoroutine(CoAttack());
         MonsterFSM.Agent.isStopped = true;
         MonsterFSM.Agent.destination = transform.position;
     }
