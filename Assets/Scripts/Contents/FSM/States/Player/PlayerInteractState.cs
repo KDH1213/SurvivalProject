@@ -15,18 +15,13 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        playerFSM.OnSetUseMove(false);
         Debug.Log("CurrentState is Interact!");
         InteractObject();
+        playerFSM.ChangeState(PlayerStateType.Idle);
     }
 
     public override void ExecuteUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            playerFSM.OnSetUseMove(true);
-            playerFSM.ChangeState(PlayerStateType.Idle);
-        }
     }
 
     public override void Exit()
@@ -38,7 +33,9 @@ public class PlayerInteractState : PlayerBaseState
     {
         if(target != null)
         {
-            Debug.Log($"Player: Interact {target.name}");
+            // Debug.Log($"Player: Interact {target.name}");
+            Destroy(target);
+            target = null;
         }
 
     }
