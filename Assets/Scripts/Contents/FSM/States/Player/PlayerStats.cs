@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : CharactorStats
 {
     [SerializeField]
     private PenaltyController survivalStats;
+
+    [SerializeField]
+    private Slider HpBarSlider;
 
     protected override void Awake()
     {
@@ -15,6 +19,8 @@ public class PlayerStats : CharactorStats
         {
             survivalStats = GetComponent<PenaltyController>();
         }
+
+        OnChangeHp();
     }
 
     public float Speed 
@@ -62,5 +68,9 @@ public class PlayerStats : CharactorStats
         {
             statValue.AddValue(addValue);
         }
+    }
+    public void OnChangeHp() //*HP °»½Å
+    {
+        HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
     }
 }
