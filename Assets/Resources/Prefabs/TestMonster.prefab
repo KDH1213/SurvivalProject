@@ -1120,19 +1120,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8295998177603992672}
-    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7495051758863414188}
     - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3860606311451637396}
-    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4167969524516398043}
     - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
         type: 3}
       insertIndex: -1
@@ -1189,7 +1181,6 @@ MonoBehaviour:
     type: 2}
   aggroRange: 0
   maxHealth: 0
-  HpBarSlider: {fileID: 6750114622735462183}
 --- !u!195 &3264490063815481508
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1308,30 +1299,6 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8295998177603992672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5272701081804789719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a03d77606a8224d8ff51c002f2bfdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originalData: {fileID: 11400000, guid: 91ecb9b22c50d7340a8626b2e5ac47c6, type: 2}
-  currentStatTable:
-    _serializedList: []
-  hitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  damegedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7495051758863414188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,22 +1334,20 @@ MonoBehaviour:
       m_Calls: []
   damegedEvent:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4167969524516398043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5272701081804789719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621435245462cc0498841320eefa74e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerStats: {fileID: 0}
-  speedDownPersent: 0.2
-  penaltyAttackSpeedPersent: 0.5
+      m_Calls:
+      - m_Target: {fileID: 3860606311451637396}
+        m_TargetAssemblyTypeName: MonsterStats, Assembly-CSharp
+        m_MethodName: OnChangeHp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  HpBarSlider: {fileID: 6750114622735462183}
 --- !u!114 &4201301101808922029
 MonoBehaviour:
   m_ObjectHideFlags: 0
