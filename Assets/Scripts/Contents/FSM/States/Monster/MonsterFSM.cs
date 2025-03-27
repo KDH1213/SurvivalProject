@@ -67,6 +67,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
     private void Update()
     {
         StateTable[currentStateType].ExecuteUpdate();
+        CheckHp();
     }
 
     public void SetCanAttack(bool value)

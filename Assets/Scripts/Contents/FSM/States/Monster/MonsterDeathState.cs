@@ -13,7 +13,7 @@ public class MonsterDeathState : MonsterBaseState
     public override void Enter()
     {
         // TODO :: 현재 체력 0이 되면 오브젝트 삭제
-        // Destroy(gameObject);
+        Destroy(gameObject);
     }
 
     public override void ExecuteUpdate()
