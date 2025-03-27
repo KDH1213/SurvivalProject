@@ -12,6 +12,8 @@ public class PreviewObject : MonoBehaviour
     private PlacementInput inputManager;
     [SerializeField]
     private GameObject placementUI;
+    [SerializeField]
+    private GameObject distroyButton;
 
     [SerializeField]
     private float previewYOffset = 0.06f;
@@ -71,10 +73,10 @@ public class PreviewObject : MonoBehaviour
 
     public void StopShowingPreview()
     {
-        
         Destroy(previewObject);
         IsPreview = false;
         placementUI.SetActive(false);
+        distroyButton.SetActive(false);
         inputManager.OnClickPlace -= PlacePreview;
     }
 
@@ -120,7 +122,7 @@ public class PreviewObject : MonoBehaviour
     {
 
         bool placementValidity = placementSystem.CheckPlacementValidity(gridPosition, placementSystem.SelectedObjectIndex);
-
+        distroyButton.SetActive(true);
         UpdatePosition(placementSystem.GetGrid.CellToWorld(gridPosition), placementValidity);
         inputManager.SetLastPos(placementSystem.GetGrid.CellToWorld(gridPosition));
     }

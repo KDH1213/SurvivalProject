@@ -55,7 +55,7 @@ public class PlacementInput : MonoBehaviour
             if (value.interaction is HoldInteraction)
             {
                 PlacementObject placementObject = hit.GetComponent<PlacementObject>();
-                if (hit.layer == LayerMask.NameToLayer("Object") && placementObject.IsPlaced)
+                if (hit.layer == LayerMask.NameToLayer("Object"))
                 {
                     IsObjectSelected = true;
                     Debug.Log("Ãæµ¹!");
@@ -83,6 +83,10 @@ public class PlacementInput : MonoBehaviour
 
     public Collider GetClickHit()
     {
+        if(IsPointerOverUi)
+        {
+            return null;
+        }
         Vector3 mousePos = cameraSys.MousePos;
         mousePos.z = Camera.main.nearClipPlane;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
@@ -106,6 +110,7 @@ public class PlacementInput : MonoBehaviour
 
     private void CheckPressHit(GameObject hit)
     {
+
         if (hit.layer == LayerMask.NameToLayer("Object"))
         {
             PlacementObject placementObject = hit.GetComponent<PlacementObject>();

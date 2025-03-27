@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlacementSystem : MonoBehaviour
     private PreviewObject preview;
     [SerializeField]
     private Grid grid;
+    
 
     [SerializeField]
     private PlacementObjectList database;
@@ -38,37 +40,22 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        if (!inputManager.IsObjectSelected)
+        if (inputManager.IsPointerOverUi)
         {
             return;
         }
-        // 현재 클릭시 invoke되는 부분과 겹쳐 수정 필요
-        if (SelectedObjectIndex < 0)
+        if (preview.IsPreview && inputManager.IsObjectSelected)
         {
-            return;
-        }
-        PlacementObject hit = inputManager.GetClickHit()?.gameObject.GetComponent<PlacementObject>();
-        /*if(hit == null || hit.IsPlaced)
-        {
-            return;
-        }*/
-        Vector3 mousePosition = inputManager.LastPosition;
-        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+            PlacementObject hit = inputManager.GetClickHit()?.gameObject.GetComponent<PlacementObject>();
+            
+            Vector3 mousePosition = inputManager.LastPosition;
+            Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
-        if (preview.IsPreview)
-        {
-            if (lastDetectedPosition != gridPosition)
-            {
-                bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
-                preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
-                lastDetectedPosition = gridPosition;
-            }
+        
+            bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
+            preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
+            lastDetectedPosition = gridPosition;
         }
-        else
-        {
-
-        }
-
 
     }
 
@@ -156,8 +143,14 @@ public class PlacementSystem : MonoBehaviour
         }
         SelectedObject = obj;
         SelectedObject.transform.parent.gameObject.SetActive(false);
+        
         StartPlacement(id, obj);
         return true;
     }
 
+    public void DestoryStructure()
+    {
+        Destroy(SelectedObject.transform.parent.gameObject);
+        preview.StopShowingPreview();
+    }
 }
