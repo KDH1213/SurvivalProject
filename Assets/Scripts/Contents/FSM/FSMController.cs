@@ -13,7 +13,8 @@ public class FSMController<T> : MonoBehaviour
     protected T previousStateType;
     public T PreviousStateType { get { return previousStateType; } }
 
-    [SerializedDictionary("StateType", "State"), SerializeField] protected SerializedDictionary<T, BaseState<T>> stateTable = new SerializedDictionary<T, BaseState<T>>();
+    [SerializedDictionary("StateType", "State"), SerializeField] 
+    protected SerializedDictionary<T, BaseState<T>> stateTable = new SerializedDictionary<T, BaseState<T>>();
     public SerializedDictionary<T, BaseState<T>> StateTable { get { return stateTable; } }
 
     protected virtual void Awake()
@@ -27,9 +28,11 @@ public class FSMController<T> : MonoBehaviour
 
     public void ChangeState(T stateType)
     {
-        if (currentStateType.GetHashCode() == stateType.GetHashCode() 
-            || !stateTable.ContainsKey(stateType))
+        if (!stateTable.ContainsKey(stateType))
+        {
+            Debug.LogError($"None Key : {stateType.ToString()}");
             return;
+        }
 
         previousStateType = currentStateType;
         currentStateType = stateType;

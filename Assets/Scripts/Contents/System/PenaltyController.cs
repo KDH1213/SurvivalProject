@@ -9,6 +9,13 @@ public class PenaltyController : MonoBehaviour, IAct
     [SerializeField]
     private PlayerStats playerStats;
 
+    // TODO :: 패널티 수치 데이터 테이블 나오면 수정
+    [SerializeField]
+    private float speedDownPersent = 0.2f;
+    [SerializeField]
+    private float penaltyAttackSpeedPersent = 0.5f;
+
+
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
@@ -26,9 +33,9 @@ public class PenaltyController : MonoBehaviour, IAct
 
     public float CalculatePenaltySpeed()
     {
-        if(penaltyTable[SurvivalStatType.Hunger].IsOnPenalty)
+        if (penaltyTable[SurvivalStatType.Hunger].IsOnPenalty)
         {
-            return 0.2f;
+            return speedDownPersent;
         }
         else
         {
@@ -38,7 +45,14 @@ public class PenaltyController : MonoBehaviour, IAct
 
     public float CalculatePenaltyAttackSpeed()
     {
-        return 1f;
+        if (penaltyTable[SurvivalStatType.Fatigue].IsOnPenalty)
+        {
+            return penaltyAttackSpeedPersent;
+        }
+        else
+        {
+            return 1f;
+        }
     }
 
     public void PlayAct(int id)
@@ -50,11 +64,13 @@ public class PenaltyController : MonoBehaviour, IAct
         }
     }
 
-    public void StartPenaltyHpDown()
+    // TODO ::Hunger컴포넌트에 연결
+    public void OnStartPenaltyHpDown()
     {
         var takeDamage = GetComponent<AttackedTakeDamage>();
         DamageInfo damageInfo = new DamageInfo();
         damageInfo.damage = playerStats.GetStat(StatType.HP).MaxValue * 0.01f;
         takeDamage.OnAttack(this.gameObject, damageInfo);
     }
+
 }

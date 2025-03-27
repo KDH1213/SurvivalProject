@@ -8,18 +8,12 @@ public class MonsterDeathState : MonsterBaseState
     {
         base.Awake();
         stateType = MonsterStateType.Death;
-        
     }
 
     public override void Enter()
     {
-
-        Debug.Log("Monster: Daath State!!");
-        Debug.Log($"Monster: {MonsterFSM.IsDead}");
-
-        int layer = LayerMask.NameToLayer("Interactable");
-
-        ChangeLayerRecursively(gameObject, layer);
+        // TODO :: 현재 체력 0이 되면 오브젝트 삭제
+        // Destroy(gameObject);
     }
 
     public override void ExecuteUpdate()
@@ -29,20 +23,5 @@ public class MonsterDeathState : MonsterBaseState
     public override void Exit()
     {
 
-    }
-
-    private void Destroy()
-    {
-        Destroy(gameObject);
-    }
-
-    private void ChangeLayerRecursively(GameObject obj, int layer)
-    {
-        obj.layer = layer;
-
-        foreach (Transform child in obj.transform)
-        {
-            ChangeLayerRecursively(child.gameObject, layer);
-        }
     }
 }

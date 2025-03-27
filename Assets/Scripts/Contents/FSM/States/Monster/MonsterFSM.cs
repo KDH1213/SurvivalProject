@@ -42,7 +42,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
 
     protected override void Awake()
     {
-        CanAttack = false;
+        CanAttack = true;
         IsChase = false;
         IsPlayerInRange = false;
         IsAttack = false;
@@ -53,6 +53,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
 
     private void Start()
     {
+
     }
 
     private void Update()
