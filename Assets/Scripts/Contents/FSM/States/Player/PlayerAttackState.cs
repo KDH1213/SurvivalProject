@@ -66,6 +66,8 @@ public class PlayerAttackState : PlayerBaseState
 
     private void FindTarget()
     {
+        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
+        
         foreach(var attackTargets in PlayerFSM.AttackTargets)
         {
             if(attackTargets != null)
@@ -78,7 +80,6 @@ public class PlayerAttackState : PlayerBaseState
             }
         }
 
-        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
         
         // TODO :: 단일 타겟에서 다중 타겟으로 수정
 

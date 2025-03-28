@@ -15,7 +15,7 @@ public class MonsterChaseState : MonsterBaseState
     {
         Debug.Log("Monster: ChaseState!!");
 
-        if (MonsterFSM.Animator == null)
+        if (MonsterFSM.Animator != null)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
         }
