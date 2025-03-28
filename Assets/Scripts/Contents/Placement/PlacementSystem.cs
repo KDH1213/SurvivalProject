@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -13,6 +16,8 @@ public class PlacementSystem : MonoBehaviour
     private PreviewObject preview;
     [SerializeField]
     private Grid grid;
+    [SerializeField]
+    private GameObject Objectcontents;
     
 
     [SerializeField]
@@ -122,6 +127,7 @@ public class PlacementSystem : MonoBehaviour
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, placementObject);
+        OnSetObjectListUi(placementObject.PlacementData.ID);
         //preview.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, SelectedObjectIndex));
         preview.StopShowingPreview();
     }
@@ -151,6 +157,7 @@ public class PlacementSystem : MonoBehaviour
 
     public void DestoryStructure()
     {
+        OnSetObjectListUi(SelectedObject.PlacementData.ID);
         Destroy(SelectedObject.transform.parent.gameObject);
         preview.StopShowingPreview();
     }
@@ -163,5 +170,22 @@ public class PlacementSystem : MonoBehaviour
         gridData.AddObjectAt(obj.Position, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, obj);
+    }
+
+    public void OnSetObjectListUi(int ID)
+    {
+        int index = database.objects.FindIndex(data => data.ID == ID);
+        GameObject obj = Objectcontents.transform.GetChild(ID).gameObject;
+        int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
+        int maxCount = database.objects[index].MaxBuildCount;
+        if (currentCount >= maxCount)
+        {
+            obj.SetActive(false);
+        }
+        else
+        {
+            obj.SetActive(true);
+        }
+        obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
     }
 }
