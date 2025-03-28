@@ -55,33 +55,33 @@ public class PlayerAttackState : PlayerBaseState
     {
         isChangeMove = false;
 
-        if (PlayerFSM.Weapon != null)
+        foreach(var attackTargets in PlayerFSM.AttackTargets)
         {
-            PlayerFSM.Weapon.Execute(gameObject, PlayerFSM.Target);
+            if(PlayerFSM.Weapon != null)
+            {
+                PlayerFSM.Weapon.Execute(gameObject, attackTargets);
+            }
         }
     }
 
     private void FindTarget()
     {
-        if (PlayerFSM.Target != null)
+        foreach(var attackTargets in PlayerFSM.AttackTargets)
         {
-            MonsterFSM currentTarget = PlayerFSM.Target.GetComponent<MonsterFSM>();
-            if (currentTarget == null || currentTarget.IsDead)
+            if(attackTargets != null)
             {
-                Debug.Log($"Player: {PlayerFSM.Target.name} 사망! 타겟 해제");
-                PlayerFSM.Target = null;
-            }
-            else
-            {
-                return;
+                MonsterFSM currentTarget = attackTargets.GetComponent<MonsterFSM>();
+                if(currentTarget == null || currentTarget.IsDead)
+                {
+                    PlayerFSM.AttackTargets.Remove(attackTargets);
+                }
             }
         }
 
-        // TODO :: 충돌체크 수정 할 예정
         int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
+        
+        // TODO :: 단일 타겟에서 다중 타겟으로 수정
 
-        float closestDistance = float.MaxValue;
-        GameObject closestTarget = null;
         Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
 
         for (int i = 0; i < index; ++i)
@@ -98,27 +98,12 @@ public class PlayerAttackState : PlayerBaseState
             }
 
             Vector3 directionToTarget = (attackTargets[i].transform.position - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, attackTargets[i].transform.position);
 
             // 전방 90도(±45도) 범위 안에 있는지 확인
             if (Vector3.Dot(forward, directionToTarget) > Mathf.Cos(Mathf.Deg2Rad * 45))
             {
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestTarget = attackTargets[i].gameObject;
-                }
+                PlayerFSM.AttackTargets.Add(attackTargets[i].gameObject);
             }
-        }
-
-        if (closestTarget != null)
-        {
-            PlayerFSM.Target = closestTarget;
-            Debug.Log($"Player: {PlayerFSM.Target.name} 발견! 가장 가까운 타겟 설정 완료");
-        }
-        else
-        {
-            Debug.Log("Player: 타겟을 찾지 못함");
         }
     }
 }
