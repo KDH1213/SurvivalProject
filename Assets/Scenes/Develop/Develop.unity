@@ -2988,6 +2988,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7ff97989134f9746bca0dd83f49696a, type: 3}
+--- !u!114 &1854465624 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7720668712684393975, guid: 226405ed50c9e3f41844037cac5bab94,
+    type: 3}
+  m_PrefabInstance: {fileID: 2030048881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55612b834bfc95144a4b7def943a6276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1892892703 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7965367271814370171, guid: e7bdb1fa455f36d4dad0ecf082f77622,
@@ -4344,6 +4356,51 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1648030111}
     m_Modifications:
+    - target: {fileID: 1753522446462062234, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_text
+      value: eating food
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1854465624}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddPenaltyValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HungerStat, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463002297453235438, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3963974705388044386, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
