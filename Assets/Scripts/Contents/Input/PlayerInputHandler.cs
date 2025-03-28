@@ -15,6 +15,17 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent onInteractEvent;
     public UnityEvent<Vector2> onMoveAndRotateEvent;
 
+    [SerializeField]
+    private GameObject joyStick;
+
+    private void Awake()
+    {
+        if (!IsMoveUI())
+        {
+            GameObject newJoystick = Instantiate(joyStick);
+        }
+    }
+
     private void Start()
     {
         playerFSM = GetComponent<PlayerFSM>();
@@ -61,5 +72,17 @@ public class PlayerInputHandler : MonoBehaviour
         {
 
         }
+    }
+
+    private bool IsMoveUI()
+    {
+        GameObject moveUI = GameObject.FindWithTag("MoveUI");
+
+        if (moveUI == null)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

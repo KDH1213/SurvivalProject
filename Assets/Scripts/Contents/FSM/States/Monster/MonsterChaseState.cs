@@ -25,13 +25,7 @@ public class MonsterChaseState : MonsterBaseState
     }
 
     public override void ExecuteUpdate()
-    {
-        //if (MonsterFSM.Target == null)
-        //{
-        //    MonsterFSM.ChangeState(MonsterStateType.Idle);
-        //    return;
-        //}
-
+    { 
         MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
 
         Chase();
@@ -40,8 +34,6 @@ public class MonsterChaseState : MonsterBaseState
         {
             ReturnPosition();
         }
-
-        // 타겟과의 거리 체크 및 상태 전환
     }
 
     public override void Exit()
@@ -76,6 +68,7 @@ public class MonsterChaseState : MonsterBaseState
         }
     }
 
+    // TODO :: 초기 위치로 돌아갈 때 도착했는지 여부를 판단해주는 함수
     private bool HasReachedDestination()
     {
         return !MonsterFSM.Agent.pathPending && // 경로 탐색이 끝났는지 확인
@@ -83,6 +76,7 @@ public class MonsterChaseState : MonsterBaseState
                !MonsterFSM.Agent.hasPath; // 경로가 없으면 도착한 것으로 간주
     }
 
+    // TODO :: 소환된 위치로 돌아가는 코드
     private void ReturnPosition()
     {
         if (MonsterFSM.Animator == null)

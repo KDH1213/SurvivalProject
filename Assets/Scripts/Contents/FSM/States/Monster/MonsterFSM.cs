@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
+public class MonsterFSM : FSMController<MonsterStateType>
 {
     [SerializeField]
     private Button button;
@@ -94,14 +94,15 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
         ChangeState(MonsterStateType.Death);
     }
 
-    public void Interact(GameObject interactor)
-    {
-        button.gameObject.SetActive(true);
-    }
+    // TODO :: 사망 시 상호작용 코드 주석 처리
+    //public void Interact(GameObject interactor)
+    //{
+    //    button.gameObject.SetActive(true);
+    //}
 
-    // TODO :: 임시 / CancleButton의 On Click 이벤트에 연결
-    public void OnButtonOff()
-    {
-        button.gameObject.SetActive(false);
-    }
+    //// TODO :: 임시 / CancleButton의 On Click 이벤트에 연결
+    //public void OnButtonOff()
+    //{
+    //    button.gameObject.SetActive(false);
+    //}
 }
