@@ -20,6 +20,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
     private Collider[] interactableTargets = new Collider[5];
 
     public GameObject Target { get; set; }
+    public HashSet<GameObject> AttackTargets { get; set; } = new HashSet<GameObject>();
     public GameObject InteractableTarget { get; set; }
 
     public bool UseMove { get; private set; }

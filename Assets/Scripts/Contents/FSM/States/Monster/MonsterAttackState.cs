@@ -5,7 +5,6 @@ using UnityEngine;
 public class MonsterAttackState : MonsterBaseState
 {
     private float animationSpeed;
-    //private WaitForSeconds waitForSeconds = new WaitForSeconds(animationSpeed);
 
     protected override void Awake()
     {
@@ -48,6 +47,8 @@ public class MonsterAttackState : MonsterBaseState
         bool isAttack = true;
         while (isAttack)
         {
+            transform.LookAt(MonsterFSM.Target.transform.position);
+
             yield return waitForSeconds;
         }
 
