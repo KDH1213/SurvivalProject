@@ -48,12 +48,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
         IsAttack = false;
         IsDead = false;
         CanRouting = false;
-        aggroRange = 5f; 
-    }
-
-    private void Start()
-    {
-
+        aggroRange = 5f;
     }
 
     private void Update()

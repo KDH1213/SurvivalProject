@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterStats : CharactorStats
 {
+    [SerializeField]
+    private Slider HpBarSlider;
+
     protected override void Awake()
     {
         originalData.CopyStat(ref currentStatTable);
+        OnChangeHp();
     }
 
     public float Speed
@@ -54,5 +59,11 @@ public class MonsterStats : CharactorStats
         {
             statValue.AddValue(addValue);
         }
+    }
+
+
+    public void OnChangeHp() //*HP °»½Å
+    {
+        HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
     }
 }

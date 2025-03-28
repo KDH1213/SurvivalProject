@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlayerFSM : FSMController<PlayerStateType>
 {
@@ -40,9 +41,9 @@ public class PlayerFSM : FSMController<PlayerStateType>
 
     public UnityEvent<GameObject> onTargetInteractEvent;
 
-
     protected override void Awake()
     {
+
         SetCanAttack(true);
         OnSetUseMove(true);
         OnEndAttack();
@@ -71,7 +72,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
     // TODO :: TestPlayer -> PlayerInputHandler -> On Attack Event에 연결
     public void OnInputAttack()
     {
-        if(CanAttack)
+        if (CanAttack)
         {
             ChangeState(PlayerStateType.Attack);
         }
@@ -85,13 +86,13 @@ public class PlayerFSM : FSMController<PlayerStateType>
         FindInteractableTarget();
 
         // TODO :: 임시 코드
-        if(InteractableTarget != null)
+        if (InteractableTarget != null)
         {
             onTargetInteractEvent?.Invoke(InteractableTarget);
 
             ChangeState(PlayerStateType.Interact);
         }
-       
+
     }
 
     // TODO :: 지금은 TestObject 스크립트에서 사용 중
@@ -126,7 +127,7 @@ public class PlayerFSM : FSMController<PlayerStateType>
     {
         ChangeState(PlayerStateType.Idle);
     }
-    
+
 
     private void FindInteractableTarget()
     {
