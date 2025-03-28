@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -25,6 +26,9 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
     [HideInInspector]
     public float aggroRange;
 
+    [HideInInspector]
+    public Vector3 firstPosition;
+
     public bool CanAttack { get; private set; }
 
     public bool IsChase { get; private set; }
@@ -49,6 +53,11 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable
         IsDead = false;
         CanRouting = false;
         aggroRange = 5f;
+        firstPosition = gameObject.transform.position;
+    }
+
+    private void Start()
+    {
     }
 
     private void Update()
