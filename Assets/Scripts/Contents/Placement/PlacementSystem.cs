@@ -61,6 +61,7 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartPlacement(int ID)
     {
+        preview.RePlaceObject();
         StopPlacement();
         SelectedObjectIndex = database.objects.FindIndex(data => data.ID == ID);
         if (SelectedObjectIndex < 0)
@@ -152,5 +153,15 @@ public class PlacementSystem : MonoBehaviour
     {
         Destroy(SelectedObject.transform.parent.gameObject);
         preview.StopShowingPreview();
+    }
+
+    public void SetPlacementInfo(PlacementObject obj)
+    {
+        obj.IsPlaced = true;
+        placedGameObjects.Add(obj);
+
+        gridData.AddObjectAt(obj.Position, database.objects[SelectedObjectIndex].Size,
+            database.objects[SelectedObjectIndex].ID,
+            placedGameObjects.Count - 1, obj);
     }
 }

@@ -82,12 +82,19 @@ public class PreviewObject : MonoBehaviour
 
     public void StopShowingPreviewToButton()
     {
+        RePlaceObject();
+        StopShowingPreview();
+    }
+
+    public void RePlaceObject()
+    {
         if (placementSystem.SelectedObject != null)
         {
+            PlacementObject obj = placementSystem.SelectedObject;
+            placementSystem.SetPlacementInfo(obj);
             placementSystem.SelectedObject.transform.parent.gameObject.SetActive(true);
             placementSystem.SelectedObject = null;
         }
-        StopShowingPreview();
     }
 
     public void UpdatePosition(Vector3 position, bool validity)
