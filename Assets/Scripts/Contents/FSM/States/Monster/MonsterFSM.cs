@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class MonsterFSM : FSMController<MonsterStateType>
+public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespawn
 {
     [SerializeField]
     private Button button;
@@ -42,7 +42,19 @@ public class MonsterFSM : FSMController<MonsterStateType>
     public bool IsDead { get; private set; }
     public bool CanRouting { get; private set; }
 
-    public bool IsInteractable => IsDead;
+    public bool IsInteractable => IsDead; 
+    public UnityEvent<GameObject> OnEndInteractEvent => onEndInteractEvent;
+    public UnityEvent<GameObject> onEndInteractEvent;
+
+    public InteractType InteractType => InteractType.Monster;
+
+    public Vector3 RespawnPosition => firstPosition;
+
+    public float RespawnTime { get; private set; } = 10f;
+
+    public float RemainingTime { get; private set; }
+
+    public bool IsRespawn => IsDead;
 
     protected override void Awake()
     {
@@ -54,6 +66,13 @@ public class MonsterFSM : FSMController<MonsterStateType>
         CanRouting = false;
         aggroRange = 5f;
         firstPosition = gameObject.transform.position;
+    }
+
+    private void OnEnable()
+    {
+        IsDead = false;
+        transform.position = firstPosition;
+        ChangeState(MonsterStateType.Idle);
     }
 
     private void Start()
@@ -92,6 +111,17 @@ public class MonsterFSM : FSMController<MonsterStateType>
         IsDead = true;
         CanRouting = true;
         ChangeState(MonsterStateType.Death);
+    }
+
+    public void Interact(GameObject interactor)
+    {
+        //gameObject.SetActive(false);
+        //OnEndInteractEvent?.Invoke(gameObject);
+    }
+
+    public void SetRemainTime(float remainTime)
+    {
+        RemainingTime = remainTime;
     }
 
     // TODO :: 사망 시 상호작용 코드 주석 처리
