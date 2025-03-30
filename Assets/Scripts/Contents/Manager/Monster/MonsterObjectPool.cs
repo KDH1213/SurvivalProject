@@ -11,7 +11,7 @@ public class MonsterObjectPool : MonoBehaviour
 
     private void Awake()
     {
-        ObjectPoolManager.Instance.AddObjectPool(ObjectPoolType, this);
+        ObjectPoolManager.Instance.AddObjectPool(ObjectPoolType.Monster, this);
     }
 
     public void SetMonsterData(GameObject prefabObject, int id)
