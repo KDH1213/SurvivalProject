@@ -260,9 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placementSystem: {fileID: 2920052234617117138}
   placementUI: {fileID: 0}
-  distroyButton: {fileID: 0}
   previewYOffset: 0.06
-  previewObject: {fileID: 0}
   previewMaterialsPrefeb: {fileID: 2100000, guid: 6e59c5cbb8ef2a1499304770801ba1df,
     type: 2}
 --- !u!1 &7060019180956268050
@@ -275,6 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3340293051518492891}
   - component: {fileID: 2156490938466940828}
+  - component: {fileID: 3844598178283866120}
   - component: {fileID: 5354937663289102087}
   - component: {fileID: 2920052234617117138}
   - component: {fileID: 510459809236938415}
@@ -327,6 +326,22 @@ MonoBehaviour:
   maxZoom: 60
   scrollSpeed: 2
   moveSpeed: 12
+--- !u!114 &3844598178283866120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060019180956268050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97aabffe5c8638b45b87ac0cd3fc133a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preview: {fileID: 3496120369542774057}
+  placementUI: {fileID: 0}
+  distroyButton: {fileID: 0}
+  Objectcontents: {fileID: 0}
 --- !u!114 &5354937663289102087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputManager: {fileID: 510459809236938415}
+  placementUI: {fileID: 0}
   preview: {fileID: 3496120369542774057}
   grid: {fileID: 8522043076896293342}
   database: {fileID: 11400000, guid: d8c6a97005e39a343833a9c2cd9b2686, type: 2}
@@ -513,11 +529,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f87870ed-00be-4f96-a544-fe61d5ca1498
     m_ActionName: Object/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cac731df-f393-4f66-b056-297b478f5323
-    m_ActionName: Object/ZoomMobile[/Device Simulator Touchscreen/touch0/position,/Device
-      Simulator Touchscreen/touch1/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Touch
   m_DefaultActionMap: Object
