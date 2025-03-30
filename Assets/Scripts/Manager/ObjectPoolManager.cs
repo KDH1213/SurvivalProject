@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
-    public Dictionary<string, Component> ObjectPoolTable { get; private set; } = new Dictionary<string, Component>();
+    public Dictionary<ObjectPoolType, Component> ObjectPoolTable { get; private set; } = new Dictionary<ObjectPoolType, Component>();
 
+    public void AddObjectPool(ObjectPoolType objectPoolType, Component monsterObjectPool)
+    {
+        if(!ObjectPoolTable.ContainsKey(objectPoolType))
+        {
+            ObjectPoolTable.Add(objectPoolType, monsterObjectPool);
+        }
+    }
+
+    public MonsterObjectPool MonsterObjectPool => ObjectPoolTable[ObjectPoolType.Monster] as MonsterObjectPool;
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespawn
@@ -42,7 +43,8 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     public bool IsDead { get; private set; }
     public bool CanRouting { get; private set; }
 
-    public bool IsInteractable => IsDead; 
+    public bool IsInteractable => IsDead;
+    public IObjectPool<MonsterFSM> MonsterPool { get; private set; } = null;
     public UnityEvent<GameObject> OnEndInteractEvent => onEndInteractEvent;
     public UnityEvent<GameObject> onEndInteractEvent;
 
@@ -70,9 +72,12 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     private void OnEnable()
     {
-        IsDead = false;
-        transform.position = firstPosition;
-        ChangeState(MonsterStateType.Idle);
+        if (MonsterPool == null)
+        {
+            IsDead = false;
+            transform.position = firstPosition;
+            ChangeState(MonsterStateType.Idle);
+        }
     }
 
     private void Start()
@@ -135,4 +140,17 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     //{
     //    button.gameObject.SetActive(false);
     //}
+
+    public void SetPool(IObjectPool<MonsterFSM> objectPool)
+    {
+        MonsterPool = objectPool;
+    }
+
+    public void Release()
+    {
+        if(MonsterPool != null)
+        {
+            MonsterPool.Release(this);
+        }
+    }
 }
