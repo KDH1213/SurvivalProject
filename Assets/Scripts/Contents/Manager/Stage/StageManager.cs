@@ -137,6 +137,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             monsterSaveInfo.respawnPosition = respawnInfo.RespawnPosition;
             monsterSaveInfo.isRespawn = respawnInfo.IsRespawn;
             monsterSaveInfo.position = monsterList[i].transform.position;
+            monsterSaveInfo.hp = monsterList[i].GetComponent<MonsterStats>().Hp;
             monsterSaveInfoList.Add(monsterSaveInfo);
         }
 

@@ -64,7 +64,7 @@ public class StatValue
 
     public void SetValue(float _value)
     {
-        this.value = System.Math.Max(_value, minMaxValue.max);
+        this.value = _value;
         this.minMaxValue.max = System.Math.Max(_value, minMaxValue.max);
     }
 
