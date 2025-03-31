@@ -17,14 +17,14 @@ public class MonsterFSM : FSMController<MonsterStateType>
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
 
+    [field: SerializeField]
+    public Data MonsterData { get; private set; }
+
     [HideInInspector]
     public GameObject Target { get; set; }
 
     [HideInInspector]
     public Transform TargetTransform { get; set; }
-
-    [HideInInspector]
-    public float aggroRange;
 
     [HideInInspector]
     public Vector3 firstPosition;
@@ -52,7 +52,6 @@ public class MonsterFSM : FSMController<MonsterStateType>
         IsAttack = false;
         IsDead = false;
         CanRouting = false;
-        aggroRange = 5f;
         firstPosition = gameObject.transform.position;
     }
 
@@ -93,16 +92,4 @@ public class MonsterFSM : FSMController<MonsterStateType>
         CanRouting = true;
         ChangeState(MonsterStateType.Death);
     }
-
-    // TODO :: 사망 시 상호작용 코드 주석 처리
-    //public void Interact(GameObject interactor)
-    //{
-    //    button.gameObject.SetActive(true);
-    //}
-
-    //// TODO :: 임시 / CancleButton의 On Click 이벤트에 연결
-    //public void OnButtonOff()
-    //{
-    //    button.gameObject.SetActive(false);
-    //}
 }

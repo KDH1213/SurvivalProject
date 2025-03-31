@@ -898,10 +898,11 @@ MonoBehaviour:
   button: {fileID: 0}
   <Animator>k__BackingField: {fileID: 5272701081797501969}
   <Agent>k__BackingField: {fileID: 3264490063815481508}
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
+  <Weapon>k__BackingField: {fileID: 11400000, guid: f5f9a37e02492514fab057aa12847610,
     type: 2}
-  aggroRange: 0
-  maxHealth: 0
+  <MonsterData>k__BackingField: {fileID: 11400000, guid: 33228d193f2ee44439ed283ee4ce126e,
+    type: 2}
+  firstPosition: {x: 0, y: 0, z: 0}
 --- !u!195 &3264490063815481508
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -948,6 +949,9 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
+  attackTargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &2745741150899027928
 MonoBehaviour:
   m_ObjectHideFlags: 0

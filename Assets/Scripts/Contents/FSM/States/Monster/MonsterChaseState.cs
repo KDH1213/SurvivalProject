@@ -25,8 +25,11 @@ public class MonsterChaseState : MonsterBaseState
     }
 
     public override void ExecuteUpdate()
-    { 
-        MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
+    {
+        if (MonsterFSM.TargetTransform != null)
+        {
+            MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
+        }
 
         Chase();
 
@@ -52,16 +55,15 @@ public class MonsterChaseState : MonsterBaseState
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
         // 너무 멀리 떨어지면 추적 중지
-        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.aggroRange * 1.5f)
+        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
         {
             MonsterFSM.SetIsChase(false);
             MonsterFSM.SetIsPlayerRange(false);
             MonsterFSM.Target = null; // 타겟 초기화
-            Debug.Log("Monster: 플레이어를 놓쳤습니다. Idle 상태로 변경");
             useReturn = true;
         }
 
-        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)  // 공격 거리 조정 (기존 0.5 -> 1.0)
+        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
 

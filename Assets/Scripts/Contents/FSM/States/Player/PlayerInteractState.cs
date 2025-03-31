@@ -15,7 +15,6 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        Debug.Log("CurrentState is Interact!");
         InteractObject();
         playerFSM.ChangeState(PlayerStateType.Idle);
     }
@@ -33,7 +32,6 @@ public class PlayerInteractState : PlayerBaseState
     {
         if(target != null)
         {
-            // Debug.Log($"Player: Interact {target.name}");
             Destroy(target);
             target = null;
         }

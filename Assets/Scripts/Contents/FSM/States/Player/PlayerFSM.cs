@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class PlayerFSM : FSMController<PlayerStateType>
 {
@@ -13,15 +10,18 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public CharacterController CharacterController { get; private set; }
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
+    [field: SerializeField]
+    public Data PlayerData { get; private set; }
+    [field: SerializeField]
+    public GameObject PlayerInventory { get; private set; }
 
     [SerializeField]
     private LayerMask interactableTargetLayerMask;
 
     private Collider[] interactableTargets = new Collider[5];
-
-    public GameObject Target { get; set; }
-    public HashSet<GameObject> AttackTargets { get; set; } = new HashSet<GameObject>();
     public GameObject InteractableTarget { get; set; }
+
+    public HashSet<GameObject> AttackTargets { get; set; } = new HashSet<GameObject>();
 
     public bool UseMove { get; private set; }
 
@@ -37,8 +37,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
     public float attackRange;
 
     public bool IsPlayerInRange { get; private set; }
-
-    public bool IsInteractable => throw new System.NotImplementedException();
 
     public UnityEvent<GameObject> onTargetInteractEvent;
 
@@ -82,8 +80,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
     // TODO :: TestPlayer -> PlayerInputHandler -> On Interact Event에 연결
     public void OnSetInteract()
     {
-        Debug.Log($"OnSetInteract 호출됨!");
-
         FindInteractableTarget();
 
         // TODO :: 임시 코드
@@ -99,7 +95,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
     // TODO :: 지금은 TestObject 스크립트에서 사용 중
     public void OnSetIsPlayerInRange(bool value)
     {
-        Debug.Log($"OnSetIsPlayerInRange 호출됨!");
         IsPlayerInRange = value;
     }
 
@@ -128,6 +123,21 @@ public class PlayerFSM : FSMController<PlayerStateType>
     {
         ChangeState(PlayerStateType.Idle);
     }
+    
+    public void OnShowInventory()
+    {
+        PlayerInventory.gameObject.SetActive(true);
+    }
+
+    public void OnDisableInventory()
+    {
+        PlayerInventory.gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+    }
 
 
     private void FindInteractableTarget()
@@ -137,7 +147,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
             IInteractable currentTarget = InteractableTarget.GetComponent<IInteractable>();
             if (currentTarget == null || !currentTarget.IsInteractable)
             {
-                Debug.Log($"Player: {InteractableTarget.name} 상호작용 불가! 타겟 해제");
                 InteractableTarget = null;
             }
             else
@@ -185,11 +194,6 @@ public class PlayerFSM : FSMController<PlayerStateType>
             InteractableTarget = closestTarget;
             IInteractable target = InteractableTarget.GetComponent<IInteractable>();
             target.Interact(gameObject);
-            Debug.Log($"Player: {InteractableTarget.name} 발견! 가장 가까운 상호작용 대상 설정 완료");
-        }
-        else
-        {
-            Debug.Log("Player: 상호작용 가능한 타겟을 찾지 못함");
         }
     }
 }

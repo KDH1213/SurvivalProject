@@ -1,14 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
-    [SerializeField]
-    private LayerMask attackTargetLayerMask;
-
-    private Collider[] attackTargets = new Collider[5];
-
     private bool isChangeMove = true;
 
     protected override void Awake()
@@ -19,11 +12,13 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Enter()
     {
+        PlayerFSM.AttackTargets.Clear();
         PlayerFSM.SetCanAttack(false);
         FindTarget();
 
         playerFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         isChangeMove = true;
+
     }
 
     public override void ExecuteUpdate()
@@ -55,9 +50,9 @@ public class PlayerAttackState : PlayerBaseState
     {
         isChangeMove = false;
 
-        foreach(var attackTargets in PlayerFSM.AttackTargets)
+        foreach (var attackTargets in PlayerFSM.AttackTargets)
         {
-            if(PlayerFSM.Weapon != null)
+            if (PlayerFSM.Weapon != null)
             {
                 PlayerFSM.Weapon.Execute(gameObject, attackTargets);
             }
@@ -66,45 +61,27 @@ public class PlayerAttackState : PlayerBaseState
 
     private void FindTarget()
     {
-        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
-        
-        foreach(var attackTargets in PlayerFSM.AttackTargets)
-        {
-            if(attackTargets != null)
-            {
-                MonsterFSM currentTarget = attackTargets.GetComponent<MonsterFSM>();
-                if(currentTarget == null || currentTarget.IsDead)
-                {
-                    PlayerFSM.AttackTargets.Remove(attackTargets);
-                }
-            }
-        }
+        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, PlayerFSM.Weapon.attackTargets, PlayerFSM.Weapon.weaponLayerMask);
 
-        
+        //int boxIndex = Physics.OverlapBoxNonAlloc(transform.forward + PlayerFSM.PlayerData.offset, PlayerFSM.PlayerData.attackSize, PlayerFSM.Weapon.attackTargets, transform.rotation, PlayerFSM.Weapon.weaponLayerMask);
+
+
         // TODO :: 단일 타겟에서 다중 타겟으로 수정
-
-        Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
 
         for (int i = 0; i < index; ++i)
         {
-            if (attackTargets[i] == null)
+            if (PlayerFSM.Weapon.attackTargets[i] == null)
             {
                 break;
             }
 
-            MonsterFSM target = attackTargets[i].GetComponent<MonsterFSM>();
+            MonsterFSM target = PlayerFSM.Weapon.attackTargets[i].GetComponent<MonsterFSM>();
             if (target == null || target.IsDead)
             {
                 continue;
             }
 
-            Vector3 directionToTarget = (attackTargets[i].transform.position - transform.position).normalized;
-
-            // 전방 90도(±45도) 범위 안에 있는지 확인
-            if (Vector3.Dot(forward, directionToTarget) > Mathf.Cos(Mathf.Deg2Rad * 45))
-            {
-                PlayerFSM.AttackTargets.Add(attackTargets[i].gameObject);
-            }
+            PlayerFSM.AttackTargets.Add(PlayerFSM.Weapon.attackTargets[i].gameObject);
         }
     }
 }

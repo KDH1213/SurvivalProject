@@ -16,6 +16,9 @@ public class MonsterAttackState : MonsterBaseState
     {
         animationSpeed = MonsterStats.AttackSpeed;
         MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
+
+        transform.LookAt(MonsterFSM.Target.transform.position);
+
         MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
 
@@ -42,13 +45,11 @@ public class MonsterAttackState : MonsterBaseState
     private IEnumerator CoAttack()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(animationSpeed);
-
+        
         MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         bool isAttack = true;
         while (isAttack)
         {
-            transform.LookAt(MonsterFSM.Target.transform.position);
-
             yield return waitForSeconds;
         }
 

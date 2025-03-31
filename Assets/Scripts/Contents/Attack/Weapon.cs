@@ -10,6 +10,9 @@ public class Weapon : AttackDefinition
     [SerializeField]
     public LayerMask weaponLayerMask;
 
+    [HideInInspector]
+    public Collider[] attackTargets =  new Collider[5];
+
     [SerializeField]
     [Range(0f, 1f)]
     public float attackDot;
