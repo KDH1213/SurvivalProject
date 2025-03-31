@@ -47,4 +47,17 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn
         RemainingTime = remainTime;
         IsRespawn = false;
     }
+
+    public void LoadData(GatherSaveInfo gatherSaveInfo)
+    {
+        IsRespawn = gatherSaveInfo.isRespawn;
+        RemainingTime = gatherSaveInfo.remainingTime;
+        transform.position = gatherSaveInfo.position;
+        RespawnPosition = gatherSaveInfo.respawnPosition;
+
+        if(IsRespawn)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }

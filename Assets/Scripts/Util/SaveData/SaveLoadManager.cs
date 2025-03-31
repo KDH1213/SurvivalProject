@@ -40,12 +40,11 @@ public static class SaveLoadManager
 
     static SaveLoadManager()
     {
-        Data = new SaveDataVC();
-        //if (!Load())
-        //{
-        //    Data = new SaveDataVC();
-        //    Save();
-        //}
+        if (!Load())
+        {
+            Data = new SaveDataVC();
+            Save();
+        }
     }
 
     public static bool Save(int slot = 0)
