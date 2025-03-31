@@ -51,20 +51,8 @@ public class PlayerAttackState : PlayerBaseState
     // TODO :: Resources/Animation/PlayerAttackAnim 애니메이션 이벤트에 연결
     public void OnAttackPlayer()
     {
-
         isChangeMove = false;
-
-        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
-
-        for (int i = 0; i < index; ++i)
-        {
-            var target = attackTargets[i].GetComponent<CharactorStats>();
-            if(target != null)
-            {
-                PlayerFSM.Weapon.Execute(gameObject, target.gameObject);
-            }
-        }
-
+        PlayerFSM.Weapon.StartAttack(transform);
     }
 
     private void FindTarget()

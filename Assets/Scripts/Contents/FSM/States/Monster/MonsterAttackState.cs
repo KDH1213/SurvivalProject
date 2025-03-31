@@ -41,20 +41,21 @@ public class MonsterAttackState : MonsterBaseState
     }
     public void OnMonsterAttack()
     {
-        int index = Physics.OverlapSphereNonAlloc(transform.position, MonsterFSM.Weapon.Range , MonsterFSM.Weapon.AttackTargets, MonsterFSM.Weapon.WeaponLayerMask);
+        MonsterFSM.Weapon.StartAttack(transform);
+        //int index = Physics.OverlapSphereNonAlloc(transform.position, MonsterFSM.Weapon.Range , MonsterFSM.Weapon.AttackTargets, MonsterFSM.Weapon.WeaponLayerMask);
 
-        for (int i = 0; i < index; ++i)
-        {
-            var target = MonsterFSM.Weapon.AttackTargets[i].GetComponent<CharactorStats>();
-            if (target != null)
-            {
-                MonsterFSM.Weapon.Execute(gameObject, target.gameObject);
-            }
-        }
+        //for (int i = 0; i < index; ++i)
+        //{
+        //    var target = MonsterFSM.Weapon.AttackTargets[i].GetComponent<CharactorStats>();
+        //    if (target != null)
+        //    {
+        //        MonsterFSM.Weapon.Execute(gameObject, target.gameObject);
+        //    }
+        //}
 
-        if (MonsterFSM.Target != null && MonsterFSM.Weapon != null)
-        {
-            MonsterFSM.Weapon.Execute(gameObject, MonsterFSM.Target);
-        }
+        //if (MonsterFSM.Target != null && MonsterFSM.Weapon != null)
+        //{
+        //    MonsterFSM.Weapon.Execute(gameObject, MonsterFSM.Target);
+        //}
     }
 }

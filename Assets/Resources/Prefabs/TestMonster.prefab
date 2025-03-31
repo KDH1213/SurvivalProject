@@ -898,10 +898,13 @@ MonoBehaviour:
   button: {fileID: 0}
   <Animator>k__BackingField: {fileID: 5272701081797501969}
   <Agent>k__BackingField: {fileID: 3264490063815481508}
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
+  <Weapon>k__BackingField: {fileID: 11400000, guid: bcce40906cacfc842a6bdf8156297f15,
     type: 2}
   aggroRange: 0
-  maxHealth: 0
+  firstPosition: {x: 0, y: 0, z: 0}
+  onEndInteractEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!195 &3264490063815481508
 NavMeshAgent:
   m_ObjectHideFlags: 0

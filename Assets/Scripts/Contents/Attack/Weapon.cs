@@ -8,52 +8,34 @@ public class Weapon : AttackDefinition
     [SerializeField]
     public GameObject weaponPrefab;
 
+    [field: SerializeField]
+    public Vector3 CreateOffset { get; private set; }
+
+    [field: SerializeField]
+    public Vector3 CreateSize { get; private set; }
+
     [SerializeField]
     public LayerMask WeaponLayerMask;
 
     [field: SerializeField]
     public Collider[] AttackTargets = new Collider[0];
 
-    [SerializeField]
-    [Range(0f, 1f)]
-    public float attackDot;
-
-    public void FindAttackTarget(Transform onwer)
+    public void StartAttack(Transform onwer)
     {
-        //int index = Physics.OverlapSphereNonAlloc(onwer.position, Range, AttackTargets, WeaponLayerMask);
+        int index = Physics.OverlapBoxNonAlloc(onwer.position + CreateOffset, CreateSize, AttackTargets, onwer.transform.rotation, WeaponLayerMask);
 
-        //for (int i = 0; i < index; ++i)
-        //{
-        //    var target = AttackTargets[i].GetComponent<CharactorStats>();
-        //    if (target != null)
-        //    {
-        //        MonsterFSM.Weapon.Execute(gameObject, target.gameObject);
-        //    }
-        //}
+        for (int i = 0; i < index; ++i)
+        {
+            var target = AttackTargets[i].GetComponent<CharactorStats>();
+            if (target != null)
+            {
+                Execute(onwer.gameObject, target.gameObject);
+            }
+        }
     }
 
     public override void Execute(GameObject attacker, GameObject defender)
     {
-        if(defender == null)
-        {
-            return;
-        }
-
-        var distance = Vector3.Distance(attacker.transform.position, defender.transform.position);
-
-        if(distance > Range)
-        {
-            return;
-        }
-
-        var toTarget = (defender.transform.position - attacker.transform.position).normalized;
-        float dot = Vector3.Dot(attacker.transform.forward, toTarget);
-
-        if(dot < attackDot)
-        {
-            return;
-        }
-
         CharactorStats aStats = attacker.GetComponent<CharactorStats>();
         CharactorStats dStats = defender.GetComponent<CharactorStats>();
 
