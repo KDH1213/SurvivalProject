@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class VirtualCameraTest : MonoBehaviour
 {
-    CinemachineBlendListCamera blendList;
-
-    CinemachineVirtualCameraBase vCam1;
-    CinemachineVirtualCameraBase vCam2;
+    [SerializeField]
+    private CinemachineBlendListCamera blendList;
+    [SerializeField]
+    private CinemachineVirtualCameraBase vCam1;
+    [SerializeField]
+    private CinemachineVirtualCameraBase vCam2;
 
     void Start()
     {
