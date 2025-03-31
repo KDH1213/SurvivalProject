@@ -9,6 +9,9 @@ public abstract class SaveData
 
 public class SaveDataV1 : SaveData
 {
+    public Dictionary<InteractType, List<GatherSaveInfo>> gatherSaveInfoTable = new Dictionary<InteractType, List<GatherSaveInfo>>();
+    public List<MonsterSaveInfo> monsterSaveInfoList = new List<MonsterSaveInfo>();
+
 
     public SaveDataV1()
     {
