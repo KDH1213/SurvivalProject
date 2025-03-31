@@ -14,7 +14,6 @@ public class PlacementCameraSystem : MonoBehaviour
     private CinemachineVirtualCamera placementCamera;
     [SerializeField]
     private CinemachineVirtualCamera currentCamera;
-    [SerializeField]
     private PlacementInput inputManager;
     [SerializeField]
     private CinemachineBlendListCamera blendList;
@@ -47,14 +46,14 @@ public class PlacementCameraSystem : MonoBehaviour
 
     private void Awake()
     {
-        //inputManager = GetComponent<PlacementInput>();
+        inputManager = GetComponent<PlacementInput>();
         blendList.m_Loop = false;
 
         vCam1 = currentCamera.GetComponent<CinemachineVirtualCameraBase>();
         vCam2 = placementCamera.GetComponent<CinemachineVirtualCameraBase>();
 
-        //blendList.m_Instructions[0].m_VirtualCamera = vCam1;
-        //blendList.m_Instructions[1].m_VirtualCamera = vCam1;
+        blendList.m_Instructions[0].m_VirtualCamera = vCam1;
+        blendList.m_Instructions[1].m_VirtualCamera = vCam1;
 
         //blendList.m_Instructions[1].m_Blend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
         //blendList.m_Instructions[1].m_Blend.m_Time = 0.3f;

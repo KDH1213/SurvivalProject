@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,14 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private PlacementPreview preview;
 
-    [SerializeField]
+    [SerializeField] // 배치 / 취소 버튼
     private GameObject placementUI;
-    [SerializeField]
+    [SerializeField] // 삭제버튼
     private GameObject distroyButton;
-    [SerializeField]
+    [SerializeField] // 건설물 목록 UI (항목별) 
     private GameObject Objectcontents;
+    [SerializeField] // 건설물 목록 UI
+    private GameObject ObjectListUi;
 
     private void Awake()
     {
@@ -58,5 +61,20 @@ public class PlacementUIController : MonoBehaviour
             obj.SetActive(true);
         }
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
+    }
+
+    public void ShowObjectList()
+    {
+        RectTransform rectTran = ObjectListUi.GetComponent<RectTransform>();
+        Vector3 uiPos = Camera.main.WorldToScreenPoint(ObjectListUi.transform.position);
+        ObjectListUi.transform.DOMoveY(0, 0.3f);
+    }
+    public void StopShowObjectList()
+    {
+        RectTransform rectTran = ObjectListUi.GetComponent<RectTransform>();
+        Vector3 uiPos = Camera.main.ScreenToWorldPoint(new Vector3(0, -rectTran.offsetMax.y));
+
+        ObjectListUi.transform.DOLocalMoveY(ObjectListUi.transform.localPosition.y - rectTran.offsetMax.y, 0.3f);
+
     }
 }
