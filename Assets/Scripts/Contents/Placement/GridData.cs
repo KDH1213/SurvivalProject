@@ -63,4 +63,12 @@ public class GridData
         }
         return true;
     }
+
+    public Vector2Int GetPlaceObjectCenter(Vector3Int gridPosition, Vector2Int objectSize)
+    {
+        List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
+        int yCenter = (gridPosition.z + positionToOccupy[objectSize.y - 1].z + 1) / 2;
+        int xCenter = (gridPosition.x + positionToOccupy[objectSize.x + objectSize.y - 1].x + 1) / 2; 
+        return new Vector2Int(xCenter ,yCenter);
+    }
 }

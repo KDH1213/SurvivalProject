@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlacementUIController : MonoBehaviour
 {
@@ -16,9 +17,12 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField] // 삭제버튼
     private GameObject distroyButton;
     [SerializeField] // 건설물 목록 UI (항목별) 
-    private GameObject Objectcontents;
+    private List<PlacementUIObjectInfo> Objectcontents;
     [SerializeField] // 건설물 목록 UI
     private GameObject ObjectListUi;
+    [SerializeField]
+    private ToggleGroup toggles;
+    
 
     private void Awake()
     {
@@ -49,7 +53,7 @@ public class PlacementUIController : MonoBehaviour
     public void OnSetObjectListUi(PlacementObjectList database, int ID, List<PlacementObject> placedGameObjects)
     {
         int index = database.objects.FindIndex(data => data.ID == ID);
-        GameObject obj = Objectcontents.transform.GetChild(ID).gameObject;
+        GameObject obj = Objectcontents[ID].gameObject;
         int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
         int maxCount = database.objects[index].MaxBuildCount;
         if (currentCount >= maxCount)
@@ -75,6 +79,24 @@ public class PlacementUIController : MonoBehaviour
         Vector3 uiPos = Camera.main.ScreenToWorldPoint(new Vector3(0, -rectTran.offsetMax.y));
 
         ObjectListUi.transform.DOLocalMoveY(ObjectListUi.transform.localPosition.y - rectTran.offsetMax.y, 0.3f);
+
+    }
+
+    public void OnChangeObjectList()
+    {
+        Toggle toggle = toggles.ActiveToggles().FirstOrDefault();
+
+        foreach (var item in Objectcontents)
+        {
+            if(item.structureKind.ToString().Equals(toggle.name))
+            {
+                item.gameObject.SetActive(true);
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        } 
 
     }
 }

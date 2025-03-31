@@ -24,6 +24,8 @@ public class PlacementSystem : MonoBehaviour
     public int SelectedObjectIndex { get; set; }
     public float gridCellCount;
 
+    private Vector2Int test;
+    private GameObject testGameObject;
     public PlacementInput GetInputManager { get; private set; }
     public Grid GetGrid { get; private set; }
 
@@ -99,7 +101,16 @@ public class PlacementSystem : MonoBehaviour
     // 배치 가능한지 검사
     public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
-        return gridData.CanPlaceObjectAt(gridPosition, database.objects[selectedObjectIndex].Size);
+        Vector2Int size = database.objects[selectedObjectIndex].Size;
+        test = gridData.GetPlaceObjectCenter(gridPosition, size);
+        float mag = Mathf.Abs(grid.CellToWorld(gridPosition).x - 
+            grid.CellToWorld(new Vector3Int(test.x, 0, test.y)).x);
+
+        Collider[] testCollider = Physics.OverlapBox(grid.CellToWorld(new Vector3Int(test.x, 0, test.y)),
+            new Vector3(mag * size.x, 5f, mag * size.y), preview.PreviewObject.transform.rotation,
+            LayerMask.NameToLayer("Monster"));
+
+        return gridData.CanPlaceObjectAt(gridPosition, size);
     }
 
     // 오브젝트 배치
@@ -178,5 +189,4 @@ public class PlacementSystem : MonoBehaviour
             placedGameObjects.Count - 1, obj);
     }
 
-    
 }

@@ -19,5 +19,7 @@ public class PlacementObjectInfo
     public Vector2Int Size { get; private set; } = Vector2Int.one;
     [field: SerializeField]
     public GameObject Prefeb { get; private set; }
-    
+    [field: SerializeField]
+    public StructureKind kind { get; private set; }
+
 }
