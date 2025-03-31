@@ -50,7 +50,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public InteractType InteractType => InteractType.Monster;
 
-    public Vector3 RespawnPosition => firstPosition;
+    public Vector3 RespawnPosition { get { return firstPosition; } private set { firstPosition = value; } }
 
     public float RespawnTime { get; private set; } = 10f;
 
@@ -140,6 +140,23 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     //{
     //    button.gameObject.SetActive(false);
     //}
+
+    public void LoadData(MonsterSaveInfo monsterSaveInfo)
+    {
+        IsDead = monsterSaveInfo.isRespawn;
+        RemainingTime = monsterSaveInfo.remainingTime;
+        transform.position = monsterSaveInfo.position;
+        RespawnPosition = monsterSaveInfo.respawnPosition;
+
+        if (IsRespawn)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            GetComponent<MonsterStats>().LoadStats(monsterSaveInfo.hp);
+        }
+    }
 
     public void SetPool(IObjectPool<MonsterFSM> objectPool)
     {

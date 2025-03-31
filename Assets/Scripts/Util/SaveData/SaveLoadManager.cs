@@ -7,7 +7,7 @@ using SaveDataVC = SaveDataV1;
 public static class SaveLoadManager
 {
     // 클라이언트의 버전
-    public static int SaveDataVersion { get; private set; } = 2;
+    public static int SaveDataVersion { get; private set; } = 1;
 
     // Data를 게임에 맞게 제작해도 됨
     // 현재 진행되고 있는 게임의 데이터

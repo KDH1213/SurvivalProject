@@ -45,7 +45,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn
     public void SetRemainTime(float remainTime)
     {
         RemainingTime = remainTime;
-        IsRespawn = false;
+        IsRespawn = true;
     }
 
     public void LoadData(GatherSaveInfo gatherSaveInfo)

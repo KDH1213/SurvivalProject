@@ -146,8 +146,6 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     public void Load()
     {
         var gatherSaveInfoTable = SaveLoadManager.Data.gatherSaveInfoTable;
-        var monsterSaveInfoList = SaveLoadManager.Data.monsterSaveInfoList;
-
 
         for (int i = 0; i < (int)InteractType.Monster; ++i)
         {
@@ -156,7 +154,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             {
                 var gatherSaveInfoList = gatherSaveInfoTable[interactType];
                 var list = interactTable[(InteractType)i];
-                for (int j = 0; j < list.Count; ++j)
+                for (int j = 0; j < gatherSaveInfoList.Count; ++j)
                 {
                     var respawn = list[j].GetComponent<Gather>();
                     respawn.LoadData(gatherSaveInfoList[j]);
@@ -169,6 +167,22 @@ public class StageManager : MonoBehaviour, ISaveLoadData
                         respawnObjectQueue.Enqueue(respawnInfo, respawn.RemainingTime);
                     }
                 }
+            }
+        }
+
+        var monsterSaveInfoList = SaveLoadManager.Data.monsterSaveInfoList;
+        var monsterList = interactTable[InteractType.Monster];
+        for (int i = 0; i < monsterSaveInfoList.Count; ++i)
+        {
+            var monsterFSM = monsterList[i].GetComponent<MonsterFSM>();
+            monsterFSM.LoadData(monsterSaveInfoList[i]);
+
+            if (monsterSaveInfoList[i].isRespawn)
+            {
+                var respawnInfo = new RespawnInfo();
+                respawnInfo.owner = monsterList[i];
+                respawnInfo.respawntime = Time.time + monsterFSM.RemainingTime;
+                respawnObjectQueue.Enqueue(respawnInfo, monsterFSM.RemainingTime);
             }
         }
 

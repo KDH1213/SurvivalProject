@@ -10,12 +10,22 @@ public class MonsterStats : CharactorStats
 
     protected override void Awake()
     {
-        originalData.CopyStat(ref currentStatTable);
-        OnChangeHp();
+
+        if(currentStatTable.Count == 0)
+        {
+            originalData.CopyStat(ref currentStatTable);
+            OnChangeHp();
+        }
+        
     }
 
     private void OnEnable()
     {
+        if (currentStatTable.Count == 0)
+        {
+            originalData.CopyStat(ref currentStatTable);
+        }
+
         currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
         OnChangeHp();
     }
@@ -72,5 +82,16 @@ public class MonsterStats : CharactorStats
     public void OnChangeHp() //*HP °»½Å
     {
         HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
+    }
+
+    public void LoadStats(float hp)
+    {
+        if (currentStatTable.Count == 0)
+        {
+            originalData.CopyStat(ref currentStatTable);
+        }
+
+        currentStatTable[StatType.HP].SetValue(hp);
+        OnChangeHp();
     }
 }
