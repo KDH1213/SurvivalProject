@@ -14,7 +14,6 @@ public class PlacementCameraSystem : MonoBehaviour
     private CinemachineVirtualCamera placementCamera;
     [SerializeField]
     private CinemachineVirtualCamera currentCamera;
-    [SerializeField]
     private PlacementInput inputManager;
     [SerializeField]
     private CinemachineBlendListCamera blendList;
@@ -47,19 +46,20 @@ public class PlacementCameraSystem : MonoBehaviour
 
     private void Awake()
     {
-        //inputManager = GetComponent<PlacementInput>();
+        inputManager = GetComponent<PlacementInput>();
         blendList.m_Loop = false;
 
         vCam1 = currentCamera.GetComponent<CinemachineVirtualCameraBase>();
         vCam2 = placementCamera.GetComponent<CinemachineVirtualCameraBase>();
 
-        //blendList.m_Instructions[0].m_VirtualCamera = vCam1;
-        //blendList.m_Instructions[1].m_VirtualCamera = vCam1;
+        blendList.m_Instructions[0].m_VirtualCamera = vCam1;
+        blendList.m_Instructions[1].m_VirtualCamera = vCam1;
 
         //blendList.m_Instructions[1].m_Blend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
         //blendList.m_Instructions[1].m_Blend.m_Time = 0.3f;
     }
 
+    // todo : 배치 시스템 화면 <- 플레이 화면
     public void InPlacementCamera()
     {
         placementCamera.transform.position = cameraDefaultPosition;
@@ -69,12 +69,14 @@ public class PlacementCameraSystem : MonoBehaviour
         blendList.m_Instructions[1].m_VirtualCamera = vCam2;
     }
 
+    // todo : 배치 시스템 화면 -> 플레이 화면
     public void OutPlacementCamera()
     {
         blendList.m_Instructions[0].m_VirtualCamera = vCam2;
         blendList.m_Instructions[1].m_VirtualCamera = vCam1;
     }
 
+    // todo : 배치 시스템 화면 줌아웃
     public void OnZoomInAndOut(InputAction.CallbackContext value)
     {
         float axis = value.ReadValue<float>();
@@ -98,6 +100,7 @@ public class PlacementCameraSystem : MonoBehaviour
         }
     }
 
+    // todo : 배치 시스템 화면 움직임
     public void MoveCamera(InputAction.CallbackContext value)
     {
         MousePos = value.ReadValue<Vector2>();
@@ -106,6 +109,7 @@ public class PlacementCameraSystem : MonoBehaviour
         placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * 5f;*/
     }
 
+    // todo : 배치 시스템 화면 드래그 시 작업
     public void OnDragMouse(InputAction.CallbackContext value)
     {
         if(inputManager.IsPointerOverUi)
@@ -144,6 +148,7 @@ public class PlacementCameraSystem : MonoBehaviour
         }
     }
 
+    // todo : 배치 시스템 화면 클릭 시 작업
     public void OnClick(InputAction.CallbackContext value)
     {
           // 스크린 좌표

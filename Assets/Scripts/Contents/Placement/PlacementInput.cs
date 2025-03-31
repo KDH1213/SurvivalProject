@@ -28,6 +28,7 @@ public class PlacementInput : MonoBehaviour
 
     private void Update()
     {
+        // 입력한 곳이 UI 위인지 검사
         if (EventSystem.current.IsPointerOverGameObject())
         {
             IsPointerOverUi = true;
@@ -38,6 +39,7 @@ public class PlacementInput : MonoBehaviour
         }
     }
 
+    // 클릭 입력
     public void OnInputClick(InputAction.CallbackContext value)
     {
         if (IsPointerOverUi || cameraSys.IsDrag)
@@ -81,6 +83,7 @@ public class PlacementInput : MonoBehaviour
         }
     }
 
+    // 클릭한 곳과 맞닿은 객체 리턴 및 마지막 터치 위치 갱신
     public Collider GetClickHit()
     {
         if(IsPointerOverUi)
@@ -108,6 +111,7 @@ public class PlacementInput : MonoBehaviour
         return null;
     }
 
+    // 닿은 객체가 설치물인지 검사
     private void CheckPressHit(GameObject hit)
     {
 

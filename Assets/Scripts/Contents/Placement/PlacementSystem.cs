@@ -13,12 +13,11 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private PlacementInput inputManager;
     [SerializeField]
-    private PreviewObject preview;
+    private PlacementUIController placementUI;
+    [SerializeField]
+    private PlacementPreview preview;
     [SerializeField]
     private Grid grid;
-    [SerializeField]
-    private GameObject Objectcontents;
-    
 
     [SerializeField]
     private PlacementObjectList database;
@@ -31,13 +30,12 @@ public class PlacementSystem : MonoBehaviour
     public PlacementObject SelectedObject { get; set; }
     private List<PlacementObject> placedGameObjects = new List<PlacementObject>();
     private GridData gridData;
-    private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
     private void Awake()
     {
         SelectedObjectIndex = -1;
-        //inputManager = GetComponent<PlacementInput>();
-        GetInputManager = inputManager;
+        inputManager = GetComponent<PlacementInput>();
+        placementUI = GetComponent<PlacementUIController>();
         GetGrid = grid;
         gridData = new GridData();
         grid.cellSize = Vector3.one * 10 / gridCellCount;
@@ -45,6 +43,7 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
+        // 배치된 항목 이동
         if (inputManager.IsPointerOverUi)
         {
             return;
@@ -59,11 +58,11 @@ public class PlacementSystem : MonoBehaviour
         
             bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
             preview.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
-            lastDetectedPosition = gridPosition;
         }
 
     }
 
+    // 배치시작
     public void StartPlacement(int ID)
     {
         preview.RePlaceObject();
@@ -77,6 +76,7 @@ public class PlacementSystem : MonoBehaviour
         preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
     }
 
+    // 배치 시작 overload
     public void StartPlacement(int ID, PlacementObject obj = null)
     {
         StopPlacement();
@@ -89,17 +89,20 @@ public class PlacementSystem : MonoBehaviour
         preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb, obj);
     }
 
+    // 배치 멈추기
     private void StopPlacement()
     {
         SelectedObjectIndex = -1;
         preview.StopShowingPreview();
     }
 
+    // 배치 가능한지 검사
     public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
         return gridData.CanPlaceObjectAt(gridPosition, database.objects[selectedObjectIndex].Size);
     }
 
+    // 오브젝트 배치
     public void PlaceStructure()
     {
         Vector3 mousePosition = inputManager.LastPosition;
@@ -127,11 +130,12 @@ public class PlacementSystem : MonoBehaviour
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, placementObject);
-        OnSetObjectListUi(placementObject.PlacementData.ID);
+        placementUI.OnSetObjectListUi(database, placementObject.PlacementData.ID, placedGameObjects);
         //preview.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, SelectedObjectIndex));
         preview.StopShowingPreview();
     }
 
+    // 배치된 오브젝트 선택
     public bool SelectStructure(PlacementObject obj)
     {
         if(preview.IsPreview)
@@ -155,13 +159,15 @@ public class PlacementSystem : MonoBehaviour
         return true;
     }
 
+    // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
-        OnSetObjectListUi(SelectedObject.PlacementData.ID);
+        placementUI.OnSetObjectListUi(database, SelectedObject.PlacementData.ID, placedGameObjects);
         Destroy(SelectedObject.transform.parent.gameObject);
         preview.StopShowingPreview();
     }
 
+    // 오브젝트 원래 위치로 배치
     public void SetPlacementInfo(PlacementObject obj)
     {
         obj.IsPlaced = true;
@@ -172,20 +178,5 @@ public class PlacementSystem : MonoBehaviour
             placedGameObjects.Count - 1, obj);
     }
 
-    public void OnSetObjectListUi(int ID)
-    {
-        int index = database.objects.FindIndex(data => data.ID == ID);
-        GameObject obj = Objectcontents.transform.GetChild(ID).gameObject;
-        int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
-        int maxCount = database.objects[index].MaxBuildCount;
-        if (currentCount >= maxCount)
-        {
-            obj.SetActive(false);
-        }
-        else
-        {
-            obj.SetActive(true);
-        }
-        obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
-    }
+    
 }
