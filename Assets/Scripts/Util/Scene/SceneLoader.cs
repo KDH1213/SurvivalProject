@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : Singleton<SceneLoader>
 {
@@ -57,16 +58,28 @@ public class SceneLoader : Singleton<SceneLoader>
         var initializeAsync = Addressables.InitializeAsync();
         yield return initializeAsync;
 
+
+        Slider loadingBar = null;
+        loadingBar = FindFirstObjectByType<Slider>();
+
         sceneOperation = Addressables.LoadSceneAsync(nextScene, LoadSceneMode.Single, false);
 
         while (!sceneOperation.IsDone)
         {
             Debug.Log(sceneOperation.PercentComplete * 100f);
+            if (loadingBar != null)
+            {
+                loadingBar.value = sceneOperation.PercentComplete;
+            }
 
             yield return null;
         }
 
-        
+        if (loadingBar != null)
+        {
+            loadingBar.value = sceneOperation.PercentComplete;
+        }
+
         sceneOperation.Result.ActivateAsync();
 
 
