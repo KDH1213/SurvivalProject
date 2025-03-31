@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour, IProjectileable
 
     private void FixedUpdate()
     {
-        if (Physics.OverlapSphereNonAlloc(transform.position, transform.localScale.magnitude * 0.5f, colliders, weapon.weaponLayerMask.value) != 0)
+        if (Physics.OverlapSphereNonAlloc(transform.position, transform.localScale.magnitude * 0.5f, colliders, weapon.WeaponLayerMask.value) != 0)
         {
             if (ReferenceEquals(colliders[0].gameObject, target))
             {

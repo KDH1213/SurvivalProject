@@ -57,8 +57,10 @@ public class MonsterChaseState : MonsterBaseState
             MonsterFSM.SetIsChase(false);
             MonsterFSM.SetIsPlayerRange(false);
             MonsterFSM.Target = null; // 타겟 초기화
-            Debug.Log("Monster: 플레이어를 놓쳤습니다. Idle 상태로 변경");
+            MonsterFSM.ChangeState(MonsterStateType.Idle);
             useReturn = true;
+
+            return;
         }
 
         if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)  // 공격 거리 조정 (기존 0.5 -> 1.0)

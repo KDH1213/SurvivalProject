@@ -20,8 +20,6 @@ public class PlayerAttackState : PlayerBaseState
     public override void Enter()
     {
         PlayerFSM.SetCanAttack(false);
-        FindTarget();
-
         playerFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         isChangeMove = true;
     }
@@ -53,15 +51,20 @@ public class PlayerAttackState : PlayerBaseState
     // TODO :: Resources/Animation/PlayerAttackAnim 애니메이션 이벤트에 연결
     public void OnAttackPlayer()
     {
+
         isChangeMove = false;
 
-        foreach(var attackTargets in PlayerFSM.AttackTargets)
+        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
+
+        for (int i = 0; i < index; ++i)
         {
-            if(PlayerFSM.Weapon != null)
+            var target = attackTargets[i].GetComponent<CharactorStats>();
+            if(target != null)
             {
-                PlayerFSM.Weapon.Execute(gameObject, attackTargets);
+                PlayerFSM.Weapon.Execute(gameObject, target.gameObject);
             }
         }
+
     }
 
     private void FindTarget()

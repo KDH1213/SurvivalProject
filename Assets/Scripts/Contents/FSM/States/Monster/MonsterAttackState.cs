@@ -19,9 +19,10 @@ public class MonsterAttackState : MonsterBaseState
         MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
 
-        StartCoroutine(CoAttack());
         MonsterFSM.Agent.isStopped = true;
         MonsterFSM.Agent.destination = transform.position;
+
+        transform.LookAt(MonsterFSM.Target.transform);
     }
 
     public override void ExecuteUpdate()
@@ -38,26 +39,19 @@ public class MonsterAttackState : MonsterBaseState
         MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
         MonsterFSM.ChangeState(MonsterStateType.Chase);
     }
-
-    private IEnumerator CoAttack()
-    {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(animationSpeed);
-
-        MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
-        bool isAttack = true;
-        while (isAttack)
-        {
-            transform.LookAt(MonsterFSM.Target.transform.position);
-
-            yield return waitForSeconds;
-        }
-
-        MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
-        MonsterFSM.ChangeState(MonsterStateType.Idle);
-    }
-
     public void OnMonsterAttack()
     {
+        int index = Physics.OverlapSphereNonAlloc(transform.position, MonsterFSM.Weapon.Range , MonsterFSM.Weapon.AttackTargets, MonsterFSM.Weapon.WeaponLayerMask);
+
+        for (int i = 0; i < index; ++i)
+        {
+            var target = MonsterFSM.Weapon.AttackTargets[i].GetComponent<CharactorStats>();
+            if (target != null)
+            {
+                MonsterFSM.Weapon.Execute(gameObject, target.gameObject);
+            }
+        }
+
         if (MonsterFSM.Target != null && MonsterFSM.Weapon != null)
         {
             MonsterFSM.Weapon.Execute(gameObject, MonsterFSM.Target);
