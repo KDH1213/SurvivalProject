@@ -34,7 +34,8 @@ public class PlayerInteractState : PlayerBaseState
         if(target != null)
         {
             // Debug.Log($"Player: Interact {target.name}");
-            Destroy(target);
+            target.GetComponent<IInteractable>().Interact(this.gameObject);
+
             target = null;
         }
 

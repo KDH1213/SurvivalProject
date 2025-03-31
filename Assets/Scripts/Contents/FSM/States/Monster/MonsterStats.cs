@@ -14,6 +14,13 @@ public class MonsterStats : CharactorStats
         OnChangeHp();
     }
 
+    private void OnEnable()
+    {
+        currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
+        OnChangeHp();
+    }
+
+
     public float Speed
     {
         get
