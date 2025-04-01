@@ -88,7 +88,7 @@ public class PlacementUIController : MonoBehaviour
 
         foreach (var item in Objectcontents)
         {
-            if(item.structureKind.ToString().Equals(toggle.name))
+            if(toggle != null && item.structureKind.ToString().Equals(toggle.name))
             {
                 item.gameObject.SetActive(true);
             }

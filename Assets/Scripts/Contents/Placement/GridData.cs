@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridData
 {
     private Dictionary<Vector3Int, PlacementObject> placedObject = new Dictionary<Vector3Int, PlacementObject>();
+
+    public Vector3 size;
+    public Vector3 pos;
 
     public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placeObjectIndex, PlacementObject obj)
     {
@@ -64,11 +69,36 @@ public class GridData
         return true;
     }
 
-    public Vector2Int GetPlaceObjectCenter(Vector3Int gridPosition, Vector2Int objectSize)
+    public bool CheckCollideOther(Grid grid, Vector3Int gridPosition, Vector2Int objectSize)
+    {
+        Vector3 test = GetPlaceObjectCenter(grid, gridPosition, objectSize);
+        Vector3Int nextPosX = new Vector3Int(gridPosition.x + 1, 0, gridPosition.z);
+        Vector3Int nextPosY = new Vector3Int(gridPosition.x, 0, gridPosition.z + 1);
+        float magX = Mathf.Abs(grid.CellToWorld(nextPosX).x - grid.CellToWorld(gridPosition).x);
+        float magY = Mathf.Abs(grid.CellToWorld(nextPosY).z - grid.CellToWorld(gridPosition).z);
+
+        pos = new Vector3(test.x, 0f, test.z);
+        size = new Vector3(magX, 0f, magY);
+
+        Collider[] testCollider = Physics.OverlapBox(new Vector3(test.x, 0f, test.z),
+            new Vector3(magX * objectSize.x, 0f, magY * objectSize.y), grid.transform.rotation);
+
+        foreach(var obj in testCollider)
+        {
+            if(obj.tag.Equals("Monster"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Vector3 GetPlaceObjectCenter(Grid grid, Vector3Int gridPosition, Vector2Int objectSize)
     {
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPosition, objectSize);
-        int yCenter = (gridPosition.z + positionToOccupy[objectSize.y - 1].z + 1) / 2;
-        int xCenter = (gridPosition.x + positionToOccupy[objectSize.x + objectSize.y - 1].x + 1) / 2; 
-        return new Vector2Int(xCenter ,yCenter);
+        Vector3 Center = (grid.CellToWorld(gridPosition) + 
+            grid.CellToWorld(new Vector3Int(gridPosition.x + objectSize.x, 0, gridPosition.z + objectSize.y))) / 2;
+
+        return Center;
     }
 }
