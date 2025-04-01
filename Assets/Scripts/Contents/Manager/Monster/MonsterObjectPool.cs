@@ -25,10 +25,22 @@ public class MonsterObjectPool : MonoBehaviour
         }
     }
 
+    public void SetMonsterData(GameObject prefabObject)
+    {
+        monsterObject = prefabObject;
+        CreateMonsterID = monsterObject.GetComponent<MonsterFSM>().ID;
+
+        if (!monsterPoolTable.ContainsKey(CreateMonsterID))
+        {
+            monsterPoolTable.Add(CreateMonsterID, new ObjectPool<MonsterFSM>(OnCreateMonster, OnGetMonster, OnReleaseMonster, OnDestroyMonster, true, 100));
+        }
+    }
+
     private MonsterFSM OnCreateMonster()
     {
         Instantiate(monsterObject).TryGetComponent(out MonsterFSM monster);
         monster.SetPool(monsterPoolTable[CreateMonsterID]);
+        monster.gameObject.SetActive(true);
         return monster;
     }
 
