@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using SaveDataVC = SaveDataV1;
 
 public static class SaveLoadManager
@@ -40,7 +41,7 @@ public static class SaveLoadManager
 
     static SaveLoadManager()
     {
-        if (!Load())
+        if (!Load(SceneManager.GetActiveScene().name))
         {
             Data = new SaveDataVC();
             Save();
@@ -63,9 +64,45 @@ public static class SaveLoadManager
         return true;
     }
 
+    public static bool Save(string name)
+    {
+        if (Data == null || name == string.Empty)
+            return false;
+
+        if (!Directory.Exists(SaveDirectory))
+        {
+            Directory.CreateDirectory(SaveDirectory);
+        }
+        var path = Path.Combine(SaveDirectory, $"{name}.json");
+        var json = JsonConvert.SerializeObject(Data, settings);
+        File.WriteAllText(path, json);
+
+        return true;
+    }
+
     public static bool Load(int slot = 0)
     {
         var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+
+        if (!File.Exists(path))
+            return false;
+
+        var json = File.ReadAllText(path);
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json, settings);
+
+        while (saveData.Version < SaveDataVersion)
+        {
+            saveData = saveData.VersionUp();
+        }
+
+        Data = saveData as SaveDataVC;
+
+        return true;
+    }
+
+    public static bool Load(string name)
+    {
+        var path = Path.Combine(SaveDirectory, $"{name}.json");
 
         if (!File.Exists(path))
             return false;

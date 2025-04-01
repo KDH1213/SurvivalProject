@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct RespawnInfo
@@ -99,7 +100,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     private void OnApplicationQuit()
     {
         onSaveEvent?.Invoke();
-        SaveLoadManager.Save();
+        SaveLoadManager.Save(SceneManager.GetActiveScene().name);
     }
 
     public void Save()
