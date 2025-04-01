@@ -14,6 +14,11 @@ public class MonsterSpawnSystem : MonoBehaviour
     [SerializeField]
     private List<MonsterWaveData> monsterWaveDatas;
 
+    [SerializeField]
+    private float nextWaveTime;
+
+    private float waveTime;
+
     private int activeSpawnerCount;
     private int currentWaveLevel = 0;
     public int CurrentWaveLevel { get  { return currentWaveLevel; } }
@@ -22,24 +27,21 @@ public class MonsterSpawnSystem : MonoBehaviour
     private bool isActive = false;
 
     private Coroutine coSpawn;
-    // private UniTask uniTaskSpawn;
-
-    private void Awake()
-    {
-        // waveDataList = DataTableManager.WaveDataTable.List;
-    }
 
     private void Start()
     {
-        //foreach (var spawner in monsterSpawnerList)
-        //{
-        //    spawner.spawnEvent.AddListener(monsterManager.OnAddMonster);
-        //    spawner.SetMonsterDeathAction(monsterManager.OnDeathMonster);
-        //    spawner.SetMonsterDestroyAction(monsterManager.OnDestroyMonster);
-        //}
-
-        // coSpawn = StartCoroutine(CoStartSpawn());
         StartSpawn();
+    }
+
+    private void Update()
+    {
+        if (!isActive)
+        {
+            if(waveTime > Time.time)
+            {
+                StartSpawn();
+            }
+        }
     }
 
 
@@ -77,82 +79,8 @@ public class MonsterSpawnSystem : MonoBehaviour
         if(activeSpawnerCount == 0)
         {
             isActive = false;
+            waveTime = Time.time + nextWaveTime;
+            ++currentWaveLevel;
         }
     }
-
-    //private IEnumerator CoStartSpawn()
-    //{
-    //    int maxWave = waveDataList.Count;
-    //    float currentTime = 0f;
-
-    //    while (currentWaveLevel < maxWave)
-    //    {
-    //        currentTime = waveDataList[currentWaveLevel].SpawnWaitTime;
-    //        while (currentTime > 0f)
-    //        {
-    //            yield return new WaitForEndOfFrame();
-    //            currentTime -= Time.deltaTime;
-    //            changeWaveTimeEvent?.Invoke(currentTime);
-    //        }
-
-    //        StartSpawn();
-
-    //        currentTime += waveDataList[currentWaveLevel].SpawnTime;
-    //        if (currentTime < waveDataList[currentWaveLevel].SpawnInterval * waveDataList[currentWaveLevel].SpawnCount)
-    //            currentTime = waveDataList[currentWaveLevel].SpawnInterval * waveDataList[currentWaveLevel].SpawnCount;
-
-    //        ++currentWaveLevel;
-
-    //        while (currentTime > 0f)
-    //        {
-    //            yield return new WaitForEndOfFrame();
-    //            currentTime -= Time.deltaTime;
-    //            changeWaveTimeEvent?.Invoke(currentTime);
-
-    //            if (isActive && monsterManager.CurrentMonsterCount == 0)
-    //                break;
-
-    //        }
-    //    }
-    //}
-
-    //private async UniTask UniTaskStartSpawn()
-    //{
-    //    int maxWave = waveDataList.Count;
-    //    float currentTime = 0f;
-    //    bool isGameOver = false;
-    //    while (currentWaveLevel < maxWave)
-    //    {
-    //        currentTime = waveDataList[currentWaveLevel].SpawnWaitTime;
-    //        while (currentTime > 0f)
-    //        {
-    //            await UniTask.Yield(PlayerLoopTiming.Update);
-    //            currentTime -= Time.deltaTime;
-    //            changeWaveTimeEvent?.Invoke(currentTime);
-
-    //        }
-
-    //        if (bossMonsterCount != 0)
-    //        {
-    //            GameController.GameOver();
-    //            isGameOver = true;
-    //            break;
-    //        }
-
-
-    //        GameController.AddCurrencyType(waveDataList[currentWaveLevel].CurrencyType, waveDataList[currentWaveLevel].WaveStartCurrencyValue);
-    //        StartSpawn();
-
-    //        currentTime += waveDataList[currentWaveLevel++].SpawnTime;
-    //        while (currentTime > 0f)
-    //        {
-    //            await UniTask.Yield(PlayerLoopTiming.Update);
-    //            currentTime -= Time.deltaTime;
-    //            changeWaveTimeEvent?.Invoke(currentTime);
-    //        }
-    //    }
-
-    //    if (!isGameOver)
-    //        GameController.GameClear();
-    //}
 }
