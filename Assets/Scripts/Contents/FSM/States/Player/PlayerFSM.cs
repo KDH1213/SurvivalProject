@@ -170,7 +170,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
         float closestDistance = float.MaxValue;
         GameObject closestTarget = null;
-        Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
 
         for (int i = 0; i < index; ++i)
         {
@@ -188,14 +187,10 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
             Vector3 directionToTarget = (interactableTargets[i].transform.position - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, interactableTargets[i].transform.position);
 
-            // 전방 90도(±45도) 범위 안에 있는지 확인
-            if (Vector3.Dot(forward, directionToTarget) > Mathf.Cos(Mathf.Deg2Rad * 45))
+            if (distance < closestDistance)
             {
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestTarget = interactableTargets[i].gameObject;
-                }
+                closestDistance = distance;
+                closestTarget = interactableTargets[i].gameObject;
             }
         }
 

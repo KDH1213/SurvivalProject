@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class PlayerInteractState : PlayerBaseState
 {
@@ -36,6 +35,7 @@ public class PlayerInteractState : PlayerBaseState
             // Debug.Log($"Player: Interact {target.name}");
             target.GetComponent<IInteractable>().Interact(this.gameObject);
 
+            transform.LookAt(target.transform);
             target = null;
         }
 
