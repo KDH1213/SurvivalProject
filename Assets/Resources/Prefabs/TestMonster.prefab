@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2297890974373026713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5933162592300425331}
+  m_Layer: 8
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5933162592300425331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297890974373026713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5272701081804950519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2089862502266817216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -812,6 +843,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 400006, guid: 9c09c78ed1209974db369788b8305a24,
         type: 3}
       insertIndex: 0
+      addedObject: {fileID: 5933162592300425331}
+    - targetCorrespondingSourceObject: {fileID: 400006, guid: 9c09c78ed1209974db369788b8305a24,
+        type: 3}
+      insertIndex: 1
       addedObject: {fileID: 5175670632540922674}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
@@ -902,6 +937,7 @@ MonoBehaviour:
     type: 2}
   <MonsterData>k__BackingField: {fileID: 11400000, guid: 33228d193f2ee44439ed283ee4ce126e,
     type: 2}
+  <AttackPoint>k__BackingField: {fileID: 5933162592300425331}
   firstPosition: {x: 0, y: 0, z: 0}
   onEndInteractEvent:
     m_PersistentCalls:

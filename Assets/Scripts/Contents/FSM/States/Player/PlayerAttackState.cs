@@ -52,7 +52,7 @@ public class PlayerAttackState : PlayerBaseState
     public void OnAttackPlayer()
     {
         isChangeMove = false;
-        PlayerFSM.Weapon.StartAttack(transform);
+        PlayerFSM.Weapon.StartAttack(transform, gameObject);
     }
 
     private void FindTarget()

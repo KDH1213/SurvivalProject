@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterAttackState : MonsterBaseState
@@ -42,7 +43,7 @@ public class MonsterAttackState : MonsterBaseState
     }
     public void OnMonsterAttack()
     {
-        MonsterFSM.Weapon.StartAttack(transform);
+        MonsterFSM.Weapon.StartAttack(MonsterFSM.AttackPoint, gameObject);
         //int index = Physics.OverlapSphereNonAlloc(transform.position, MonsterFSM.Weapon.Range , MonsterFSM.Weapon.AttackTargets, MonsterFSM.Weapon.WeaponLayerMask);
 
         //for (int i = 0; i < index; ++i)
@@ -58,5 +59,13 @@ public class MonsterAttackState : MonsterBaseState
         //{
         //    MonsterFSM.Weapon.Execute(gameObject, MonsterFSM.Target);
         //}
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (MonsterFSM != null && MonsterFSM.Weapon != null)
+        {
+            MonsterFSM.Weapon.OnGizmos(MonsterFSM.AttackPoint);
+        }
     }
 }

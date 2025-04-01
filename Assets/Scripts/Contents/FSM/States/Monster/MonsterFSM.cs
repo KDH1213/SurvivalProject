@@ -27,6 +27,9 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     [HideInInspector]
     public Transform TargetTransform { get; set; }
 
+    [field: SerializeField]
+    public Transform AttackPoint { get; private set; }
+
     [HideInInspector]
     public Vector3 firstPosition;
 
