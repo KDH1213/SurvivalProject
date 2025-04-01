@@ -14,7 +14,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public Data PlayerData { get; private set; }
     [field: SerializeField]
     public PlayerInventory PlayerInventory { get; private set; }
-
+    [field: SerializeField]
+    public Transform AttackPoint {  get; private set; }
     [SerializeField]
     private LayerMask interactableTargetLayerMask;
 

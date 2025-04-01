@@ -52,7 +52,7 @@ public class PlayerAttackState : PlayerBaseState
     public void OnAttackPlayer()
     {
         isChangeMove = false;
-        PlayerFSM.Weapon.StartAttack(transform, gameObject);
+        PlayerFSM.Weapon.StartAttack(PlayerFSM.AttackPoint, gameObject);
     }
 
     private void FindTarget()
@@ -96,6 +96,14 @@ public class PlayerAttackState : PlayerBaseState
             {
                 PlayerFSM.AttackTargets.Add(attackTargets[i].gameObject);
             }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (PlayerFSM != null && PlayerFSM.Weapon != null)
+        {
+            PlayerFSM.Weapon.OnGizmos(PlayerFSM.AttackPoint);
         }
     }
 }
