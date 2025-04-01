@@ -154,6 +154,14 @@ public class PlayerInventory : MonoBehaviour, IDragHandler
         }
     }
 
+    public void RemoveItem()
+    {
+        Item item = slots[SelectedSlotIndex].Item;
+
+        items.Remove(item);
+        UpdateSlots(items);
+    }
+
     public void ResetInfomation()
     {
         infomationText.text = $"Name:\nInfo:\nType:";
