@@ -5,9 +5,9 @@ using UnityEngine.AI;
 public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
 {
     [SerializeField]
-    private MonsterSpawnSystem monsterSpawnSystem;
+    protected MonsterSpawnSystem monsterSpawnSystem;
     [SerializeField]
-    private MonsterObjectPool monsterObjectPool;
+    protected MonsterObjectPool monsterObjectPool;
 
     protected float spawnTime;
     protected float currentSpawnTime = 0f;
@@ -16,9 +16,9 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
     protected bool isActive = false;
     protected bool isRepeat = true;
 
-    private MonsterWaveData waveData;
+    protected MonsterWaveData waveData;
     // private MonsterData monsterData;
-    private Coroutine spawnCoroutine;
+    protected Coroutine spawnCoroutine;
 
     //public virtual void SetMonsterWaveData(WaveData monsterSpawnInfo)
     //{
