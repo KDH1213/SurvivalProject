@@ -10,9 +10,6 @@ public class GridData
 {
     private Dictionary<Vector3Int, PlacementObject> placedObject = new Dictionary<Vector3Int, PlacementObject>();
 
-    public Vector3 size;
-    public Vector3 pos;
-
     public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placeObjectIndex, PlacementObject obj)
     {
         Debug.Log(gridPosition);
@@ -76,9 +73,6 @@ public class GridData
         Vector3Int nextPosY = new Vector3Int(gridPosition.x, 0, gridPosition.z + 1);
         float magX = Mathf.Abs(grid.CellToWorld(nextPosX).x - grid.CellToWorld(gridPosition).x);
         float magY = Mathf.Abs(grid.CellToWorld(nextPosY).z - grid.CellToWorld(gridPosition).z);
-
-        pos = new Vector3(test.x, 0f, test.z);
-        size = new Vector3(magX, 0f, magY);
 
         Collider[] testCollider = Physics.OverlapBox(new Vector3(test.x, 0f, test.z),
             new Vector3(magX * objectSize.x, 0f, magY * objectSize.y), grid.transform.rotation);

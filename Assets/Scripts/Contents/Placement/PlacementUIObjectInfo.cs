@@ -8,4 +8,5 @@ public class PlacementUIObjectInfo : MonoBehaviour
     public StructureKind structureKind;
     public Image icomImage;
 
+
 }

@@ -86,9 +86,18 @@ public class PlacementUIController : MonoBehaviour
     {
         Toggle toggle = toggles.ActiveToggles().FirstOrDefault();
 
+        if (toggle.name.Equals("All"))
+        {
+            foreach (var item in Objectcontents)
+            {
+                item.gameObject.SetActive(true);
+            }
+            return;
+        }
+
         foreach (var item in Objectcontents)
         {
-            if(toggle != null && item.structureKind.ToString().Equals(toggle.name))
+            if(item.structureKind.ToString().Equals(toggle.name))
             {
                 item.gameObject.SetActive(true);
             }

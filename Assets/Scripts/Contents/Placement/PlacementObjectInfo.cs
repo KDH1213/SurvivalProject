@@ -21,5 +21,7 @@ public class PlacementObjectInfo
     public GameObject Prefeb { get; private set; }
     [field: SerializeField]
     public StructureKind kind { get; private set; }
+    [field: SerializeField]
+    public SerializedDictionary<string, int> NeedItems { get; private set; }
 
 }
