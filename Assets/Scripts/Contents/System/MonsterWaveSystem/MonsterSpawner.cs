@@ -1,0 +1,128 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
+{
+    [SerializeField]
+    private MonsterSpawnSystem monsterSpawnSystem;
+    [SerializeField]
+    private MonsterObjectPool monsterObjectPool;
+
+    protected float spawnTime;
+    protected float currentSpawnTime = 0f;
+    protected int currentSpawnCount = 0;
+
+    protected bool isActive = false;
+    protected bool isRepeat = true;
+
+    private MonsterWaveData waveData;
+    // private MonsterData monsterData;
+    private Coroutine spawnCoroutine;
+
+    //public virtual void SetMonsterWaveData(WaveData monsterSpawnInfo)
+    //{
+    //    waveData = monsterSpawnInfo;
+    //    spawnTime = waveData.SpawnInterval;
+    //    monsterData = DataTableManager.MonsterDataTable.Get(waveData.MonsterID);
+    //    monsterObjectPool.SetMonsterData(monsterData.PrefabObject, monsterData.Id);
+    //}
+
+    public virtual void SetMonsterWaveData(MonsterWaveData monsterWaveData)
+    {
+        waveData = monsterWaveData;
+        spawnTime = waveData.SpawnTime;
+    }
+
+    public virtual void StartSpawn()
+    {
+        spawnCoroutine = StartCoroutine(StartSpawnCoroutine());
+
+        isActive = true;
+        enabled = true;
+    }
+
+    public virtual void StartSpawn(bool isRepeat)
+    {
+        if(isRepeat)
+            spawnCoroutine = StartCoroutine(StartSpawnRepeatCoroutine());
+        else
+            spawnCoroutine = StartCoroutine(StartSpawnCoroutine());
+
+        isActive = true;
+        enabled = true;
+    }
+    public virtual void StopSpawn()
+    {
+        currentSpawnCount = 0;
+        isActive = false;
+        //enabled = false;
+        if(spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
+        }
+    }
+
+    private IEnumerator StartSpawnCoroutine()
+    {
+        currentSpawnCount = 0; 
+        ISpawn();
+
+        while (currentSpawnCount < waveData.SpawnCount)
+        {
+            currentSpawnTime += Time.deltaTime;
+
+            if(currentSpawnTime >= spawnTime)
+            {
+                ISpawn();
+                currentSpawnTime -= spawnTime;
+            }
+
+            yield return null;
+        }
+
+        monsterSpawnSystem.EndSpawn();
+    }
+    private IEnumerator StartSpawnRepeatCoroutine()
+    {
+        ISpawn();
+
+        while (true)
+        {
+            currentSpawnTime += Time.deltaTime;
+
+            if (currentSpawnTime >= spawnTime)
+            {
+                ISpawn();
+                currentSpawnTime -= spawnTime;
+
+                //if (monsterSpawnInfo.SpawnCount == currentSpawnCount)
+                //{
+                //    StopSpawn();
+                //}
+            }
+
+            yield return null;
+        }
+    }
+
+    public virtual void ISpawn()
+    {
+        monsterObjectPool.SetMonsterData(waveData.GetRandomMonster());
+        var monsterController = monsterObjectPool.GetMonster();
+
+        if(NavMesh.SamplePosition(transform.position, out var hitPoint, 100f, NavMesh.AllAreas))
+        {
+            monsterController.transform.position = hitPoint.position;
+        }
+        else
+        {
+            monsterController.transform.position = transform.position;
+        }
+        monsterController.ChangeState(MonsterStateType.Idle);
+
+        ++currentSpawnCount;
+    }
+
+}

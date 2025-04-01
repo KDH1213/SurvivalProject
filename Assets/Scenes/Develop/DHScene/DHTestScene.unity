@@ -511,6 +511,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestMonster (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5272701081804789719, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5272701081804950519, guid: da2414e75410d674081bbb43c436c19d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -606,6 +611,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 205340203}
+  - {fileID: 681727324}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &574552309
@@ -703,6 +709,82 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &681727323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 681727324}
+  - component: {fileID: 681727327}
+  - component: {fileID: 681727326}
+  - component: {fileID: 681727325}
+  m_Layer: 0
+  m_Name: WaveSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &681727324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681727323}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 573730082}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &681727325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681727323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7467a13a482dbaf4090261ccec845a3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &681727326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681727323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15755ee85bd797a49af027f3e7bd6fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterSpawnSystem: {fileID: 681727327}
+  monsterObjectPool: {fileID: 681727325}
+--- !u!114 &681727327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681727323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f91dbe6f229594f9761d2d46177d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterSpawnerList:
+  - {fileID: 681727326}
+  monsterWaveDatas:
+  - {fileID: 11400000, guid: f3d8823ba30df1d4d8da411f48afec61, type: 2}
 --- !u!1 &695876989 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5648072637813978570, guid: cec299ed8ce3c3d4c85410babec322b5,
@@ -764,6 +846,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestMonster (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272701081804789719, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5272701081804950519, guid: da2414e75410d674081bbb43c436c19d,
         type: 3}
@@ -1010,6 +1097,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestMonster (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272701081804789719, guid: da2414e75410d674081bbb43c436c19d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5272701081804950519, guid: da2414e75410d674081bbb43c436c19d,
         type: 3}

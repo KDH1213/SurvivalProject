@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespawn
 {
+    [field: SerializeField]
+    public int ID { get; private set; } = 0;
+    
     [SerializeField]
     private Button button;
 
