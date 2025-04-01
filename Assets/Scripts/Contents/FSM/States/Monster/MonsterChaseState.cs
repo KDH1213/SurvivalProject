@@ -13,14 +13,12 @@ public class MonsterChaseState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster: ChaseState!!");
-
         if (MonsterFSM.Animator != null)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
         }
 
-        MonsterFSM.Agent.isStopped = false;  // �׺���̼� Ȱ��ȭ
+        MonsterFSM.Agent.isStopped = false;
         MonsterFSM.Agent.speed = MonsterStats.Speed;
     }
 
@@ -47,7 +45,7 @@ public class MonsterChaseState : MonsterBaseState
         }
 
         useReturn = false;
-        MonsterFSM.Agent.isStopped = true;  // �׺���̼� ����
+        MonsterFSM.Agent.isStopped = true;
     }
 
     private void Chase()
@@ -58,31 +56,29 @@ public class MonsterChaseState : MonsterBaseState
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
-
-        // �ʹ� �ָ� �������� ���� ����
-        else if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
+        
+        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
         {
             MonsterFSM.SetIsChase(false);
             MonsterFSM.SetIsPlayerRange(false);
-            MonsterFSM.Target = null; // Ÿ�� �ʱ�ȭ
-            MonsterFSM.ChangeState(MonsterStateType.Idle);
+            MonsterFSM.Target = null;
+            //MonsterFSM.ChangeState(MonsterStateType.Idle);
             useReturn = true;
 
             return;
         }
-
         
     }
 
-    // TODO :: �ʱ� ��ġ�� ���ư� �� �����ߴ��� ���θ� �Ǵ����ִ� �Լ�
+    // TODO ::
     private bool HasReachedDestination()
     {
-        return !MonsterFSM.Agent.pathPending && // ��� Ž���� �������� Ȯ��
-               MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance && // ������ ��ó���� Ȯ��
-               !MonsterFSM.Agent.hasPath; // ��ΰ� ������ ������ ������ ����
+        return !MonsterFSM.Agent.pathPending &&
+               MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance &&
+               !MonsterFSM.Agent.hasPath;
     }
 
-    // TODO :: ��ȯ�� ��ġ�� ���ư��� �ڵ�
+    // TODO ::
     private void ReturnPosition()
     {
         if (MonsterFSM.Animator == null)

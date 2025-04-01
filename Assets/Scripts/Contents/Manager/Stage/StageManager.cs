@@ -158,7 +158,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         }
 
         SaveLoadManager.Data.monsterSaveInfoList = monsterSaveInfoList;
-    }
+}
 
     public void Load()
     {
