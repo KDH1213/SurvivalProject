@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MonsterIdleState : MonsterBaseState
 {
-
     protected override void Awake()
     {
         base.Awake();
@@ -41,23 +40,20 @@ public class MonsterIdleState : MonsterBaseState
 
     private void FindTarget()
     {
-        if(MonsterFSM.Target != null)
+        if (MonsterFSM.Target != null)
         {
             return;
         }
 
-        Collider[] colliders = Physics.OverlapSphere(MonsterFSM.transform.position, MonsterFSM.aggroRange * 1.2f);
+        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, MonsterFSM.Weapon.attackTargets, MonsterFSM.Weapon.weaponLayerMask);
 
-        foreach (var collider in colliders)
+        for(int i = 0; i < index; i++)
+
         {
-            if (collider.CompareTag("Player"))
-            {
-                MonsterFSM.Target = collider.gameObject;
-                MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
-                Debug.Log($"Monster: {MonsterFSM.Target.name} 발견! 타겟 설정 완료");
-                ChangeChaseState(); // 타겟을 찾으면 바로 추적 여부 결정
-                return;
-            }
+            MonsterFSM.Target = MonsterFSM.Weapon.attackTargets[0].gameObject;
+            MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
+            ChangeChaseState();
+            return;
         }
     }
 
@@ -71,11 +67,10 @@ public class MonsterIdleState : MonsterBaseState
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
         // 플레이어를 발견하면 추적 시작
-        if (!MonsterFSM.IsChase && MonsterFSM.TargetDistance < MonsterFSM.aggroRange)
+        if (!MonsterFSM.IsChase && MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
         {
             MonsterFSM.SetIsChase(true);
             MonsterFSM.SetIsPlayerRange(true);
-            Debug.Log("Monster: 플레이어 감지! 추적 시작");
         }
     }
 }

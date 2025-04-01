@@ -31,13 +31,6 @@ public class PlayerIdleState : PlayerBaseState
     {
     }
 
-    //private IEnumerator CoAttackReload()
-    //{
-    //    isAttack = false;
-    //    yield return new WaitForSeconds(attackTime);
-    //    isAttack = true;
-    //}
-
     public void OnChangeStatus()
     {
         // TODO :: player Status 제작에 따라 값을 받아게 변경

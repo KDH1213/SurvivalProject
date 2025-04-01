@@ -20,13 +20,16 @@ public class MonsterChaseState : MonsterBaseState
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
         }
 
-        MonsterFSM.Agent.isStopped = false;  // ³×ºñ°ÔÀÌ¼Ç È°¼ºÈ­
+        MonsterFSM.Agent.isStopped = false;  // ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ È°ï¿½ï¿½È­
         MonsterFSM.Agent.speed = MonsterStats.Speed;
     }
 
     public override void ExecuteUpdate()
-    { 
-        MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
+    {
+        if (MonsterFSM.TargetTransform != null)
+        {
+            MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
+        }
 
         Chase();
 
@@ -44,41 +47,41 @@ public class MonsterChaseState : MonsterBaseState
         }
 
         useReturn = false;
-        MonsterFSM.Agent.isStopped = true;  // ³×ºñ°ÔÀÌ¼Ç Á¤Áö
+        MonsterFSM.Agent.isStopped = true;  // ï¿½×ºï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void Chase()
     {
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
-        // ³Ê¹« ¸Ö¸® ¶³¾îÁö¸é ÃßÀû ÁßÁö
-        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.aggroRange * 1.5f)
+        // ï¿½Ê¹ï¿½ ï¿½Ö¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
         {
             MonsterFSM.SetIsChase(false);
             MonsterFSM.SetIsPlayerRange(false);
-            MonsterFSM.Target = null; // Å¸°Ù ÃÊ±âÈ­
+            MonsterFSM.Target = null; // Å¸ï¿½ï¿½ ï¿½Ê±ï¿½È­
             MonsterFSM.ChangeState(MonsterStateType.Idle);
             useReturn = true;
 
             return;
         }
 
-        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)  // °ø°Ý °Å¸® Á¶Á¤ (±âÁ¸ 0.5 -> 1.0)
+        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
 
         }
     }
 
-    // TODO :: ÃÊ±â À§Ä¡·Î µ¹¾Æ°¥ ¶§ µµÂøÇß´ÂÁö ¿©ºÎ¸¦ ÆÇ´ÜÇØÁÖ´Â ÇÔ¼ö
+    // TODO :: ï¿½Ê±ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ç´ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½
     private bool HasReachedDestination()
     {
-        return !MonsterFSM.Agent.pathPending && // °æ·Î Å½»öÀÌ ³¡³µ´ÂÁö È®ÀÎ
-               MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance && // ¸ñÀûÁö ±ÙÃ³ÀÎÁö È®ÀÎ
-               !MonsterFSM.Agent.hasPath; // °æ·Î°¡ ¾øÀ¸¸é µµÂøÇÑ °ÍÀ¸·Î °£ÁÖ
+        return !MonsterFSM.Agent.pathPending && // ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+               MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance && // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+               !MonsterFSM.Agent.hasPath; // ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
-    // TODO :: ¼ÒÈ¯µÈ À§Ä¡·Î µ¹¾Æ°¡´Â ÄÚµå
+    // TODO :: ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½Úµï¿½
     private void ReturnPosition()
     {
         if (MonsterFSM.Animator == null)

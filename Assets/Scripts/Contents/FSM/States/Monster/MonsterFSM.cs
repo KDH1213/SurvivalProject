@@ -18,14 +18,14 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
 
+    [field: SerializeField]
+    public Data MonsterData { get; private set; }
+
     [HideInInspector]
     public GameObject Target { get; set; }
 
     [HideInInspector]
     public Transform TargetTransform { get; set; }
-
-    [HideInInspector]
-    public float aggroRange;
 
     [HideInInspector]
     public Vector3 firstPosition;
@@ -66,7 +66,6 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         IsAttack = false;
         IsDead = false;
         CanRouting = false;
-        aggroRange = 5f;
         firstPosition = gameObject.transform.position;
     }
 
@@ -109,7 +108,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         IsAttack = value;
     }
 
-    // TODO :: TestMonster -> DestructedEvent ÀÌº¥Æ®¿¡ ¿¬°á
+    // TODO :: TestMonster -> DestructedEvent ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void OnDeath()
     {
         Debug.Log("Monster: Die!!");
@@ -129,13 +128,13 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         RemainingTime = remainTime;
     }
 
-    // TODO :: »ç¸Á ½Ã »óÈ£ÀÛ¿ë ÄÚµå ÁÖ¼® Ã³¸®
+    // TODO :: ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½Úµï¿½ ï¿½Ö¼ï¿½ Ã³ï¿½ï¿½
     //public void Interact(GameObject interactor)
     //{
     //    button.gameObject.SetActive(true);
     //}
 
-    //// TODO :: ÀÓ½Ã / CancleButtonÀÇ On Click ÀÌº¥Æ®¿¡ ¿¬°á
+    //// TODO :: ï¿½Ó½ï¿½ / CancleButtonï¿½ï¿½ On Click ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     //public void OnButtonOff()
     //{
     //    button.gameObject.SetActive(false);

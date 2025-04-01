@@ -14,6 +14,9 @@ public class Weapon : AttackDefinition
     [field: SerializeField]
     public Vector3 CreateSize { get; private set; }
 
+    [HideInInspector]
+    public Collider[] attackTargets =  new Collider[5];
+
     [SerializeField]
     public LayerMask WeaponLayerMask;
 

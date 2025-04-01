@@ -16,13 +16,14 @@ public class MonsterAttackState : MonsterBaseState
     {
         animationSpeed = MonsterStats.AttackSpeed;
         MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
+
+        transform.LookAt(MonsterFSM.Target.transform.position);
+
         MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
 
         MonsterFSM.Agent.isStopped = true;
         MonsterFSM.Agent.destination = transform.position;
-
-        transform.LookAt(MonsterFSM.Target.transform);
     }
 
     public override void ExecuteUpdate()
