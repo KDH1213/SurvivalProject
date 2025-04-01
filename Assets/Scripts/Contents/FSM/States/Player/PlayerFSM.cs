@@ -13,7 +13,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     [field: SerializeField]
     public Data PlayerData { get; private set; }
     [field: SerializeField]
-    public GameObject PlayerInventory { get; private set; }
+    public PlayerInventory PlayerInventory { get; private set; }
 
     [SerializeField]
     private LayerMask interactableTargetLayerMask;
@@ -137,6 +137,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public void OnShowInventory()
     {
         PlayerInventory.gameObject.SetActive(true);
+        PlayerInventory.ResetInfomation();
+        
     }
 
     public void OnDisableInventory()

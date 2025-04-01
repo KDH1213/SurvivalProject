@@ -4,17 +4,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.Pool;
-using UnityEngine.UI;
 
 public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespawn
 {
-    [SerializeField]
-    private Button button;
-
     [field: SerializeField]
     public Animator Animator { get; private set; }
     [field: SerializeField]
-    public NavMeshAgent Agent { get; private set; }
+    public NavMeshAgent Agent { get; private set; } // 정리 필요
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
 
@@ -82,10 +78,6 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         }
     }
 
-    private void Start()
-    {
-    }
-
     private void Update()
     {
         StateTable[currentStateType].ExecuteUpdate();
@@ -131,18 +123,6 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     {
         RemainingTime = remainTime;
     }
-
-    // TODO :: ��� �� ��ȣ�ۿ� �ڵ� �ּ� ó��
-    //public void Interact(GameObject interactor)
-    //{
-    //    button.gameObject.SetActive(true);
-    //}
-
-    //// TODO :: �ӽ� / CancleButton�� On Click �̺�Ʈ�� ����
-    //public void OnButtonOff()
-    //{
-    //    button.gameObject.SetActive(false);
-    //}
 
     public void LoadData(MonsterSaveInfo monsterSaveInfo)
     {
