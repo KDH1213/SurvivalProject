@@ -11,13 +11,19 @@ public class PlacementUIController : MonoBehaviour
     private PlacementSystem placementSystem;
     [SerializeField]
     private PlacementPreview preview;
+    [SerializeField]
+    private PlacementObjectList dataBase;
 
     [SerializeField] // 배치 / 취소 버튼
     private GameObject placementUI;
     [SerializeField] // 삭제버튼
     private GameObject distroyButton;
     [SerializeField] // 건설물 목록 UI (항목별) 
-    private List<PlacementUIObjectInfo> Objectcontents;
+    private List<PlacementUIObjectInfo> Objectcontents = new();
+    [SerializeField] // 건설물 목록 UI (항목별) 
+    private GameObject Objectcontent;
+    [SerializeField] // 건설물 목록 프리팹
+    private PlacementUIObjectInfo ObjectContentPrefeb;
     [SerializeField] // 건설물 목록 UI
     private GameObject ObjectListUi;
     [SerializeField]
@@ -27,6 +33,7 @@ public class PlacementUIController : MonoBehaviour
     private void Awake()
     {
         placementSystem = GetComponent<PlacementSystem>();
+        SetObjectList();
     }
 
     private void Update()
@@ -64,6 +71,7 @@ public class PlacementUIController : MonoBehaviour
         {
             obj.SetActive(true);
         }
+        Objectcontents[ID].leftCount = maxCount - currentCount;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
     }
 
@@ -82,6 +90,17 @@ public class PlacementUIController : MonoBehaviour
 
     }
 
+    public void SetObjectList()
+    {
+        foreach(var data in dataBase.objects)
+        {
+            PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);
+            uiObjInfo.SetUIObjectInfo(data, placementSystem);
+            Objectcontents.Add(uiObjInfo);
+        }
+        
+    }
+
     public void OnChangeObjectList()
     {
         Toggle toggle = toggles.ActiveToggles().FirstOrDefault();
@@ -97,8 +116,12 @@ public class PlacementUIController : MonoBehaviour
 
         foreach (var item in Objectcontents)
         {
-            if(item.structureKind.ToString().Equals(toggle.name))
+            if(item.placementInfo.Kind.ToString().Equals(toggle.name))
             {
+                if(item.leftCount <= 0)
+                {
+                    continue;
+                }
                 item.gameObject.SetActive(true);
             }
             else

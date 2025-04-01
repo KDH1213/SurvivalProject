@@ -76,7 +76,7 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"존재하지 않는 ID : {ID}");
             return;
         }
-        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
     }
 
     // 배치 시작 overload
@@ -89,7 +89,7 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"존재하지 않는 ID : {ID}");
             return;
         }
-        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb, obj);
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb, obj);
     }
 
     // 배치 멈추기
@@ -126,14 +126,14 @@ public class PlacementSystem : MonoBehaviour
             SelectedObject = null;
         }
 
-        bool invenValidity = inven.CheckItemCount(database.objects[SelectedObjectIndex].NeedItems);
+        bool invenValidity = inven.CheckItemCount(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
         if (!invenValidity)
         {
             StopPlacement();
             return;
         }
 
-        GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].Prefeb);
+        GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
         newObject.transform.position = grid.CellToWorld(gridPosition);
 
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
@@ -141,7 +141,7 @@ public class PlacementSystem : MonoBehaviour
         placementObject.Position = gridPosition;
         placedGameObjects.Add(placementObject);
 
-        inven.MinusItem(database.objects[SelectedObjectIndex].NeedItems);
+        inven.MinusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
 
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
@@ -179,7 +179,7 @@ public class PlacementSystem : MonoBehaviour
     public void DestoryStructure()
     {
         placementUI.OnSetObjectListUi(database, SelectedObject.PlacementData.ID, placedGameObjects);
-        inven.PlusItem(database.objects[SelectedObjectIndex].NeedItems);
+        inven.PlusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
         Destroy(SelectedObject.transform.parent.gameObject);
         preview.StopShowingPreview();
     }
