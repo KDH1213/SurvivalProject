@@ -876,6 +876,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 9697355052363296}
+    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3585911724266889897}
     - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
         type: 3}
@@ -928,11 +932,13 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value: {fileID: 7187897753210940239}
+    - Key: 4
+      Value: {fileID: 9697355052363296}
     - Key: 2
       Value: {fileID: 2745741150899027928}
     - Key: 3
       Value: {fileID: 2265959112917512316}
-    - Key: 4
+    - Key: 5
       Value: {fileID: 3585911724266889897}
   <ID>k__BackingField: 0
   button: {fileID: 0}
@@ -1041,6 +1047,31 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &9697355052363296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272701081804789719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9634210e2db09042bbb5fe330b30bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeFixedUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  exitStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  movePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &3585911724266889897
 MonoBehaviour:
   m_ObjectHideFlags: 0

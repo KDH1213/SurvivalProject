@@ -5,5 +5,6 @@ public enum MonsterStateType
     Idle,
     Chase,
     Attack,
+    Move,
     Death,
 }

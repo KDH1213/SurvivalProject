@@ -7,6 +7,9 @@ public class MonsterPointSpawner : MonsterSpawner
 {
     [SerializeField]
     private Transform[] createPoints;
+
+    [SerializeField]
+    private Vector3 targetPoint;
     public override void ISpawn()
     {
         monsterObjectPool.SetMonsterData(waveData.GetRandomMonster());
@@ -22,8 +25,13 @@ public class MonsterPointSpawner : MonsterSpawner
         {
             monsterController.transform.position = createPoints[randomPoint].position;
         }
-        monsterController.ChangeState(MonsterStateType.Idle);
 
+        // TODO :: 더미 코드
+        var moveState = monsterController.StateTable[MonsterStateType.Move] as MonsterMoveState;
+        moveState.SetMovePosition(targetPoint);
+        monsterController.StateTable[MonsterStateType.Idle].enterStateEvent.AddListener(() => monsterController.ChangeState(MonsterStateType.Move));
+
+        monsterController.ChangeState(MonsterStateType.Move);
         ++currentSpawnCount;
     }
 }
