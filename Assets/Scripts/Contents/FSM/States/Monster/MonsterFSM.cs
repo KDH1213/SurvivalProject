@@ -114,6 +114,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         Debug.Log("Monster: Die!!");
         IsDead = true;
         CanRouting = true;
+        RemainingTime = RespawnTime;
         ChangeState(MonsterStateType.Death);
     }
 

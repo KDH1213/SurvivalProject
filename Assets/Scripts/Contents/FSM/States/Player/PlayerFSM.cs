@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerFSM : FSMController<PlayerStateType>
+public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 {
     [field: SerializeField]
     public Animator Animator { get; private set; }
@@ -42,6 +42,16 @@ public class PlayerFSM : FSMController<PlayerStateType>
 
     protected override void Awake()
     {
+        if (SaveLoadManager.Data != null)
+        {
+            Load();
+        }
+
+        var stageManager = GameObject.FindGameObjectWithTag("StageManager");
+        if (stageManager != null)
+        {
+            stageManager.GetComponent<StageManager>().onSaveEvent += Save;
+        }
 
         SetCanAttack(true);
         OnSetUseMove(true);
@@ -195,5 +205,13 @@ public class PlayerFSM : FSMController<PlayerStateType>
             IInteractable target = InteractableTarget.GetComponent<IInteractable>();
             target.Interact(gameObject);
         }
+    }
+
+    public void Save()
+    {
+    }
+
+    public void Load()
+    {
     }
 }

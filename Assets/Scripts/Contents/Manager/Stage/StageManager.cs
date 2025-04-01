@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public struct RespawnInfo
@@ -16,9 +17,18 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     private SerializedDictionary<InteractType, List<GameObject>> interactTable = new SerializedDictionary<InteractType, List<GameObject>>();
 
     private PriorityQueue<RespawnInfo, float> respawnObjectQueue = new PriorityQueue<RespawnInfo, float>();
+    public UnityAction onSaveEvent; 
 
     private void Awake()
     {
+        var sceneSwitchers = GetComponentsInChildren<SceneSwitcher>();
+
+        foreach (var sceneSwitcher in sceneSwitchers)
+        {
+            sceneSwitcher.onSceneSwitchEvent.AddListener(onSaveEvent);
+        }
+
+        onSaveEvent += Save;
 
         for (int i = 0; i < (int)InteractType.End; ++i)
         {
@@ -88,12 +98,17 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     private void OnApplicationQuit()
     {
-        Save();
+        onSaveEvent?.Invoke();
         SaveLoadManager.Save();
     }
 
     public void Save()
     {
+        if(SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
 
         SaveLoadManager.Data.gatherSaveInfoTable.Clear();
         var currentTime = Time.time;

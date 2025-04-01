@@ -54,8 +54,13 @@ public class MonsterChaseState : MonsterBaseState
     {
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
+        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Attack);
+        }
+
         // �ʹ� �ָ� �������� ���� ����
-        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
+        else if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
         {
             MonsterFSM.SetIsChase(false);
             MonsterFSM.SetIsPlayerRange(false);
@@ -66,11 +71,7 @@ public class MonsterChaseState : MonsterBaseState
             return;
         }
 
-        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Attack);
-
-        }
+        
     }
 
     // TODO :: �ʱ� ��ġ�� ���ư� �� �����ߴ��� ���θ� �Ǵ����ִ� �Լ�
