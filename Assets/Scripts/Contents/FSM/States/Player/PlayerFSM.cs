@@ -207,9 +207,15 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
     public void Save()
     {
+        SaveLoadManager.Data.playerSaveInfo.position = transform.position;
+        SaveLoadManager.Data.playerSaveInfo.hp = GetComponent<PlayerStats>().CurrentStatTable[StatType.HP].Value;
     }
 
     public void Load()
     {
+        if (SaveLoadManager.Data != null)
+        {
+            transform.position = SaveLoadManager.Data.playerSaveInfo.position;
+        }
     }
 }

@@ -18,6 +18,11 @@ public class PlayerStats : CharactorStats
             survivalStats = GetComponent<PenaltyController>();
         }
 
+        if (SaveLoadManager.Data != null)
+        {
+            originalData.StatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
+        }
+
         OnChangeHp();
     }
 

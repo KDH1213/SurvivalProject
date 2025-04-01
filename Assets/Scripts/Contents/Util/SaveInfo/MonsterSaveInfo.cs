@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using UnityEngine;
 
 [System.Serializable]
