@@ -7,6 +7,12 @@ public class PlayerStats : CharactorStats
     private PenaltyController survivalStats;
 
     [SerializeField]
+    private LifeStat lifeStat;
+
+    [SerializeField]
+    private CraftingStat craftingStat;
+
+    [SerializeField]
     private Slider HpBarSlider;
 
     protected override void Awake()
