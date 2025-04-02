@@ -17,13 +17,16 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private PlacementPreview preview;
     [SerializeField]
+    private TestInventory inven;
+    [SerializeField]
     private Grid grid;
 
     [SerializeField]
     private PlacementObjectList database;
     public int SelectedObjectIndex { get; set; }
     public float gridCellCount;
-
+    
+    private GameObject testGameObject;
     public PlacementInput GetInputManager { get; private set; }
     public Grid GetGrid { get; private set; }
 
@@ -73,7 +76,7 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"존재하지 않는 ID : {ID}");
             return;
         }
-        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb);
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
     }
 
     // 배치 시작 overload
@@ -86,7 +89,7 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"존재하지 않는 ID : {ID}");
             return;
         }
-        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].Prefeb, obj);
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb, obj);
     }
 
     // 배치 멈추기
@@ -99,8 +102,12 @@ public class PlacementSystem : MonoBehaviour
     // 배치 가능한지 검사
     public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
-        return gridData.CanPlaceObjectAt(gridPosition, database.objects[selectedObjectIndex].Size);
+        Vector2Int size = database.objects[selectedObjectIndex].Size;
+        return gridData.CanPlaceObjectAt(gridPosition, size) &&
+            !gridData.CheckCollideOther(grid, gridPosition, size);
     }
+
+    
 
     // 오브젝트 배치
     public void PlaceStructure()
@@ -119,7 +126,14 @@ public class PlacementSystem : MonoBehaviour
             SelectedObject = null;
         }
 
-        GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].Prefeb);
+        bool invenValidity = inven.CheckItemCount(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
+        if (!invenValidity)
+        {
+            StopPlacement();
+            return;
+        }
+
+        GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
         newObject.transform.position = grid.CellToWorld(gridPosition);
 
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
@@ -127,12 +141,14 @@ public class PlacementSystem : MonoBehaviour
         placementObject.Position = gridPosition;
         placedGameObjects.Add(placementObject);
 
+        inven.MinusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
+
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, placementObject);
         placementUI.OnSetObjectListUi(database, placementObject.PlacementData.ID, placedGameObjects);
         //preview.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, SelectedObjectIndex));
-        preview.StopShowingPreview();
+        StopPlacement();
     }
 
     // 배치된 오브젝트 선택
@@ -163,6 +179,7 @@ public class PlacementSystem : MonoBehaviour
     public void DestoryStructure()
     {
         placementUI.OnSetObjectListUi(database, SelectedObject.PlacementData.ID, placedGameObjects);
+        inven.PlusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
         Destroy(SelectedObject.transform.parent.gameObject);
         preview.StopShowingPreview();
     }
@@ -177,6 +194,4 @@ public class PlacementSystem : MonoBehaviour
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, obj);
     }
-
-    
 }

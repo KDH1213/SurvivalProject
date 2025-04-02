@@ -4,25 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlacementUIController : MonoBehaviour
 {
     private PlacementSystem placementSystem;
     [SerializeField]
     private PlacementPreview preview;
+    [SerializeField]
+    private PlacementObjectList dataBase;
 
     [SerializeField] // 배치 / 취소 버튼
     private GameObject placementUI;
     [SerializeField] // 삭제버튼
     private GameObject distroyButton;
     [SerializeField] // 건설물 목록 UI (항목별) 
-    private GameObject Objectcontents;
+    private List<PlacementUIObjectInfo> Objectcontents = new();
+    [SerializeField] // 건설물 목록 UI (항목별) 
+    private GameObject Objectcontent;
+    [SerializeField] // 건설물 목록 프리팹
+    private PlacementUIObjectInfo ObjectContentPrefeb;
     [SerializeField] // 건설물 목록 UI
     private GameObject ObjectListUi;
+    [SerializeField]
+    private ToggleGroup toggles;
+    
 
     private void Awake()
     {
         placementSystem = GetComponent<PlacementSystem>();
+        SetObjectList();
     }
 
     private void Update()
@@ -49,7 +60,7 @@ public class PlacementUIController : MonoBehaviour
     public void OnSetObjectListUi(PlacementObjectList database, int ID, List<PlacementObject> placedGameObjects)
     {
         int index = database.objects.FindIndex(data => data.ID == ID);
-        GameObject obj = Objectcontents.transform.GetChild(ID).gameObject;
+        GameObject obj = Objectcontents[ID].gameObject;
         int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
         int maxCount = database.objects[index].MaxBuildCount;
         if (currentCount >= maxCount)
@@ -60,6 +71,7 @@ public class PlacementUIController : MonoBehaviour
         {
             obj.SetActive(true);
         }
+        Objectcontents[ID].leftCount = maxCount - currentCount;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
     }
 
@@ -75,6 +87,48 @@ public class PlacementUIController : MonoBehaviour
         Vector3 uiPos = Camera.main.ScreenToWorldPoint(new Vector3(0, -rectTran.offsetMax.y));
 
         ObjectListUi.transform.DOLocalMoveY(ObjectListUi.transform.localPosition.y - rectTran.offsetMax.y, 0.3f);
+
+    }
+
+    public void SetObjectList()
+    {
+        foreach(var data in dataBase.objects)
+        {
+            PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);
+            uiObjInfo.SetUIObjectInfo(data, placementSystem);
+            Objectcontents.Add(uiObjInfo);
+        }
+        
+    }
+
+    public void OnChangeObjectList()
+    {
+        Toggle toggle = toggles.ActiveToggles().FirstOrDefault();
+
+        if (toggle.name.Equals("All"))
+        {
+            foreach (var item in Objectcontents)
+            {
+                item.gameObject.SetActive(true);
+            }
+            return;
+        }
+
+        foreach (var item in Objectcontents)
+        {
+            if(item.placementInfo.Kind.ToString().Equals(toggle.name))
+            {
+                if(item.leftCount <= 0)
+                {
+                    continue;
+                }
+                item.gameObject.SetActive(true);
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        } 
 
     }
 }
