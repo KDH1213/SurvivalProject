@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class HungerStat : SurvivalStatBehaviour
 {
@@ -16,6 +17,11 @@ public class HungerStat : SurvivalStatBehaviour
     [SerializeField]
     private float hpDownTime = 5f;
 
+    [SerializeField]
+    private Slider hungerSlider;
+
+    private LifeStat lifeStat;
+
     private bool isHpDown;
     private float currentTime = 0f;
 
@@ -23,7 +29,11 @@ public class HungerStat : SurvivalStatBehaviour
     {
         survivalStatType = SurvivalStatType.Hunger;
         value = maxValue;
+
+        lifeStat = GetComponent<LifeStat>();
+        OnChangeValue();
     }
+
     private void Update()
     {
         currentTime += Time.deltaTime;
@@ -55,6 +65,7 @@ public class HungerStat : SurvivalStatBehaviour
         {
             currentTime -= valueDownTime;
             value -= maxValue * 0.01f;
+            OnChangeValue();
         }
     }
 
@@ -75,6 +86,7 @@ public class HungerStat : SurvivalStatBehaviour
     public override void AddPenaltyValue(float value)
     {
         this.value += value;
+        OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
         {
@@ -99,5 +111,10 @@ public class HungerStat : SurvivalStatBehaviour
     public override void OnStopPenalty()
     {
         base.OnStopPenalty();
+    }
+
+    public void OnChangeValue()
+    {
+        hungerSlider.value = value / maxValue;
     }
 }

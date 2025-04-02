@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FatigueStat : SurvivalStatBehaviour
 {
@@ -12,9 +13,12 @@ public class FatigueStat : SurvivalStatBehaviour
     private float extraValue = 1.5f;
     private bool isExtraValue = false;
 
+    [SerializeField]
+    private Slider fatigueSlider;
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Fatigue;
+        OnChangeValue();
     }
     public override void AddPenaltyValue(float value)
     {
@@ -27,6 +31,9 @@ public class FatigueStat : SurvivalStatBehaviour
             this.value += value;
         }
 
+
+        OnChangeValue();
+
         if (!isOnDebuff && IsActivationCheckPenalty())
         {
             OnStartPenalty();
@@ -36,6 +43,7 @@ public class FatigueStat : SurvivalStatBehaviour
     public void SubPenaltyValue(float value)
     {
         this.value -= value;
+        OnChangeValue();
 
         if (isOnDebuff && !IsActivationCheckPenalty())
         {
@@ -65,5 +73,10 @@ public class FatigueStat : SurvivalStatBehaviour
     public void OnEndThirstPenalty()
     {
         isExtraValue = false;
+    }
+
+    public void OnChangeValue()
+    {
+        fatigueSlider.value = value / maxValue;
     }
 }
