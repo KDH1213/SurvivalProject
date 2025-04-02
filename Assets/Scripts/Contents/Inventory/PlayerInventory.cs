@@ -37,7 +37,7 @@ public class PlayerInventory : MonoBehaviour, IDragHandler
 
     public void AddListeners(UnityAction action)
     {
-        foreach(var slot in slots)
+        foreach (var slot in slots)
         {
             slot.button.onClick.AddListener(action);
         }
@@ -45,7 +45,7 @@ public class PlayerInventory : MonoBehaviour, IDragHandler
 
     void Awake()
     {
-        foreach(var item in items)
+        foreach (var item in items)
         {
             Debug.Log(item);
         }
@@ -74,7 +74,20 @@ public class PlayerInventory : MonoBehaviour, IDragHandler
                     var uiItemSlot = result.gameObject.GetComponent<Slot>();
                     if (uiItemSlot != null)
                     {
-                        (items[dragSeletedSlotIndex], items[uiItemSlot.SlotIndex]) = (items[uiItemSlot.SlotIndex], items[dragSeletedSlotIndex]);
+                        if (items[dragSeletedSlotIndex].itemName == items[uiItemSlot.SlotIndex].itemName)
+                        {
+                            //slots[uiItemSlot.SlotIndex].Amount += slots[dragSeletedSlotIndex].Amount;
+                            slots[uiItemSlot.SlotIndex].Item.amount += slots[dragSeletedSlotIndex].Item.amount;
+
+                            items[dragSeletedSlotIndex] = null;
+
+                            items = items.Where(item => item != null).ToList();
+                        }
+                        else
+                        {
+                            (items[dragSeletedSlotIndex], items[uiItemSlot.SlotIndex]) = (items[uiItemSlot.SlotIndex], items[dragSeletedSlotIndex]);
+                        }
+
                         UpdateSlots(items);
                         break;
                     }
@@ -113,7 +126,25 @@ public class PlayerInventory : MonoBehaviour, IDragHandler
             if (i < items.Count && items[i] != null)
             {
                 slots[i].Item = items[i];
-                slots[i].Amount = items[i].amount;
+                slots[i].Item.amount = items[i].amount;
+                slots[i].amountText.text = $"{slots[i].Item.amount}";
+            }
+            else
+            {
+                slots[i].Item = null;
+                slots[i].Amount = 0;
+                slots[i].amountText.text = "0";
+            }
+        }
+    }
+
+    private void UpdateAmount(List<Item> items)
+    {
+        for (int i = 0; i < maxSlot; i++)
+        {
+            if (i < items.Count && items[i] != null)
+            {
+                slots[i].Item = items[i];
                 slots[i].amountText.text = $"{slots[i].Amount}";
             }
             else
@@ -160,6 +191,8 @@ public class PlayerInventory : MonoBehaviour, IDragHandler
 
         items.Remove(item);
         UpdateSlots(items);
+
+        onClickRemoveButton?.Invoke();
     }
 
     public void ResetInfomation()
