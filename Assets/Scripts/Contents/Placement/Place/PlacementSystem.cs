@@ -15,6 +15,8 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private PlacementUIController placementUI;
     [SerializeField]
+    private PlacementMode placementMode;
+    [SerializeField]
     private PlacementPreview preview;
     [SerializeField]
     private TestInventory inven;
@@ -158,20 +160,26 @@ public class PlacementSystem : MonoBehaviour
         {
             return false;
         }
-        Vector3 position = obj.Position;
-        Vector3Int gridPosition = grid.WorldToCell(position);
 
-        int id = gridData.RemoveObjectAt(obj);
-        placedGameObjects.Remove(obj);
-
-        foreach(var item in placedGameObjects)
-        {
-            item.PlacementData.OrderPlaceObjectIndex(obj.PlacementData.PlaceObjectIndex);
-        }
         SelectedObject = obj;
         SelectedObject.transform.parent.gameObject.SetActive(false);
+
+        if (placementMode.CurrentMode == Mode.Place)
+        {
+            int id = gridData.RemoveObjectAt(obj);
+            placedGameObjects.Remove(obj);
+
+            foreach(var item in placedGameObjects)
+            {
+                item.PlacementData.OrderPlaceObjectIndex(obj.PlacementData.PlaceObjectIndex);
+            }
+            StartPlacement(id, obj);
+        }
+        else if(placementMode.CurrentMode == Mode.Select)
+        {
+
+        }
         
-        StartPlacement(id, obj);
         return true;
     }
 
