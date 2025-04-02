@@ -26,7 +26,7 @@ public class PlacementLevelInfo
     [field: SerializeField]
     public string Name { get; private set; }
     [field: SerializeField]
-    public int DefaultHp { get; private set; }
+    public float DefaultHp { get; private set; }
     [field: SerializeField]
     public GameObject Prefeb { get; private set; }
     [field: SerializeField]
