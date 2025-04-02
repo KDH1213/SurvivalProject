@@ -33,4 +33,6 @@ public class PlacementLevelInfo
     public SerializedDictionary<string, int> NeedItems { get; private set; }
     [field: SerializeField]
     public Sprite Icon { get; private set; }
+    [field: SerializeField]
+    public string Feature { get; private set; }
 }

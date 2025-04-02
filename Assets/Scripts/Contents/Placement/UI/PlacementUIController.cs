@@ -28,7 +28,9 @@ public class PlacementUIController : MonoBehaviour
     private GameObject ObjectListUi;
     [SerializeField]
     private ToggleGroup toggles;
-    
+    [SerializeField]
+    private BuildInfoUI infoUI; // 아이템 정보 UI
+
 
     private void Awake()
     {
@@ -105,10 +107,16 @@ public class PlacementUIController : MonoBehaviour
     {
         Toggle toggle = toggles.ActiveToggles().FirstOrDefault();
 
+        
         if (toggle.name.Equals("All"))
         {
             foreach (var item in Objectcontents)
             {
+                if (item.leftCount <= 0)
+                {
+                    item.gameObject.SetActive(false);
+                    continue;
+                }
                 item.gameObject.SetActive(true);
             }
             return;
@@ -120,6 +128,7 @@ public class PlacementUIController : MonoBehaviour
             {
                 if(item.leftCount <= 0)
                 {
+                    item.gameObject.SetActive(false);
                     continue;
                 }
                 item.gameObject.SetActive(true);
@@ -130,5 +139,10 @@ public class PlacementUIController : MonoBehaviour
             }
         } 
 
+    }
+    public void OnOpenObjectInfo(PlacementObjectInfo placementInfo)
+    {
+        infoUI.gameObject.SetActive(true);
+        infoUI.SetUIInfo(placementInfo);
     }
 }
