@@ -1,7 +1,11 @@
 ﻿[System.Serializable]
-public enum LifeSkilType
+public enum LifeSkillType
 {
-
+    Damage,
+    MoveSpeed,
+    AttackSpeed,
+    Hungur,
+    Thirst,
     End,
 }
 

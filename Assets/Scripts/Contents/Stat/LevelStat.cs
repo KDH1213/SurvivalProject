@@ -5,10 +5,13 @@ using UnityEngine.EventSystems;
 
 public abstract class LevelStat : MonoBehaviour
 {
-    protected int currentLevel;
-    protected int maxLevel;
+    [SerializeField]
+    protected int currentLevel = 1;
+    [SerializeField]
+    protected int maxLevel = 100;
+
     protected float currentExperience;
-    protected float nextExperience;
+    protected float levelUpExperience;
 
     protected abstract void LevelUp();
 }
