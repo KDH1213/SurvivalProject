@@ -1,263 +1,263 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.UI;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using TMPro;
+//using Unity.VisualScripting;
+//using UnityEngine;
+//using UnityEngine.Events;
+//using UnityEngine.EventSystems;
+//using UnityEngine.InputSystem.UI;
+//using UnityEngine.UI;
 
-public class PlayerInventory : MonoBehaviour, IDragHandler
-{
-    [SerializeField]
-    private TextMeshProUGUI infomationText;
-    public List<Item> items;
+//public class PlayerInventory : MonoBehaviour, IDragHandler
+//{
+//    public static int maxSlot = 20;
 
-    public Slot prefabSlot;
-    public ScrollRect scrollRect;
+//    [SerializeField]
+//    private TextMeshProUGUI infomationText;
+//    public List<ItemData> itemList = new List<ItemData>(maxSlot);
 
-    [SerializeField]
-    private Transform slotParent;
-    [SerializeField]
-    private List<Slot> slots;
+//    public Slot prefabSlot;
+//    public ScrollRect scrollRect;
 
-    public int SelectedSlotIndex { get; private set; } = -1;
-    public int maxSlot = 20;
+//    [SerializeField]
+//    private Transform slotParent;
+//    [SerializeField]
+//    private Slot[] slots;
 
-    public UnityEvent onClickAddButton;
-    public UnityEvent onClickRemoveButton;
-    public UnityEvent onUpdateSlots;
+//    public int SelectedSlotIndex { get; private set; } = -1;
 
-    private int dragSeletedSlotIndex;
-    private bool isOnDrag = false;
+//    public UnityEvent onClickAddButton;
+//    public UnityEvent onClickRemoveButton;
+//    public UnityEvent onUpdateSlots;
 
-    private List<Item> tempItemList;
+//    private int dragSeletedSlotIndex;
+//    private bool isOnDrag = false;
 
-    public void AddListeners(UnityAction action)
-    {
-        foreach (var slot in slots)
-        {
-            slot.button.onClick.AddListener(action);
-        }
-    }
+//    private List<Item> tempItemList;
 
-    void Awake()
-    {
-        foreach (var item in items)
-        {
-            Debug.Log(item);
-        }
-        //items = new List<Item>();
+//    public void AddListeners(UnityAction action)
+//    {
+//        foreach (var slot in slots)
+//        {
+//            slot.button.onClick.AddListener(action);
+//        }
+//    }
 
-        for (int i = 0; i < maxSlot; i++)
-        {
-            var slot = Instantiate(prefabSlot, scrollRect.content);
-            slot.SlotIndex = i;
-            slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex; });
-            slot.button.onClick.AddListener(ShowInfomation);
+//    void Awake()
+//    {
+//        foreach (var item in itemList)
+//        {
+//            Debug.Log(item);
+//        }
 
-            slot.onDragEnter.AddListener(() =>
-            {
-                isOnDrag = true;
-                dragSeletedSlotIndex = slot.SlotIndex;
-            });
+//        slots = new Slot[maxSlot];
 
-            slot.onDragExit.AddListener((PointerEventData eventData) =>
-            {
-                var results = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(eventData, results);
+//        for (int i = 0; i < maxSlot; i++)
+//        {
+//            var slot = Instantiate(prefabSlot, scrollRect.content);
+//            slot.SlotIndex = i;
+//            slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex; });
+//            slot.button.onClick.AddListener(ShowInfomation);
 
-                foreach (var result in results)
-                {
-                    var uiItemSlot = result.gameObject.GetComponent<Slot>();
-                    if (uiItemSlot != null)
-                    {
-                        if (items[dragSeletedSlotIndex].itemName == items[uiItemSlot.SlotIndex].itemName)
-                        {
-                            //slots[uiItemSlot.SlotIndex].Amount += slots[dragSeletedSlotIndex].Amount;
-                            slots[uiItemSlot.SlotIndex].Item.amount += slots[dragSeletedSlotIndex].Item.amount;
+//            slot.onDragEnter.AddListener(() =>
+//            {
+//                isOnDrag = true;
+//                dragSeletedSlotIndex = slot.SlotIndex;
+//            });
 
-                            items[dragSeletedSlotIndex] = null;
+//            slot.onDragExit.AddListener((PointerEventData eventData) =>
+//            {
+//                var results = new List<RaycastResult>();
+//                EventSystem.current.RaycastAll(eventData, results);
 
-                            items = items.Where(item => item != null).ToList();
-                        }
-                        else
-                        {
-                            (items[dragSeletedSlotIndex], items[uiItemSlot.SlotIndex]) = (items[uiItemSlot.SlotIndex], items[dragSeletedSlotIndex]);
-                        }
+//                foreach (var result in results)
+//                {
+//                    var uiItemSlot = result.gameObject.GetComponent<Slot>();
+//                    if (uiItemSlot != null)
+//                    {
+//                        if (itemList[dragSeletedSlotIndex].ItemName == itemList[uiItemSlot.SlotIndex].ItemName)
+//                        {
+//                            //slots[uiItemSlot.SlotIndex].Amount += slots[dragSeletedSlotIndex].Amount;
+//                            //slots[uiItemSlot.SlotIndex].Item.mount += slots[dragSeletedSlotIndex].Item.amount;
 
-                        UpdateSlots(items);
-                        break;
-                    }
-                    //else if(uiItemSlot == null)
-                    //{
-                    //    slots[uiItemSlot.SlotIndex].Item = items[dragSeletedSlotIndex];
-                    //    items[dragSeletedSlotIndex] = null;
-                    //}
-                }
+//                            itemList[dragSeletedSlotIndex] = null;
 
-                isOnDrag = false;
-                dragSeletedSlotIndex = -1;
-            });
-            slots.Add(slot);
-        }
+//                            itemList = itemList.Where(item => item != null).ToList();
+//                        }
+//                        else
+//                        {
+//                            (itemList[dragSeletedSlotIndex], itemList[uiItemSlot.SlotIndex]) = (itemList[uiItemSlot.SlotIndex], itemList[dragSeletedSlotIndex]);
+//                        }
 
-        UpdateSlots(items);
-    }
+//                        UpdateSlots(itemList);
+//                        break;
+//                    }
 
-    //private void OnEnable()
-    //{
-    //    tempItemList = SaveLoadManager.Data.itemList.ToList();
-    //    UpdateSlots(tempItemList);
-    //}
+//                    if (results.Count == 0)
+//                    {
+//                        itemList.Add(itemList[dragSeletedSlotIndex]);
+//                        itemList[dragSeletedSlotIndex] = null;
+//                        itemList = itemList.Where(item => item != null).ToList();
+//                        UpdateSlots(itemList);
+//                    }
+//                }
 
-    //private void OnDisable()
-    //{
-    //    SaveLoadManager.Data.itemList = tempItemList.ToList();
-    //    SaveLoadManager.Save();
-    //}
+//                isOnDrag = false;
+//                dragSeletedSlotIndex = -1;
+//            });
+//            slots[i] = slot;
+//        }
 
-    private void UpdateSlots(List<Item> items)
-    {
-        for (int i = 0; i < maxSlot; i++)
-        {
-            if (i < items.Count && items[i] != null)
-            {
-                slots[i].Item = items[i];
-                slots[i].Item.amount = items[i].amount;
-                slots[i].amountText.text = $"{slots[i].Item.amount}";
-            }
-            else
-            {
-                slots[i].Item = null;
-                slots[i].Amount = 0;
-                slots[i].amountText.text = "0";
-            }
-        }
-    }
+//        UpdateSlots(itemList);
+//    }
 
-    private void UpdateAmount(List<Item> items)
-    {
-        for (int i = 0; i < maxSlot; i++)
-        {
-            if (i < items.Count && items[i] != null)
-            {
-                slots[i].Item = items[i];
-                slots[i].amountText.text = $"{slots[i].Amount}";
-            }
-            else
-            {
-                slots[i].Item = null;
-                slots[i].Amount = 0;
-                slots[i].amountText.text = "0";
-            }
-        }
-    }
+//    //private void OnEnable()
+//    //{
+//    //    tempItemList = SaveLoadManager.Data.itemList.ToList();
+//    //    UpdateSlots(tempItemList);
+//    //}
 
-    //public void OnClickRemove()
-    //{
-    //    if (SelectedSlotIndex == -1)
-    //        return;
+//    //private void OnDisable()
+//    //{
+//    //    SaveLoadManager.Data.itemList = tempItemList.ToList();
+//    //    SaveLoadManager.Save();
+//    //}
 
-    //    // Data에 지워주는 메소드를 제작해야 함.
-    //    // 해당 메소드에서 유효성 검사를 진행
-    //    tempItemList.Remove(slots[SelectedSlotIndex].Item);
-
-    //    UpdateSlots(tempItemList);
-
-    //    // UpdateSlots(tempItemList);
-    //    onClickRemoveButton?.Invoke();
-    //}
-
-    public void ShowInfomation()
-    {
-        Item item = slots[SelectedSlotIndex].Item;
-
-        if (item != null)
-        {
-            infomationText.text = $"Name: {item.itemName}\nInfo: {item.itemInfomation}\nType: {item.type}";
-        }
-        else
-        {
-            infomationText.text = $"Name:\nInfo:\nType:";
-        }
-    }
-
-    public void RemoveItem()
-    {
-        Item item = slots[SelectedSlotIndex].Item;
-
-        items.Remove(item);
-        UpdateSlots(items);
-
-        onClickRemoveButton?.Invoke();
-    }
-
-    public void ResetInfomation()
-    {
-        infomationText.text = $"Name:\nInfo:\nType:";
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        //var results = new List<RaycastResult>();
-        //EventSystem.current.RaycastAll(eventData, results);
-
-        //foreach(var item in results)
-        //{
-        //    Debug.Log(item.gameObject.name);
-        //}
-    }
+//    private void UpdateSlots(List<ItemData> items)
+//    {
+//        for (int i = 0; i < maxSlot; i++)
+//        {
+//            if (i < items.Count && items[i] != null)
+//            {
+//                slots[i].Item = items[i];
+//                if (!slots[i].useSetAmout)
+//                {
+//                    //slots[i].Item.amount = items[i].amount;
+//                    slots[i].SetAmount();
+//                }
+//                //slots[i].amountText.text = $"{slots[i].Item.amount}";
+//            }
+//            else
+//            {
+//                slots[i].Item = null;
+//                slots[i].Amount = 0;
+//                slots[i].amountText.text = "0";
+//            }
+//        }
+//    }
 
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        var selectedObject = EventSystem.current.currentSelectedGameObject;
-        var uiItemSlot = selectedObject?.GetComponent<Slot>();
+//    //public void OnClickRemove()
+//    //{
+//    //    if (SelectedSlotIndex == -1)
+//    //        return;
 
-        if (uiItemSlot != null)
-        {
-            dragSeletedSlotIndex = uiItemSlot.SlotIndex;
-            isOnDrag = true;
-        }
-        else
-        {
-            isOnDrag = false;
-            dragSeletedSlotIndex = -1;
-        }
-    }
+//    //    // Data에 지워주는 메소드를 제작해야 함.
+//    //    // 해당 메소드에서 유효성 검사를 진행
+//    //    tempItemList.Remove(slots[SelectedSlotIndex].Item);
+
+//    //    UpdateSlots(tempItemList);
+
+//    //    // UpdateSlots(tempItemList);
+//    //    onClickRemoveButton?.Invoke();
+//    //}
+
+//    public void OnClickAdd(ItemData itemData, int amount = 1)
+//    {
+//        int index;
+
+        
+//    }
+
+//    public void ShowInfomation()
+//    {
+//        ItemData item = slots[SelectedSlotIndex].Item;
+
+//        if (item != null)
+//        {
+//            //infomationText.text = $"Name: {item.itemName}\nInfo: {item.itemInfomation}\nType: {item.type}";
+//        }
+//        else
+//        {
+//            infomationText.text = $"Name:\nInfo:\nType:";
+//        }
+//    }
+
+//    public void RemoveItem()
+//    {
+//        ItemData item = slots[SelectedSlotIndex].Item;
+
+//        itemList.Remove(item);
+//        UpdateSlots(itemList);
+
+//        onClickRemoveButton?.Invoke();
+//    }
+
+//    public void ResetInfomation()
+//    {
+//        infomationText.text = $"Name:\nInfo:\nType:";
+//    }
+
+//    public void OnDrag(PointerEventData eventData)
+//    {
+//        //var results = new List<RaycastResult>();
+//        //EventSystem.current.RaycastAll(eventData, results);
+
+//        //foreach(var item in results)
+//        //{
+//        //    Debug.Log(item.gameObject.name);
+//        //}
+//    }
 
 
-    public void OnDragEnterItemSlot()
-    {
-        //dragSeletedSlotIndex = uiItemSlot.SlotIndex;
-        //isOnDrag = true;
-    }
-    public void OnDragExitItemSlot()
-    {
+//    public void OnBeginDrag(PointerEventData eventData)
+//    {
+//        var selectedObject = EventSystem.current.currentSelectedGameObject;
+//        var uiItemSlot = selectedObject?.GetComponent<Slot>();
 
-    }
+//        if (uiItemSlot != null)
+//        {
+//            dragSeletedSlotIndex = uiItemSlot.SlotIndex;
+//            isOnDrag = true;
+//        }
+//        else
+//        {
+//            isOnDrag = false;
+//            dragSeletedSlotIndex = -1;
+//        }
+//    }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (!isOnDrag)
-        {
-            isOnDrag = false;
-            dragSeletedSlotIndex = -1;
-        }
+
+//    public void OnDragEnterItemSlot()
+//    {
+//        //dragSeletedSlotIndex = uiItemSlot.SlotIndex;
+//        //isOnDrag = true;
+//    }
+
+//    public void OnDragExitItemSlot()
+//    {
+
+//    }
+
+//    public void OnEndDrag(PointerEventData eventData)
+//    {
+//        if (!isOnDrag)
+//        {
+//            isOnDrag = false;
+//            dragSeletedSlotIndex = -1;
+//        }
 
 
-        var selectedObject = EventSystem.current.currentSelectedGameObject;
-        var uiItemSlot = selectedObject?.GetComponent<Slot>();
+//        var selectedObject = EventSystem.current.currentSelectedGameObject;
+//        var uiItemSlot = selectedObject?.GetComponent<Slot>();
 
-        if (uiItemSlot == null)
-            return;
+//        if (uiItemSlot == null)
+//            return;
 
-        (items[dragSeletedSlotIndex], items[uiItemSlot.SlotIndex]) = (items[uiItemSlot.SlotIndex], items[dragSeletedSlotIndex]);
-        UpdateSlots(items);
-        isOnDrag = false;
-        dragSeletedSlotIndex = -1;
-    }
-}
+//        (itemList[dragSeletedSlotIndex], itemList[uiItemSlot.SlotIndex]) = (itemList[uiItemSlot.SlotIndex], itemList[dragSeletedSlotIndex]);
+//        UpdateSlots(itemList);
+//        isOnDrag = false;
+//        dragSeletedSlotIndex = -1;
+//    }
+//}

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,17 +15,20 @@ public class Slot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
     public TextMeshProUGUI amountText;
 
     public int Amount { get; set; }
+    public int MaxAmount { get; set; }
     public int SlotIndex { get; set; }
 
     public Button button;
+
+    public bool useSetAmout = false;
 
     public UnityEvent onPointerEnter;
     public UnityEvent onPointerExit;
     public UnityEvent onDragEnter;
     public UnityEvent<PointerEventData> onDragExit;
 
-    private Item item;
-    public Item Item
+    private ItemData item;
+    public ItemData Item
     {
         get { return item; }
         set
@@ -32,7 +36,7 @@ public class Slot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
             item = value;
             if (item != null)
             {
-                image.sprite = item.itemImage;
+                image.sprite = item.ItemImage;
                 image.color = new Color(1, 1, 1, 1);
             }
             else
@@ -40,6 +44,11 @@ public class Slot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHand
                 image.color = new Color(1, 1, 1, 0);
             }
         }
+    }
+
+    public void SetAmount()
+    {
+        useSetAmout = true;
     }
 
     public void OnDrag(PointerEventData eventData)

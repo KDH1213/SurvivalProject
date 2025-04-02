@@ -13,7 +13,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     [field: SerializeField]
     public Data PlayerData { get; private set; }
     [field: SerializeField]
-    public PlayerInventory PlayerInventory { get; private set; }
+    public Inventory PlayerInventory { get; private set; }
     [field: SerializeField]
     public Transform AttackPoint {  get; private set; }
     [SerializeField]
