@@ -2,6 +2,7 @@ using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LifeStat : LevelStat, ISaveLoadData
 {
@@ -10,6 +11,8 @@ public class LifeStat : LevelStat, ISaveLoadData
 
     [SerializedDictionary, SerializeField]
     private SerializedDictionary<LifeSkillType, int> skillLevelTable = new SerializedDictionary<LifeSkillType, int>();
+
+    public UnityEvent onLevelUpEvent;
 
     private List<float> currentSkillStatValue = new List<float>();
 
@@ -51,7 +54,7 @@ public class LifeStat : LevelStat, ISaveLoadData
     {
     }
 
-    protected void SkilUp(int skilType)
+    public void OnSkillLevelUp(int skilType)
     {
         var type = (LifeSkillType)skilType;
 
@@ -76,6 +79,7 @@ public class LifeStat : LevelStat, ISaveLoadData
 
         ++currentLevel;
         levelUpExperience = lifeStatData.LevelList[currentLevel - 1];
-        SkilUp(Random.Range(0, (int)LifeSkillType.End - 1));
+        onLevelUpEvent?.Invoke();
+        // SkilUp(Random.Range(0, (int)LifeSkillType.End - 1));
     }
 }

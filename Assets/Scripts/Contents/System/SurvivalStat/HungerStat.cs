@@ -86,6 +86,8 @@ public class HungerStat : SurvivalStatBehaviour
     public override void AddPenaltyValue(float value)
     {
         this.value += value;
+
+        this.value = Mathf.Clamp(this.value, 0f, maxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
