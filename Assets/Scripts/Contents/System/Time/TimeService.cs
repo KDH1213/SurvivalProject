@@ -55,7 +55,7 @@ public class TimeService
     bool IsDayTime() => currentTime.TimeOfDay > sunriseTime && currentTime.TimeOfDay < sunsetTime;
 
     //두 시간 간의 차이를 계산하는 메서드
-    TimeSpan CalculateDifference(TimeSpan from, TimeSpan to)
+    private TimeSpan CalculateDifference(TimeSpan from, TimeSpan to)
     {
         TimeSpan difference = to - from;
         return difference.TotalHours < 0 ? difference + TimeSpan.FromHours(24) : difference;

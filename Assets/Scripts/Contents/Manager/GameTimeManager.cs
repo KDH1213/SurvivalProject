@@ -60,7 +60,7 @@ public class GameTimeManager : Singleton<GameTimeManager>
 
     TimeService service;
 
-    void Start()
+    private void Start()
     {
         service = new TimeService(timeSettings);
         volume.profile.TryGet(out colorAdjustments);
@@ -71,7 +71,7 @@ public class GameTimeManager : Singleton<GameTimeManager>
         // initialDialRotation = dial.rotation.eulerAngles.z;
     }
 
-    void Update()
+    private void Update()
     {
         UpdateTimeOfDay();
         RotateSun();
@@ -79,14 +79,14 @@ public class GameTimeManager : Singleton<GameTimeManager>
         //UpdateSkyBlend();
     }
 
-    void UpdateSkyBlend()
+    private void UpdateSkyBlend()
     {
         float dotProduct = Vector3.Dot(sun.transform.forward, Vector3.up);
         float blend = Mathf.Lerp(0, 1, lightIntensityCurve.Evaluate(dotProduct));
         // skyboxMaterial.SetFloat("_Blend", blend);
     }
 
-    void UpdateLightSettings()
+    private void UpdateLightSettings()
     {
         float dotProduct = Vector3.Dot(sun.transform.forward, Vector3.down);
         float lightIntensity = lightIntensityCurve.Evaluate(dotProduct);
@@ -99,14 +99,14 @@ public class GameTimeManager : Singleton<GameTimeManager>
         colorAdjustments.colorFilter.value = Color.Lerp(nightAmbientLight, dayAmbientLight, lightIntensity);
     }
 
-    void RotateSun()
+    private void RotateSun()
     {
         float rotation = service.CalculateSunAngle();
         sun.transform.rotation = Quaternion.AngleAxis(rotation, Vector3.right);
         // dial.rotation = Quaternion.Euler(0, 0, rotation + initialDialRotation);
     }
 
-    void UpdateTimeOfDay()
+    private void UpdateTimeOfDay()
     {
         service.UpdateTime(Time.deltaTime);
         if (timeText != null)
