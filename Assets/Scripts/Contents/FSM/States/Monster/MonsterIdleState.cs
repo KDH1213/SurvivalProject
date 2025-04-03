@@ -21,17 +21,18 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void ExecuteUpdate()
     {
+        if (MonsterFSM.IsChase)
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
+            return;
+        }
+
         if (MonsterFSM.Target == null)
         {
             FindTarget();
         }
 
         ChangeChaseState();
-
-        if (MonsterFSM.IsChase)
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Chase);
-        }
     }
 
     public override void Exit()
