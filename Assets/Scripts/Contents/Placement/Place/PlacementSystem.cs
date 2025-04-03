@@ -32,7 +32,7 @@ public class PlacementSystem : MonoBehaviour
     public PlacementInput GetInputManager { get; private set; }
     public Grid GetGrid { get; private set; }
 
-    public PlacementObject SelectedObject { get; set; }
+    public PlacementObject SelectedObject; // { get; set; }
     private List<PlacementObject> placedGameObjects = new List<PlacementObject>();
     private GridData gridData;
 
@@ -40,9 +40,10 @@ public class PlacementSystem : MonoBehaviour
     {
         SelectedObjectIndex = -1;
         inputManager = GetComponent<PlacementInput>();
+        placementMode = GetComponent<PlacementMode>();
         placementUI = GetComponent<PlacementUIController>();
         GetGrid = grid;
-        gridData = new GridData();
+        gridData = new GridData(new Vector2Int(18,18));
         grid.cellSize = Vector3.one * 10 / gridCellCount;
     }
 
@@ -78,26 +79,29 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError($"존재하지 않는 ID : {ID}");
             return;
         }
-        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb,
+            database.objects[SelectedObjectIndex].Size);
     }
 
     // 배치 시작 overload
-    public void StartPlacement(int ID, PlacementObject obj = null)
+    public void StartPlacement(int ID, PlacementObject obj)
     {
-        StopPlacement();
+        //StopPlacement();
         SelectedObjectIndex = database.objects.FindIndex(data => data.ID == ID);
         if (SelectedObjectIndex < 0)
         {
             Debug.LogError($"존재하지 않는 ID : {ID}");
             return;
         }
-        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb, obj);
+        preview.StartShowingPlacementPreview(database.objects[SelectedObjectIndex].LevelList[0].Prefeb,
+            database.objects[SelectedObjectIndex].Size, obj);
     }
 
     // 배치 멈추기
     private void StopPlacement()
     {
         SelectedObjectIndex = -1;
+        SelectedObject = null;
         preview.StopShowingPreview();
     }
 
@@ -140,6 +144,7 @@ public class PlacementSystem : MonoBehaviour
 
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
+        placementObject.ID = SelectedObjectIndex;
         placementObject.Position = gridPosition;
         placedGameObjects.Add(placementObject);
 
@@ -162,34 +167,43 @@ public class PlacementSystem : MonoBehaviour
         }
 
         SelectedObject = obj;
-        SelectedObject.transform.parent.gameObject.SetActive(false);
 
         if (placementMode.CurrentMode == Mode.Place)
         {
-            int id = gridData.RemoveObjectAt(obj);
-            placedGameObjects.Remove(obj);
-
-            foreach(var item in placedGameObjects)
-            {
-                item.PlacementData.OrderPlaceObjectIndex(obj.PlacementData.PlaceObjectIndex);
-            }
+            int id = RemoveStructure(obj);
             StartPlacement(id, obj);
         }
         else if(placementMode.CurrentMode == Mode.Select)
         {
-
+            int index = database.objects.FindIndex(data => data.ID == SelectedObject.ID);
+            placementUI.OnOpenObjectInfo(database.objects[index]);
         }
         
         return true;
     }
 
+    public int RemoveStructure(PlacementObject obj)
+    {
+        SelectedObject.transform.parent.gameObject.SetActive(false);
+        int id = gridData.RemoveObjectAt(obj);
+        placedGameObjects.Remove(obj);
+
+        foreach (var item in placedGameObjects)
+        {
+            item.PlacementData.OrderPlaceObjectIndex(obj.PlacementData.PlaceObjectIndex);
+        }
+
+        return id;
+    }
+
     // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
+        RemoveStructure(SelectedObject);
         placementUI.OnSetObjectListUi(database, SelectedObject.PlacementData.ID, placedGameObjects);
-        inven.PlusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
+        inven.PlusItem(database.objects[SelectedObject.PlacementData.ID].LevelList[0].NeedItems);
         Destroy(SelectedObject.transform.parent.gameObject);
-        preview.StopShowingPreview();
+        //preview.StopShowingPreview();
     }
 
     // 오브젝트 원래 위치로 배치

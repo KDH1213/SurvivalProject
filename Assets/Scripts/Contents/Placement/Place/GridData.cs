@@ -9,6 +9,13 @@ using UnityEngine;
 public class GridData
 {
     private Dictionary<Vector3Int, PlacementObject> placedObject = new Dictionary<Vector3Int, PlacementObject>();
+    private Vector2Int gridSize;
+
+    public GridData(Vector2Int gridSize)
+    {
+        this.gridSize = gridSize;
+    }
+
 
     public void AddObjectAt(Vector3Int gridPosition, Vector2Int objectSize, int ID, int placeObjectIndex, PlacementObject obj)
     {
@@ -62,6 +69,11 @@ public class GridData
             {
                 return false;
             }
+            if(CheckObjectInArea(pos))
+            {
+                return false;
+            }
+            
         }
         return true;
     }
@@ -83,6 +95,27 @@ public class GridData
             {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private bool CheckObjectInArea(Vector3Int gridPosition)
+    {
+        if(gridPosition.x < -gridSize.x / 2 )
+        {
+            return true;
+        }
+        if (gridPosition.x > gridSize.x / 2 - 1)
+        {
+            return true;
+        }
+        if (gridPosition.z < -gridSize.y / 2)
+        {
+            return true;
+        }
+        if (gridPosition.z > gridSize.y / 2 - 1)
+        {
+            return true;
         }
         return false;
     }

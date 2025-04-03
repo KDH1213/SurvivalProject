@@ -13,8 +13,6 @@ public class PlacementUIObjectInfo : MonoBehaviour
     public int leftCount;
     private Button clickButton;
     private PlacementUIController uiController;
-    
-    
 
     private void Awake()
     {
@@ -29,7 +27,7 @@ public class PlacementUIObjectInfo : MonoBehaviour
         leftCount = placementInfo.MaxBuildCount;
         icomImage.sprite = placementInfo.LevelList[0].Icon;
         uiController = system.GetComponent<PlacementUIController>();
-        clickButton.onClick.AddListener(() => uiController.OnOpenObjectInfo(placementInfo));
+        clickButton.onClick.AddListener(() => uiController.OnOpenBuildInfo(placementInfo));
     }
 
     

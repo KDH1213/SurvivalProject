@@ -6,9 +6,9 @@ public abstract class PlacementObject : MonoBehaviour
 {
     public PlacementData PlacementData { get; set; }
     public Vector3Int Position { get; set; }
-    public bool IsPlaced { get; set; }
-    public bool IsCollision { get; set; }
-    public int Level { get; set; }
+    public bool IsPlaced { get; set; } = false;
+    public bool IsCollision { get; set; } = false;
+    public int Level { get; set; } = 1;
     public int ID { get; set; }
     public float Hp { get; set; }
     public abstract void Instruct();
@@ -16,7 +16,10 @@ public abstract class PlacementObject : MonoBehaviour
 
 public interface IProduceStructure
 {
-    public float ProduceSpeed { get; set; }
+    public string Kind { get; set; }
+    public float ProduceTime { get; set; }
+    public float CurrentTime { get; set; }
+    public int OutPut { get; set; }
     public void Produce(/* 자원에 대한 매개변수 */);
 }
 
