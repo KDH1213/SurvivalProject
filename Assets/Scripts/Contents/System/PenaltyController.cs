@@ -9,6 +9,9 @@ public class PenaltyController : MonoBehaviour, IAct
     [SerializeField]
     private PlayerStats playerStats;
 
+    [SerializeField]
+    private ActInfoData actInfoData;    
+
     // TODO :: 패널티 수치 데이터 테이블 나오면 수정
     [SerializeField]
     private float speedDownPersent = 0.2f;
@@ -57,7 +60,7 @@ public class PenaltyController : MonoBehaviour, IAct
 
     public void PlayAct(int id)
     {
-        var actInfoList = ActManager.actDataTable[id].actInfoList;
+        var actInfoList = actInfoData.actDataTable[(ActType)id].actInfoList; // ActManager.actDataTable[id].actInfoList;
         foreach (var act in actInfoList)
         {
             penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
