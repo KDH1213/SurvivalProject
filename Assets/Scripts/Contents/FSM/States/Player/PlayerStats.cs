@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,5 +82,25 @@ public class PlayerStats : CharactorStats
     public void OnChangeHp() //*HP °»½Å
     {
         HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
+    }
+
+    public void SetAttackPowerValue(float amount)
+    {
+        originalData.StatTable[StatType.BasicAttackPower].AddValue(amount);
+    }
+
+    public void SetDefenceValue(float amount)
+    {
+        originalData.StatTable[StatType.Defense].AddValue(amount);
+    }
+
+    public void SetMoveSpeedValue(float amount)
+    {
+        originalData.StatTable[StatType.MovementSpeed].AddValue(amount);
+    }
+
+    public void SetAttackSpeedValue(float amount)
+    {
+        originalData.StatTable[StatType.AttackSpeed].AddValue(amount);
     }
 }

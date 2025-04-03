@@ -87,7 +87,6 @@ public class Inventory : MonoBehaviour, IDragHandler
             slot.SlotIndex = i;
             slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex; });
             slot.button.onClick.AddListener(ShowIventoryItemInfomation);
-            //slot.button.onClick.AddListener(ShowSorketItemInfomation);
 
             slot.onDragEnter.AddListener(() =>
             {
@@ -167,6 +166,8 @@ public class Inventory : MonoBehaviour, IDragHandler
         }
 
         UpdateSlots(items);
+
+        gameObject.SetActive(true);
     }
 
     private void Start()

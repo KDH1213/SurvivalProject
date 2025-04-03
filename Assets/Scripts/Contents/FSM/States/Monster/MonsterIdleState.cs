@@ -50,7 +50,6 @@ public class MonsterIdleState : MonsterBaseState
         int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, MonsterFSM.Weapon.attackTargets, MonsterFSM.Weapon.WeaponLayerMask);
 
         for(int i = 0; i < index; i++)
-
         {
             MonsterFSM.Target = MonsterFSM.Weapon.attackTargets[0].gameObject;
             MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
