@@ -21,6 +21,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         PlayerFSM.SetCanAttack(false);
         playerFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
+        playerFSM.Animator.speed = PlayerStats.AttackSpeed;
         isChangeMove = true;
     }
 
@@ -35,6 +36,7 @@ public class PlayerAttackState : PlayerBaseState
     public override void Exit()
     {
         PlayerFSM.SetCanAttack(true);
+        playerFSM.Animator.speed = 1f;
         PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
     }
 
@@ -58,20 +60,20 @@ public class PlayerAttackState : PlayerBaseState
     private void FindTarget()
     {
         int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
-        
-        foreach(var attackTargets in PlayerFSM.AttackTargets)
+
+        foreach (var attackTargets in PlayerFSM.AttackTargets)
         {
-            if(attackTargets != null)
+            if (attackTargets != null)
             {
                 MonsterFSM currentTarget = attackTargets.GetComponent<MonsterFSM>();
-                if(currentTarget == null || currentTarget.IsDead)
+                if (currentTarget == null || currentTarget.IsDead)
                 {
                     PlayerFSM.AttackTargets.Remove(attackTargets);
                 }
             }
         }
 
-        
+
         // TODO :: 단일 타겟에서 다중 타겟으로 수정
 
         Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
