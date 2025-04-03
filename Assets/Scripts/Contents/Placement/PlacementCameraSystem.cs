@@ -88,6 +88,9 @@ public class PlacementCameraSystem : MonoBehaviour
                 return;
             }
             placementCamera.m_Lens.FieldOfView -= scrollSpeed;
+            moveSpeed = Mathf.Clamp(moveSpeed + moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom, 
+                10f, 30f);
+
         }
         else if (axis > 0)
         {
@@ -97,7 +100,11 @@ public class PlacementCameraSystem : MonoBehaviour
                 return;
             }
             placementCamera.m_Lens.FieldOfView += scrollSpeed;
+            moveSpeed = Mathf.Clamp(moveSpeed - moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom, 
+                10f, 30f);
+            
         }
+        
     }
 
     // todo : 배치 시스템 화면 움직임

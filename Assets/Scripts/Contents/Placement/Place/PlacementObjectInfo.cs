@@ -26,11 +26,13 @@ public class PlacementLevelInfo
     [field: SerializeField]
     public string Name { get; private set; }
     [field: SerializeField]
-    public int DefaultHp { get; private set; }
+    public float DefaultHp { get; private set; }
     [field: SerializeField]
     public GameObject Prefeb { get; private set; }
     [field: SerializeField]
     public SerializedDictionary<string, int> NeedItems { get; private set; }
     [field: SerializeField]
     public Sprite Icon { get; private set; }
+    [field: SerializeField]
+    public string Feature { get; private set; }
 }

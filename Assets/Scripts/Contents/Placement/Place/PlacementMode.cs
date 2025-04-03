@@ -2,6 +2,14 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
+public enum Mode
+{
+    None,
+    Place,
+    Select
+}
 
 public class PlacementMode : MonoBehaviour
 {
@@ -9,23 +17,30 @@ public class PlacementMode : MonoBehaviour
     private GameObject gridVisualization;
     private PlacementUIController uiController;
 
+    public Mode CurrentMode { get; private set; }
+
     private void Awake()
     {
         uiController = GetComponent<PlacementUIController>();
     }
-    public void SetPlacementMode()
+    public void OnInPlacementMode()
     {
         // 이후 작업 모드에 들어갈 때 필요한 세팅 작성
+        CurrentMode = Mode.Place;
         gridVisualization.SetActive(true);
         uiController.ShowObjectList();
     }
 
-    public void OutPlacementMode()
+    public void OnOutPlacementMode()
     {
         // 이후 작업 모드에서 나올 때 필요한 세팅 작성
+        CurrentMode = Mode.None;
         gridVisualization.SetActive(false);
         uiController.StopShowObjectList();
     }
-    
-    
+    public void OnInSelectMode()
+    {
+        CurrentMode = Mode.Select;
+    }
+
 }
