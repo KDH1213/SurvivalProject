@@ -218,4 +218,9 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
             transform.position = SaveLoadManager.Data.playerSaveInfo.position;
         }
     }
+
+    public void SetAttackStat()
+    {
+
+    }
 }
