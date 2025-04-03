@@ -17,9 +17,17 @@ public class SkillUIView : MonoBehaviour
     private TextMeshProUGUI[] skillTexts;
 
     public UnityEvent<int> onSeleteEvent;
+    public UnityEvent<int> onChangeSkillPoint;
+    public UnityEvent onDisableEvent;
 
     private List<int> skillTypeList = new List<int>();
 
+    private int skillPoint = 0;
+
+    private void OnDisable()
+    {
+        onDisableEvent?.Invoke();
+    }
 
     private void Awake()
     {
@@ -55,8 +63,26 @@ public class SkillUIView : MonoBehaviour
         }
     }
 
+    public void OnSkillPointUp()
+    {
+        ++skillPoint;
+        onChangeSkillPoint?.Invoke(skillPoint);
+    }
+
     public void OnClickButton(int index)
     {
         onSeleteEvent?.Invoke(skillTypeList[index]);
+        --skillPoint;
+
+        if(skillPoint <= 0)
+        {
+            skillPoint = 0;
+        }
+        else
+        {
+            OnSetRandomSkillOption();
+        }
+        onChangeSkillPoint?.Invoke(skillPoint);
     }
+
 }

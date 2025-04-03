@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class LifeStat : LevelStat, ISaveLoadData
 {
     [SerializeField]
     private LifeStatData lifeStatData;
+
+    [SerializeField]
+    private Slider experienceSlider;
 
     [SerializedDictionary, SerializeField]
     private SerializedDictionary<LifeSkillType, int> skillLevelTable = new SerializedDictionary<LifeSkillType, int>();
@@ -31,6 +35,8 @@ public class LifeStat : LevelStat, ISaveLoadData
         {
             currentSkillStatValue.Add(1f);
         }
+
+        OnChangeExperienceSlider();
     }
 
     public void OnAddExperience(float experience)
@@ -45,6 +51,8 @@ public class LifeStat : LevelStat, ISaveLoadData
                 LevelUp();
             }
         }
+
+        OnChangeExperienceSlider();
     }
     public void Load()
     {
@@ -52,6 +60,11 @@ public class LifeStat : LevelStat, ISaveLoadData
 
     public void Save()
     {
+    }
+
+    private void OnChangeExperienceSlider()
+    {
+        experienceSlider.value = currentExperience / levelUpExperience;
     }
 
     public void OnSkillLevelUp(int skilType)
