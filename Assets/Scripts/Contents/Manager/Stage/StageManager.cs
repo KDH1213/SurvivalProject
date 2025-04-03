@@ -20,6 +20,10 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     private PriorityQueue<RespawnInfo, float> respawnObjectQueue = new PriorityQueue<RespawnInfo, float>();
     public UnityAction onSaveEvent; 
 
+    private Collider[] colliders = new Collider[1];
+    [SerializeField]
+    private LayerMask respawnLayerMask;
+
     private void Awake()
     {
         var sceneSwitchers = GetComponentsInChildren<SceneSwitcher>();
@@ -64,7 +68,26 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         while (respawnObjectQueue.Count > 0 && respawnObjectQueue.Peek().respawntime <= Time.time)
         {
             var target = respawnObjectQueue.Dequeue();
-            target.owner.SetActive(true);
+
+            var interactable = target.owner.GetComponent<IInteractable>();
+            if (interactable != null )
+            {
+                var targetTransform = target.owner.transform;
+                if(Physics.OverlapBoxNonAlloc(targetTransform.position, targetTransform.lossyScale * 0.5f, colliders, Quaternion.identity, respawnLayerMask) == 0)
+                {
+                    target.owner.SetActive(true);
+                }
+                else
+                {
+                    target.respawntime += 1f;
+                    respawnObjectQueue.Enqueue(target, target.respawntime);
+                }
+
+            }
+            else
+            {
+                target.owner.SetActive(true);
+            }
         }
     }
 
