@@ -8,11 +8,12 @@ public class MonsterChaseState : MonsterBaseState
     {
         base.Awake();
         stateType = MonsterStateType.Chase;
-        useReturn = false;
     }
 
     public override void Enter()
     {
+        useReturn = false;
+
         if (MonsterFSM.Animator != null)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
@@ -24,17 +25,18 @@ public class MonsterChaseState : MonsterBaseState
 
     public override void ExecuteUpdate()
     {
+        if (useReturn)
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Return);
+            return;
+        }
+
         if (MonsterFSM.TargetTransform != null)
         {
             MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
         }
 
         Chase();
-
-        if (useReturn)
-        {
-            ReturnPosition();
-        }
     }
 
     public override void Exit()
@@ -68,28 +70,5 @@ public class MonsterChaseState : MonsterBaseState
             return;
         }
         
-    }
-
-    // TODO ::
-    private bool HasReachedDestination()
-    {
-        return !MonsterFSM.Agent.pathPending &&
-               MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance &&
-               !MonsterFSM.Agent.hasPath;
-    }
-
-    // TODO ::
-    private void ReturnPosition()
-    {
-        if (MonsterFSM.Animator == null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
-        }
-        MonsterFSM.Agent.SetDestination(MonsterFSM.firstPosition);
-
-        if (HasReachedDestination())
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Idle);
-        }
     }
 }

@@ -14,6 +14,11 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Enter()
     {
+        if (MonsterFSM.Target == null)
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
+            return;
+        }
         animationSpeed = MonsterStats.AttackSpeed;
         MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
 

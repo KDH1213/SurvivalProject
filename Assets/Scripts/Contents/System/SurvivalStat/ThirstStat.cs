@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ThirstStat : SurvivalStatBehaviour
 {
@@ -11,12 +12,16 @@ public class ThirstStat : SurvivalStatBehaviour
     [SerializeField]
     private float valueDownTime = 0.5f;
 
+    [SerializeField]
+    private Slider thirstSlider;
+
     private float currentTime = 0f;
 
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Thirst;
         value = maxValue;
+        OnChangeValue();
     }
 
     private void Update()
@@ -27,6 +32,7 @@ public class ThirstStat : SurvivalStatBehaviour
         {
             currentTime -= valueDownTime;
             value -= maxValue * 0.01f;
+            OnChangeValue();
 
             if (!isOnDebuff && IsActivationCheckPenalty())
             {
@@ -43,6 +49,7 @@ public class ThirstStat : SurvivalStatBehaviour
     public override void AddPenaltyValue(float value)
     {
         this.value += value;
+        OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
         {
@@ -58,5 +65,10 @@ public class ThirstStat : SurvivalStatBehaviour
     public override void OnStopPenalty()
     {
         base.OnStopPenalty();
+    }
+
+    public void OnChangeValue()
+    {
+        thirstSlider.value = value / maxValue;
     }
 }

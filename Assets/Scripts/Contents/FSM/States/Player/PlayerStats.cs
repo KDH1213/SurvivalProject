@@ -7,6 +7,12 @@ public class PlayerStats : CharactorStats
     private PenaltyController survivalStats;
 
     [SerializeField]
+    private LifeStat lifeStat;
+
+    [SerializeField]
+    private CraftingStat craftingStat;
+
+    [SerializeField]
     private Slider HpBarSlider;
 
     protected override void Awake()
@@ -30,7 +36,7 @@ public class PlayerStats : CharactorStats
     { 
         get
         {
-            return currentStatTable[StatType.MovementSpeed].Value * survivalStats.CalculatePenaltySpeed();
+            return (currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed) * survivalStats.CalculatePenaltySpeed();
         }
     }
     public float Hp
@@ -53,7 +59,7 @@ public class PlayerStats : CharactorStats
     {
         get
         {
-            return currentStatTable[StatType.BasicAttackPower].Value;
+            return currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
         }
     }
 

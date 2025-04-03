@@ -11047,6 +11047,9 @@ GameObject:
   - component: {fileID: 2602794882264074313}
   - component: {fileID: 9038930653935902974}
   - component: {fileID: 5337073670899731825}
+  - component: {fileID: 1478152083764109327}
+  - component: {fileID: 936364590328128479}
+  - component: {fileID: 5572263776794208988}
   m_Layer: 10
   m_Name: TestPlayer
   m_TagString: Player
@@ -11164,7 +11167,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1b8f3f34252d9ee44823ab05504b31a8, type: 3}
   m_Controller: {fileID: 9100000, guid: 73dfba487f63297498cf4b2ae53f6fb5, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
@@ -11686,6 +11689,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   survivalStats: {fileID: 6015766806403488649}
+  lifeStat: {fileID: 936364590328128479}
+  craftingStat: {fileID: 5572263776794208988}
   HpBarSlider: {fileID: 8494851184522715503}
 --- !u!114 &6015766806403488649
 MonoBehaviour:
@@ -11848,6 +11853,70 @@ MonoBehaviour:
         m_CallState: 2
   startPenaltyPersent: 0.5
   valueDownTime: 0.5
+--- !u!114 &1478152083764109327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71f247f483a1fc48a38a9ea558b6527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startAttackEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  endAttackAnimationEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6348002441938118340}
+        m_TargetAssemblyTypeName: PlayerAttackState, Assembly-CSharp
+        m_MethodName: OnEndAttackAnimationPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  createAttackVFXEvnet:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &936364590328128479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a628e2e6d92204aabd1b2269be407a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 1
+  maxLevel: 100
+  lifeStatData: {fileID: 11400000, guid: 22409b408e1246645a292b3a9d8caf23, type: 2}
+  skillLevelTable:
+    _serializedList: []
+--- !u!114 &5572263776794208988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f146c39f17da1d543945327a1ea5ea1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 1
+  maxLevel: 100
 --- !u!1 &8107886998491019709
 GameObject:
   m_ObjectHideFlags: 0
@@ -13822,15 +13891,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: HPBarCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 5126350921812106683, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
+    - target: {fileID: 3339816389768224633, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
         type: 3}
-      propertyPath: m_AnchorMax.x
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5126350921812106683, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126350921812106683, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
+        type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6544578923605273074, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
         type: 3}
