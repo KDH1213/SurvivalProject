@@ -72,7 +72,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     private void OnEnable()
     {
-        if (MonsterPool == null)
+        if (IsDead)
         {
             IsDead = false;
             transform.position = firstPosition;

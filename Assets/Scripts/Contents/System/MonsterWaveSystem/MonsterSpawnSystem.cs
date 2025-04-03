@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,11 @@ public class MonsterSpawnSystem : MonoBehaviour
     private List<MonsterWaveData> monsterWaveDatas;
 
     [SerializeField]
+    private GameObject wavePanel;
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+
+    [SerializeField]
     private float nextWaveTime;
 
     private float waveTime;
@@ -28,16 +34,22 @@ public class MonsterSpawnSystem : MonoBehaviour
 
     private Coroutine coSpawn;
 
+    private readonly string timerFormat = "남은 시간 : {0:F}";
+
     private void Start()
     {
-        StartSpawn();
+        //StartSpawn();
+        isActive = false;
+        wavePanel.SetActive(true);
+        waveTime = Time.time + nextWaveTime;
     }
 
     private void Update()
     {
         if (!isActive)
         {
-            if(waveTime > Time.time)
+            timerText.text = string.Format(timerFormat, waveTime - Time.time);
+            if(waveTime < Time.time)
             {
                 StartSpawn();
             }
@@ -48,6 +60,7 @@ public class MonsterSpawnSystem : MonoBehaviour
     public void StartSpawn()
     {
         isActive = true;
+        wavePanel.SetActive(false);
         activeSpawnerCount = 0;
 
         currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
@@ -79,6 +92,7 @@ public class MonsterSpawnSystem : MonoBehaviour
         if(activeSpawnerCount == 0)
         {
             isActive = false;
+            wavePanel.SetActive(!isActive);
             waveTime = Time.time + nextWaveTime;
             ++currentWaveLevel;
         }
