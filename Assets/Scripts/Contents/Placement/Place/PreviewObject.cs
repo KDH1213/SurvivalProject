@@ -99,7 +99,7 @@ public class PlacementPreview : MonoBehaviour
     // 이미 설치된 오브젝트 재배치
     public void RePlaceObject()
     {
-        if (placementSystem.SelectedObject != null)
+        if (placementSystem.SelectedObject != null && IsPreview)
         {
             PlacementObject obj = placementSystem.SelectedObject;
             placementSystem.SetPlacementInfo(obj);
