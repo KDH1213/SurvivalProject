@@ -33,7 +33,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         currentSkillStatValue.Clear();
         for (int i = 0; i < (int)LifeSkillType.End; ++i)
         {
-            currentSkillStatValue.Add(1f);
+            currentSkillStatValue.Add(0f);
         }
 
         OnChangeExperienceSlider();

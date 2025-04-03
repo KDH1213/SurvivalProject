@@ -35,12 +35,9 @@ public class SkillUIView : MonoBehaviour
         {
             skillTypeList.Add(i);
         }
-    }
 
-    private void OnEnable()
-    {
         OnSetRandomSkillOption();
-    } 
+    }
 
     private void OnSetRandomSkillOption()
     {
@@ -67,6 +64,7 @@ public class SkillUIView : MonoBehaviour
     {
         ++skillPoint;
         onChangeSkillPoint?.Invoke(skillPoint);
+        // OnSetRandomSkillOption();
     }
 
     public void OnClickButton(int index)
