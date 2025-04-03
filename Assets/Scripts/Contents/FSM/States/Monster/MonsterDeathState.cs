@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MonsterDeathState : MonsterBaseState
 {
-    [SerializeField]
-    private Inventory inventory;
+    //[SerializeField]
+    //private Inventory inventory;
 
-    public List<ItemData> items;
+    // public List<ItemData> items;
 
     protected override void Awake()
     {
@@ -21,14 +21,14 @@ public class MonsterDeathState : MonsterBaseState
         // Destroy(gameObject);
         MonsterFSM.OnEndInteractEvent?.Invoke(gameObject);
 
-        for (int i = 0; i < items.Count; i++)
-        {
-            ItemData newItem = Instantiate(items[i]);
+        //for (int i = 0; i < items.Count; i++)
+        //{
+        //    ItemData newItem = Instantiate(items[i]);
 
-            Debug.Log(newItem.name);
+        //    Debug.Log(newItem.name);
 
-            inventory.AddItem(newItem);
-        }
+        //    inventory.AddItem(newItem);
+        //}
 
         gameObject.SetActive(false);
     }
