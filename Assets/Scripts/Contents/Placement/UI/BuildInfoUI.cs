@@ -16,14 +16,14 @@ public class BuildInfoUI : MonoBehaviour
     private PlacementObjectInfo placementObject;
     [SerializeField]
     private GameObject needItemList;
-    private List<BuildInfoUINeedItem> needItems = new();
+    private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
     [SerializeField]
     private BuildInfoUINeedItem needItemPrefeb;
     [SerializeField]
     private Button placeButton;
     public TestInventory inven;
 
-    public void SetUIInfo(PlacementObjectInfo objInfo)
+    public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         placementObject = objInfo;
         PlacementLevelInfo levelInfo = objInfo.LevelList[0];

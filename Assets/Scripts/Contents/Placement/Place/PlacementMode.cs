@@ -25,7 +25,6 @@ public class PlacementMode : MonoBehaviour
     }
     public void OnInPlacementMode()
     {
-        // 이후 작업 모드에 들어갈 때 필요한 세팅 작성
         CurrentMode = Mode.Place;
         gridVisualization.SetActive(true);
         uiController.ShowObjectList();
@@ -33,7 +32,6 @@ public class PlacementMode : MonoBehaviour
 
     public void OnOutPlacementMode()
     {
-        // 이후 작업 모드에서 나올 때 필요한 세팅 작성
         CurrentMode = Mode.None;
         gridVisualization.SetActive(false);
         uiController.StopShowObjectList();
@@ -41,6 +39,8 @@ public class PlacementMode : MonoBehaviour
     public void OnInSelectMode()
     {
         CurrentMode = Mode.Select;
+        gridVisualization.SetActive(false);
+        uiController.StopShowObjectList();
     }
 
 }

@@ -17,20 +17,26 @@ public class PlacementPreview : MonoBehaviour
     [SerializeField]
     private float previewYOffset = 0.06f;
     public bool IsPreview { get; private set; }
+    [SerializeField]
+    private GameObject cellIndicator;
     public GameObject PreviewObject { get; private set; }
     [SerializeField]
     private Material previewMaterialsPrefeb;
     private Material previewMaterialsInstance;
+
+    private Renderer cellIndicatorRenderer;
 
     private void Start()
     {
         inputManager = placementSystem.GetComponent<PlacementInput>();
         placementUI = placementSystem.GetComponent<PlacementUIController>();
         previewMaterialsInstance = new Material(previewMaterialsPrefeb);
+        cellIndicator.SetActive(false);
+        cellIndicatorRenderer = cellIndicator.GetComponentInChildren<Renderer>();
     }
 
     // 프리뷰 시작
-    public void StartShowingPlacementPreview(GameObject prefeb, PlacementObject obj = null)
+    public void StartShowingPlacementPreview(GameObject prefeb, Vector2Int size, PlacementObject obj = null)
     {
         PreviewObject = Instantiate(prefeb);
         if (obj != null)
@@ -42,9 +48,21 @@ public class PlacementPreview : MonoBehaviour
             PlacePreview();
         }
         PreparePreview(PreviewObject);
-        placementUI.SetPlaceUI(true);
+        PrepareCursor(size);
+        cellIndicator.SetActive(true);
+        placementUI.OnShowPlaceUI(true);
         IsPreview = true;
         inputManager.OnClickPlace += PlacePreview;
+    }
+
+    private void PrepareCursor(Vector2Int size)
+    {
+        if (size.x > 0 || size.y > 0)
+        {
+            cellIndicator.transform.localScale = new Vector3(0.5f * size.x, 0.5f,
+                0.5f * size.y);
+            cellIndicatorRenderer.material.mainTextureScale = size;
+        }
     }
 
     // 오브젝트 랜더러 설정
@@ -66,9 +84,9 @@ public class PlacementPreview : MonoBehaviour
     public void StopShowingPreview()
     {
         Destroy(PreviewObject);
+        cellIndicator.SetActive(false);
         IsPreview = false;
-        placementUI.SetPlaceUI(false);
-        placementUI.SetDestoryButton(false);
+        placementUI.OnShowPlaceUI(false);
         inputManager.OnClickPlace -= PlacePreview;
     }
 
@@ -94,6 +112,7 @@ public class PlacementPreview : MonoBehaviour
     public void UpdatePosition(Vector3 position, bool validity)
     {
         ApplyFeedback(validity);
+        MoveCursor(position);
         MovePreview(position);
     }
 
@@ -102,10 +121,15 @@ public class PlacementPreview : MonoBehaviour
     {
         Color c = validity ? Color.green : Color.red;
         c.a = 0.5f;
+        cellIndicatorRenderer.material.color = c;
         previewMaterialsInstance.color = c;
     }
 
     // 오브젝트 이동
+    private void MoveCursor(Vector3 position)
+    {
+        cellIndicator.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
+    }
     private void MovePreview(Vector3 position)
     {
         PreviewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
@@ -126,7 +150,6 @@ public class PlacementPreview : MonoBehaviour
     private void PlacePreview(Vector3Int gridPosition)
     {
         bool placementValidity = placementSystem.CheckPlacementValidity(gridPosition, placementSystem.SelectedObjectIndex);
-        placementUI.SetDestoryButton(true);
         UpdatePosition(placementSystem.GetGrid.CellToWorld(gridPosition), placementValidity);
         inputManager.SetLastPos(placementSystem.GetGrid.CellToWorld(gridPosition));
     }

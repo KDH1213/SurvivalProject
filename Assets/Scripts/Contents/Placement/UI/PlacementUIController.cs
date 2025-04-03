@@ -26,10 +26,14 @@ public class PlacementUIController : MonoBehaviour
     private PlacementUIObjectInfo ObjectContentPrefeb;
     [SerializeField] // 건설물 목록 UI
     private GameObject ObjectListUi;
-    [SerializeField]
+    [SerializeField] // 아이템 리스트 탭
     private ToggleGroup toggles;
+    [SerializeField] // 아이템 리스트 탭
+    private GameObject modeSelectButtons;
     [SerializeField]
-    private BuildInfoUI infoUI; // 아이템 정보 UI
+    private BuildInfoUI buildInfo; // 건설물 건설 정보 UI
+    [SerializeField]
+    private ObjectInfoUI objectInfo; // 건설물 정보 UI
 
 
     private void Awake()
@@ -48,14 +52,9 @@ public class PlacementUIController : MonoBehaviour
         }
     }
 
-    public void SetPlaceUI(bool isActive)
+    public void OnShowPlaceUI(bool isActive)
     {
         placementUI.SetActive(isActive);
-    }
-
-    public void SetDestoryButton(bool isActive)
-    {
-        distroyButton.SetActive(isActive);
     }
 
     // 배치 된 갯수에 따라 오브젝트 리스트  UI변경
@@ -67,11 +66,11 @@ public class PlacementUIController : MonoBehaviour
         int maxCount = database.objects[index].MaxBuildCount;
         if (currentCount >= maxCount)
         {
-            obj.SetActive(false);
+            obj.GetComponent<Button>().interactable = false;
         }
         else
         {
-            obj.SetActive(true);
+            obj.GetComponent<Button>().interactable = true;
         }
         Objectcontents[ID].leftCount = maxCount - currentCount;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
@@ -114,7 +113,7 @@ public class PlacementUIController : MonoBehaviour
             {
                 if (item.leftCount <= 0)
                 {
-                    item.gameObject.SetActive(false);
+                    item.GetComponent<Button>().interactable = false;
                     continue;
                 }
                 item.gameObject.SetActive(true);
@@ -128,7 +127,7 @@ public class PlacementUIController : MonoBehaviour
             {
                 if(item.leftCount <= 0)
                 {
-                    item.gameObject.SetActive(false);
+                    item.GetComponent<Button>().interactable = false;
                     continue;
                 }
                 item.gameObject.SetActive(true);
@@ -140,9 +139,20 @@ public class PlacementUIController : MonoBehaviour
         } 
 
     }
+    public void OnOpenBuildInfo(PlacementObjectInfo placementInfo)
+    {
+        buildInfo.gameObject.SetActive(true);
+        buildInfo.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+    }
+
     public void OnOpenObjectInfo(PlacementObjectInfo placementInfo)
     {
-        infoUI.gameObject.SetActive(true);
-        infoUI.SetUIInfo(placementInfo);
+        objectInfo.gameObject.SetActive(true);
+        objectInfo.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+    }
+
+    public void OnShowModeSelectButton(bool show)
+    {
+        modeSelectButtons.SetActive(show);
     }
 }
