@@ -19,7 +19,10 @@ public class PlacementUIObjectInfo : MonoBehaviour
 
     private void Awake()
     {
-        // clickButton = GetComponent<Button>();
+        if(clickButton == null)
+        {
+            clickButton = GetComponent<Button>();
+        }
     }
 
     public void SetUIObjectInfo(PlacementObjectInfo info, PlacementSystem system)
