@@ -64,7 +64,11 @@ public class LifeStat : LevelStat, ISaveLoadData
 
     private void OnChangeExperienceSlider()
     {
-        experienceSlider.value = currentExperience / levelUpExperience;
+        if (experienceSlider != null)
+        {
+            experienceSlider.value = currentExperience / levelUpExperience;
+        }
+
     }
 
     public void OnSkillLevelUp(int skilType)
