@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+    private bool isInputable = true;
+
     [HideInInspector]
     public Vector2 inputDirection;
 
@@ -16,13 +18,35 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent<Vector2> onMoveAndRotateEvent;
 
     [SerializeField]
-    private GameObject joyStick;
+    private GameObject joyStickPrefab;
+
+    private JoyStick joyStick;
+
+    private void OnEnable()
+    {
+        isInputable = true;
+        if (joyStick != null)
+        {
+            joyStick.enabled = true;
+        }
+    }
+
+    private void OnDisable()
+    {
+        isInputable = false;
+        if (joyStick != null)
+        {
+            joyStick.enabled = false;
+        }
+    }
 
     private void Awake()
     {
         if (!IsMoveUI())
         {
-            GameObject newJoystick = Instantiate(joyStick);
+            GameObject newJoystick = Instantiate(joyStickPrefab);
+
+            joyStick = newJoystick.GetComponentInChildren<JoyStick>();
         }
     }
 
@@ -34,6 +58,11 @@ public class PlayerInputHandler : MonoBehaviour
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> moveAndRotate에 연결
     public void OnMoveAndRotate(InputAction.CallbackContext context)
     {
+        if (!isInputable)
+        {
+            return;
+        }
+
         inputDirection = context.ReadValue<Vector2>();
         onMoveAndRotateEvent?.Invoke(inputDirection);
     }
@@ -41,6 +70,11 @@ public class PlayerInputHandler : MonoBehaviour
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> mainToolAndAttack에 연결
     public void OnMainToolUsedAndAttck(InputAction.CallbackContext context)
     {
+        if (!isInputable)
+        {
+            return;
+        }
+
         if (playerFSM.CanAttack && context.phase == InputActionPhase.Performed)
         {
             onAttackEvent?.Invoke();
@@ -50,6 +84,11 @@ public class PlayerInputHandler : MonoBehaviour
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> interact에 연결
     public void OnInteract(InputAction.CallbackContext context)
     {
+        if (!isInputable)
+        {
+            return;
+        }
+
         if (context.phase == InputActionPhase.Performed)
         {
             onInteractEvent?.Invoke();
@@ -59,6 +98,11 @@ public class PlayerInputHandler : MonoBehaviour
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> subTool에 연결
     public void OnSubToolUsed(InputAction.CallbackContext context)
     {
+        if (!isInputable)
+        {
+            return;
+        }
+
         if (context.phase == InputActionPhase.Performed)
         {
 
@@ -68,6 +112,11 @@ public class PlayerInputHandler : MonoBehaviour
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> Building에 연결
     public void OnBuild(InputAction.CallbackContext context)
     {
+        if (!isInputable)
+        {
+            return;
+        }
+
         if (context.phase == InputActionPhase.Performed)
         {
 
@@ -84,6 +133,7 @@ public class PlayerInputHandler : MonoBehaviour
             return false;
         }
 
+        joyStick = moveUI.GetComponentInChildren<JoyStick>();
         return true;
     }
 }
