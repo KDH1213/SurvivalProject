@@ -21,7 +21,7 @@ public class AttackDefinition : ScriptableObject
     public DamageInfo CreateAttack(CharactorStats charactorStats, CharactorStats targetStats)
     {
         DamageInfo damageInfo = new DamageInfo();
-        float damage = charactorStats.GetStatValue(StatType.BasicAttackPower);
+        float damage = charactorStats.AttackPower;
         damage += Random.Range(MinDamage, MaxDamage);
         damageInfo.critical = CriticalChanse > Random.value;
 

@@ -55,7 +55,7 @@ public class PlayerStats : CharactorStats
         }
     }
 
-    public float AttackPower
+    public override float AttackPower
     {
         get
         {

@@ -11567,7 +11567,7 @@ MonoBehaviour:
       m_Calls: []
   attackTargetLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!114 &6548592573739144491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11705,6 +11705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats: {fileID: 4433569904149242453}
+  actInfoData: {fileID: 11400000, guid: 3d2bb809491a0ff4f8c2a4aa3df21cd6, type: 2}
   speedDownPersent: 0.2
   penaltyAttackSpeedPersent: 0.5
 --- !u!114 &4888348775712051221
@@ -11729,6 +11730,7 @@ MonoBehaviour:
       m_Calls: []
   startPenaltyPersent: 0.7
   extraValue: 1.5
+  fatigueSlider: {fileID: 0}
 --- !u!114 &7720668712684393975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11767,6 +11769,7 @@ MonoBehaviour:
   startPenaltyPersent: 0.5
   valueDownTime: 0.5
   hpDownTime: 5
+  hungerSlider: {fileID: 0}
 --- !u!114 &2602794882264074313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11853,6 +11856,7 @@ MonoBehaviour:
         m_CallState: 2
   startPenaltyPersent: 0.5
   valueDownTime: 0.5
+  thirstSlider: {fileID: 0}
 --- !u!114 &1478152083764109327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11903,6 +11907,9 @@ MonoBehaviour:
   lifeStatData: {fileID: 11400000, guid: 22409b408e1246645a292b3a9d8caf23, type: 2}
   skillLevelTable:
     _serializedList: []
+  onLevelUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5572263776794208988
 MonoBehaviour:
   m_ObjectHideFlags: 0

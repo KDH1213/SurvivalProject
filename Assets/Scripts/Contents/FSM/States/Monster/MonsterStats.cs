@@ -52,7 +52,7 @@ public class MonsterStats : CharactorStats
         }
     }
 
-    public float AttackPower
+    public override float AttackPower
     {
         get
         {

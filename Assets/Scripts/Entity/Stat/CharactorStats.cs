@@ -33,4 +33,16 @@ public class CharactorStats : MonoBehaviour
     {
         return currentStatTable[statType];
     }
+
+    public virtual float AttackPower
+    {
+        get
+        {
+            if (currentStatTable.TryGetValue(StatType.BasicAttackPower, out var value))
+            {
+                return value.Value;
+            }
+            return 0f;
+        }
+    }
 }

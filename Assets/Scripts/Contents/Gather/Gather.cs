@@ -40,6 +40,8 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn
         IsRespawn = false;
         gameObject.SetActive(false);
         OnEndInteractEvent?.Invoke(gameObject);
+
+        interactor.GetComponent<IAct>()?.PlayAct((int)ActType.Interation);
     }
 
     public void SetRemainTime(float remainTime)
