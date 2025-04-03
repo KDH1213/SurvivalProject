@@ -3,7 +3,7 @@ using UnityEngine;
 public class TimeService
 {
     readonly TimeSettings settings;
-    DateTime currentTime;
+    private DateTime currentTime;
     readonly TimeSpan sunriseTime;
     readonly TimeSpan sunsetTime;
 
@@ -30,6 +30,19 @@ public class TimeService
         currentHour.ValueChanged += _ => OnHourChange?.Invoke();
     }
 
+    public TimeService(TimeSettings settings, DateTime dataTime)
+    {
+        this.settings = settings;
+        currentTime = dataTime;
+        sunriseTime = TimeSpan.FromHours(settings.sunriseHour);
+        sunsetTime = TimeSpan.FromHours(settings.sunsetHour);
+
+        isDayTime = new Observable<bool>(IsDayTime());
+        currentHour = new Observable<int>(currentTime.Hour);
+
+        isDayTime.ValueChanged += day => (day ? OnSunrise : OnSunset)?.Invoke();
+        currentHour.ValueChanged += _ => OnHourChange?.Invoke();
+    }
     public void UpdateTime(float deltaTime)
     {
         currentTime = currentTime.AddSeconds(deltaTime * settings.timeMultiplier);
@@ -59,5 +72,10 @@ public class TimeService
     {
         TimeSpan difference = to - from;
         return difference.TotalHours < 0 ? difference + TimeSpan.FromHours(24) : difference;
+    }
+
+    public void SetCurrentTime(DateTime currentTime)
+    {
+        this.currentTime = currentTime;
     }
 }

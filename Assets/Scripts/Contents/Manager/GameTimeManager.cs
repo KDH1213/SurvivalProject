@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using System;
 
-public class GameTimeManager : Singleton<GameTimeManager>
+public class GameTimeManager : Singleton<GameTimeManager>, ISaveLoadData
 {
     [SerializeField] 
     private TextMeshProUGUI timeText;
@@ -35,7 +35,7 @@ public class GameTimeManager : Singleton<GameTimeManager>
     private RectTransform dial;
 
     [SerializeField] 
-    TimeSettings timeSettings;
+    private TimeSettings timeSettings;
 
     private ColorAdjustments colorAdjustments;
     float initialDialRotation;
@@ -60,13 +60,22 @@ public class GameTimeManager : Singleton<GameTimeManager>
 
     TimeService service;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Load();
+    }
+
     private void Start()
     {
-        service = new TimeService(timeSettings);
+
+        if(service == null)
+        {
+            service = new TimeService(timeSettings);
+        }
+        
         volume.profile.TryGet(out colorAdjustments);
-        OnSunrise += () => Debug.Log("Sunrise");
-        OnSunset += () => Debug.Log("Sunset");
-        OnHourChange += () => Debug.Log("Hour change");
 
         // initialDialRotation = dial.rotation.eulerAngles.z;
     }
@@ -112,6 +121,20 @@ public class GameTimeManager : Singleton<GameTimeManager>
         if (timeText != null)
         {
             timeText.text = service.CurrentTime.ToString("HH:mm");
+        }
+    }
+
+    public void Save()
+    {
+        SaveLoadManager.Data.gameTime = service.CurrentTime;
+    }
+
+    public void Load()
+    {
+        var data = SaveLoadManager.Data;
+        if (data != null && data.gameTime.Millisecond != 0)
+        {
+            service = new TimeService(timeSettings, SaveLoadManager.Data.gameTime);
         }
     }
 }

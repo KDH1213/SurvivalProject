@@ -100,6 +100,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     private void OnApplicationQuit()
     {
         onSaveEvent?.Invoke();
+        GameTimeManager.Instance.Save();
         SaveLoadManager.Save(SceneManager.GetActiveScene().name);
     }
 
@@ -109,7 +110,6 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         {
             return;
         }
-
 
         SaveLoadManager.Data.gatherSaveInfoTable.Clear();
         var currentTime = Time.time;
