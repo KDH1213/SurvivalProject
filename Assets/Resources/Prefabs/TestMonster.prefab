@@ -47,12 +47,12 @@ PrefabInstance:
     - target: {fileID: 5126350921812106683, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5126350921812106683, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6544578923605273074, guid: 141cbb02bbcdd7a46b04a3cc0de95b15,
         type: 3}
@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
       propertyPath: m_TagString
@@ -595,7 +595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.37
+      value: 17.18
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
       propertyPath: m_LocalPosition.y
@@ -905,6 +905,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9154148740690991065}
+    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 908389265763302010}
   m_SourcePrefab: {fileID: 100100000, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
 --- !u!95 &5272701081797501969 stripped
 Animator:
@@ -937,12 +941,14 @@ MonoBehaviour:
     - Key: 1
       Value: {fileID: 7187897753210940239}
     - Key: 4
-      Value: {fileID: 9697355052363296}
+      Value: {fileID: 2265959112917512316}
     - Key: 2
       Value: {fileID: 2745741150899027928}
     - Key: 3
-      Value: {fileID: 2265959112917512316}
+      Value: {fileID: 908389265763302010}
     - Key: 5
+      Value: {fileID: 9697355052363296}
+    - Key: 6
       Value: {fileID: 3585911724266889897}
   <ID>k__BackingField: 0
   <Animator>k__BackingField: {fileID: 5272701081797501969}
@@ -1238,6 +1244,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   experience: 2000
+--- !u!114 &908389265763302010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272701081804789719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae84aa14bf61935479d86448fe6f6757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeFixedUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  exitStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &5272701081804950519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: 9c09c78ed1209974db369788b8305a24,

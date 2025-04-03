@@ -8,11 +8,12 @@ public class MonsterChaseState : MonsterBaseState
     {
         base.Awake();
         stateType = MonsterStateType.Chase;
-        useReturn = false;
     }
 
     public override void Enter()
     {
+        useReturn = false;
+
         if (MonsterFSM.Animator != null)
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
