@@ -11,6 +11,7 @@ public class PlacementUIObjectInfo : MonoBehaviour
     public Image icomImage;
     public PlacementSystem system;
     public int leftCount;
+    [SerializeField]
     private Button clickButton;
     private PlacementUIController uiController;
     
@@ -18,7 +19,10 @@ public class PlacementUIObjectInfo : MonoBehaviour
 
     private void Awake()
     {
-        clickButton = GetComponent<Button>();
+        if(clickButton == null)
+        {
+            clickButton = GetComponent<Button>();
+        }
     }
 
     public void SetUIObjectInfo(PlacementObjectInfo info, PlacementSystem system)
