@@ -15,6 +15,16 @@ public class Inventory : MonoBehaviour, IDragHandler
 
     [SerializeField]
     private TextMeshProUGUI infomationText;
+    [SerializeField]
+    private TextMeshProUGUI attackText;
+    [SerializeField]
+    private TextMeshProUGUI defenceText;
+    [SerializeField]
+    private TextMeshProUGUI attackSpeedText;
+    [SerializeField]
+    private TextMeshProUGUI moveSpeedText;
+
+    private PlayerStats playerStats;
 
     private ItemData[] items = new ItemData[maxSlot];
 
@@ -33,6 +43,7 @@ public class Inventory : MonoBehaviour, IDragHandler
     private Slot[] EquipmentSlots = new Slot[6];
 
     public int SelectedSlotIndex { get; private set; } = -1;
+    public int SelectedEquipmentSlotIndex { get; private set; } = -1;
 
     public UnityEvent onClickAddButton;
     public UnityEvent onClickRemoveButton;
@@ -40,6 +51,11 @@ public class Inventory : MonoBehaviour, IDragHandler
 
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
+
+    private float totalDefence;
+    private float totalAttack;
+    private float totalMoveSpeed;
+    private float totalAttackSpeed;
 
     public void AddListeners(UnityAction action)
     {
@@ -58,7 +74,11 @@ public class Inventory : MonoBehaviour, IDragHandler
 
         for (int i = 0; i < EquipmentSlots.Length; i++)
         {
+            var slot = EquipmentSlots[i];
+
             EquipmentSlots[i].SlotIndex = i;
+            slot.button.onClick.AddListener(() => { SelectedEquipmentSlotIndex = slot.SlotIndex; });
+            slot.button.onClick.AddListener(ShowSorketItemInfomation);
         }
 
         for (int i = 0; i < maxSlot; i++)
@@ -67,7 +87,7 @@ public class Inventory : MonoBehaviour, IDragHandler
             slot.SlotIndex = i;
             slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex; });
             slot.button.onClick.AddListener(ShowIventoryItemInfomation);
-            slot.button.onClick.AddListener(ShowSorketItemInfomation);
+            //slot.button.onClick.AddListener(ShowSorketItemInfomation);
 
             slot.onDragEnter.AddListener(() =>
             {
@@ -96,6 +116,11 @@ public class Inventory : MonoBehaviour, IDragHandler
                     int sourceSlotIndex = dragSeletedSlotIndex;
 
                     if (targetSlotIndex < 0 || targetSlotIndex >= items.Length) continue;
+
+                    if (targetSlotIndex == sourceSlotIndex)
+                    {
+                        return;
+                    }
 
                     // 대상 슬롯이 비어 있는 경우
                     if (items[targetSlotIndex] == null)
@@ -142,6 +167,21 @@ public class Inventory : MonoBehaviour, IDragHandler
         }
 
         UpdateSlots(items);
+    }
+
+    private void Start()
+    {
+        playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
+
+        totalDefence = playerStats.Defense;
+        totalAttack = playerStats.AttackPower;
+        totalMoveSpeed = playerStats.Speed;
+        totalAttackSpeed = playerStats.AttackSpeed;
+
+        defenceText.text = $"{totalDefence}";
+        attackText.text = $"{totalAttack}";
+        moveSpeedText.text = $"{totalMoveSpeed}";
+        attackSpeedText.text = $"{totalAttackSpeed}";
     }
 
     private void UpdateSlots(ItemData[] items)
@@ -248,6 +288,7 @@ public class Inventory : MonoBehaviour, IDragHandler
                     EquipmentSlots[0].Item = item;
                     items[SelectedSlotIndex] = null;
                 }
+                UpdatePlayerStat(0);
                 break;
             case itemType.Weapon:
                 if (EquipmentSlots[1].Item != null)
@@ -261,6 +302,7 @@ public class Inventory : MonoBehaviour, IDragHandler
                     EquipmentSlots[1].Item = item;
                     items[SelectedSlotIndex] = null;
                 }
+                UpdatePlayerStat(1);
                 break;
             case itemType.Consumable:
                 if (EquipmentSlots[2].Item != null)
@@ -274,6 +316,7 @@ public class Inventory : MonoBehaviour, IDragHandler
                     EquipmentSlots[2].Item = item;
                     items[SelectedSlotIndex] = null;
                 }
+                UpdatePlayerStat(2);
                 break;
             case itemType.Armor:
                 if (EquipmentSlots[3].Item != null)
@@ -287,6 +330,7 @@ public class Inventory : MonoBehaviour, IDragHandler
                     EquipmentSlots[3].Item = item;
                     items[SelectedSlotIndex] = null;
                 }
+                UpdatePlayerStat(3);
                 break;
             case itemType.Pants:
                 if (EquipmentSlots[4].Item != null)
@@ -300,6 +344,7 @@ public class Inventory : MonoBehaviour, IDragHandler
                     EquipmentSlots[4].Item = item;
                     items[SelectedSlotIndex] = null;
                 }
+                UpdatePlayerStat(4);
                 break;
             case itemType.Shoes:
                 if (EquipmentSlots[5].Item != null)
@@ -313,17 +358,23 @@ public class Inventory : MonoBehaviour, IDragHandler
                     EquipmentSlots[5].Item = item;
                     items[SelectedSlotIndex] = null;
                 }
+                UpdatePlayerStat(5);
                 break;
         }
-
         UpdateSlots(items);
     }
 
     public void UnEquipItem()
     {
-        ItemData item = EquipmentSlots[SelectedSlotIndex].Item;
+        ItemData item = EquipmentSlots[SelectedEquipmentSlotIndex].Item;
 
+        int index = FindEmptySlotIndex();
 
+        items[index] = item;
+
+        EquipmentSlots[SelectedSlotIndex].Item = null;
+
+        UpdateSlots(items);
     }
 
     private int FindEmptySlotIndex()
@@ -339,9 +390,82 @@ public class Inventory : MonoBehaviour, IDragHandler
         return -1;
     }
 
-    public void AddItem(ItemData item, int amount)
+    public void UpdatePlayerStat(int index)
     {
+        if(EquipmentSlots[index].Item == null)
+        {
+            return;
+        }
 
+        if (EquipmentSlots[index].Item.type != itemType.Weapon && EquipmentSlots[index].Item.type != itemType.Consumable)
+        {
+            totalDefence += EquipmentSlots[index].Item.Defence;
+            playerStats.SetDefenceValue(EquipmentSlots[index].Item.Defence);
+        }
+        
+        if (EquipmentSlots[index].Item.type == itemType.Weapon)
+        {
+            totalAttack += EquipmentSlots[index].Item.Attack;
+            totalAttackSpeed += EquipmentSlots[index].Item.AttackSpeed;
+
+            playerStats.SetAttackPowerValue(EquipmentSlots[index].Item.Attack);
+            playerStats.SetAttackSpeedValue(EquipmentSlots[index].Item.AttackSpeed);
+        }
+        else if(EquipmentSlots[index].Item.type == itemType.Shoes)
+        {
+            totalMoveSpeed += EquipmentSlots[index].Item.MoveSpeed;
+            playerStats.SetMoveSpeedValue(EquipmentSlots[index].Item.MoveSpeed);
+        }
+
+        defenceText.text = $"{totalDefence}";
+        attackText.text = $"{totalAttack}";
+        moveSpeedText.text = $"{totalMoveSpeed}";
+        attackSpeedText.text = $"{totalAttackSpeed}";
+    }
+
+    public void AddItem(ItemData newItem)
+    {
+        // 같은 아이템이 있는지 확인
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null && items[i].ItemName == newItem.ItemName)
+            {
+                int totalAmount = items[i].Amount + newItem.Amount;
+
+                if (totalAmount <= items[i].MaxAmount)
+                {
+                    items[i].Amount = totalAmount;
+                }
+                else
+                {
+                    items[i].Amount = items[i].MaxAmount;
+                    newItem.Amount = totalAmount - items[i].MaxAmount;
+
+                    // 남은 개수로 새 슬롯에 추가
+                    int emptyIndex = FindEmptySlotIndex();
+                    if (emptyIndex != -1)
+                    {
+                        items[emptyIndex] = Instantiate(newItem);
+                    }
+                }
+
+                UpdateSlots(items);
+                return;
+            }
+        }
+
+        // 인벤토리에 같은 아이템이 없다면 빈 슬롯 찾기
+        int index = FindEmptySlotIndex();
+        if (index != -1)
+        {
+            items[index] = Instantiate(newItem);
+        }
+        else
+        {
+            Debug.Log("인벤토리가 가득 찼습니다!");
+        }
+
+        UpdateSlots(items);
     }
 
     public void OnDrag(PointerEventData eventData)
