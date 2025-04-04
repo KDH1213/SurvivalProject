@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class GridData
 {
@@ -30,7 +26,7 @@ public class GridData
         {
             if (placedObject.ContainsKey(pos))
             {
-                throw new Exception($"Dictionary already contains this cell position {pos}");
+                throw new System.Exception($"Dictionary already contains this cell position {pos}");
             }
             placedObject[pos] = obj;
         }
