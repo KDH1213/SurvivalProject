@@ -162,11 +162,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9079157881097189105, guid: 6c65ae9ed485954449beada8232f95d5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3491857562584799943}
+      addedObject: {fileID: 2870331885593223002}
     - targetCorrespondingSourceObject: {fileID: 9079157881097189105, guid: 6c65ae9ed485954449beada8232f95d5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2870331885593223002}
+      addedObject: {fileID: 7144585907114464163}
   m_SourcePrefab: {fileID: 100100000, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
 --- !u!1 &1210681260940698177 stripped
 GameObject:
@@ -174,19 +174,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7868511806290646192}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3491857562584799943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210681260940698177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c052cd3924c1d7e4195bc111787d84a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testOutPut: 0
 --- !u!65 &2870331885593223002
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -208,6 +195,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.3191805, y: 7.8027267, z: 12.383554}
   m_Center: {x: -0.00006495139, y: 3.8522015, z: 0.011280922}
+--- !u!114 &7144585907114464163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210681260940698177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630a5441323fb76409631465c7b5931d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  produceTime: 5
+  currentTime: 0
+  kind: Stone
+  outPut: 0
+  testOutPut: 0
 --- !u!4 &1983524051618363643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8553590586539256907, guid: 6c65ae9ed485954449beada8232f95d5,

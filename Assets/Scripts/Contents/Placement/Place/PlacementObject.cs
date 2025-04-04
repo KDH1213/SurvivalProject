@@ -23,7 +23,3 @@ public interface IProduceStructure
     public void Produce(/* 자원에 대한 매개변수 */);
 }
 
-public interface IFenceStructure
-{
-    
-}

@@ -150,6 +150,7 @@ public class PlacementSystem : MonoBehaviour
         placementObject.IsPlaced = true;
         placementObject.ID = SelectedObjectIndex;
         placementObject.Position = gridPosition;
+
         placedGameObjects.Add(placementObject);
 
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
