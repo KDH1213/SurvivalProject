@@ -39,7 +39,7 @@ public class PlacementUIController : MonoBehaviour
     private void Awake()
     {
         placementSystem = GetComponent<PlacementSystem>();
-        SetObjectList();
+        
     }
 
     private void Update()
@@ -78,6 +78,7 @@ public class PlacementUIController : MonoBehaviour
 
     public void ShowObjectList()
     {
+        SetObjectList();
         RectTransform rectTran = ObjectListUi.GetComponent<RectTransform>();
         Vector3 uiPos = Camera.main.WorldToScreenPoint(ObjectListUi.transform.position);
         ObjectListUi.transform.DOMoveY(0, 0.3f);
@@ -93,7 +94,13 @@ public class PlacementUIController : MonoBehaviour
 
     public void SetObjectList()
     {
-        foreach(var data in dataBase.objects)
+        foreach (var data in Objectcontents)
+        {
+            Destroy(data.gameObject);
+        }
+        Objectcontents.Clear();
+        
+        foreach (var data in dataBase.objects)
         {
             PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);
             uiObjInfo.SetUIObjectInfo(data, placementSystem);
