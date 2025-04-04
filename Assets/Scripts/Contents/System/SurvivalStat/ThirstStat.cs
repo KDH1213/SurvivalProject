@@ -32,6 +32,7 @@ public class ThirstStat : SurvivalStatBehaviour
         {
             currentTime -= valueDownTime;
             value -= maxValue * 0.01f;
+            this.value = Mathf.Max(value, 0f);
             OnChangeValue();
 
             if (!isOnDebuff && IsActivationCheckPenalty())
@@ -49,6 +50,7 @@ public class ThirstStat : SurvivalStatBehaviour
     public override void AddPenaltyValue(float value)
     {
         this.value += value;
+        this.value = Mathf.Clamp(this.value, 0f, maxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())

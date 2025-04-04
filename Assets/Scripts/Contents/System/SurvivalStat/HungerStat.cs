@@ -65,7 +65,8 @@ public class HungerStat : SurvivalStatBehaviour
         {
             currentTime -= valueDownTime;
             value -= maxValue * 0.01f;
-            OnChangeValue();
+            this.value = Mathf.Max(value, 0f);
+           OnChangeValue();
         }
     }
 

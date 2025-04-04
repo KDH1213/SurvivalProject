@@ -32,6 +32,7 @@ public class FatigueStat : SurvivalStatBehaviour
         }
 
 
+        this.value = Mathf.Clamp(this.value, 0f, maxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
@@ -43,6 +44,7 @@ public class FatigueStat : SurvivalStatBehaviour
     public void SubPenaltyValue(float value)
     {
         this.value -= value;
+        this.value = Mathf.Clamp(this.value, 0f, maxValue);
         OnChangeValue();
 
         if (isOnDebuff && !IsActivationCheckPenalty())
