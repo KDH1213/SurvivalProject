@@ -216,4 +216,13 @@ public class PlacementSystem : MonoBehaviour
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, obj);
     }
+
+    void OnDrawGizmos()
+    {
+        if (gridData.pos == null)
+            return;
+        Gizmos.color = Color.red;
+        //Gizmos.matrix = preview.PreviewObject.transform.worldToLocalMatrix;
+        Gizmos.DrawWireCube(gridData.pos, new Vector3(1,1,1));
+    }
 }

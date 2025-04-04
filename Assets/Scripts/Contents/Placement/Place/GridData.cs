@@ -5,12 +5,15 @@ using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class GridData
 {
     private Dictionary<Vector3Int, PlacementObject> placedObject = new Dictionary<Vector3Int, PlacementObject>();
     private Vector2Int gridSize;
 
+    public Vector3 pos;
+    public Vector3 localScale;
     public GridData(Vector2Int gridSize)
     {
         this.gridSize = gridSize;
@@ -86,12 +89,16 @@ public class GridData
         float magX = Mathf.Abs(grid.CellToWorld(nextPosX).x - grid.CellToWorld(gridPosition).x);
         float magY = Mathf.Abs(grid.CellToWorld(nextPosY).z - grid.CellToWorld(gridPosition).z);
 
-        Collider[] testCollider = Physics.OverlapBox(new Vector3(test.x, 0f, test.z),
-            new Vector3(magX * objectSize.x, 0f, magY * objectSize.y), grid.transform.rotation);
+        pos = test;
+        localScale = new Vector3(magX * objectSize.x, 0f, magY * objectSize.y);
+
+        Collider[] testCollider = Physics.OverlapBox(test,
+            new Vector3(magX * objectSize.x, 1f, magY * objectSize.y), grid.transform.rotation);
 
         foreach(var obj in testCollider)
         {
-            if(obj.tag.Equals("Monster"))
+            if (obj.tag.Equals("Monster") || obj.tag.Equals("Player") 
+                || obj.gameObject.layer == LayerMask.NameToLayer("Interactable"))
             {
                 return true;
             }
