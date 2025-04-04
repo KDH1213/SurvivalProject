@@ -53,4 +53,5 @@ public static class AnimationHashCode
     public static readonly int hashAttack = Animator.StringToHash("attack");
     //public static readonly int hashInteract = Animator.StringToHash("interact");
     public static readonly int hashSpeed = Animator.StringToHash("speed");
+    public static readonly int hashCanMove = Animator.StringToHash("canMove");
 }

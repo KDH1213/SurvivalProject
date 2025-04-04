@@ -41,7 +41,7 @@ public class MonsterSpawnSystem : MonoBehaviour
         //StartSpawn();
         isActive = false;
         wavePanel.SetActive(true);
-        waveTime = Time.time + nextWaveTime;
+        waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
     }
 
     private void Update()
@@ -93,8 +93,9 @@ public class MonsterSpawnSystem : MonoBehaviour
         {
             isActive = false;
             wavePanel.SetActive(!isActive);
-            waveTime = Time.time + nextWaveTime;
             ++currentWaveLevel;
+            currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
+            waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
         }
     }
 }

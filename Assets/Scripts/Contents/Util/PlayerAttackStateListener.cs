@@ -27,14 +27,20 @@ public class PlayerAttackStateListener : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.normalizedTime >= 1f)
+        if (playerAnimationEventListener == null)
         {
-            if (playerAnimationEventListener == null)
-            {
-                playerAnimationEventListener = animator.GetComponent<PlayerAnimationEventListener>();
-            }
-            playerAnimationEventListener.endAttackAnimationEvent?.Invoke();
+            playerAnimationEventListener = animator.GetComponent<PlayerAnimationEventListener>();
         }
+
+        playerAnimationEventListener.endAttackAnimationEvent?.Invoke();
+        //if (stateInfo.normalizedTime >= 1f)
+        //{
+        //    if (playerAnimationEventListener == null)
+        //    {
+        //        playerAnimationEventListener = animator.GetComponent<PlayerAnimationEventListener>();
+        //    }
+        //    playerAnimationEventListener.endAttackAnimationEvent?.Invoke();
+        //}
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

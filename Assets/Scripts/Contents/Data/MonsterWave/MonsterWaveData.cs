@@ -21,6 +21,9 @@ public class MonsterWaveData : ScriptableObject
     private bool isRepeat;
     public bool IsRepeat { get { return isRepeat; } }
 
+    [field: SerializeField]
+    public float StartSpawnTime { get; private set; } = 100f;
+
 
     public GameObject GetRandomMonster()
     {

@@ -52,7 +52,7 @@ public class PlayerStats : CharactorStats
     {
         get
         {
-            return currentStatTable[StatType.AttackSpeed].Value * survivalStats.CalculatePenaltyAttackSpeed();
+            return (currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed) * survivalStats.CalculatePenaltyAttackSpeed();
         }
     }
 

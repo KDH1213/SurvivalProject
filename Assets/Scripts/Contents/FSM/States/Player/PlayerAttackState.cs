@@ -20,7 +20,9 @@ public class PlayerAttackState : PlayerBaseState
     public override void Enter()
     {
         PlayerFSM.SetCanAttack(false);
-        playerFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
+        playerFSM.Animator.SetTrigger(AnimationHashCode.hashAttack);
+        playerFSM.Animator.SetBool(AnimationHashCode.hashCanMove, false);
+        playerFSM.Animator.speed = PlayerStats.AttackSpeed;
         isChangeMove = true;
     }
 
@@ -34,8 +36,11 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Exit()
     {
+        playerFSM.Animator.SetBool(AnimationHashCode.hashCanMove, true);
         PlayerFSM.SetCanAttack(true);
-        PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
+        playerFSM.Animator.speed = 1f;
+        playerFSM.Animator.ResetTrigger(AnimationHashCode.hashAttack);
+        // PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
     }
 
     // TODO :: Resources/Animation/PlayerAttackAnim 애니메이션 이벤트에 연결
@@ -58,20 +63,20 @@ public class PlayerAttackState : PlayerBaseState
     private void FindTarget()
     {
         int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
-        
-        foreach(var attackTargets in PlayerFSM.AttackTargets)
+
+        foreach (var attackTargets in PlayerFSM.AttackTargets)
         {
-            if(attackTargets != null)
+            if (attackTargets != null)
             {
                 MonsterFSM currentTarget = attackTargets.GetComponent<MonsterFSM>();
-                if(currentTarget == null || currentTarget.IsDead)
+                if (currentTarget == null || currentTarget.IsDead)
                 {
                     PlayerFSM.AttackTargets.Remove(attackTargets);
                 }
             }
         }
 
-        
+
         // TODO :: 단일 타겟에서 다중 타겟으로 수정
 
         Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
