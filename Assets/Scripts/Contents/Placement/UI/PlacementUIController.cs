@@ -94,17 +94,14 @@ public class PlacementUIController : MonoBehaviour
 
     public void SetObjectList()
     {
-        foreach (var data in Objectcontents)
+        if (Objectcontents.Count <= 0)
         {
-            Destroy(data.gameObject);
-        }
-        Objectcontents.Clear();
-        
-        foreach (var data in dataBase.objects)
-        {
-            PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);
-            uiObjInfo.SetUIObjectInfo(data, placementSystem);
-            Objectcontents.Add(uiObjInfo);
+            foreach (var data in dataBase.objects)
+            {
+                PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);
+                uiObjInfo.SetUIObjectInfo(data, placementSystem);
+                Objectcontents.Add(uiObjInfo);
+            }
         }
         
     }
@@ -118,12 +115,12 @@ public class PlacementUIController : MonoBehaviour
         {
             foreach (var item in Objectcontents)
             {
+                item.gameObject.SetActive(true);
                 if (item.leftCount <= 0)
                 {
                     item.GetComponent<Button>().interactable = false;
                     continue;
                 }
-                item.gameObject.SetActive(true);
             }
             return;
         }
@@ -132,12 +129,12 @@ public class PlacementUIController : MonoBehaviour
         {
             if(item.placementInfo.Kind.ToString().Equals(toggle.name))
             {
-                if(item.leftCount <= 0)
+                item.gameObject.SetActive(true);
+                if (item.leftCount <= 0)
                 {
                     item.GetComponent<Button>().interactable = false;
                     continue;
                 }
-                item.gameObject.SetActive(true);
             }
             else
             {
