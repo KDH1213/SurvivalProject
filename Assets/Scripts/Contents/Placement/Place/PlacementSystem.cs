@@ -126,17 +126,21 @@ public class PlacementSystem : MonoBehaviour
         {
             return;
         }
-        if(SelectedObject != null)
-        {
-            Destroy(SelectedObject.transform.parent.gameObject);
-            SelectedObject = null;
-        }
-
         bool invenValidity = inven.CheckItemCount(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
         if (!invenValidity)
         {
             StopPlacement();
             return;
+        }
+
+        if (SelectedObject != null)
+        {
+            Destroy(SelectedObject.transform.parent.gameObject);
+            SelectedObject = null;
+        }
+        else
+        {
+            inven.MinusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
         }
 
         GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
@@ -147,8 +151,6 @@ public class PlacementSystem : MonoBehaviour
         placementObject.ID = SelectedObjectIndex;
         placementObject.Position = gridPosition;
         placedGameObjects.Add(placementObject);
-
-        inven.MinusItem(database.objects[SelectedObjectIndex].LevelList[0].NeedItems);
 
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
