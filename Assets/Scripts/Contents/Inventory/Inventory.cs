@@ -81,8 +81,7 @@ public class Inventory : MonoBehaviour, IDragHandler
         {
             var slot = Instantiate(slotPrefab, scrollRect.content);
             slot.SlotIndex = i;
-            slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex; });
-            slot.button.onClick.AddListener(ShowIventoryItemInfomation);
+            slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex; ShowIventoryItemInfomation(); });
 
             slot.onDragEnter.AddListener(() =>
             {
@@ -266,7 +265,7 @@ public class Inventory : MonoBehaviour, IDragHandler
     {
         ItemData item = slots[SelectedSlotIndex].Item;
 
-        if (item.type == itemType.Material)
+        if(item == null || item.type == itemType.Material)
         {
             return;
         }
