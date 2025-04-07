@@ -57,7 +57,7 @@ public class PlacementInput : MonoBehaviour
             if (value.interaction is HoldInteraction)
             {
                 PlacementObject placementObject = hit.GetComponent<PlacementObject>();
-                if (hit.layer == LayerMask.NameToLayer("Object"))
+                if (hit.layer ==  GetLayer.Object)
                 {
                     IsObjectSelected = true;
                     Debug.Log("충돌!");
@@ -114,8 +114,8 @@ public class PlacementInput : MonoBehaviour
     // 닿은 객체가 설치물인지 검사
     private void CheckPressHit(GameObject hit)
     {
-
-        if (hit.layer == LayerMask.NameToLayer("Object"))
+       
+        if (hit.layer == GetLayer.Object)
         {
             PlacementObject placementObject = hit.GetComponent<PlacementObject>();
             if (placementObject.IsPlaced && placementSys.SelectStructure(placementObject))

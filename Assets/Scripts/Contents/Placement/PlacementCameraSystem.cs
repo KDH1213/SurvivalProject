@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
-using static Cinemachine.CinemachineVirtualCameraBase;
 using DG.Tweening;
 
 public class PlacementCameraSystem : MonoBehaviour

@@ -104,19 +104,22 @@ public class GridData
 
     private bool CheckObjectInArea(Vector3Int gridPosition)
     {
-        if(gridPosition.x < -gridSize.x / 2 )
+        var gridSizeX = gridSize.x / 2;
+        var gridSizeY = gridSize.y / 2;
+
+        if (gridPosition.x < -gridSizeX)
         {
             return true;
         }
-        if (gridPosition.x > gridSize.x / 2 - 1)
+        if (gridPosition.x > gridSizeX - 1)
         {
             return true;
         }
-        if (gridPosition.z < -gridSize.y / 2)
+        if (gridPosition.z < -gridSizeY)
         {
             return true;
         }
-        if (gridPosition.z > gridSize.y / 2 - 1)
+        if (gridPosition.z > gridSizeY - 1)
         {
             return true;
         }
