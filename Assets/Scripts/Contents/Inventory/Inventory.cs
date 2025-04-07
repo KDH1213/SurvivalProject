@@ -13,11 +13,18 @@ public struct DropItemInfo
 
 public class Inventory : MonoBehaviour
 {
+
+    // TODO :: 임시 테스트 코드
+    [SerializeField]
+    private string name;
+    [SerializeField]
+    private ItemData itemData;
+
     private static int maxSlot = 20;
     private int useSlotCount = 0;
 
     private ItemInfo[] itemInfos = new ItemInfo[maxSlot];
-    private Dictionary<string, List<ItemInfo>> inventoryItemTable;
+    private Dictionary<string, List<ItemInfo>> inventoryItemTable = new Dictionary<string, List<ItemInfo>>();
 
     [SerializeField]
     private ItemSlot slotPrefab;
@@ -36,6 +43,18 @@ public class Inventory : MonoBehaviour
 
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
+
+    [ContextMenu("Test1")]
+    public void OnTest()
+    {
+        DropItemInfo dropItemInfo = new DropItemInfo();
+        dropItemInfo.amount = 3;
+
+        int.TryParse(name, out var result);
+        dropItemInfo.id = result;
+        dropItemInfo.ItemName = name;
+        AddItem(dropItemInfo);
+    }
 
     public void AddListeners(UnityAction action)
     {
@@ -82,8 +101,8 @@ public class Inventory : MonoBehaviour
                         continue; 
                     }
 
-                    int targetSlotIndex = uiItemSlot.SlotIndex;
-                    int sourceSlotIndex = dragSeletedSlotIndex;
+                    int targetSlotIndex = dragSeletedSlotIndex;
+                    int sourceSlotIndex = uiItemSlot.SlotIndex;
 
                     if (targetSlotIndex < 0 || targetSlotIndex >= itemInfos.Length)
                     {
@@ -96,7 +115,7 @@ public class Inventory : MonoBehaviour
                     }
 
                     // string id로 변경
-                    if (itemInfos[sourceSlotIndex].itemData.ItemName == itemInfos[targetSlotIndex].itemData.ItemName)
+                    if (itemInfos[targetSlotIndex].itemData != null && itemInfos[sourceSlotIndex].itemData.ItemName == itemInfos[targetSlotIndex].itemData.ItemName)
                     {
                         // 같은 아이템일 경우 합치기
                         int totalAmount = itemInfos[sourceSlotIndex].Amount + itemInfos[targetSlotIndex].Amount;
@@ -119,7 +138,7 @@ public class Inventory : MonoBehaviour
                     }
                     else
                     {
-                        (itemInfos[targetSlotIndex], itemInfos[sourceSlotIndex]) = (itemInfos[sourceSlotIndex], itemInfos[targetSlotIndex]);
+                        itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
                     }
 
                     UpdateSlot(targetSlotIndex);
@@ -183,10 +202,20 @@ public class Inventory : MonoBehaviour
 
             foreach (var item in itemList)
             {
-                int addCount = dropItemInfo.amount % (item.itemData.MaxAmount - item.Amount);
-                item.Amount += addCount;
-                dropItemInfo.amount -= addCount;
-
+                int addUseCount = (item.itemData.MaxAmount - item.Amount);
+                if(dropItemInfo.amount <= addUseCount)
+                {
+                    item.Amount += dropItemInfo.amount;
+                    UpdateSlot(item.index);
+                    dropItemInfo.amount = 0;
+                    break;
+                }
+                else
+                {
+                    item.Amount = item.itemData.MaxAmount;
+                    dropItemInfo.amount -= addUseCount;
+                }
+               
                 UpdateSlot(item.index);
             }
 
@@ -216,21 +245,31 @@ public class Inventory : MonoBehaviour
 
     public void UpdateSlot(int slotIndex)
     {
-        slots[slotIndex].SetItemData(itemInfos[slotIndex]);
+        slots[slotIndex].OnUpdateSlot();
     }
 
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
     {
         var itemInfo = new ItemInfo();
         itemInfo.index = slotIndex;
-        itemInfo.itemData = null;
+        itemInfo.itemData = new ItemData(itemData);
+
+
         itemInfo.Amount = dropItemInfo.amount;
 
-        var itemInfoList = new List<ItemInfo>();
-        itemInfoList.Add(itemInfo);
-        inventoryItemTable.Add(dropItemInfo.ItemName, itemInfoList);
+        if (inventoryItemTable.ContainsKey(dropItemInfo.ItemName))
+        {
+            inventoryItemTable[dropItemInfo.ItemName].Add(itemInfo);
+        }
+        else
+        {
+            var itemInfoList = new List<ItemInfo>();
+            itemInfoList.Add(itemInfo);
+            inventoryItemTable.Add(dropItemInfo.ItemName, itemInfoList);
+        }
+
+        itemInfos[slotIndex] = itemInfo;
         slots[slotIndex].SetItemData(itemInfo); 
-        UpdateSlot(slotIndex);
         ++useSlotCount;
     }
 }

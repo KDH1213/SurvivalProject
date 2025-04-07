@@ -11,31 +11,38 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     [SerializeField]
     private GameObject textGameObject;
-    public TextMeshProUGUI amountText;
 
-    public int Amount { get { return itemInfo.Amount; } }
+    [SerializeField]
+    private TextMeshProUGUI amountText;
+
+    public int Amount { get { return ItemInfo.Amount; } }
     public int SlotIndex { get; set; }
 
     public Button button;
-
     public UnityEvent onPointerEnter;
     public UnityEvent onPointerExit;
     public UnityEvent onDragEnter;
     public UnityEvent<PointerEventData> onDragExit;
 
-    public ItemInfo itemInfo {  get; private set; }
-    public ItemData ItemData { get { return itemInfo.itemData != null ? itemInfo.itemData : null; } }
+    public ItemInfo ItemInfo {  get; private set; }
+    public ItemData ItemData { get; private set; }
 
     private string amountFormat = "{0}";
 
     public void SetItemData(ItemInfo itemInfo)
     {
-        this.itemInfo = itemInfo;
+        this.ItemInfo = itemInfo;
+        ItemData = itemInfo.itemData;
+        OnUpdateSlot();
+    }
 
-        if (itemInfo.itemData != null)
+    public void OnUpdateSlot()
+    {
+        if (ItemData != null)
         {
             image.sprite = ItemData.ItemImage;
             image.color = new Color(1, 1, 1, 1);
+            amountText.text = string.Format(amountFormat, ItemInfo.Amount);
             textGameObject.SetActive(true);
         }
         else
@@ -52,7 +59,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(itemInfo.itemData == null)
+        if(ItemData == null)
         {
             eventData.pointerDrag = null;
             onDragExit?.Invoke(eventData);
