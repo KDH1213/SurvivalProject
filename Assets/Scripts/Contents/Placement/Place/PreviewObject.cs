@@ -37,6 +37,7 @@ public class PlacementPreview : MonoBehaviour
         PreviewObject = Instantiate(prefeb);
         if (obj != null)
         {
+            PreviewObject.transform.GetChild(0).transform.rotation = obj.Rotation;
             PlacePreview(obj.Position);
         }
         else
@@ -102,6 +103,11 @@ public class PlacementPreview : MonoBehaviour
             placementSystem.SelectedObject.transform.parent.gameObject.SetActive(true);
             placementSystem.SelectedObject = null;
         }
+    }
+
+    public void OnRotate()
+    {
+        PreviewObject.transform.GetChild(0).Rotate(new Vector3(0f, 90f, 0f));
     }
 
     // ¿Ãµø

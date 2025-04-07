@@ -1,14 +1,10 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public enum Mode
 {
     None,
     Place,
-    Select
+    Edit
 }
 
 public class PlacementMode : MonoBehaviour
@@ -38,8 +34,8 @@ public class PlacementMode : MonoBehaviour
     }
     public void OnInSelectMode()
     {
-        CurrentMode = Mode.Select;
-        gridVisualization.SetActive(false);
+        CurrentMode = Mode.Edit;
+        gridVisualization.SetActive(true);
         uiController.StopShowObjectList();
     }
 

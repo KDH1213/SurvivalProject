@@ -121,7 +121,7 @@ public class PlacementCameraSystem : MonoBehaviour
 
         if (value.performed)
         {
-            if (inputManager.IsObjectSelected)
+            if (inputManager.IsObjectHoldPress)
             {
                 
             }

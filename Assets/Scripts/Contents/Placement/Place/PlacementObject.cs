@@ -6,6 +6,7 @@ public abstract class PlacementObject : MonoBehaviour
 {
     public PlacementData PlacementData { get; set; }
     public Vector3Int Position { get; set; }
+    public Quaternion Rotation { get; set; }
     public bool IsPlaced { get; set; } = false;
     public bool IsCollision { get; set; } = false;
     public int Level { get; set; } = 1;

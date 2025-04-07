@@ -47,8 +47,9 @@ public class PlacementSystem : MonoBehaviour
         {
             return;
         }
-        if (preview.IsPreview && inputManager.IsObjectSelected)
+        if (preview.IsPreview && inputManager.IsObjectHoldPress)
         {
+            inputManager.UpdatePosition();
             PlacementObject hit = inputManager.GetClickHit()?.gameObject.GetComponent<PlacementObject>();
             
             Vector3 mousePosition = inputManager.LastPosition;
@@ -138,11 +139,13 @@ public class PlacementSystem : MonoBehaviour
 
         GameObject newObject = Instantiate(database.objects[SelectedObjectIndex].LevelList[0].Prefeb);
         newObject.transform.position = grid.CellToWorld(gridPosition);
+        newObject.transform.GetChild(0).rotation = preview.PreviewObject.transform.GetChild(0).rotation;
 
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
         placementObject.ID = SelectedObjectIndex;
         placementObject.Position = gridPosition;
+        placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
 
         placedGameObjects.Add(placementObject);
 
@@ -166,13 +169,13 @@ public class PlacementSystem : MonoBehaviour
 
         if (placementMode.CurrentMode == Mode.Place)
         {
-            int id = RemoveStructure(obj);
-            StartPlacement(id, obj);
-        }
-        else if(placementMode.CurrentMode == Mode.Select)
-        {
             int index = database.objects.FindIndex(data => data.ID == SelectedObject.ID);
             placementUI.OnOpenObjectInfo(database.objects[index]);
+        }
+        else if(placementMode.CurrentMode == Mode.Edit)
+        {
+            int id = RemoveStructure(obj);
+            StartPlacement(id, obj);
         }
         
         return true;
@@ -182,6 +185,8 @@ public class PlacementSystem : MonoBehaviour
     {
         SelectedObject.transform.parent.position = grid.CellToWorld(gridPos);
         SelectedObject.Position = gridPos;
+        SelectedObject.transform.rotation = preview.PreviewObject.transform.GetChild(0).rotation;
+        SelectedObject.Rotation = SelectedObject.transform.rotation;
         SelectedObject.transform.parent.gameObject.SetActive(true);
         SetPlacementInfo(SelectedObject);
         SelectedObject = null;

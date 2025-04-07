@@ -24,7 +24,7 @@ public class PlacementInput : MonoBehaviour
 
     public bool IsPointerOverUi { get; set;}
     public bool IsPointerOverMap { get; private set; }
-    public bool IsObjectSelected { get; private set; }
+    public bool IsObjectHoldPress { get; private set; }
 
     private void Update()
     {
@@ -53,14 +53,14 @@ public class PlacementInput : MonoBehaviour
             {
                 return;
             }
-            
+
             if (value.interaction is HoldInteraction)
             {
+                
                 PlacementObject placementObject = hit.GetComponent<PlacementObject>();
                 if (hit.layer ==  GetLayer.Object)
                 {
-                    IsObjectSelected = true;
-                    Debug.Log("충돌!");
+                    IsObjectHoldPress = true;
                 }
                 else
                 {
@@ -78,17 +78,16 @@ public class PlacementInput : MonoBehaviour
         if (value.canceled)
         {
             
-            IsObjectSelected = false;
+            IsObjectHoldPress = false;
             Debug.Log("캔슬!");
         }
     }
 
-    // 클릭한 곳과 맞닿은 객체 리턴 및 마지막 터치 위치 갱신
-    public Collider GetClickHit()
+    public void UpdatePosition()
     {
-        if(IsPointerOverUi)
+        if (IsPointerOverUi)
         {
-            return null;
+            return;
         }
         Vector3 mousePos = cameraSys.MousePos;
         mousePos.z = Camera.main.nearClipPlane;
@@ -103,6 +102,19 @@ public class PlacementInput : MonoBehaviour
         {
             IsPointerOverMap = false;
         }
+    }
+
+    // 클릭한 곳과 맞닿은 객체 리턴 및 마지막 터치 위치 갱신
+    public Collider GetClickHit()
+    {
+        if(IsPointerOverUi)
+        {
+            return null;
+        }
+        Vector3 mousePos = cameraSys.MousePos;
+        mousePos.z = Camera.main.nearClipPlane;
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 100f, bothLayermask))
         {
@@ -124,12 +136,12 @@ public class PlacementInput : MonoBehaviour
             }
             else
             {
-                OnClickPlace?.Invoke();
+                
             }
         }
         else
         {
-            OnClickPlace?.Invoke();
+            
         }
     }
 
