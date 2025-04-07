@@ -2,7 +2,6 @@
 
 public enum itemType
 {
-    Equipment,  // 장비
     Helmet,     // 모자
     Armor,      // 상의
     Pants,      // 하의

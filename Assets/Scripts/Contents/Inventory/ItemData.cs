@@ -27,19 +27,6 @@ public class ItemData
     public bool IsMax { get; set; }
 
     public ItemData() { }
-    public ItemData(itemType itemType, string itemName, string itemInfomation, Sprite itemImage, float moveSpeed, float attack, float defence, float attackSpeed, int maxAmount, bool isMax)
-    {
-        ItemType=itemType;
-        ItemName=itemName;
-        ItemInfomation=itemInfomation;
-        ItemImage=itemImage;
-        MoveSpeed=moveSpeed;
-        Attack=attack;
-        Defence=defence;
-        AttackSpeed=attackSpeed;
-        MaxAmount=maxAmount;
-        IsMax=isMax;
-    }
 
     public ItemData(ItemData data)
     {

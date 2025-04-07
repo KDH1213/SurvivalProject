@@ -25,14 +25,13 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public UnityEvent<PointerEventData> onDragExit;
 
     public ItemInfo ItemInfo {  get; private set; }
-    public ItemData ItemData { get; private set; }
+    public ItemData ItemData => ItemInfo.itemData;
 
     private string amountFormat = "{0}";
 
     public void SetItemData(ItemInfo itemInfo)
     {
         this.ItemInfo = itemInfo;
-        ItemData = itemInfo.itemData;
         OnUpdateSlot();
     }
 

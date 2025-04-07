@@ -13,36 +13,13 @@ public struct DropItemInfo
 
 public class Inventory : MonoBehaviour
 {
+    private static int maxSlot = 20;
 
     // TODO :: 임시 테스트 코드
     [SerializeField]
     private string name;
     [SerializeField]
     private ItemData itemData;
-
-    private static int maxSlot = 20;
-    private int useSlotCount = 0;
-
-    private ItemInfo[] itemInfos = new ItemInfo[maxSlot];
-    private Dictionary<string, List<ItemInfo>> inventoryItemTable = new Dictionary<string, List<ItemInfo>>();
-
-    [SerializeField]
-    private ItemSlot slotPrefab;
-
-    [SerializeField]
-    private Transform slotParent;
-
-    [SerializeField]
-    private ItemSlot[] slots = new ItemSlot[maxSlot];
-
-    public int SelectedSlotIndex { get; private set; } = -1;
-
-    public UnityEvent onClickAddButton;
-    public UnityEvent onClickRemoveButton;
-    public UnityEvent onUpdateSlots;
-
-    private int dragSeletedSlotIndex;
-    private bool isOnDrag = false;
 
     [ContextMenu("Test1")]
     public void OnTest()
@@ -56,9 +33,31 @@ public class Inventory : MonoBehaviour
         AddItem(dropItemInfo);
     }
 
+    [SerializeField]
+    private ItemSlot slotPrefab;
+
+    [SerializeField]
+    private Transform slotParent;
+
+    [SerializeField]
+    private ItemSlot[] itemSlots = new ItemSlot[maxSlot];
+
+    private ItemInfo[] itemInfos = new ItemInfo[maxSlot];
+    private Dictionary<string, List<ItemInfo>> inventoryItemTable = new Dictionary<string, List<ItemInfo>>();
+
+    public int SelectedSlotIndex { get; private set; } = -1;
+
+    public UnityEvent onClickAddButton;
+    public UnityEvent onClickRemoveButton;
+    public UnityEvent onUpdateSlots;
+
+    private int dragSeletedSlotIndex;
+    private bool isOnDrag = false;
+    private int useSlotCount = 0;
+
     public void AddListeners(UnityAction action)
     {
-        foreach (var slot in slots)
+        foreach (var slot in itemSlots)
         {
             slot.button.onClick.AddListener(action);
         }
@@ -90,6 +89,7 @@ public class Inventory : MonoBehaviour
                     return;
                 }
 
+                SelectedSlotIndex = -1;
                 var results = new List<RaycastResult>();
                 EventSystem.current.RaycastAll(eventData, results);
 
@@ -152,7 +152,7 @@ public class Inventory : MonoBehaviour
                 isOnDrag = false;
                 dragSeletedSlotIndex = -1;
             });
-            slots[i] = slot;
+            itemSlots[i] = slot;
         }
 
         UpdateSlots(itemInfos);
@@ -161,13 +161,29 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < maxSlot; ++i)
         {
-            slots[i].SetItemData(items[i]);
+            itemSlots[i].SetItemData(items[i]);
         }
     }
 
-    private bool IsValidIndex(int index)
+    public void OnUseItem()
     {
-        return index >= 0 && index < maxSlot;
+        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != itemType.Consumable)
+        {
+            return;
+        }
+
+        itemInfos[SelectedSlotIndex].Amount -= 1;
+
+        if(itemInfos[SelectedSlotIndex].Amount == 0)
+        {
+            if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
+            {
+                itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
+            }
+
+            itemInfos[SelectedSlotIndex].Empty();
+        }
+        UpdateSlot(SelectedSlotIndex);
     }
 
     //public void RemoveItem()
@@ -182,7 +198,7 @@ public class Inventory : MonoBehaviour
 
     private int FindEmptySlotIndex()
     {
-        foreach (var slot in slots)
+        foreach (var slot in itemSlots)
         {
             if (slot.ItemData == null)
             {
@@ -245,17 +261,16 @@ public class Inventory : MonoBehaviour
 
     public void UpdateSlot(int slotIndex)
     {
-        slots[slotIndex].OnUpdateSlot();
+        itemSlots[slotIndex].OnUpdateSlot();
     }
 
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
     {
         var itemInfo = new ItemInfo();
         itemInfo.index = slotIndex;
-        itemInfo.itemData = new ItemData(itemData);
-
-
         itemInfo.Amount = dropItemInfo.amount;
+        // TODO :: 임시 코드
+        itemInfo.itemData = new ItemData(itemData);
 
         if (inventoryItemTable.ContainsKey(dropItemInfo.ItemName))
         {
@@ -269,7 +284,7 @@ public class Inventory : MonoBehaviour
         }
 
         itemInfos[slotIndex] = itemInfo;
-        slots[slotIndex].SetItemData(itemInfo); 
+        itemSlots[slotIndex].SetItemData(itemInfo); 
         ++useSlotCount;
     }
 }
