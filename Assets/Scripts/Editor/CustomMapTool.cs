@@ -13,6 +13,7 @@ public class CustomMapTool : EditorWindow
 
     private bool isDraw = true;
     private bool isMouseDown = false;
+
     private bool isSelect = false;
     private bool isDestory = false;
 

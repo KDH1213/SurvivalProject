@@ -137,9 +137,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     
     public void OnShowInventory()
     {
-        PlayerInventory.gameObject.SetActive(true);
-        PlayerInventory.ResetInfomation();
-        
+        PlayerInventory.gameObject.SetActive(true);        
     }
 
     public void OnDisableInventory()
