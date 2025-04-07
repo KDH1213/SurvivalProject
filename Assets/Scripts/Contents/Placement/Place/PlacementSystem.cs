@@ -1,12 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -135,8 +128,8 @@ public class PlacementSystem : MonoBehaviour
 
         if (SelectedObject != null)
         {
-            Destroy(SelectedObject.transform.parent.gameObject);
-            SelectedObject = null;
+            MoveStructure(gridPosition);
+            return;
         }
         else
         {
@@ -185,6 +178,16 @@ public class PlacementSystem : MonoBehaviour
         return true;
     }
 
+    private void MoveStructure(Vector3Int gridPos)
+    {
+        SelectedObject.transform.parent.position = grid.CellToWorld(gridPos);
+        SelectedObject.Position = gridPos;
+        SelectedObject.transform.parent.gameObject.SetActive(true);
+        SetPlacementInfo(SelectedObject);
+        SelectedObject = null;
+        StopPlacement();
+    }
+
     public int RemoveStructure(PlacementObject obj)
     {
         SelectedObject.transform.parent.gameObject.SetActive(false);
@@ -214,7 +217,6 @@ public class PlacementSystem : MonoBehaviour
     {
         obj.IsPlaced = true;
         placedGameObjects.Add(obj);
-
         gridData.AddObjectAt(obj.Position, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, obj);
