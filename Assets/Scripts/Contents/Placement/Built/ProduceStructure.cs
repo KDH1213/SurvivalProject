@@ -1,19 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProduceStructure : PlacementObject
 {
-    [SerializeField]
     private float produceTime;
-    [SerializeField]
     private float currentTime;
-    [SerializeField]
     private string kind;
-    [SerializeField]
     private int outPut;
-
-    public int testOutPut;
+    private int maxOutPut;
 
     private void Awake()
     {
@@ -25,26 +18,25 @@ public class ProduceStructure : PlacementObject
     }
     private void Produce()
     {
-        if (!IsPlaced)
+        if (!IsPlaced || outPut >=maxOutPut)
         {
             return;
         }
 
-        currentTime += Time.deltaTime;
-        if (currentTime >= produceTime)
+        if (Time.time >= currentTime)
         {
             outPut++;
-            testOutPut++;
-            currentTime = 0f;
+            currentTime = Time.time + produceTime;
         }
     }
 
-    public void SetProduceStructure(float produceTime, string kind, int outPut = 0)
+    public void SetProduceStructure(float produceTime, string kind, int maxOutPut, int outPut = 0)
     {
         this.produceTime = produceTime;
         this.kind = kind;
         this.outPut = outPut;
-        testOutPut = outPut;
+        this.maxOutPut = maxOutPut;
+        currentTime = Time.time + produceTime;
     }
 
     public override void Instruct()
