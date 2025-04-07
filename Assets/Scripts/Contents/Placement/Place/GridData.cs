@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GridData
@@ -32,6 +33,34 @@ public class GridData
         }
     }
 
+    public Vector3Int SearchSide(Vector3Int gridPos, Vector2Int objectSize)
+    {
+        var visited = new HashSet<Vector3Int>();
+        var queue = new Queue<Vector3Int>();
+
+        queue.Enqueue(gridPos);
+
+        while (queue.Count > 0)
+        {
+            var currentPos = queue.Dequeue();
+            visited.Add(currentPos);
+            foreach (var adjacent in CalculateSide(currentPos, objectSize))
+            {
+                if (!CanPlaceObjectAt(adjacent,objectSize) || visited.Contains(adjacent) || queue.Contains(adjacent))
+                    continue;
+
+                return adjacent;
+            }
+
+            if(queue.Count == 0)
+            {
+                queue.Enqueue(new Vector3Int(currentPos.x - 1, 0, currentPos.y));
+            }
+        }
+
+        return Vector3Int.zero;
+    }
+
     public int RemoveObjectAt(PlacementObject obj)
     {
         int placeObjectIndex = obj.PlacementData.PlaceObjectIndex;
@@ -55,6 +84,30 @@ public class GridData
                 returnVal.Add(gridPosition + new Vector3Int(i, 0, j));
             }
         }
+
+        return returnVal;
+    }
+
+    private List<Vector3Int> CalculateSide(Vector3Int gridPosition, Vector2Int objectSize)
+    {
+        List<Vector3Int> returnVal = new();
+        int gridPosX = gridPosition.x;
+        int gridPosY = gridPosition.z;
+
+        RectInt rectInt = new RectInt(gridPosX - objectSize.x, gridPosY - objectSize.y, 
+            gridPosX + objectSize.x, gridPosY + objectSize.y);
+
+        for (int i = rectInt.x; i <= rectInt.width; i++)
+        {
+            for (int j = rectInt.y; j <= rectInt.height; j++)
+            {
+                if(i == rectInt.x || i == rectInt.width || j == rectInt.y || j == rectInt.height)
+                {
+                    returnVal.Add(new Vector3Int(i, 0, j));
+                }
+            }
+        }
+
 
         return returnVal;
     }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.SearchableEditorWindow;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -153,8 +154,12 @@ public class PlacementSystem : MonoBehaviour
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, placementObject);
         placementUI.OnSetObjectListUi(database, placementObject.PlacementData.ID, placedGameObjects);
-        //preview.UpdatePosition(grid.CellToWorld(gridPosition), CheckPlacementValidity(gridPosition, SelectedObjectIndex));
-        StopPlacement();
+        Debug.Log(gridData.SearchSide(gridPosition, database.objects[SelectedObjectIndex].Size));
+        Vector3Int nextPos = gridData.SearchSide(gridPosition, database.objects[SelectedObjectIndex].Size);
+        preview.UpdatePosition(grid.CellToWorld(nextPos),
+            CheckPlacementValidity(nextPos, SelectedObjectIndex));
+        inputManager.LastPosition = grid.CellToWorld(nextPos);
+        //StopPlacement();
     }
 
     // 배치된 오브젝트 선택

@@ -13,7 +13,7 @@ public class PlacementInput : MonoBehaviour
     [SerializeField]
     private PlacementSystem placementSys;
 
-    public Vector3 LastPosition { get; private set; }
+    public Vector3 LastPosition { get; set; }
 
     [SerializeField]
     private LayerMask placementLayermask;
