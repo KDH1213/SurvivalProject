@@ -15,8 +15,7 @@ public class BuildInfoUI : MonoBehaviour
     private TextMeshProUGUI featureInfo;
     private PlacementObjectInfo placementObject;
     [SerializeField]
-    private GameObject needItemList;
-    private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
+    private List<BuildInfoUINeedItem> needItems;
     [SerializeField]
     private BuildInfoUINeedItem needItemPrefeb;
     [SerializeField]
@@ -25,20 +24,21 @@ public class BuildInfoUI : MonoBehaviour
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
+        int index = 0;
         placementObject = objInfo;
         PlacementLevelInfo levelInfo = objInfo.LevelList[0];
         itemImage.sprite = levelInfo.Icon;
         featureInfo.text = $"Name : {levelInfo.Name}\nLevel : {1}\nFeature : {levelInfo.Feature}";
         foreach (var item in needItems)
         {
-            Destroy(item.gameObject);
+            item.gameObject.SetActive(false);
         }
-        needItems.Clear();
         foreach (var item in levelInfo.NeedItems)
         {
-            BuildInfoUINeedItem needItem = Instantiate(needItemPrefeb, needItemList.transform);
-            needItem.SetNeedItem(null, objInfo.Kind.ToString(), item.Value, inven.inventory[item.Key]);
-            needItems.Add(needItem);
+            needItems[index].gameObject.SetActive(true);
+            needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            needItems.Add(needItems[index]);
+            index++;
         }
         SetButtonDisable();
         

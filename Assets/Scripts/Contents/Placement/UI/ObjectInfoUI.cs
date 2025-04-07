@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,7 +12,6 @@ public class ObjectInfoUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI objectInfo;
     [SerializeField]
-    private GameObject needItemContents;
     private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
     [SerializeField]
     private BuildInfoUINeedItem needItemPrefeb;
@@ -21,19 +21,20 @@ public class ObjectInfoUI : MonoBehaviour
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
+        int index = 0;
         PlacementLevelInfo levelInfo = objInfo.LevelList[selectedObject.Level - 1];
         objectImage.sprite = levelInfo.Icon;
         objectInfo.text = $"Name : {levelInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {levelInfo.Feature}";
         foreach (var item in needItems)
         {
-            Destroy(item.gameObject);
+            item.gameObject.SetActive(false);
         }
-        needItems.Clear();
         foreach (var item in levelInfo.NeedItems)
         {
-            BuildInfoUINeedItem needItem = Instantiate(needItemPrefeb, needItemContents.transform);
-            needItem.SetNeedItem(null, objInfo.Kind.ToString(), item.Value, inven.inventory[item.Key]);
-            needItems.Add(needItem);
+            needItems[index].gameObject.SetActive(true);
+            needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            needItems.Add(needItems[index]);
+            index++;
         }
     }
 
