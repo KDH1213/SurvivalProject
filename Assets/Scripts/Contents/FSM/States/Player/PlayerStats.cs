@@ -12,6 +12,9 @@ public class PlayerStats : CharactorStats
     [SerializeField]
     private Slider HpBarSlider;
 
+    private float currentSpeed = 1f;
+    private float currentAttackSpeed = 1f;
+
     protected override void Awake()
     {
         originalData.CopyStat(ref currentStatTable);
@@ -26,14 +29,23 @@ public class PlayerStats : CharactorStats
             originalData.StatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
         }
 
+        currentStatTable[StatType.MovementSpeed].OnChangeValueAction(OnChangeSpeedValue);
+        currentStatTable[StatType.AttackSpeed].OnChangeValueAction(OnChangeAttackSpeedValue);
+        currentSpeed = currentStatTable[StatType.MovementSpeed].Value;
+        currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value;
         OnChangeHp();
+    }
+
+    private void Start()
+    {
+        lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeLifeStat);
     }
 
     public float Speed
     {
         get
         {
-            return (currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed) * survivalStats.CalculatePenaltySpeed();
+            return currentSpeed * survivalStats.CalculatePenaltySpeed();
         }
     }
     public float Hp
@@ -48,7 +60,7 @@ public class PlayerStats : CharactorStats
     {
         get
         {
-            return (currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed) * survivalStats.CalculatePenaltyAttackSpeed();
+            return currentAttackSpeed * survivalStats.CalculatePenaltyAttackSpeed();
         }
     }
 
@@ -112,5 +124,38 @@ public class PlayerStats : CharactorStats
                 currentStatTable[statInfo.statType].AddValue(-statInfo.value);
             }
         }
+    }
+
+    public void OnChangeLifeStat(LifeSkillType type)
+    {
+        switch (type)
+        {
+            case LifeSkillType.Damage:
+                break;
+            case LifeSkillType.MoveSpeed:
+                currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
+                break;
+            case LifeSkillType.AttackSpeed:
+                currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
+                break;
+            case LifeSkillType.Hungur:
+                break;
+            case LifeSkillType.Thirst:
+                break;
+            case LifeSkillType.End:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnChangeSpeedValue(float value)
+    {
+        currentSpeed = value + lifeStat.MoveSpeed;
+    }
+
+    public void OnChangeAttackSpeedValue(float value)
+    {
+        currentAttackSpeed = value + lifeStat.AttackSpeed;
     }
 }

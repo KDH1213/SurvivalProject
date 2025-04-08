@@ -17,6 +17,7 @@ public class LifeStat : LevelStat, ISaveLoadData
     private SerializedDictionary<LifeSkillType, int> skillLevelTable = new SerializedDictionary<LifeSkillType, int>();
 
     public UnityEvent onLevelUpEvent;
+    public UnityEvent<LifeSkillType> OnChangeSkillLevelEvent;
 
     private List<float> currentSkillStatValue = new List<float>();
 
@@ -85,6 +86,8 @@ public class LifeStat : LevelStat, ISaveLoadData
             skillLevelTable.Add(type, 1);
             currentSkillStatValue[skilType] = lifeStatData.LifeSkillStatTable[type];
         }
+
+        OnChangeSkillLevelEvent?.Invoke(type);
     }
     
     protected override void LevelUp()
