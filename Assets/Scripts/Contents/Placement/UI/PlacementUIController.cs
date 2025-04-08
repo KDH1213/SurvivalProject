@@ -34,6 +34,8 @@ public class PlacementUIController : MonoBehaviour
     private BuildInfoUI buildInfo; // 건설물 건설 정보 UI
     [SerializeField]
     private ObjectInfoUI objectInfo; // 건설물 정보 UI
+    [SerializeField]
+    private UpgradeUI upgradeUI; // 건설물 정보 UI
 
 
     private void Awake()
@@ -58,7 +60,7 @@ public class PlacementUIController : MonoBehaviour
     }
 
     // 배치 된 갯수에 따라 오브젝트 리스트  UI변경
-    public void OnSetObjectListUi(PlacementObjectList database, int ID, List<PlacementObject> placedGameObjects)
+    public int OnSetObjectListUi(PlacementObjectList database, int ID, List<PlacementObject> placedGameObjects)
     {
         int index = database.objects.FindIndex(data => data.ID == ID);
         GameObject obj = Objectcontents[ID].gameObject;
@@ -74,6 +76,8 @@ public class PlacementUIController : MonoBehaviour
         }
         Objectcontents[ID].leftCount = maxCount - currentCount;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
+
+        return maxCount - currentCount;
     }
 
     public void ShowObjectList()
@@ -158,5 +162,11 @@ public class PlacementUIController : MonoBehaviour
     public void OnShowModeSelectButton(bool show)
     {
         modeSelectButtons.SetActive(show);
+    }
+
+    public void OnOpenUpgradeInfo(PlacementObjectInfo placementInfo)
+    {
+        upgradeUI.gameObject.SetActive(true);
+        upgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
     }
 }

@@ -54,7 +54,7 @@ public class GridData
 
             if(queue.Count == 0)
             {
-                queue.Enqueue(new Vector3Int(currentPos.x - 1, 0, currentPos.y));
+                queue.Enqueue(new Vector3Int(currentPos.x - objectSize.x, 0, currentPos.y));
             }
         }
 

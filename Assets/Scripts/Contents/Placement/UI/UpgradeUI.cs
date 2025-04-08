@@ -1,34 +1,34 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ObjectInfoUI : MonoBehaviour
+public class UpgradeUI : MonoBehaviour
 {
     [SerializeField]
-    private PlacementUIController uiController;
+    private Image beforeImage;
     [SerializeField]
-    private Image objectImage;
+    private TextMeshProUGUI beforeName;
     [SerializeField]
-    private TextMeshProUGUI objectInfo;
+    private Image afterImage;
+    [SerializeField]
+    private TextMeshProUGUI afterName;
     [SerializeField]
     private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
-    [SerializeField]
-    private BuildInfoUINeedItem needItemPrefeb;
-    [SerializeField]
-    private GameObject debuffContents;
-    [SerializeField]
-    private Button upgrade;
     public TestInventory inven;
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         int index = 0;
         PlacementLevelInfo levelInfo = objInfo.LevelList[selectedObject.Level - 1];
-        objectImage.sprite = levelInfo.Icon;
-        objectInfo.text = $"Name : {levelInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {levelInfo.Feature}";
+        beforeImage.sprite = levelInfo.Icon;
+        beforeName.text = $"{levelInfo.Name}";
+
+        PlacementLevelInfo nextLevelInfo = objInfo.LevelList[selectedObject.Level];
+        afterImage.sprite = nextLevelInfo.Icon;
+        afterName.text = $"{nextLevelInfo.Name}";
+
         foreach (var item in needItems)
         {
             item.gameObject.SetActive(false);
@@ -40,13 +40,6 @@ public class ObjectInfoUI : MonoBehaviour
             needItems.Add(needItems[index]);
             index++;
         }
-
-        upgrade.onClick.AddListener(() => gameObject.SetActive(false));
-        upgrade.onClick.AddListener(() => uiController.OnOpenUpgradeInfo(objInfo));
     }
 
-    public void OnCloseWindow()
-    {
-        gameObject.SetActive(false);
-    }
 }

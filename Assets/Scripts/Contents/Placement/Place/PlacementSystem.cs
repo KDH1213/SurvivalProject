@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.SearchableEditorWindow;
 
 public class PlacementSystem : MonoBehaviour
 {
@@ -39,6 +38,8 @@ public class PlacementSystem : MonoBehaviour
         GetGrid = grid;
         gridData = new GridData(new Vector2Int(18,18));
         grid.cellSize = Vector3.one * 10 / gridCellCount;
+
+        DataTableManager.Get<StructureTable>("");
     }
 
     private void Update()
@@ -153,8 +154,14 @@ public class PlacementSystem : MonoBehaviour
         gridData.AddObjectAt(gridPosition, database.objects[SelectedObjectIndex].Size,
             database.objects[SelectedObjectIndex].ID,
             placedGameObjects.Count - 1, placementObject);
-        placementUI.OnSetObjectListUi(database, placementObject.PlacementData.ID, placedGameObjects);
-        Debug.Log(gridData.SearchSide(gridPosition, database.objects[SelectedObjectIndex].Size));
+
+        int left = placementUI.OnSetObjectListUi(database, placementObject.PlacementData.ID, placedGameObjects);
+        if(left <= 0)
+        {
+            StopPlacement();
+            return;
+        }
+
         Vector3Int nextPos = gridData.SearchSide(gridPosition, database.objects[SelectedObjectIndex].Size);
         preview.UpdatePosition(grid.CellToWorld(nextPos),
             CheckPlacementValidity(nextPos, SelectedObjectIndex));

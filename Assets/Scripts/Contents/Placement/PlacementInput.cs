@@ -20,8 +20,6 @@ public class PlacementInput : MonoBehaviour
     [SerializeField]
     private LayerMask bothLayermask;
 
-    public event Action OnClickPlace;
-
     public bool IsPointerOverUi { get; set;}
     public bool IsPointerOverMap { get; private set; }
     public bool IsObjectHoldPress { get; private set; }
