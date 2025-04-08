@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +8,6 @@ public class PlayerStats : CharactorStats
 
     [SerializeField]
     private LifeStat lifeStat;
-
-    [SerializeField]
-    private CraftingStat craftingStat;
 
     [SerializeField]
     private Slider HpBarSlider;
@@ -33,8 +29,8 @@ public class PlayerStats : CharactorStats
         OnChangeHp();
     }
 
-    public float Speed 
-    { 
+    public float Speed
+    {
         get
         {
             return (currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed) * survivalStats.CalculatePenaltySpeed();
@@ -74,7 +70,7 @@ public class PlayerStats : CharactorStats
 
     public void AddStatType(StatType type, float addValue)
     {
-        if(currentStatTable.TryGetValue(type, out var statValue))
+        if (currentStatTable.TryGetValue(type, out var statValue))
         {
             statValue.AddValue(addValue);
         }
@@ -84,23 +80,37 @@ public class PlayerStats : CharactorStats
         HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
     }
 
-    public void SetAttackPowerValue(float amount)
+    public void OnEquipmentItem(ItemData itemData)
     {
-        originalData.StatTable[StatType.BasicAttackPower].AddValue(amount);
+        var statInfoList = itemData.GetItemInfoList();
+
+        foreach (var statInfo in statInfoList)
+        {
+            if(statInfo.statType == StatType.AttackSpeed)
+            {
+                currentStatTable[statInfo.statType].SetValue(statInfo.value);
+            }
+            else
+            {
+                currentStatTable[statInfo.statType].AddValue(statInfo.value);
+            }
+        }
     }
 
-    public void SetDefenceValue(float amount)
+    public void OnUnEquipmentItem(ItemData itemData)
     {
-        originalData.StatTable[StatType.Defense].AddValue(amount);
-    }
+        var statInfoList = itemData.GetItemInfoList();
 
-    public void SetMoveSpeedValue(float amount)
-    {
-        originalData.StatTable[StatType.MovementSpeed].AddValue(amount);
-    }
-
-    public void SetAttackSpeedValue(float amount)
-    {
-        originalData.StatTable[StatType.AttackSpeed].AddValue(amount);
+        foreach (var statInfo in statInfoList)
+        {
+            if (statInfo.statType == StatType.AttackSpeed)
+            {
+                currentStatTable[statInfo.statType].SetValue(originalData.StatTable[statInfo.statType].Value);
+            }
+            else
+            {
+                currentStatTable[statInfo.statType].AddValue(-statInfo.value);
+            }
+        }
     }
 }

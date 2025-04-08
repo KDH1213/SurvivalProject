@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public struct StatInfo
+{
+    public StatType statType;
+    public float value;
+
+    public StatInfo(StatType statType, float value)
+    {
+        this.statType = statType;
+        this.value = value;
+    }
+}
+
+[System.Serializable]
 public class ItemData
 {
     [field: SerializeField]
@@ -20,7 +33,7 @@ public class ItemData
     [field: SerializeField]
     public float Attack { get; set; }
     [field: SerializeField]
-    public float Defence { get; set; }
+    public float Defense { get; set; }
     [field: SerializeField]
     public float AttackSpeed { get; set; }
     [field: SerializeField]
@@ -38,9 +51,33 @@ public class ItemData
         ItemImage=data.ItemImage;
         MoveSpeed=data.MoveSpeed;
         Attack=data.Attack;
-        Defence=data.Defence;
+        Defense=data.Defense;
         AttackSpeed=data.AttackSpeed;
         MaxAmount=data.MaxAmount;
         IsMax=data.IsMax;
+    }
+
+    public List<StatInfo> GetItemInfoList()
+    {
+        var list = new List<StatInfo>();
+
+        if(Attack != 0f)
+        {
+            list.Add(new StatInfo(StatType.BasicAttackPower, Attack));
+        }
+        if (Defense != 0f)
+        {
+            list.Add(new StatInfo(StatType.Defense, Defense));
+        }
+        if (AttackSpeed != 0f)
+        {
+            list.Add(new StatInfo(StatType.AttackSpeed, AttackSpeed));
+        }
+        if (MoveSpeed != 0f)
+        {
+            list.Add(new StatInfo(StatType.MovementSpeed, MoveSpeed));
+        }
+
+        return list;
     }
 }

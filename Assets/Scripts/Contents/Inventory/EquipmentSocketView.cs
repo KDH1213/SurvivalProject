@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
@@ -11,6 +12,16 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     [SerializeField]
     private PlayerStats playerStats;
+
+
+    [SerializeField]
+    private TextMeshProUGUI attackPowerText;
+    [SerializeField]
+    private TextMeshProUGUI attackSpeedText;
+    [SerializeField]
+    private TextMeshProUGUI moveSpeedText;
+    [SerializeField]
+    private TextMeshProUGUI defenseText;
 
     private int seleteSocket = -1;
 
@@ -30,36 +41,26 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         {
             Load();
         }
-
-        // 해당 위치에 이벤트 등록하기
-        // 장착
-        // 해제
     }
 
-    public void Load()
+    private void Start()
     {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemList;
+        var statTable = playerStats.CurrentStatTable;
+        statTable[StatType.BasicAttackPower].OnChangeValueAction((value) => attackPowerText.text = value.ToString());
+        statTable[StatType.AttackSpeed].OnChangeValueAction((value) => attackSpeedText.text = value.ToString());
+        statTable[StatType.MovementSpeed].OnChangeValueAction((value) => moveSpeedText.text = value.ToString());
+        statTable[StatType.Defense].OnChangeValueAction((value) => defenseText.text = value.ToString());
 
-        for (int i = 0; i < equipmentItemList.Count; ++i)
-        {
-            // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
-            equipmentSockets[i].InitializeSocket((EquipmentType)i, equipmentItemList[i]);
-        }
-    }
-
-    public void Save()
-    {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemList;
-
-        for (int i = 0; i < equipmentSockets.Length; ++i)
-        {
-            SaveLoadManager.Data.equipmentItemList.Add(equipmentSockets[i].ItemData);
-        }
+        statTable[StatType.BasicAttackPower].OnActionChangeValue();
+        statTable[StatType.AttackSpeed].OnActionChangeValue();
+        statTable[StatType.MovementSpeed].OnActionChangeValue();
+        statTable[StatType.Defense].OnActionChangeValue();
     }
 
     public void OnEquipment(ItemType itemType, ItemData itemData)
     {
         equipmentSockets[(int)itemType].OnEquipment((EquipmentType)itemType, itemData);
+        playerStats.OnEquipmentItem(itemData);
     }
 
     public void OnUnEquipSocket()
@@ -77,6 +78,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         inventory.AddItem(dropItemInfo);
 
         equipmentSockets[seleteSocket].OnUnEquipment();
+        playerStats.OnUnEquipmentItem(dropItemInfo.itemData);
 
         seleteSocket = -1;
     }
@@ -91,4 +93,31 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData);
         // equipmentSockets[seleteSocket].
     }
+
+
+    public void Load()
+    {
+        var equipmentItemList = SaveLoadManager.Data.equipmentItemList;
+
+        for (int i = 0; i < equipmentItemList.Count; ++i)
+        {
+            // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
+            equipmentSockets[i].InitializeSocket((EquipmentType)i, equipmentItemList[i]);
+            equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
+            equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
+            equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
+        }
+    }
+
+    public void Save()
+    {
+        var equipmentItemList = SaveLoadManager.Data.equipmentItemList;
+
+        for (int i = 0; i < equipmentSockets.Length; ++i)
+        {
+            SaveLoadManager.Data.equipmentItemList.Add(equipmentSockets[i].ItemData);
+        }
+    }
+
+
 }
