@@ -18,6 +18,9 @@ public class PenaltyController : MonoBehaviour, IAct
     [SerializeField]
     private float penaltyAttackSpeedPersent = 0.5f;
 
+    private float currentSpeedPersent = 1f;
+    private float currentAttackSpeedPersent = 1f;
+
 
     private void Awake()
     {
@@ -30,32 +33,20 @@ public class PenaltyController : MonoBehaviour, IAct
         foreach (var penalty in penaltys)
         {
             penaltyTable.Add(penalty.PenaltyType, penalty);
+            penalty.OnStartPenaltyEvent.AddListener(OnStartPanelty);
+            penalty.OnEndPenaltyEvent.AddListener(OnEndPanelty);
         }
 
     }
 
     public float CalculatePenaltySpeed()
     {
-        if (penaltyTable[SurvivalStatType.Hunger].IsOnPenalty)
-        {
-            return speedDownPersent;
-        }
-        else
-        {
-            return 1f;
-        }
+        return currentSpeedPersent;
     }
 
     public float CalculatePenaltyAttackSpeed()
     {
-        if (penaltyTable[SurvivalStatType.Fatigue].IsOnPenalty)
-        {
-            return penaltyAttackSpeedPersent;
-        }
-        else
-        {
-            return 1f;
-        }
+        return currentAttackSpeedPersent;
     }
 
     public void PlayAct(int id)
@@ -76,4 +67,47 @@ public class PenaltyController : MonoBehaviour, IAct
         takeDamage.OnAttack(this.gameObject, damageInfo);
     }
 
+    public void OnStartPanelty(SurvivalStatType survivalStatType)
+    {
+        switch (survivalStatType)
+        {
+            case SurvivalStatType.Fatigue:
+                currentAttackSpeedPersent = penaltyAttackSpeedPersent;
+                break;
+            case SurvivalStatType.Hunger:
+                currentSpeedPersent = speedDownPersent;
+                break;
+            case SurvivalStatType.Thirst:
+                break;
+            case SurvivalStatType.Temperature:
+                break;
+            case SurvivalStatType.Hygiene:
+                break;
+            case SurvivalStatType.End:
+            default:
+                break;
+        }
+    }
+
+    public void OnEndPanelty(SurvivalStatType survivalStatType)
+    {
+        switch (survivalStatType)
+        {
+            case SurvivalStatType.Fatigue:
+                currentAttackSpeedPersent = 1f;
+                break;
+            case SurvivalStatType.Hunger:
+                currentSpeedPersent = 1f;
+                break;
+            case SurvivalStatType.Thirst:
+                break;
+            case SurvivalStatType.Temperature:
+                break;
+            case SurvivalStatType.Hygiene:
+                break;
+            case SurvivalStatType.End:
+            default:
+                break;
+        }
+    }
 }

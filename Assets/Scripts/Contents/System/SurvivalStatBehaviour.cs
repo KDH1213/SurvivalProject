@@ -16,9 +16,10 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
     protected bool isOnDebuff;
     public bool IsOnPenalty { get { return isOnDebuff; } }
 
-    public UnityEvent onStartPenaltyEvent;
-    public UnityEvent onEndPenaltyEvent;
-
+    public UnityEvent<SurvivalStatType> onStartPenaltyEvent;
+    public UnityEvent<SurvivalStatType> onEndPenaltyEvent;
+    public UnityEvent<SurvivalStatType> OnStartPenaltyEvent => onStartPenaltyEvent;
+    public UnityEvent<SurvivalStatType> OnEndPenaltyEvent => onEndPenaltyEvent;
     protected virtual void Awake()
     {
         
@@ -37,6 +38,7 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
         }
     }
 
+
     public virtual void AddPenaltyValue(float value)
     {
         this.value += value;
@@ -45,12 +47,12 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
     public virtual void OnStartPenalty()
     {
         isOnDebuff = true; 
-        onStartPenaltyEvent?.Invoke();
+        onStartPenaltyEvent?.Invoke(survivalStatType);
     }                      
 
     public virtual void OnStopPenalty()
     {
         isOnDebuff= false; 
-        onEndPenaltyEvent?.Invoke();
+        onEndPenaltyEvent?.Invoke(survivalStatType);
     }
 }
