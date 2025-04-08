@@ -1,6 +1,6 @@
 [System.Serializable]
 
-public enum itemType
+public enum ItemType
 {
     Helmet,     // 모자
     Armor,      // 상의

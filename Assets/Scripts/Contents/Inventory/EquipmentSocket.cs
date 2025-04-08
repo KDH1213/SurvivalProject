@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
@@ -10,7 +11,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     private EquipmentType equipmentType;
 
     [SerializeField]
-    private Sprite itemIcon;
+    private Image itemIcon;
 
     public ItemData ItemData { get; private set; }
 
@@ -20,25 +21,59 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public UnityEvent onEquipEvent;
     public UnityEvent onUnEquipEvent;
-    public UnityEvent onChangeEquipEvent;
+    public UnityEvent<EquipmentType> onClickEvent;
+    public UnityEvent<EquipmentType> onChangeEquipEvent;
 
     public void InitializeSocket(EquipmentType equipmentType, ItemData itemData)
     {
         this.equipmentType = equipmentType;
-        this.ItemData = itemData;
-        itemIcon = itemData.ItemImage;
+        OnEquipment(equipmentType, itemData);
     }
 
-    private void OnEquipment(EquipmentType equipmentType, ItemData itemData)
+    public void OnEquipment(EquipmentType equipmentType, ItemData itemData)
     {
+        if(ItemData != null)
+        {
+            ChangeEquipment(itemData);
+        }
+        else
+        {
+            Equiment(itemData);
+        }
+    }
 
+    private void Equiment(ItemData itemData)
+    {
+        this.ItemData = itemData;
+
+        if (ItemData != null)
+        {
+            itemIcon.sprite = itemData.ItemImage;
+            itemIcon.color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            itemIcon.color = new Color(1, 1, 1, 0);
+        }
+    }
+    private void ChangeEquipment(ItemData itemData)
+    {
+        onChangeEquipEvent?.Invoke(equipmentType);
+        Equiment(itemData);
+    }
+
+    public void OnUnEquipment()
+    {
+        OnEmpty();
     }
 
     private void OnEmpty()
     {
-        equipmentType = EquipmentType.None;
-        itemIcon = null;
+        itemIcon.sprite = null;
         ItemData = null;
+
+        itemIcon.color = new Color(1, 1, 1, 0);
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -57,11 +92,11 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     {
         prevClickTime = clickTime;
         clickTime = Time.time;
+        onClickEvent?.Invoke(equipmentType);
 
-        if(doubleClickTime > clickTime - prevClickTime)
+        if (doubleClickTime > clickTime - prevClickTime)
         {
             onUnEquipEvent?.Invoke();
-            OnEmpty();
         }
     }
 }

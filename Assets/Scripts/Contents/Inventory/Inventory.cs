@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,8 @@ public struct DropItemInfo
     public string ItemName;
     public int id;
     public int amount;
+    // 임시 코드
+    public ItemData itemData;
 }
 
 public class Inventory : MonoBehaviour
@@ -25,7 +28,8 @@ public class Inventory : MonoBehaviour
     public void OnTest()
     {
         DropItemInfo dropItemInfo = new DropItemInfo();
-        dropItemInfo.amount = 3;
+        dropItemInfo.amount = 1;
+        dropItemInfo.itemData = new ItemData(itemData);
 
         int.TryParse(name, out var result);
         dropItemInfo.id = result;
@@ -33,6 +37,8 @@ public class Inventory : MonoBehaviour
         AddItem(dropItemInfo);
     }
 
+    [SerializeField]
+    private EquipmentSocketView equipmentSocketView;
     [SerializeField]
     private ItemSlot slotPrefab;
 
@@ -115,7 +121,7 @@ public class Inventory : MonoBehaviour
                     }
 
                     // string id로 변경
-                    if (itemInfos[targetSlotIndex].itemData != null && itemInfos[sourceSlotIndex].itemData.ItemName == itemInfos[targetSlotIndex].itemData.ItemName)
+                    if (itemInfos[sourceSlotIndex].itemData != null && itemInfos[sourceSlotIndex].itemData.ItemName == itemInfos[targetSlotIndex].itemData.ItemName)
                     {
                         // 같은 아이템일 경우 합치기
                         int totalAmount = itemInfos[sourceSlotIndex].Amount + itemInfos[targetSlotIndex].Amount;
@@ -156,6 +162,7 @@ public class Inventory : MonoBehaviour
         }
 
         UpdateSlots(itemInfos);
+        gameObject.SetActive(false);
     }
     private void UpdateSlots(ItemInfo[] items)
     {
@@ -167,14 +174,31 @@ public class Inventory : MonoBehaviour
 
     public void OnUseItem()
     {
-        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != itemType.Consumable)
+        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Consumable)
         {
             return;
         }
 
+        UseItem();
+    }
+
+    public void OnEquip()
+    {
+        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Consumable)
+        {
+            return;
+        }
+
+        var equipItemData = itemInfos[SelectedSlotIndex].itemData;
+        UseItem();
+        equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData);
+    }
+
+    private void UseItem()
+    {
         itemInfos[SelectedSlotIndex].Amount -= 1;
 
-        if(itemInfos[SelectedSlotIndex].Amount == 0)
+        if (itemInfos[SelectedSlotIndex].Amount == 0)
         {
             if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
             {
@@ -182,19 +206,27 @@ public class Inventory : MonoBehaviour
             }
 
             itemInfos[SelectedSlotIndex].Empty();
+            --useSlotCount;
         }
         UpdateSlot(SelectedSlotIndex);
     }
 
-    //public void RemoveItem()
-    //{
-    //    ItemData item = slots[SelectedSlotIndex].Item;
+    public void OnEraseItem()
+    {
+        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
+        {
+            return;
+        }
 
-    //    itemList.Remove(item);
-    //    UpdateSlots(itemList);
+        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
+        {
+            itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
+            itemInfos[SelectedSlotIndex].Empty();
+            --useSlotCount;
+        }
 
-    //    onClickRemoveButton?.Invoke();
-    //}
+        UpdateSlot(SelectedSlotIndex);
+    }
 
     private int FindEmptySlotIndex()
     {
@@ -259,6 +291,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void ChangeItem(DropItemInfo dropItemInfo)
+    {
+        CreateItem(dropItemInfo, SelectedSlotIndex);
+    }
+
     public void UpdateSlot(int slotIndex)
     {
         itemSlots[slotIndex].OnUpdateSlot();
@@ -270,7 +307,7 @@ public class Inventory : MonoBehaviour
         itemInfo.index = slotIndex;
         itemInfo.Amount = dropItemInfo.amount;
         // TODO :: 임시 코드
-        itemInfo.itemData = new ItemData(itemData);
+        itemInfo.itemData = dropItemInfo.itemData;
 
         if (inventoryItemTable.ContainsKey(dropItemInfo.ItemName))
         {
@@ -286,5 +323,20 @@ public class Inventory : MonoBehaviour
         itemInfos[slotIndex] = itemInfo;
         itemSlots[slotIndex].SetItemData(itemInfo); 
         ++useSlotCount;
+    }
+
+    public bool IsFullInventory()
+    {
+        return useSlotCount == maxSlot;
+    }
+
+    public void OnChangeEquimentItem(ItemData itemData)
+    {
+        var unEquimentInfo = new DropItemInfo();
+        unEquimentInfo.amount = 1;
+        unEquimentInfo.id = itemData.ID;
+        unEquimentInfo.itemData = itemData;
+        unEquimentInfo.ItemName = itemData.ItemName;
+        ChangeItem(unEquimentInfo);
     }
 }

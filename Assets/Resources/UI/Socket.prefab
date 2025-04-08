@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 946815165514183693}
   - component: {fileID: 191987614534530778}
   - component: {fileID: 5634309666762805149}
-  - component: {fileID: 1218676016155602125}
+  - component: {fileID: 7015322357316324941}
   m_Layer: 5
-  m_Name: Sorket
+  m_Name: Socket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1218676016155602125
+--- !u!114 &7015322357316324941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,23 +131,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 333363003292951621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d5e94a5589c654e895a7be8ad948e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 7877d0cfa65df2848bda1e1612324c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 2389297209504385362}
-  amountText: {fileID: 0}
-  button: {fileID: 5634309666762805149}
-  useSetAmout: 0
-  onPointerEnter:
+  equipmentType: 0
+  itemIcon: {fileID: 2389297209504385362}
+  onEquipEvent:
     m_PersistentCalls:
       m_Calls: []
-  onPointerExit:
+  onUnEquipEvent:
     m_PersistentCalls:
       m_Calls: []
-  onDragEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  onDragExit:
+  onChangeEquipEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &2073359598381918519

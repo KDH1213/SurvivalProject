@@ -6,7 +6,9 @@ using UnityEngine;
 public class ItemData
 {
     [field: SerializeField]
-    public itemType ItemType { get; set; }
+    public int ID {  get; set; }
+    [field: SerializeField]
+    public ItemType ItemType { get; set; }
     [field: SerializeField]
     public string ItemName { get; set; }
     [field: SerializeField]
