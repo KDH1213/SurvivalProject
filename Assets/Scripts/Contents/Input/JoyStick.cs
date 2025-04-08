@@ -90,6 +90,13 @@ public class JoyStick : MonoBehaviour
         {
             position = position
         });
+
+
+        if (!RectTransformUtility.RectangleContainsScreenPoint(joystickArea, position))
+        {
+            ResetJoystick();
+        }
+
     }
 
     private void ResetJoystick()
