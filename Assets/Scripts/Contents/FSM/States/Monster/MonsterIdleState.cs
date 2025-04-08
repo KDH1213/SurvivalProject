@@ -13,8 +13,6 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void Enter()
     {
-        Debug.Log("Monster: Idle State!!");
-
         MonsterFSM.Agent.isStopped = true;
         enterStateEvent?.Invoke();
     }
