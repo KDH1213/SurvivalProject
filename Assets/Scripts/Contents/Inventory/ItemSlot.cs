@@ -74,4 +74,9 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         onDragExit?.Invoke(eventData);
     }
+
+    public void OnSwapItemInfo(ItemSlot itemSlot)
+    {
+        (ItemInfo, itemSlot.ItemInfo) = (itemSlot.ItemInfo, ItemInfo);
+    }
 }

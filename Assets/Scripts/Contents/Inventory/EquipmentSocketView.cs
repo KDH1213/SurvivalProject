@@ -12,6 +12,8 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     [SerializeField]
     private PlayerStats playerStats;
+    [SerializeField]
+    private ItemInfoView itemInfoView;
 
 
     [SerializeField]
@@ -79,6 +81,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         equipmentSockets[seleteSocket].OnUnEquipment();
         playerStats.OnUnEquipmentItem(dropItemInfo.itemData);
+        itemInfoView.OnSetItemInfo(null);
 
         seleteSocket = -1;
     }
@@ -86,11 +89,14 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     public void OnSeleteSocket(EquipmentType equipmentType)
     {
         seleteSocket = (int)equipmentType;
+        itemInfoView.OnSetItemInfo(equipmentSockets[seleteSocket].ItemData);
     }
 
     public void OnChangeEquipment(EquipmentType equipmentType)
     {
-        inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData);
+        playerStats.OnUnEquipmentItem(equipmentSockets[(int)equipmentType].ItemData);
+        inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData); 
+        itemInfoView.OnSetItemInfo(null);
         // equipmentSockets[seleteSocket].
     }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -43,6 +42,9 @@ public class Inventory : MonoBehaviour
     private ItemSlot slotPrefab;
 
     [SerializeField]
+    private ItemInfoView itemInfoView;
+
+    [SerializeField]
     private Transform slotParent;
 
     [SerializeField]
@@ -52,10 +54,6 @@ public class Inventory : MonoBehaviour
     private Dictionary<string, List<ItemInfo>> inventoryItemTable = new Dictionary<string, List<ItemInfo>>();
 
     public int SelectedSlotIndex { get; private set; } = -1;
-
-    public UnityEvent onClickAddButton;
-    public UnityEvent onClickRemoveButton;
-    public UnityEvent onUpdateSlots;
 
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
@@ -78,7 +76,11 @@ public class Inventory : MonoBehaviour
 
             var slot = Instantiate(slotPrefab, slotParent);
             slot.SlotIndex = i;
-            slot.button.onClick.AddListener(() => { SelectedSlotIndex = slot.SlotIndex;});
+            slot.button.onClick.AddListener(() =>
+            {
+                SelectedSlotIndex = slot.SlotIndex;
+                itemInfoView.OnSetItemInfo(itemInfos[SelectedSlotIndex].itemData);
+            });
 
             slot.onDragEnter.AddListener(() =>
             {
@@ -92,6 +94,7 @@ public class Inventory : MonoBehaviour
                 {
                     isOnDrag = false;
                     dragSeletedSlotIndex = -1;
+                    itemInfoView.OnSetItemInfo(null);
                     return;
                 }
 
@@ -144,7 +147,11 @@ public class Inventory : MonoBehaviour
                     }
                     else
                     {
-                        itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
+                        (itemInfos[targetSlotIndex], itemInfos[sourceSlotIndex]) = (itemInfos[sourceSlotIndex], itemInfos[targetSlotIndex]);
+                        itemInfos[targetSlotIndex].index = targetSlotIndex;
+                        itemInfos[sourceSlotIndex].index = sourceSlotIndex;
+                        itemSlots[targetSlotIndex].OnSwapItemInfo(itemSlots[sourceSlotIndex]);
+                        // itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
                     }
 
                     UpdateSlot(targetSlotIndex);
@@ -205,6 +212,7 @@ public class Inventory : MonoBehaviour
                 itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
             }
 
+            itemInfoView.OnSetItemInfo(null);
             itemInfos[SelectedSlotIndex].Empty();
             --useSlotCount;
         }
@@ -222,6 +230,7 @@ public class Inventory : MonoBehaviour
         {
             itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
             itemInfos[SelectedSlotIndex].Empty();
+            itemInfoView.OnSetItemInfo(null);
             --useSlotCount;
         }
 
