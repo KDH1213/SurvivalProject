@@ -22,18 +22,12 @@ public class AttackDefinition : ScriptableObject
     {
         DamageInfo damageInfo = new DamageInfo();
         float damage = charactorStats.AttackPower;
-        damage += Random.Range(MinDamage, MaxDamage);
-        damageInfo.critical = CriticalChanse > Random.value;
-
-        if (damageInfo.critical)
-        {
-            damage *= CriticalMultipler;
-        }
-        damageInfo.damage = Mathf.RoundToInt(damage);
+        damageInfo.damage = damage;
 
         if (targetStats != null)
         {
             damageInfo.damage -= charactorStats.GetStatValue(StatType.Defense);
+            damageInfo.damage = Mathf.Max(1f, damageInfo.damage);
         }
         return damageInfo;
     }

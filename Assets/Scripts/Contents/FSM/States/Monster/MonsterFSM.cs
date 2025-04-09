@@ -28,18 +28,14 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     [field: SerializeField]
     public Transform AttackPoint { get; private set; }
 
-    [HideInInspector]
-    public Vector3 firstPosition;
+    public Vector3 FirstPosition { get; private set; }
 
     public bool CanAttack { get; private set; }
-
-    public bool IsChase { get; private set; }
 
     public bool IsAttack { get; private set; }
 
     public float TargetDistance { get; set; }
 
-    public bool IsPlayerInRange { get; private set; }
 
     public bool IsDead { get; private set; }
     public bool CanRouting { get; private set; }
@@ -51,7 +47,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public InteractType InteractType => InteractType.Monster;
 
-    public Vector3 RespawnPosition { get { return firstPosition; } private set { firstPosition = value; } }
+    public Vector3 RespawnPosition { get { return FirstPosition; } private set { FirstPosition = value; } }
 
     public float RespawnTime { get; private set; } = 10f;
 
@@ -62,12 +58,10 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     protected override void Awake()
     {
         CanAttack = true;
-        IsChase = false;
-        IsPlayerInRange = false;
         IsAttack = false;
         IsDead = false;
         CanRouting = false;
-        firstPosition = gameObject.transform.position;
+        FirstPosition = gameObject.transform.position;
     }
 
     private void OnEnable()
@@ -75,7 +69,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         if (IsDead)
         {
             IsDead = false;
-            transform.position = firstPosition;
+            transform.position = FirstPosition;
             ChangeState(MonsterStateType.Idle);
         }
     }
@@ -87,16 +81,6 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     public void SetCanAttack(bool value)
     {
         CanAttack = value;
-    }
-
-    public void SetIsChase(bool value)
-    {
-        IsChase = value;
-    }
-
-    public void SetIsPlayerRange(bool value)
-    {
-        IsPlayerInRange = value;
     }
 
     public void SetIsAttack(bool value)

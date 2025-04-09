@@ -94,36 +94,36 @@ public class PlayerStats : CharactorStats
 
     public void OnEquipmentItem(ItemData itemData)
     {
-        var statInfoList = itemData.GetItemInfoList();
+        //var statInfoList = itemData.GetItemInfoList();
 
-        foreach (var statInfo in statInfoList)
-        {
-            if(statInfo.statType == StatType.AttackSpeed)
-            {
-                currentStatTable[statInfo.statType].SetValue(statInfo.value);
-            }
-            else
-            {
-                currentStatTable[statInfo.statType].AddValue(statInfo.value);
-            }
-        }
+        //foreach (var statInfo in statInfoList)
+        //{
+        //    if(statInfo.statType == StatType.AttackSpeed)
+        //    {
+        //        currentStatTable[statInfo.statType].SetValue(statInfo.value);
+        //    }
+        //    else
+        //    {
+        //        currentStatTable[statInfo.statType].AddValue(statInfo.value);
+        //    }
+        //}
     }
 
     public void OnUnEquipmentItem(ItemData itemData)
     {
-        var statInfoList = itemData.GetItemInfoList();
+        //var statInfoList = itemData.GetItemInfoList();
 
-        foreach (var statInfo in statInfoList)
-        {
-            if (statInfo.statType == StatType.AttackSpeed)
-            {
-                currentStatTable[statInfo.statType].SetValue(originalData.StatTable[statInfo.statType].Value);
-            }
-            else
-            {
-                currentStatTable[statInfo.statType].AddValue(-statInfo.value);
-            }
-        }
+        //foreach (var statInfo in statInfoList)
+        //{
+        //    if (statInfo.statType == StatType.AttackSpeed)
+        //    {
+        //        currentStatTable[statInfo.statType].SetValue(originalData.StatTable[statInfo.statType].Value);
+        //    }
+        //    else
+        //    {
+        //        currentStatTable[statInfo.statType].AddValue(-statInfo.value);
+        //    }
+        //}
     }
 
     public void OnChangeLifeStat(LifeSkillType type)

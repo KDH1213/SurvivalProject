@@ -27,24 +27,30 @@ public class MonsterMoveState : MonsterBaseState
 
     public override void ExecuteUpdate()
     {
-        if (MonsterFSM.Target == null)
+        if (MonsterFSM.Target == null && !FindTarget())
         {
-            FindTarget();
+           
         }
 
-        ChangeChaseState();
+        if(MonsterFSM.Target != null)
+        {
+            MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
-        if (Vector3.Distance(movePosition, transform.position) < 5f)
+            // 플레이어를 발견하면 추적 시작
+            if (MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
+            {
+                MonsterFSM.ChangeState(MonsterStateType.Chase);
+                return;
+            }
+        }
+
+        if (Vector3.Distance(movePosition, transform.position) < 1f)
         {
             MonsterFSM.StateTable[MonsterStateType.Idle].enterStateEvent.RemoveAllListeners();
             MonsterFSM.ChangeState(MonsterStateType.Idle);
             return;
         }
 
-        if (MonsterFSM.IsChase)
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Chase);
-        }
     }
 
     public override void Exit()
@@ -55,40 +61,18 @@ public class MonsterMoveState : MonsterBaseState
         }
     }
 
-    private void FindTarget()
+    private bool FindTarget()
     {
-        if (MonsterFSM.Target != null)
-        {
-            return;
-        }
-
         int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, MonsterFSM.Weapon.attackTargets, MonsterFSM.Weapon.WeaponLayerMask);
 
-        for (int i = 0; i < index; i++)
-
+        for (int i = 0; i < index; ++i)
         {
-            MonsterFSM.Target = MonsterFSM.Weapon.attackTargets[0].gameObject;
+            MonsterFSM.Target = MonsterFSM.Weapon.attackTargets[i].gameObject;
             MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
-            ChangeChaseState();
-            return;
-        }
-    }
-
-    private void ChangeChaseState()
-    {
-        if (MonsterFSM.Target == null)
-        {
-            return;
+            return true;
         }
 
-        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
-
-        // 플레이어를 발견하면 추적 시작
-        if (!MonsterFSM.IsChase && MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
-        {
-            MonsterFSM.SetIsChase(true);
-            MonsterFSM.SetIsPlayerRange(true);
-        }
+        return false;
     }
 
     public void SetMovePosition(Vector3 movePoint)

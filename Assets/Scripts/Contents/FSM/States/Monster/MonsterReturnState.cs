@@ -55,6 +55,6 @@ public class MonsterReturnState : MonsterBaseState
         {
             MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
         }
-        MonsterFSM.Agent.SetDestination(MonsterFSM.firstPosition);
+        MonsterFSM.Agent.SetDestination(MonsterFSM.FirstPosition);
     }
 }

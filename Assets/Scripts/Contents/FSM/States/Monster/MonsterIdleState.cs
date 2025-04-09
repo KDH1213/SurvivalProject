@@ -19,12 +19,6 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void ExecuteUpdate()
     {
-        if (MonsterFSM.IsChase)
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Chase);
-            return;
-        }
-
         if (MonsterFSM.Target == null)
         {
             FindTarget();
@@ -65,11 +59,9 @@ public class MonsterIdleState : MonsterBaseState
 
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
-        // 플레이어를 발견하면 추적 시작
-        if (!MonsterFSM.IsChase && MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
+        if (MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
         {
-            MonsterFSM.SetIsChase(true);
-            MonsterFSM.SetIsPlayerRange(true);
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
         }
     }
 }

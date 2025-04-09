@@ -59,10 +59,8 @@ public class MonsterChaseState : MonsterBaseState
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
         
-        if (MonsterFSM.IsChase && MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
+        if (MonsterFSM.TargetDistance > MonsterFSM.MonsterData.aggroRange)
         {
-            MonsterFSM.SetIsChase(false);
-            MonsterFSM.SetIsPlayerRange(false);
             MonsterFSM.Target = null;
             //MonsterFSM.ChangeState(MonsterStateType.Idle);
             useReturn = true;
