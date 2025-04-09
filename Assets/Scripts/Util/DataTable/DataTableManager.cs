@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ArmorData;
+using static WeaponData;
 
 public static class DataTableManager
 {
@@ -14,10 +16,32 @@ public static class DataTableManager
         //    tables.Add(id, table);
         //}
 
-        var table = new ConstructionTable();
-        string id = PlacementTableIds.ConstructionTable;
-        table.Load(id);
-        tables.Add(id, table);
+        foreach (var id in ItemTableIds.String)
+        {
+            var table = new ItemTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
+        foreach (var id in WeaponTableIds.String)
+        {
+            var table = new WeaponTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
+        foreach (var id in ArmorTableIds.String)
+        {
+            var table = new ArmorTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
+
+        var tableConstruction = new ConstructionTable();
+        string idConstruction = PlacementTableIds.ConstructionTable;
+        tableConstruction.Load(idConstruction);
+        tables.Add(idConstruction, tableConstruction);
 
         var tableFarm = new FarmTable();
         string idFarm = PlacementTableIds.FarmTable;
@@ -50,6 +74,23 @@ public static class DataTableManager
             return Get<ItemTable>(ItemTableIds.String[0]);
         }
     }
+
+    public static WeaponTable WeaponTable
+    {
+        get
+        {
+            return Get<WeaponTable>(WeaponTableIds.String[0]);
+        }
+    }
+
+    public static ArmorTable ArmorTable
+    {
+        get
+        {
+            return Get<ArmorTable>(ArmorTableIds.String[0]);
+        }
+    }
+
 
     public static ConstructionTable ConstructionTable
     {

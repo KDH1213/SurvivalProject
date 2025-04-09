@@ -27,6 +27,22 @@ public static class ItemTableIds
     };
 }
 
+public static class WeaponTableIds
+{
+    public static readonly string[] String =
+    {
+        "WeaponTable",
+    };
+}
+
+public static class ArmorTableIds
+{
+    public static readonly string[] String =
+    {
+        "ArmorTable",
+    };
+}
+
 public static class WaveDataTableIds
 {
     public static readonly string[] String =

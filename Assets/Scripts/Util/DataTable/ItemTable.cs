@@ -73,29 +73,26 @@ public class ItemData
     //    IsMax=data.IsMax;
     //}
 
-    //public List<StatInfo> GetItemInfoList()
-    //{
-    //    var list = new List<StatInfo>();
+    public List<StatInfo> GetItemInfoList()
+    {
+        var list = new List<StatInfo>();
 
-    //    if (Attack != 0f)
-    //    {
-    //        list.Add(new StatInfo(StatType.BasicAttackPower, Attack));
-    //    }
-    //    if (Defense != 0f)
-    //    {
-    //        list.Add(new StatInfo(StatType.Defense, Defense));
-    //    }
-    //    if (AttackSpeed != 0f)
-    //    {
-    //        list.Add(new StatInfo(StatType.AttackSpeed, AttackSpeed));
-    //    }
-    //    if (MoveSpeed != 0f)
-    //    {
-    //        list.Add(new StatInfo(StatType.MovementSpeed, MoveSpeed));
-    //    }
+        if(ItemType == ItemType.Weapon)
+        {
+            var weaponData = DataTableManager.WeaponTable.Get(ID);
 
-    //    return list;
-    //}
+            list.Add(new StatInfo(StatType.BasicAttackPower, weaponData.attack));
+            list.Add(new StatInfo(StatType.AttackSpeed, weaponData.attackSpeed));
+        }
+        else if (ItemType >= ItemType.Helmet && ItemType <= ItemType.Shoes)
+        {
+            var armorData = DataTableManager.ArmorTable.Get(ID);
+
+            list.Add(new StatInfo(StatType.Defense, armorData.defance));
+            list.Add(new StatInfo(StatType.MovementSpeed, armorData.moveSpeed));
+        }
+        return list;
+    }
 }
 
 public class ItemTable : DataTable

@@ -39,14 +39,12 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
                 equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
             }
         }
-        else
-        {
-            Load();
-        }
     }
 
     private void Start()
     {
+        Load();
+
         var statTable = playerStats.CurrentStatTable;
         statTable[StatType.BasicAttackPower].OnChangeValueAction((value) => attackPowerText.text = value.ToString());
         statTable[StatType.AttackSpeed].OnChangeValueAction((value) => attackSpeedText.text = value.ToString());
@@ -67,7 +65,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void OnUnEquipSocket()
     {
-        if(inventory.IsFullInventory() || equipmentSockets[seleteSocket].ItemData == null)
+        if(inventory.IsFullInventory() || seleteSocket == -1 || equipmentSockets[seleteSocket].ItemData == null)
         {
             return;
         }
@@ -113,17 +111,20 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             }
 
             // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
-            equipmentSockets[i].InitializeSocket((EquipmentType)i, DataTableManager.ItemTable.Get(equipmentItemList[i]));
+            var itemData = DataTableManager.ItemTable.Get(equipmentItemList[i]);
+            equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData);
             equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
             equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
             equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
+
+            playerStats.OnEquipmentItem(itemData);
         }
     }
 
     public void Save()
     {
         var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
-
+        SaveLoadManager.Data.equipmentItemIDList.Clear();
         for (int i = 0; i < equipmentSockets.Length; ++i)
         {
             if(equipmentSockets[i].ItemData == null)

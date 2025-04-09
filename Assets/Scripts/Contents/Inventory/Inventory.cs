@@ -17,25 +17,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 {
     private static int maxSlot = 20;
 
-    // TODO :: 임시 테스트 코드
-    [SerializeField]
-    private string name;
-    [SerializeField]
-    private ItemData itemData;
-
-    [ContextMenu("Test1")]
-    public void OnTest()
-    {
-        DropItemInfo dropItemInfo = new DropItemInfo();
-        dropItemInfo.amount = 1;
-        // dropItemInfo.itemData = new ItemData(itemData);
-
-        int.TryParse(name, out var result);
-        dropItemInfo.id = result;
-        dropItemInfo.ItemName = name;
-        AddItem(dropItemInfo);
-    }
-
     [SerializeField]
     private EquipmentSocketView equipmentSocketView;
     [SerializeField]
@@ -176,37 +157,41 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             Load();
         }
 
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    var testItem = DataTableManager.ItemTable.Get(1201001 + i);
+        if(useSlotCount == 0)
+        {
+            for (int i = 0; i < 3; ++i)
+            {
+                var testItem = DataTableManager.ItemTable.Get(1201001 + i);
 
-        //    var test = new DropItemInfo();
-        //    test.amount = 1;
-        //    test.ItemName = testItem.ItemName;
-        //    test.itemData = testItem;
-        //    AddItem(test);
-        //}
+                var test = new DropItemInfo();
+                test.amount = 1;
+                test.ItemName = testItem.ItemName;
+                test.itemData = testItem;
+                AddItem(test);
+            }
 
-        //for (int i = 0; i < 2; ++i)
-        //{
-        //    var testItem = DataTableManager.ItemTable.Get(1202001 + i);
+            for (int i = 0; i < 2; ++i)
+            {
+                var testItem = DataTableManager.ItemTable.Get(1202001 + i);
 
-        //    var test = new DropItemInfo();
-        //    test.amount = 1;
-        //    test.ItemName = testItem.ItemName;
-        //    test.itemData = testItem;
-        //    AddItem(test);
-        //}
-        //for (int i = 0; i < 2; ++i)
-        //{
-        //    var testItem = DataTableManager.ItemTable.Get(1203005 + i);
+                var test = new DropItemInfo();
+                test.amount = 1;
+                test.ItemName = testItem.ItemName;
+                test.itemData = testItem;
+                AddItem(test);
+            }
+            for (int i = 0; i < 2; ++i)
+            {
+                var testItem = DataTableManager.ItemTable.Get(1203005 + i);
 
-        //    var test = new DropItemInfo();
-        //    test.amount = 1;
-        //    test.ItemName = testItem.ItemName;
-        //    test.itemData = testItem;
-        //    AddItem(test);
-        //}
+                var test = new DropItemInfo();
+                test.amount = 1;
+                test.ItemName = testItem.ItemName;
+                test.itemData = testItem;
+                AddItem(test);
+            }
+
+        }
 
 
     }
@@ -409,6 +394,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             itemInfoSaveData.index = itemInfo.index;
             itemSlotList.Add(itemInfoSaveData);
         }
+
+        equipmentSocketView.Save();
     }
 
     public void Load()
@@ -429,6 +416,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ItemName))
             {
                 inventoryItemTable[itemInfos[i].itemData.ItemName].Add(itemInfos[i]);
+                ++useSlotCount;
             }
             else
             {

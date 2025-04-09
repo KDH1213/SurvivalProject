@@ -23,3 +23,12 @@ public enum EquipmentType
     Material,    // 재료
     None
 }
+
+public enum ArmorType
+{
+    Helmet,     // 모자
+    Armor,      // 상의
+    Pants,      // 하의
+    Shoes,      // 신발
+    None
+}
