@@ -31,8 +31,8 @@ public class ItemInfoView : MonoBehaviour
             return;
         }
 
-        itemNameText.text = itemData.ItemName;
-        itemInfoText.text = itemData.ItemInfomation;
+        itemNameText.text = itemData.itemNameID.ToString();
+        itemInfoText.text = itemData.itemDescID.ToString();
 
         switch (itemData.ItemType)
         {
@@ -63,12 +63,12 @@ public class ItemInfoView : MonoBehaviour
 
     private void SetArmorInfo(ItemData itemData)
     {
-        itemStatsText.text = string.Format(armorFormat, itemData.Defense, itemData.MoveSpeed);
+        // itemStatsText.text = string.Format(armorFormat, itemData.Defense, itemData.MoveSpeed);
     }
 
     private void SetWeaponInfo(ItemData itemData)
     {
-        itemStatsText.text = string.Format(weaponFormat, itemData.Attack, itemData.AttackSpeed);
+        // itemStatsText.text = string.Format(weaponFormat, itemData.Attack, itemData.AttackSpeed);
     }
 
     private void SetConsumableInfo(ItemData itemData)

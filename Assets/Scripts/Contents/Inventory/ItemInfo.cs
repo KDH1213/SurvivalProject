@@ -17,3 +17,10 @@ public class ItemInfo
         (this.Amount, itemInfo.Amount) = (itemInfo.Amount, this.Amount);
     }
 }
+
+public struct ItemInfoSaveData
+{
+    public int itemID;
+    public int amount;
+    public int index;
+}

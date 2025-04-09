@@ -11,9 +11,9 @@ public class SaveDataV1 : SaveData
 {
     public Dictionary<InteractType, List<GatherSaveInfo>> gatherSaveInfoTable = new Dictionary<InteractType, List<GatherSaveInfo>>();
     public List<MonsterSaveInfo> monsterSaveInfoList = new List<MonsterSaveInfo>();
-    // public List<Item> itemList = new List<Item>();
+    public List<ItemInfoSaveData> ItemSlotInfoSaveDataList = new List<ItemInfoSaveData>();
 
-    public List<ItemData> equipmentItemList = new List<ItemData>();
+    public List<int> equipmentItemIDList = new List<int>();
     public PlayerSaveInfo playerSaveInfo = new PlayerSaveInfo();
     public System.DateTime gameTime = new System.DateTime();
 

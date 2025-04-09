@@ -7,14 +7,31 @@ public static class DataTableManager
 
     static DataTableManager()
     {
-        //foreach(var id in DataTableIds.String)
-        //{ 
+        //foreach (var id in DataTableIds.String)
+        //{
         //    var table = new StringTable();
         //    table.Load(id);
         //    tables.Add(id, table);
         //}
 
+
+        foreach (var id in ItemTableIds.String)
+        {
+            var table = new ItemTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
     }
+
+
+    public static ItemTable ItemTable
+    {
+        get
+        {
+            return Get<ItemTable>(ItemTableIds.String[0]);
+        }
+    }
+
 
     public static T Get<T>(string id) where T : DataTable
     {

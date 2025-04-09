@@ -13,7 +13,7 @@ public struct DropItemInfo
     public ItemData itemData;
 }
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, ISaveLoadData
 {
     private static int maxSlot = 20;
 
@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     {
         DropItemInfo dropItemInfo = new DropItemInfo();
         dropItemInfo.amount = 1;
-        dropItemInfo.itemData = new ItemData(itemData);
+        // dropItemInfo.itemData = new ItemData(itemData);
 
         int.TryParse(name, out var result);
         dropItemInfo.id = result;
@@ -170,12 +170,59 @@ public class Inventory : MonoBehaviour
 
         UpdateSlots(itemInfos);
         gameObject.SetActive(false);
+
+        if(SaveLoadManager.Data != null)
+        {
+            Load();
+        }
+
+        //for (int i = 0; i < 3; ++i)
+        //{
+        //    var testItem = DataTableManager.ItemTable.Get(1201001 + i);
+
+        //    var test = new DropItemInfo();
+        //    test.amount = 1;
+        //    test.ItemName = testItem.ItemName;
+        //    test.itemData = testItem;
+        //    AddItem(test);
+        //}
+
+        //for (int i = 0; i < 2; ++i)
+        //{
+        //    var testItem = DataTableManager.ItemTable.Get(1202001 + i);
+
+        //    var test = new DropItemInfo();
+        //    test.amount = 1;
+        //    test.ItemName = testItem.ItemName;
+        //    test.itemData = testItem;
+        //    AddItem(test);
+        //}
+        //for (int i = 0; i < 2; ++i)
+        //{
+        //    var testItem = DataTableManager.ItemTable.Get(1203005 + i);
+
+        //    var test = new DropItemInfo();
+        //    test.amount = 1;
+        //    test.ItemName = testItem.ItemName;
+        //    test.itemData = testItem;
+        //    AddItem(test);
+        //}
+
+
     }
     private void UpdateSlots(ItemInfo[] items)
     {
         for (int i = 0; i < maxSlot; ++i)
         {
             itemSlots[i].SetItemData(items[i]);
+        }
+    }
+
+    private void UpdateSlots()
+    {
+        for (int i = 0; i < maxSlot; ++i)
+        {
+            itemSlots[i].SetItemData(itemInfos[i]);
         }
     }
 
@@ -347,5 +394,50 @@ public class Inventory : MonoBehaviour
         unEquimentInfo.itemData = itemData;
         unEquimentInfo.ItemName = itemData.ItemName;
         ChangeItem(unEquimentInfo);
+    }
+
+    public void Save()
+    {
+        var itemSlotList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
+        itemSlotList.Clear();
+
+        foreach (var itemInfo in itemInfos)
+        {
+            var itemInfoSaveData = new ItemInfoSaveData();
+            itemInfoSaveData.amount = itemInfo.Amount;
+            itemInfoSaveData.itemID = itemInfo.itemData == null ? -1 : itemInfo.itemData.ID;
+            itemInfoSaveData.index = itemInfo.index;
+            itemSlotList.Add(itemInfoSaveData);
+        }
+    }
+
+    public void Load()
+    {
+        var itemSlotInfoList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
+
+        for (var i = 0; i < itemSlotInfoList.Count; ++i)
+        {
+            if(itemSlotInfoList[i].itemID == -1)
+            {
+                continue;
+            }
+
+            itemInfos[i].Amount = itemSlotInfoList[i].amount;
+            itemInfos[i].index = itemSlotInfoList[i].index;
+            itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
+
+            if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ItemName))
+            {
+                inventoryItemTable[itemInfos[i].itemData.ItemName].Add(itemInfos[i]);
+            }
+            else
+            {
+                var itemInfoList = new List<ItemInfo>();
+                itemInfoList.Add(itemInfos[i]);
+                inventoryItemTable.Add(itemInfos[i].itemData.ItemName, itemInfoList);
+            }
+        }
+
+        UpdateSlots();
     }
 }

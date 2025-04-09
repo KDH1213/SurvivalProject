@@ -29,7 +29,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     private void Awake()
     {
-        if(SaveLoadManager.Data == null || SaveLoadManager.Data.equipmentItemList.Count == 0)
+        if(SaveLoadManager.Data == null || SaveLoadManager.Data.equipmentItemIDList.Count == 0)
         {
             for (int i = 0; i < equipmentSockets.Length; ++i)
             {
@@ -103,12 +103,17 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemList;
+        var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
 
         for (int i = 0; i < equipmentItemList.Count; ++i)
         {
+            if (equipmentItemList[i] == -1)
+            {
+                continue;
+            }
+
             // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
-            equipmentSockets[i].InitializeSocket((EquipmentType)i, equipmentItemList[i]);
+            equipmentSockets[i].InitializeSocket((EquipmentType)i, DataTableManager.ItemTable.Get(equipmentItemList[i]));
             equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
             equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
             equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
@@ -117,11 +122,18 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void Save()
     {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemList;
+        var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
 
         for (int i = 0; i < equipmentSockets.Length; ++i)
         {
-            SaveLoadManager.Data.equipmentItemList.Add(equipmentSockets[i].ItemData);
+            if(equipmentSockets[i].ItemData == null)
+            {
+                SaveLoadManager.Data.equipmentItemIDList.Add(-1);
+            }
+            else
+            {
+                SaveLoadManager.Data.equipmentItemIDList.Add(equipmentSockets[i].ItemData.ID);
+            }
         }
     }
 
