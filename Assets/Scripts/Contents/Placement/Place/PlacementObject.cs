@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlacementObject : MonoBehaviour, IAttackable
+public abstract class PlacementObject : MonoBehaviour, IAttackable, ISaveLoadData
 {
     public PlacementData PlacementData { get; set; }
     public Vector3Int Position { get; set; }
@@ -18,6 +18,25 @@ public abstract class PlacementObject : MonoBehaviour, IAttackable
     public void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
         throw new System.NotImplementedException();
+    }
+
+    public virtual void Save()
+    {
+        if(SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        var saveInfo = new PlacementSaveInfo();
+        saveInfo.hp = Hp;
+        saveInfo.position = Position;
+        saveInfo.rotation = Rotation;
+        saveInfo.id = ID;
+        SaveLoadManager.Data.placementSaveInfoList.Add(saveInfo);
+    }
+
+    public virtual void Load()
+    {
     }
 }
 

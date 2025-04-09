@@ -28,6 +28,32 @@ public class Vector3Converter : JsonConverter<Vector3>
     }
 }
 
+public class Vector3IntConverter : JsonConverter<Vector3Int>
+{
+    public override Vector3Int ReadJson(JsonReader reader, Type objectType, Vector3Int existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        Vector3Int vector3 = Vector3Int.zero;
+        Newtonsoft.Json.Linq.JObject jObject = Newtonsoft.Json.Linq.JObject.Load(reader);
+        vector3.x = (int)jObject["X"];
+        vector3.y = (int)jObject["Y"];
+        vector3.z = (int)jObject["Z"];
+        return vector3;
+    }
+
+    public override void WriteJson(JsonWriter writer, Vector3Int value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("X");
+        writer.WriteValue(value.x);
+        writer.WritePropertyName("Y");
+        writer.WriteValue(value.y);
+        writer.WritePropertyName("Z");
+        writer.WriteValue(value.z);
+
+        writer.WriteEndObject();
+    }
+}
+
 
 public class QuaternionConverter : JsonConverter<Quaternion>
 {

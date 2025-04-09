@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacementSystem : MonoBehaviour
+public class PlacementSystem : MonoBehaviour, ISaveLoadData
 {
     [SerializeField]
     private PlacementInput inputManager;
@@ -41,6 +41,12 @@ public class PlacementSystem : MonoBehaviour
 
         Database = new PlacementObjectList();
         Database.SetObjects();
+
+        var stageManager = GameObject.FindGameObjectWithTag("StageManager");
+        if (stageManager != null)
+        {
+            stageManager.GetComponent<StageManager>().onSaveEvent += Save;
+        }
     }
 
     private void Update()
@@ -241,4 +247,33 @@ public class PlacementSystem : MonoBehaviour
             placedGameObjects.Count - 1, obj);
     }
 
+    public void Save()
+    {
+        if(SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        foreach (var placedGameObject in placedGameObjects)
+        {
+            placedGameObject.Save();
+        }
+        
+    }
+
+    public void Load()
+    {
+        if (SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        var placementSaveInfoList = SaveLoadManager.Data.placementSaveInfoList;
+        foreach (var placement in placementSaveInfoList)
+        {
+            // TODO :: 배치 오브젝트 생성 코드
+        }
+
+
+    }
 }

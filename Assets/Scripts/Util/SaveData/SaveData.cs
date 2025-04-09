@@ -9,6 +9,8 @@ public abstract class SaveData
 
 public class SaveDataV1 : SaveData
 {
+    public List<PlacementSaveInfo> placementSaveInfoList = new List<PlacementSaveInfo>();
+    public List<FarmPlacementSaveInfo> farmPlacementSaveInfos = new List<FarmPlacementSaveInfo>();
     public Dictionary<InteractType, List<GatherSaveInfo>> gatherSaveInfoTable = new Dictionary<InteractType, List<GatherSaveInfo>>();
     public List<MonsterSaveInfo> monsterSaveInfoList = new List<MonsterSaveInfo>();
     public List<ItemInfoSaveData> ItemSlotInfoSaveDataList = new List<ItemInfoSaveData>();

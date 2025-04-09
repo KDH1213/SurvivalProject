@@ -27,7 +27,7 @@ public static class SaveLoadManager
     {
         Formatting = Formatting.Indented,
         TypeNameHandling = TypeNameHandling.All,
-        Converters = { new Vector3Converter() }
+        Converters = { new Vector3Converter() , new QuaternionConverter(), new Vector3IntConverter() }
        
     };
 

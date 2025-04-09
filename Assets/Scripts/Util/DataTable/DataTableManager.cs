@@ -31,14 +31,6 @@ public static class DataTableManager
     }
 
 
-    public static ItemTable ItemTable
-    {
-        get
-        {
-            return Get<ItemTable>(ItemTableIds.String[0]);
-        }
-    }
-
 
     public static T Get<T>(string id) where T : DataTable
     {
@@ -49,6 +41,14 @@ public static class DataTableManager
         }
 
         return tables[id] as T;
+    }
+
+    public static ItemTable ItemTable
+    {
+        get
+        {
+            return Get<ItemTable>(ItemTableIds.String[0]);
+        }
     }
 
     public static ConstructionTable ConstructionTable

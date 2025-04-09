@@ -55,4 +55,23 @@ public class ProduceStructure : PlacementObject
         outPutValue = data.outputValue;
         currentTime = Time.time + produceTime;
     }
+
+    public override void Save()
+    {
+        if (SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        var saveInfo = new FarmPlacementSaveInfo();
+        saveInfo.hp = Hp;
+        saveInfo.position = Position;
+        saveInfo.rotation = Rotation;
+        saveInfo.id = ID;
+        saveInfo.createTime = currentTime - Time.time;
+        saveInfo.outPut = outPut;
+
+        SaveLoadManager.Data.farmPlacementSaveInfos.Add(saveInfo);
+    }
+
 }
