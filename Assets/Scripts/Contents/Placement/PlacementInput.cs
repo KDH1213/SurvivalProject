@@ -13,14 +13,12 @@ public class PlacementInput : MonoBehaviour
     [SerializeField]
     private PlacementSystem placementSys;
 
-    public Vector3 LastPosition { get; private set; }
+    public Vector3 LastPosition { get; set; }
 
     [SerializeField]
     private LayerMask placementLayermask;
     [SerializeField]
     private LayerMask bothLayermask;
-
-    public event Action OnClickPlace;
 
     public bool IsPointerOverUi { get; set;}
     public bool IsPointerOverMap { get; private set; }

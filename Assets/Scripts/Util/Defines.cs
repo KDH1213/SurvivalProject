@@ -27,6 +27,75 @@ public static class ItemTableIds
     };
 }
 
+public static class WaveDataTableIds
+{
+    public static readonly string[] String =
+    {
+        "WaveTable",
+    };
+}
+public static class MonsterDataTableIds
+{
+    public static readonly string[] String =
+    {
+        "MonsterTable",
+    };
+}
+public static class CoinDrawTableIds
+{
+    public static readonly string[] String =
+    {
+        "CoinDrawTable",
+    };
+}
+
+public static class CharactorTableIds
+{
+    public static readonly string[] String =
+    {
+        "CharactorTable",
+    };
+}
+public static class AttackTableIds
+{
+    public static readonly string[] String =
+    {
+        "AttackTable",
+    };
+}
+public static class CharactorSellTableIds
+{
+    public static readonly string[] String =
+    {
+        "CharactorSellTable",
+    };
+}
+
+public static class CombinationTableIds
+{
+    public static readonly string[] String =
+    {
+        "CombinationTable",
+    };
+}
+
+public static class ReinforcedTableIds
+{
+    public static readonly string[] String =
+    {
+        "ReinforcedTable",
+    };
+}
+
+public static class PlacementTableIds
+{
+    public static readonly string ConstructionTable = "ConstructionTable";
+    public static readonly string FarmTable = "FarmTable";
+    public static readonly string TurretTable = "TurretTable";
+    
+
+}
+
 public static class Varibalbes
 {
     public static Languages currentLanguage = Languages.Korea;
@@ -45,16 +114,16 @@ public static class Tags
 
 //    public static readonly string[] DebuffTypeStrings =
 //    {
-//        "¾øÀ½",
-//        "½ºÅÏ",
-//        "´À·ÁÁü"
+//        "ï¿½ï¿½ï¿½ï¿½",
+//        "ï¿½ï¿½ï¿½ï¿½",
+//        "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 //    };
 
 //    public static readonly string[] AttackTypeStrings =
 // {
-//        "´ÜÀÏ °ø°Ý",
-//        "´ÙÁß °ø°Ý",
-//        "¹üÀ§ °ø°Ý"
+//        "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+//        "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+//        "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"
 //    };
 
 //}

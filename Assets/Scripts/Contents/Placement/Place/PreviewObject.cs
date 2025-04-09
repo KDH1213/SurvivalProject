@@ -49,7 +49,6 @@ public class PlacementPreview : MonoBehaviour
         cellIndicator.SetActive(true);
         placementUI.OnShowPlaceUI(true);
         IsPreview = true;
-        inputManager.OnClickPlace += PlacePreview;
     }
 
     private void PrepareCursor(Vector2Int size)
@@ -84,7 +83,6 @@ public class PlacementPreview : MonoBehaviour
         cellIndicator.SetActive(false);
         IsPreview = false;
         placementUI.OnShowPlaceUI(false);
-        inputManager.OnClickPlace -= PlacePreview;
     }
 
     public void StopShowingPreviewToButton()

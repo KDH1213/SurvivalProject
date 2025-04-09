@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class ObjectInfoUI : MonoBehaviour
 {
     [SerializeField]
+    private PlacementUIController uiController;
+    [SerializeField]
     private Image objectImage;
     [SerializeField]
     private TextMeshProUGUI objectInfo;
@@ -17,25 +19,29 @@ public class ObjectInfoUI : MonoBehaviour
     private BuildInfoUINeedItem needItemPrefeb;
     [SerializeField]
     private GameObject debuffContents;
+    [SerializeField]
+    private Button upgrade;
     public TestInventory inven;
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         int index = 0;
-        PlacementLevelInfo levelInfo = objInfo.LevelList[selectedObject.Level - 1];
-        objectImage.sprite = levelInfo.Icon;
-        objectInfo.text = $"Name : {levelInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {levelInfo.Feature}";
+        objectImage.sprite = objInfo.Icon;
+        objectInfo.text = $"Name : {objInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {objInfo.Feature}";
         foreach (var item in needItems)
         {
             item.gameObject.SetActive(false);
         }
-        foreach (var item in levelInfo.NeedItems)
+        foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
             needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
             needItems.Add(needItems[index]);
             index++;
         }
+
+        upgrade.onClick.AddListener(() => gameObject.SetActive(false));
+        upgrade.onClick.AddListener(() => uiController.OnOpenUpgradeInfo(objInfo));
     }
 
     public void OnCloseWindow()
