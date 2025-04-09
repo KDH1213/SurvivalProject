@@ -2,15 +2,22 @@ using UnityEngine;
 
 public class ProduceStructure : PlacementObject
 {
+    [SerializeField]
     private float produceTime;
+    [SerializeField]
     private float currentTime;
+    [SerializeField]
     private string kind;
+    [SerializeField]
     private int outPut;
+    [SerializeField]
     private int maxOutPut;
+    [SerializeField]
+    private int outPutValue;
 
     private void Awake()
     {
-        produceTime = 5f;
+        
     }
     private void Update()
     {
@@ -18,29 +25,34 @@ public class ProduceStructure : PlacementObject
     }
     private void Produce()
     {
-        if (!IsPlaced || outPut >=maxOutPut)
+        if (!IsPlaced)
         {
             return;
+        }
+        if(outPut >= maxOutPut)
+        {
+            outPut = maxOutPut;
         }
 
         if (Time.time >= currentTime)
         {
-            outPut++;
+            outPut += outPutValue;
             currentTime = Time.time + produceTime;
         }
-    }
-
-    public void SetProduceStructure(float produceTime, string kind, int maxOutPut, int outPut = 0)
-    {
-        this.produceTime = produceTime;
-        this.kind = kind;
-        this.outPut = outPut;
-        this.maxOutPut = maxOutPut;
-        currentTime = Time.time + produceTime;
     }
 
     public override void Instruct()
     {
         throw new System.NotImplementedException();
+    }
+
+    public override void SetData()
+    {
+        FarmTable.Data data = DataTableManager.FarmTable.Get(ID);
+        produceTime = data.outputTime;
+        kind = data.category.ToString();
+        maxOutPut = data.maxStorage;
+        outPutValue = data.outputValue;
+        currentTime = Time.time + produceTime;
     }
 }

@@ -26,17 +26,24 @@ public class BuildInfoUI : MonoBehaviour
     {
         int index = 0;
         placementObject = objInfo;
-        PlacementLevelInfo levelInfo = objInfo.LevelList[0];
-        itemImage.sprite = levelInfo.Icon;
-        featureInfo.text = $"Name : {levelInfo.Name}\nLevel : {1}\nFeature : {levelInfo.Feature}";
+        itemImage.sprite = objInfo.Icon;
+        featureInfo.text = $"Name : {objInfo.Name}\nLevel : {1}\nFeature : {objInfo.Feature}";
         foreach (var item in needItems)
         {
             item.gameObject.SetActive(false);
         }
-        foreach (var item in levelInfo.NeedItems)
+        foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
-            needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            if(inven.inventory.ContainsKey(item.Key))
+            {
+                needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            }
+            else
+            {
+                needItems[index].SetNeedItem(null, item.Key, item.Value, 0);
+            }
+            
             needItems.Add(needItems[index]);
             index++;
         }
@@ -46,7 +53,7 @@ public class BuildInfoUI : MonoBehaviour
 
     private void SetButtonDisable()
     {
-        if (!inven.CheckItemCount(placementObject.LevelList[0].NeedItems))
+        if (!inven.CheckItemCount(placementObject.NeedItems))
         {
             placeButton.interactable = false;
             placeButton.onClick.RemoveAllListeners();

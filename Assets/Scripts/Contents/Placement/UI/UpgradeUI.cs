@@ -21,11 +21,10 @@ public class UpgradeUI : MonoBehaviour
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         int index = 0;
-        PlacementLevelInfo levelInfo = objInfo.LevelList[selectedObject.Level - 1];
-        beforeImage.sprite = levelInfo.Icon;
-        beforeName.text = $"{levelInfo.Name}";
+        beforeImage.sprite = objInfo.Icon;
+        beforeName.text = $"{objInfo.Name}";
 
-        PlacementLevelInfo nextLevelInfo = objInfo.LevelList[selectedObject.Level];
+        PlacementObjectInfo nextLevelInfo = objInfo;
         afterImage.sprite = nextLevelInfo.Icon;
         afterName.text = $"{nextLevelInfo.Name}";
 
@@ -33,7 +32,7 @@ public class UpgradeUI : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
-        foreach (var item in levelInfo.NeedItems)
+        foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
             needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);

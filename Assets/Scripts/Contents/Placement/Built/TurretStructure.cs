@@ -16,4 +16,9 @@ public class TurretStructure : PlacementObject
     {
         throw new System.NotImplementedException();
     }
+
+    public override void SetData()
+    {
+
+    }
 }

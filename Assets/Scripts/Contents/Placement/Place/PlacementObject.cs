@@ -13,19 +13,11 @@ public abstract class PlacementObject : MonoBehaviour, IAttackable
     public int ID { get; set; }
     public float Hp { get; set; }
     public abstract void Instruct();
+    public abstract void SetData();
 
     public void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
         throw new System.NotImplementedException();
     }
-}
-
-public interface IProduceStructure
-{
-    public string Kind { get; set; }
-    public float ProduceTime { get; set; }
-    public float CurrentTime { get; set; }
-    public int OutPut { get; set; }
-    public void Produce(/* 자원에 대한 매개변수 */);
 }
 

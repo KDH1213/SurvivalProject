@@ -26,14 +26,13 @@ public class ObjectInfoUI : MonoBehaviour
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         int index = 0;
-        PlacementLevelInfo levelInfo = objInfo.LevelList[selectedObject.Level - 1];
-        objectImage.sprite = levelInfo.Icon;
-        objectInfo.text = $"Name : {levelInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {levelInfo.Feature}";
+        objectImage.sprite = objInfo.Icon;
+        objectInfo.text = $"Name : {objInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {objInfo.Feature}";
         foreach (var item in needItems)
         {
             item.gameObject.SetActive(false);
         }
-        foreach (var item in levelInfo.NeedItems)
+        foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
             needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);

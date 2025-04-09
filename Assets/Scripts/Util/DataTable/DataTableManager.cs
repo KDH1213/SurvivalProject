@@ -14,6 +14,20 @@ public static class DataTableManager
         //    tables.Add(id, table);
         //}
 
+        var table = new ConstructionTable();
+        string id = PlacementTableIds.ConstructionTable;
+        table.Load(id);
+        tables.Add(id, table);
+
+        var tableFarm = new FarmTable();
+        string idFarm = PlacementTableIds.FarmTable;
+        tableFarm.Load(idFarm);
+        tables.Add(idFarm, tableFarm);
+
+        var tableTurret = new TurretTable();
+        string idTurret = PlacementTableIds.TurretTable;
+        tableTurret.Load(idTurret);
+        tables.Add(idTurret, tableTurret);
     }
 
     public static T Get<T>(string id) where T : DataTable
@@ -25,5 +39,20 @@ public static class DataTableManager
         }
 
         return tables[id] as T;
+    }
+
+    public static ConstructionTable ConstructionTable
+    {
+        get { return Get<ConstructionTable>(PlacementTableIds.ConstructionTable); }
+    }
+
+    public static FarmTable FarmTable
+    {
+        get { return Get<FarmTable>(PlacementTableIds.FarmTable); }
+    }
+
+    public static TurretTable TurretTable
+    {
+        get { return Get<TurretTable>(PlacementTableIds.TurretTable); }
     }
 }

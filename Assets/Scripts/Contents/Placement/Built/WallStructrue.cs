@@ -8,4 +8,9 @@ public class WallStructrue : PlacementObject
     {
         throw new System.NotImplementedException();
     }
+
+    public override void SetData()
+    {
+        throw new System.NotImplementedException();
+    }
 }
