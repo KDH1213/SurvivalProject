@@ -18,6 +18,7 @@ public class FatigueStat : SurvivalStatBehaviour
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Fatigue;
+        Load();
         OnChangeValue();
     }
     public override void AddPenaltyValue(float value)

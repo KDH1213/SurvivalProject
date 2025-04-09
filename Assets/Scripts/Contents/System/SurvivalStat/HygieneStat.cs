@@ -7,6 +7,7 @@ public class HygieneStat : SurvivalStatBehaviour
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Hygiene;
+        Load();
     }
     public override void AddPenaltyValue(float value)
     {

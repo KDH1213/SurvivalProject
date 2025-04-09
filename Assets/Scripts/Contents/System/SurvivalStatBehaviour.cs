@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
+public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty, ISaveLoadData
 {
     [SerializeField]
     protected SurvivalStatType survivalStatType;
@@ -22,7 +22,7 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
     public UnityEvent<SurvivalStatType> OnEndPenaltyEvent => onEndPenaltyEvent;
     protected virtual void Awake()
     {
-        
+        Load();
     }
 
     protected virtual bool IsActivationCheckPenalty()
@@ -54,5 +54,21 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty
     {
         isOnDebuff= false; 
         onEndPenaltyEvent?.Invoke(survivalStatType);
+    }
+
+    public virtual void Save()
+    {
+        if(SaveLoadManager.Data != null)
+        {
+            SaveLoadManager.Data.playerSaveInfo.survivalStatValues[(int)survivalStatType] = value;
+        }
+    }
+
+    public virtual void Load()
+    {
+        if (SaveLoadManager.Data != null && SaveLoadManager.Data.playerSaveInfo.survivalStatValues != null)
+        {
+            value = SaveLoadManager.Data.playerSaveInfo.survivalStatValues[(int)survivalStatType];
+        }
     }
 }

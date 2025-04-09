@@ -207,6 +207,12 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     {
         SaveLoadManager.Data.playerSaveInfo.position = transform.position;
         SaveLoadManager.Data.playerSaveInfo.hp = GetComponent<PlayerStats>().CurrentStatTable[StatType.HP].Value;
+
+        if(SaveLoadManager.Data.playerSaveInfo.survivalStatValues == null)
+        {
+            SaveLoadManager.Data.playerSaveInfo.survivalStatValues = new float[(int)SurvivalStatType.End];
+        }
+        GetComponent<PlayerStats>().Save();
         PlayerInventory.Save();
     }
 
@@ -215,6 +221,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         if (SaveLoadManager.Data != null)
         {
             transform.position = SaveLoadManager.Data.playerSaveInfo.position;
+            GetComponent<PlayerStats>().Load();
         }
     }
 

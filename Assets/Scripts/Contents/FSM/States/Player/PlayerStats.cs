@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStats : CharactorStats
+public class PlayerStats : CharactorStats, ISaveLoadData
 {
     [SerializeField]
     private PenaltyController survivalStats;
@@ -26,7 +26,7 @@ public class PlayerStats : CharactorStats
 
         if (SaveLoadManager.Data != null)
         {
-            originalData.StatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
+            Load();
         }
 
         currentStatTable[StatType.MovementSpeed].OnChangeValueAction(OnChangeSpeedValue);
@@ -157,5 +157,15 @@ public class PlayerStats : CharactorStats
     public void OnChangeAttackSpeedValue(float value)
     {
         currentAttackSpeed = value + lifeStat.AttackSpeed;
+    }
+
+    public void Save()
+    {
+        survivalStats.Save();
+    }
+
+    public void Load()
+    {
+        originalData.StatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
     }
 }

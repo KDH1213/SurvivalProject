@@ -7,6 +7,7 @@ public class TemperatureStat : SurvivalStatBehaviour
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Temperature;
+        Load();
     }
 
     public override void OnStartPenalty()

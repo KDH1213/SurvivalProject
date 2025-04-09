@@ -21,6 +21,7 @@ public class ThirstStat : SurvivalStatBehaviour
     {
         survivalStatType = SurvivalStatType.Thirst;
         value = maxValue;
+        Load();
         OnChangeValue();
     }
 

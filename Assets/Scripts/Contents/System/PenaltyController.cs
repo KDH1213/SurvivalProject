@@ -1,7 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-public class PenaltyController : MonoBehaviour, IAct
+public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 {
     //[field: SerializeField]
     //public SurvivalStatData SurvivalStatData { get; private set; }
@@ -109,5 +109,19 @@ public class PenaltyController : MonoBehaviour, IAct
             default:
                 break;
         }
+    }
+
+    public void Save()
+    {
+        var SurvivalStatBehaviours = GetComponents<SurvivalStatBehaviour>();
+
+        foreach (var SurvivalStatBehaviour in SurvivalStatBehaviours)
+        {
+            SurvivalStatBehaviour.Save();
+        }
+    }
+
+    public void Load()
+    {
     }
 }

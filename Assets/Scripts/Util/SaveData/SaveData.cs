@@ -20,6 +20,7 @@ public class SaveDataV1 : SaveData
     public SaveDataV1()
     {
         Version = 1;
+        playerSaveInfo.survivalStatValues = new float[(int)SurvivalStatType.End];
     }
 
     public override SaveData VersionUp()

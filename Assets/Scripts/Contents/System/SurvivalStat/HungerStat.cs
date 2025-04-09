@@ -29,8 +29,10 @@ public class HungerStat : SurvivalStatBehaviour
     {
         survivalStatType = SurvivalStatType.Hunger;
         value = maxValue;
+        Load();
 
         lifeStat = GetComponent<LifeStat>();
+
         OnChangeValue();
     }
 
