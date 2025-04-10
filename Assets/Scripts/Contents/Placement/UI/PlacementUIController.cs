@@ -84,7 +84,7 @@ public class PlacementUIController : MonoBehaviour
 
     public void ShowObjectList()
     {
-        SetObjectList(placementSystem.Database);
+        
         RectTransform rectTran = objectListUi.GetComponent<RectTransform>();
         Vector3 uiPos = Camera.main.WorldToScreenPoint(objectListUi.transform.position);
         objectListUi.transform.DOMoveY(0, 0.3f);
@@ -164,6 +164,7 @@ public class PlacementUIController : MonoBehaviour
 
     public void OnShowModeSelectButton(bool show)
     {
+        SetObjectList(placementSystem.Database);
         modeSelectButtons.SetActive(show);
     }
 
