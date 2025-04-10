@@ -116,8 +116,6 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
             equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
             equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
-
-            playerStats.OnEquipmentItem(itemData);
         }
     }
 

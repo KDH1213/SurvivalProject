@@ -165,6 +165,20 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void Load()
     {
         // lifeStat.Load();
-        originalData.StatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
+        currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
+
+        var equipmentItemIDList = SaveLoadManager.Data.equipmentItemIDList;
+
+        for (int i = 0; i < equipmentItemIDList.Count; ++i)
+        {
+            if (equipmentItemIDList[i] == -1)
+            {
+                continue;
+            }
+
+            // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
+            var itemData = DataTableManager.ItemTable.Get(equipmentItemIDList[i]);
+            OnEquipmentItem(itemData);
+        }
     }
 }

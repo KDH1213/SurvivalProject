@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class SkillUIView : MonoBehaviour
+public class SkillUIView : MonoBehaviour, ISaveLoadData
 {
     [SerializeField]
     private GameObject panel;
@@ -21,9 +22,7 @@ public class SkillUIView : MonoBehaviour
     public UnityEvent onDisableEvent;
 
     private List<int> skillTypeList = new List<int>();
-
-    private int skillPoint = 0;
-
+    
     private void OnDisable()
     {
         onDisableEvent?.Invoke();
@@ -31,16 +30,32 @@ public class SkillUIView : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        if(SaveLoadManager.Data == null)
         {
-            skillTypeList.Add(i);
+            OnSetRandomSkillOption();
+        }
+        else
+        {
+            Load();
         }
 
-        OnSetRandomSkillOption();
+        var stageManager = GameObject.FindGameObjectWithTag("StageManager");
+        if (stageManager != null)
+        {
+            stageManager.GetComponent<StageManager>().onSaveEvent += Save;
+        }
     }
 
     private void OnSetRandomSkillOption()
     {
+        if(skillTypeList.Count == 0)
+        {
+            for (int i = 0; i < (int)LifeSkillType.End; ++i)
+            {
+                skillTypeList.Add(i);
+            }
+        }
+
         SuffleSkillType();
     }
 
@@ -60,19 +75,9 @@ public class SkillUIView : MonoBehaviour
         }
     }
 
-    public void OnSkillPointUp()
+    public void OnChangeSkillPoint(int skillPoint)
     {
-        ++skillPoint;
-        onChangeSkillPoint?.Invoke(skillPoint);
-        // OnSetRandomSkillOption();
-    }
-
-    public void OnClickButton(int index)
-    {
-        onSeleteEvent?.Invoke(skillTypeList[index]);
-        --skillPoint;
-
-        if(skillPoint <= 0)
+        if (skillPoint <= 0)
         {
             skillPoint = 0;
         }
@@ -83,4 +88,40 @@ public class SkillUIView : MonoBehaviour
         onChangeSkillPoint?.Invoke(skillPoint);
     }
 
+    public void OnClickButton(int index)
+    {
+        onSeleteEvent?.Invoke(skillTypeList[index]);
+    }
+
+    public void Save()
+    {
+        if(SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        SaveLoadManager.Data.skillUiViewSeleteList = skillTypeList;
+    }
+
+    public void Load()
+    {
+        if (SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        skillTypeList = SaveLoadManager.Data.skillUiViewSeleteList;
+
+        if(skillTypeList.Count == 0)
+        {
+            OnSetRandomSkillOption();
+        }
+        else
+        {
+            for (int i = 0; i < skillTexts.Length; ++i)
+            {
+                skillTexts[i].text = ((LifeSkillType)skillTypeList[i]).ToString();
+            }
+        }      
+    }
 }

@@ -214,7 +214,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         }
         GetComponent<PlayerStats>().Save();
         PlayerInventory.Save();
-        GetComponent<PlayerStats>().Save();
     }
 
     public void Load()
@@ -222,7 +221,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         if (SaveLoadManager.Data != null)
         {
             transform.position = SaveLoadManager.Data.playerSaveInfo.position;
-            GetComponent<PlayerStats>().Load();
         }
     }
 

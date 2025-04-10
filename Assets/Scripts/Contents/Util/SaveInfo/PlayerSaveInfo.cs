@@ -15,7 +15,8 @@ public struct PlayerSaveInfo
 
 public struct LevelStatInfo
 {
-    public int level; 
+    public int level;
+    public int skillPoint;
     public float Experience;
     public List<int> skillLevelList;
 }

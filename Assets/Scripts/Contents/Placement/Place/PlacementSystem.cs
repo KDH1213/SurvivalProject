@@ -272,6 +272,17 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         foreach (var placement in placementSaveInfoList)
         {
             // TODO :: 배치 오브젝트 생성 코드
+
+            // placedGameObjects.Add(placement)
+        }
+
+        var farmPlacementSaveInfoList = SaveLoadManager.Data.farmPlacementSaveInfos;
+        foreach (var placement in placementSaveInfoList)
+        {
+            // TODO :: 배치 오브젝트 생성 코드
+
+
+            // placedGameObjects.Add(placement)
         }
 
 

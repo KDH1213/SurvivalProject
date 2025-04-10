@@ -16,6 +16,7 @@ public class SaveDataV1 : SaveData
     public List<ItemInfoSaveData> ItemSlotInfoSaveDataList = new List<ItemInfoSaveData>();
 
     public List<int> equipmentItemIDList = new List<int>();
+    public List<int> skillUiViewSeleteList = new List<int>();
 
     public LevelStatInfo levelStatInfo = new LevelStatInfo();
     public PlayerSaveInfo playerSaveInfo = new PlayerSaveInfo();
@@ -25,6 +26,7 @@ public class SaveDataV1 : SaveData
     {
         Version = 1;
         playerSaveInfo.survivalStatValues = new float[(int)SurvivalStatType.End];
+        levelStatInfo.skillLevelList = new List<int>();
     }
 
     public override SaveData VersionUp()
