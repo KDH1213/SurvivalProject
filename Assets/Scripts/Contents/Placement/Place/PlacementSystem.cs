@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour, ISaveLoadData
@@ -26,7 +27,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public Grid GetGrid { get; private set; }
 
     public PlacementObject SelectedObject; // { get; set; }
-    private List<PlacementObject> placedGameObjects = new List<PlacementObject>();
+    public List<PlacementObject> PlacedGameObjects { get; private set; } = new List<PlacementObject>();
     private GridData gridData;
 
     private void Awake()
@@ -41,11 +42,16 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         Database = new PlacementObjectList();
         Database.SetObjects();
-
+        
         var stageManager = GameObject.FindGameObjectWithTag("StageManager");
         if (stageManager != null)
         {
             stageManager.GetComponent<StageManager>().onSaveEvent += Save;
+        }
+
+        if (SaveLoadManager.Load(1))
+        {
+            Load();
         }
     }
 
@@ -157,13 +163,13 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
         placementObject.SetData();
 
-        placedGameObjects.Add(placementObject);
+        PlacedGameObjects.Add(placementObject);
 
         gridData.AddObjectAt(gridPosition, Database.objects[SelectedObjectIndex].Size,
             Database.objects[SelectedObjectIndex].ID,
-            placedGameObjects.Count - 1, placementObject);
+            PlacedGameObjects.Count - 1, placementObject);
 
-        int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, placedGameObjects);
+        int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
         if(left <= 0)
         {
             StopPlacement();
@@ -217,9 +223,9 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     {
         SelectedObject.transform.parent.gameObject.SetActive(false);
         int id = gridData.RemoveObjectAt(obj);
-        placedGameObjects.Remove(obj);
+        PlacedGameObjects.Remove(obj);
 
-        foreach (var item in placedGameObjects)
+        foreach (var item in PlacedGameObjects)
         {
             item.PlacementData.OrderPlaceObjectIndex(obj.PlacementData.PlaceObjectIndex);
         }
@@ -230,21 +236,22 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
+        int index = Database.objects.FindIndex(x => x.ID == SelectedObject.PlacementData.ID);
         RemoveStructure(SelectedObject);
-        placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, placedGameObjects);
-        inven.PlusItem(Database.objects[SelectedObject.PlacementData.ID].NeedItems);
+        placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, PlacedGameObjects);
+        inven.PlusItem(Database.objects[index].NeedItems);
         Destroy(SelectedObject.transform.parent.gameObject);
-        //preview.StopShowingPreview();
+        preview.StopShowingPreview();
     }
 
     // 오브젝트 원래 위치로 배치
     public void SetPlacementInfo(PlacementObject obj)
     {
         obj.IsPlaced = true;
-        placedGameObjects.Add(obj);
+        PlacedGameObjects.Add(obj);
         gridData.AddObjectAt(obj.Position, Database.objects[SelectedObjectIndex].Size,
             Database.objects[SelectedObjectIndex].ID,
-            placedGameObjects.Count - 1, obj);
+            PlacedGameObjects.Count - 1, obj);
     }
 
     public void Save()
@@ -254,7 +261,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        foreach (var placedGameObject in placedGameObjects)
+        SaveLoadManager.Data.farmPlacementSaveInfos.Clear();
+        SaveLoadManager.Data.placementSaveInfoList.Clear();
+
+        foreach (var placedGameObject in PlacedGameObjects)
         {
             placedGameObject.Save();
         }
@@ -268,12 +278,67 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        var placementSaveInfoList = SaveLoadManager.Data.placementSaveInfoList;
+        var placementSaveInfoList = SaveLoadManager.Data.farmPlacementSaveInfos;
         foreach (var placement in placementSaveInfoList)
         {
             // TODO :: 배치 오브젝트 생성 코드
+
+            int index = Database.objects.FindIndex(x => x.ID == placement.id);
+            PlacementObjectInfo placeObjInfo = Database.objects[index];
+
+            GameObject newObject = Instantiate(placeObjInfo.Prefeb);
+            newObject.transform.position = grid.CellToWorld(placement.position);
+            newObject.transform.GetChild(0).rotation = placement.rotation;
+
+            PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
+            placementObject.IsPlaced = true;
+            placementObject.ID = placeObjInfo.ID;
+            placementObject.Position = placement.position;
+            placementObject.Rotation = placement.rotation;
+            placementObject.SetData();
+            placementObject.Load();
+
+            PlacedGameObjects.Add(placementObject);
+
+            gridData.AddObjectAt(placement.position, placeObjInfo.Size,
+                placement.id,
+                PlacedGameObjects.Count - 1, placementObject);
+
         }
 
+        var placementSaveInfoList2 = SaveLoadManager.Data.placementSaveInfoList;
+        foreach (var placement in placementSaveInfoList2)
+        {
+            // TODO :: 배치 오브젝트 생성 코드
 
+            int index = Database.objects.FindIndex(x => x.ID == placement.id);
+            PlacementObjectInfo placeObjInfo = Database.objects[index];
+
+            GameObject newObject = Instantiate(placeObjInfo.Prefeb);
+            newObject.transform.position = grid.CellToWorld(placement.position);
+            newObject.transform.GetChild(0).rotation = placement.rotation;
+
+            PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
+            placementObject.IsPlaced = true;
+            placementObject.ID = placeObjInfo.ID;
+            placementObject.Position = placement.position;
+            placementObject.Rotation = placement.rotation;
+            placementObject.Load();
+
+            PlacedGameObjects.Add(placementObject);
+
+            gridData.AddObjectAt(placement.position, placeObjInfo.Size,
+                placement.id,
+                PlacedGameObjects.Count - 1, placementObject);
+
+        }
+
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+
+        SaveLoadManager.Save(1);
     }
 }

@@ -161,6 +161,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 701107594384360651}
+    - targetCorrespondingSourceObject: {fileID: 1408191526801773530, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1880349872250189604}
   m_SourcePrefab: {fileID: 100100000, guid: ee9a457c0c3e4674e9c09f97a7836d6c, type: 3}
 --- !u!1 &401836867212349440 stripped
 GameObject:
@@ -226,7 +230,24 @@ MonoBehaviour:
   currentTime: 0
   kind: Wood
   outPut: 0
-  testOutPut: 0
+  maxOutPut: 0
+  outPutValue: 0
+--- !u!208 &1880349872250189604
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401836867212349440}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.5, y: 3.5, z: 5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &1069688667480083130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1783766399962597728, guid: ee9a457c0c3e4674e9c09f97a7836d6c,

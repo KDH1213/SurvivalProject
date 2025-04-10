@@ -17,7 +17,7 @@ public class ProduceStructure : PlacementObject
 
     private void Awake()
     {
-        
+
     }
     private void Update()
     {
@@ -72,6 +72,13 @@ public class ProduceStructure : PlacementObject
         saveInfo.outPut = outPut;
 
         SaveLoadManager.Data.farmPlacementSaveInfos.Add(saveInfo);
+    }
+
+    public override void Load()
+    {
+        var data = SaveLoadManager.Data.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
+        outPut = data.outPut;
+        currentTime = data.createTime + produceTime;
     }
 
 }

@@ -11,6 +11,5 @@ public class WallStructrue : PlacementObject
 
     public override void SetData()
     {
-        throw new System.NotImplementedException();
     }
 }

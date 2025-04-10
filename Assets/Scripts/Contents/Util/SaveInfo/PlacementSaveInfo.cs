@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 
+
+public class PlacementSaveData
+{
+}
+
 [System.Serializable]
-public struct PlacementSaveInfo
+public class PlacementSaveInfo : PlacementSaveData
 {
     public Vector3Int position;
     public Quaternion rotation;
     public float hp;
     public int id;
+    
 }
 
 [System.Serializable]
-public struct FarmPlacementSaveInfo
+public class FarmPlacementSaveInfo : PlacementSaveData
 {
     public Vector3Int position;
     public Quaternion rotation;

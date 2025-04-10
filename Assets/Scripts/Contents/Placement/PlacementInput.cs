@@ -19,6 +19,7 @@ public class PlacementInput : MonoBehaviour
     private LayerMask placementLayermask;
     [SerializeField]
     private LayerMask bothLayermask;
+    public event Action OnClickPlace;
 
     public bool IsPointerOverUi { get; set;}
     public bool IsPointerOverMap { get; private set; }
@@ -134,12 +135,14 @@ public class PlacementInput : MonoBehaviour
             }
             else
             {
-                
+                OnClickPlace?.Invoke();
+
             }
         }
         else
         {
-            
+            OnClickPlace?.Invoke();
+
         }
     }
 

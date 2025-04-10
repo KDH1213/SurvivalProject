@@ -11,24 +11,23 @@ public class PlacementUIController : MonoBehaviour
     private PlacementSystem placementSystem;
     [SerializeField]
     private PlacementPreview preview;
-    [SerializeField]
-    private PlacementObjectList dataBase;
+    //private PlacementObjectList dataBase;
 
     [SerializeField] // 배치 / 취소 버튼
     private GameObject placementUI;
     [SerializeField] // 삭제버튼
     private GameObject distroyButton;
     [SerializeField] // 건설물 목록 UI (항목별) 
-    private List<PlacementUIObjectInfo> Objectcontents = new();
+    private List<PlacementUIObjectInfo> objectcontents = new();
     [SerializeField] // 건설물 목록 UI (항목별) 
-    private GameObject Objectcontent;
+    private GameObject objectcontent;
     [SerializeField] // 건설물 목록 프리팹
-    private PlacementUIObjectInfo ObjectContentPrefeb;
+    private PlacementUIObjectInfo objectContentPrefeb;
     [SerializeField] // 건설물 목록 UI
-    private GameObject ObjectListUi;
+    private GameObject objectListUi;
     [SerializeField] // 아이템 리스트 탭
     private ToggleGroup toggles;
-    [SerializeField] // 아이템 리스트 탭
+    [SerializeField] 
     private GameObject modeSelectButtons;
     [SerializeField]
     private BuildInfoUI buildInfo; // 건설물 건설 정보 UI
@@ -37,11 +36,11 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private UpgradeUI upgradeUI; // 건설물 정보 UI
 
-
     private void Awake()
     {
         placementSystem = GetComponent<PlacementSystem>();
-        dataBase = placementSystem.Database;
+        //dataBase = placementSystem.Database;
+        
     }
 
     private void Update()
@@ -63,7 +62,7 @@ public class PlacementUIController : MonoBehaviour
     public int OnSetObjectListUi(PlacementObjectList database, int ID, List<PlacementObject> placedGameObjects)
     {
         int index = database.objects.FindIndex(data => data.ID == ID);
-        GameObject obj = Objectcontents[index].gameObject;
+        GameObject obj = objectcontents[index].gameObject;
         int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
         int maxCount = database.objects[index].MaxBuildCount;
         if (currentCount >= maxCount)
@@ -74,7 +73,7 @@ public class PlacementUIController : MonoBehaviour
         {
             obj.GetComponent<Button>().interactable = true;
         }
-        Objectcontents[index].leftCount = maxCount - currentCount;
+        objectcontents[index].leftCount = maxCount - currentCount;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
 
         return maxCount - currentCount;
@@ -82,29 +81,30 @@ public class PlacementUIController : MonoBehaviour
 
     public void ShowObjectList()
     {
-        SetObjectList();
-        RectTransform rectTran = ObjectListUi.GetComponent<RectTransform>();
-        Vector3 uiPos = Camera.main.WorldToScreenPoint(ObjectListUi.transform.position);
-        ObjectListUi.transform.DOMoveY(0, 0.3f);
+        SetObjectList(placementSystem.Database);
+        RectTransform rectTran = objectListUi.GetComponent<RectTransform>();
+        Vector3 uiPos = Camera.main.WorldToScreenPoint(objectListUi.transform.position);
+        objectListUi.transform.DOMoveY(0, 0.3f);
     }
     public void StopShowObjectList()
     {
-        RectTransform rectTran = ObjectListUi.GetComponent<RectTransform>();
+        RectTransform rectTran = objectListUi.GetComponent<RectTransform>();
         Vector3 uiPos = Camera.main.ScreenToWorldPoint(new Vector3(0, -rectTran.offsetMax.y));
 
-        ObjectListUi.transform.DOLocalMoveY(ObjectListUi.transform.localPosition.y - rectTran.offsetMax.y, 0.3f);
+        objectListUi.transform.DOLocalMoveY(objectListUi.transform.localPosition.y - rectTran.offsetMax.y, 0.3f);
 
     }
 
-    public void SetObjectList()
+    public void SetObjectList(PlacementObjectList database)
     {
-        if (Objectcontents.Count <= 0)
+        if (objectcontents.Count <= 0)
         {
-            foreach (var data in dataBase.objects)
+            foreach (var data in database.objects)
             {
-                PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);
+                PlacementUIObjectInfo uiObjInfo = Instantiate(objectContentPrefeb, objectcontent.transform);
                 uiObjInfo.SetUIObjectInfo(data, placementSystem);
-                Objectcontents.Add(uiObjInfo);
+                objectcontents.Add(uiObjInfo);
+                OnSetObjectListUi(database, data.ID, placementSystem.PlacedGameObjects);
             }
         }
         
@@ -117,7 +117,7 @@ public class PlacementUIController : MonoBehaviour
         
         if (toggle.name.Equals("All"))
         {
-            foreach (var item in Objectcontents)
+            foreach (var item in objectcontents)
             {
                 item.gameObject.SetActive(true);
                 if (item.leftCount <= 0)
@@ -129,7 +129,7 @@ public class PlacementUIController : MonoBehaviour
             return;
         }
 
-        foreach (var item in Objectcontents)
+        foreach (var item in objectcontents)
         {
             if(item.placementInfo.Kind.ToString().Equals(toggle.name))
             {
