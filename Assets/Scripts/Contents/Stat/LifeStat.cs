@@ -40,6 +40,26 @@ public class LifeStat : LevelStat, ISaveLoadData
         OnChangeExperienceSlider();
     }
 
+    private void Start()
+    {
+        //if (SaveLoadManager.Data == null)
+        //{
+        //    return;
+        //}
+
+        //var levelStatInfo = SaveLoadManager.Data.levelStatInfo;
+        //var list = levelStatInfo.skillLevelList;
+        //for (int i = 0; i < list.Count; ++i)
+        //{
+        //    if (list[i] == 0)
+        //    {
+        //        continue;
+        //    }
+
+        //    OnChangeSkillLevelEvent?.Invoke((LifeSkillType)i);
+        //}
+    }
+
     public void OnAddExperience(float experience)
     {
         currentExperience += experience;
@@ -54,13 +74,6 @@ public class LifeStat : LevelStat, ISaveLoadData
         }
 
         OnChangeExperienceSlider();
-    }
-    public void Load()
-    {
-    }
-
-    public void Save()
-    {
     }
 
     private void OnChangeExperienceSlider()
@@ -101,5 +114,51 @@ public class LifeStat : LevelStat, ISaveLoadData
         levelUpExperience = lifeStatData.LevelList[currentLevel - 1];
         onLevelUpEvent?.Invoke();
         // SkilUp(Random.Range(0, (int)LifeSkillType.End - 1));
+    }
+    public void Load()
+    {
+        if(SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        var levelStatInfo = SaveLoadManager.Data.levelStatInfo;
+        currentLevel = levelStatInfo.level;
+        currentExperience = levelStatInfo.Experience;
+        levelUpExperience = lifeStatData.LevelList[currentLevel];
+
+        var list = levelStatInfo.skillLevelList;
+        for (int i = 0; i < list.Count; ++i)
+        {
+            if(list[i] == 0)
+            {
+                continue;
+            }
+
+            skillLevelTable.Add((LifeSkillType)i, list[i]);
+            currentSkillStatValue[i] = lifeStatData.LifeSkillStatTable[(LifeSkillType)i];
+        }
+    }
+
+    public void Save()
+    {
+        var levelStatInfo = SaveLoadManager.Data.levelStatInfo;
+
+        levelStatInfo.level = currentLevel;
+        levelStatInfo.Experience = currentExperience;
+
+        levelStatInfo.skillLevelList = new List<int>();
+
+        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        {
+            if(skillLevelTable.TryGetValue((LifeSkillType)i, out var value))
+            {
+                levelStatInfo.skillLevelList.Add(value);
+            }
+            else
+            {
+                levelStatInfo.skillLevelList.Add(0);
+            }
+        }
     }
 }

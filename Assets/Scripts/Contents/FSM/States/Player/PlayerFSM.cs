@@ -214,6 +214,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         }
         GetComponent<PlayerStats>().Save();
         PlayerInventory.Save();
+        GetComponent<PlayerStats>().Save();
     }
 
     public void Load()

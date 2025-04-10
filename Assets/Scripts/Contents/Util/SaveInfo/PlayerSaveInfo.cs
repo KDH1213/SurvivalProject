@@ -10,3 +10,12 @@ public struct PlayerSaveInfo
 
     public float[] survivalStatValues;
 }
+
+[System.Serializable]
+
+public struct LevelStatInfo
+{
+    public int level; 
+    public float Experience;
+    public List<int> skillLevelList;
+}

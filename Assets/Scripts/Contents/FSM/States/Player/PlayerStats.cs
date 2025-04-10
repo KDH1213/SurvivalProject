@@ -34,10 +34,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         currentSpeed = currentStatTable[StatType.MovementSpeed].Value;
         currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value;
         OnChangeHp();
-    }
 
-    private void Start()
-    {
         lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeLifeStat);
     }
 
@@ -87,7 +84,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
             statValue.AddValue(addValue);
         }
     }
-    public void OnChangeHp() //*HP °»½Å
+    public void OnChangeHp() //*HP ï¿½ï¿½ï¿½ï¿½
     {
         HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
     }
@@ -161,11 +158,13 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
     public void Save()
     {
+        lifeStat.Save();
         survivalStats.Save();
     }
 
     public void Load()
     {
+        // lifeStat.Load();
         originalData.StatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
     }
 }
