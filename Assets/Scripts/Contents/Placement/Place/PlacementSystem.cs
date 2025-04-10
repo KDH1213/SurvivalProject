@@ -160,6 +160,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.ID = Database.objects[SelectedObjectIndex].ID;
         placementObject.Position = gridPosition;
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
+        placementObject.system = this;
         placementObject.SetData();
 
         PlacedGameObjects.Add(placementObject);
@@ -296,6 +297,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.ID = placeObjInfo.ID;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
+            placementObject.system = this;
             placementObject.SetData();
             placementObject.Load();
 
@@ -324,6 +326,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.ID = placeObjInfo.ID;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
+            placementObject.system = this;
             placementObject.Load();
 
             PlacedGameObjects.Add(placementObject);
