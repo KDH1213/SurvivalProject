@@ -41,7 +41,7 @@ public static class SaveLoadManager
 
     static SaveLoadManager()
     {
-        if (!Load(SceneManager.GetActiveScene().name))
+        if (!Load())
         {
             Data = new SaveDataVC();
             Save();

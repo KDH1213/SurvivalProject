@@ -124,7 +124,17 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     {
         onSaveEvent?.Invoke();
         GameTimeManager.Instance.Save();
-        SaveLoadManager.Save(SceneManager.GetActiveScene().name);
+        SaveLoadManager.Save();
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            onSaveEvent?.Invoke();
+            GameTimeManager.Instance.Save();
+            SaveLoadManager.Save();
+        }      
     }
 
     public void Save()
