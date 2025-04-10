@@ -27,6 +27,8 @@ public class AttackedTakeDamage : MonoBehaviour, IAttackable
             {
                 destructible.OnDestruction(attacker);
             }
+
+            charactorStats.deathEvent?.Invoke();
         }
     }
 }
