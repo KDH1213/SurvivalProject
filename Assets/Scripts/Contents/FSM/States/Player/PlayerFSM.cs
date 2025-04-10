@@ -40,6 +40,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public bool IsPlayerInRange { get; private set; }
 
     public UnityEvent<GameObject> onTargetInteractEvent;
+    public UnityEvent<DropItemInfo> onDropItemEvent;
 
     protected override void Awake()
     {
@@ -145,6 +146,14 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         PlayerInventory.gameObject.SetActive(false);
     }
 
+    public void OnDropItem(DropItemInfo dropItemInfo)
+    {
+        PlayerInventory.AddItem(dropItemInfo);
+        // onDropItemEvent?.Invoke(dropItemInfo);
+    }
+
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -222,6 +231,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         {
             transform.position = SaveLoadManager.Data.playerSaveInfo.position;
         }
+
+        PlayerInventory.Initialize();
     }
 
     public void SetAttackStat()

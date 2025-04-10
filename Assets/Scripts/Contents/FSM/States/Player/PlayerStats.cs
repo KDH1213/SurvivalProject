@@ -180,5 +180,6 @@ public class PlayerStats : CharactorStats, ISaveLoadData
             var itemData = DataTableManager.ItemTable.Get(equipmentItemIDList[i]);
             OnEquipmentItem(itemData);
         }
+
     }
 }

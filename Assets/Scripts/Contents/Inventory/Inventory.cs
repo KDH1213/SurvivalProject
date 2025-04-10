@@ -48,8 +48,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         }
     }
 
-    private void Awake()
+    public void Initialize()
     {
+
         for (int i = 0; i < maxSlot; ++i)
         {
             itemInfos[i] = new ItemInfo();
@@ -86,9 +87,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 foreach (var result in results)
                 {
                     var uiItemSlot = result.gameObject.GetComponent<ItemSlot>();
-                    if (uiItemSlot == null) 
+                    if (uiItemSlot == null)
                     {
-                        continue; 
+                        continue;
                     }
 
                     int targetSlotIndex = dragSeletedSlotIndex;
@@ -150,14 +151,13 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         }
 
         UpdateSlots(itemInfos);
-        gameObject.SetActive(false);
 
-        if(SaveLoadManager.Data != null)
+        if (SaveLoadManager.Data != null)
         {
             Load();
         }
 
-        if(useSlotCount == 0)
+        if (useSlotCount == 0)
         {
             for (int i = 0; i < 3; ++i)
             {
@@ -193,8 +193,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
         }
 
-
+        equipmentSocketView.Initialize();
     }
+
     private void UpdateSlots(ItemInfo[] items)
     {
         for (int i = 0; i < maxSlot; ++i)
