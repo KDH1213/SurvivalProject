@@ -17,10 +17,14 @@ public class ThirstStat : SurvivalStatBehaviour
 
     private float currentTime = 0f;
 
+    private float thirstSkillValue = 0f;
+    private float totalValueDownTime = 0f;
+
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Thirst;
         value = maxValue;
+        totalValueDownTime = valueDownTime;
         Load();
         OnChangeValue();
     }
@@ -29,9 +33,9 @@ public class ThirstStat : SurvivalStatBehaviour
     {
         currentTime += Time.deltaTime;
 
-        if (currentTime >= valueDownTime)
+        if (currentTime >= totalValueDownTime)
         {
-            currentTime -= valueDownTime;
+            currentTime -= totalValueDownTime;
             value -= maxValue * 0.01f;
             this.value = Mathf.Max(value, 0f);
             OnChangeValue();
@@ -59,7 +63,11 @@ public class ThirstStat : SurvivalStatBehaviour
             OnStartPenalty();
         }
     }
-
+    public void OnSetThirstSkillValue(float value)
+    {
+        thirstSkillValue = value;
+        totalValueDownTime = valueDownTime + thirstSkillValue;
+    }
     public override void OnStartPenalty()
     {
         base.OnStartPenalty();

@@ -20,18 +20,17 @@ public class HungerStat : SurvivalStatBehaviour
     [SerializeField]
     private Slider hungerSlider;
 
-    private LifeStat lifeStat;
-
     private bool isHpDown;
     private float currentTime = 0f;
+    private float hungerSkillValue = 0f;
+    private float totalValueDownTime = 0f;
 
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Hunger;
         value = maxValue;
+        totalValueDownTime = valueDownTime;
         Load();
-
-        lifeStat = GetComponent<LifeStat>();
 
         OnChangeValue();
     }
@@ -63,9 +62,9 @@ public class HungerStat : SurvivalStatBehaviour
 
     private void CheckValueDown()
     {
-        if (currentTime >= valueDownTime)
+        if (currentTime >= totalValueDownTime)
         {
-            currentTime -= valueDownTime;
+            currentTime -= totalValueDownTime;
             value -= maxValue * 0.01f;
             this.value = Mathf.Max(value, 0f);
            OnChangeValue();
@@ -106,6 +105,12 @@ public class HungerStat : SurvivalStatBehaviour
                 OnStopPenalty();
             }
         }
+    }
+
+    public void OnSetHungerSkillValue(float value)
+    {
+        hungerSkillValue = value;
+        totalValueDownTime = valueDownTime + hungerSkillValue;
     }
 
     public override void OnStartPenalty()

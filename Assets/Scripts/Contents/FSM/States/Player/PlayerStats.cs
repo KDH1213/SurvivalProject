@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -136,8 +137,10 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                 currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
                 break;
             case LifeSkillType.Hungur:
+                GetComponent<HungerStat>().OnSetHungerSkillValue(lifeStat.Hungur);
                 break;
             case LifeSkillType.Thirst:
+                GetComponent<ThirstStat>().OnSetThirstSkillValue(lifeStat.Thirst);
                 break;
             case LifeSkillType.End:
                 break;
