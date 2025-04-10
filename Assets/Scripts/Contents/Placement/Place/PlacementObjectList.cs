@@ -1,9 +1,7 @@
 using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
 
 public enum StructureKind
 {
@@ -13,7 +11,6 @@ public enum StructureKind
 
 }
 
-[CreateAssetMenu(fileName = "Placement", menuName = "Placement/PlacementObjectData")]
 public class PlacementObjectList
 {
     private readonly string prefabPathFormat = "Prefabs/Placement/Structure/{0}/{1}";
