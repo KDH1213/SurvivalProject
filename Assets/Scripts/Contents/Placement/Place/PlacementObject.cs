@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlacementObject : MonoBehaviour, IAttackable, ISaveLoadData
+public abstract class PlacementObject : MonoBehaviour, ISaveLoadData
 {
     public PlacementData PlacementData { get; set; }
     public Vector3Int Position { get; set; }
@@ -14,11 +14,6 @@ public abstract class PlacementObject : MonoBehaviour, IAttackable, ISaveLoadDat
     public float Hp { get; set; }
     public abstract void Instruct();
     public abstract void SetData();
-
-    public void OnAttack(GameObject attacker, DamageInfo damageInfo)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public virtual void Save()
     {

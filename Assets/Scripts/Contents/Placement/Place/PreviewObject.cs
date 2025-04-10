@@ -49,6 +49,7 @@ public class PlacementPreview : MonoBehaviour
         cellIndicator.SetActive(true);
         placementUI.OnShowPlaceUI(true);
         IsPreview = true;
+        inputManager.OnClickPlace += PlacePreview;
     }
 
     private void PrepareCursor(Vector2Int size)
@@ -83,6 +84,7 @@ public class PlacementPreview : MonoBehaviour
         cellIndicator.SetActive(false);
         IsPreview = false;
         placementUI.OnShowPlaceUI(false);
+        inputManager.OnClickPlace -= PlacePreview;
     }
 
     public void StopShowingPreviewToButton()
@@ -132,12 +134,14 @@ public class PlacementPreview : MonoBehaviour
     }
     private void MovePreview(Vector3 position)
     {
+        Debug.Log(position);
         PreviewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
     }
 
     // 첫 오브젝트 이동
     private void PlacePreview()
     {
+        inputManager.UpdatePosition();
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = placementSystem.GetGrid.WorldToCell(mousePosition);
 

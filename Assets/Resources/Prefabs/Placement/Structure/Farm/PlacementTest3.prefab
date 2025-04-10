@@ -167,6 +167,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7144585907114464163}
+    - targetCorrespondingSourceObject: {fileID: 9079157881097189105, guid: 6c65ae9ed485954449beada8232f95d5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9119976573803269631}
   m_SourcePrefab: {fileID: 100100000, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
 --- !u!1 &1210681260940698177 stripped
 GameObject:
@@ -211,7 +215,24 @@ MonoBehaviour:
   currentTime: 0
   kind: Stone
   outPut: 0
-  testOutPut: 0
+  maxOutPut: 0
+  outPutValue: 0
+--- !u!208 &9119976573803269631
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210681260940698177}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.5, y: 4, z: 6}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 4, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &1983524051618363643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8553590586539256907, guid: 6c65ae9ed485954449beada8232f95d5,
