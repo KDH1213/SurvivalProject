@@ -39,8 +39,11 @@ public class PlacementUIController : MonoBehaviour
     private void Awake()
     {
         placementSystem = GetComponent<PlacementSystem>();
+    }
+
+    private void Start()
+    {
         //dataBase = placementSystem.Database;
-        
     }
 
     private void Update()
