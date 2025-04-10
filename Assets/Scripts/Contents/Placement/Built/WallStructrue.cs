@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class WallStructrue : PlacementObject
 {
-    public override void Instruct()
-    {
-        throw new System.NotImplementedException();
-    }
 
     public override void SetData()
     {

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class PlacementObject : MonoBehaviour, ISaveLoadData
+public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteractable
 {
     public PlacementData PlacementData { get; set; }
     public Vector3Int Position { get; set; }
@@ -12,7 +13,13 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData
     public int Level { get; set; } = 1;
     public int ID { get; set; }
     public float Hp { get; set; }
-    public abstract void Instruct();
+
+    public InteractType InteractType => InteractType.Placement;
+
+    public bool IsInteractable => true;
+
+    public UnityEvent<GameObject> OnEndInteractEvent => throw new System.NotImplementedException();
+
     public abstract void SetData();
 
     public virtual void Save()
@@ -32,6 +39,13 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData
 
     public virtual void Load()
     {
+    }
+
+    public void Interact(GameObject interactor)
+    {
+        DropItemInfo itemInfo = new DropItemInfo();
+        //itemInfo.amount = 
+        //interactor.GetComponent<PlayerFSM>().PlayerInventory.AddItem(DropItemInfo)
     }
 }
 

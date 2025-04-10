@@ -8,5 +8,6 @@ public enum InteractType
     Bush,
     Box,
     Monster,
+    Placement,
     End
 }

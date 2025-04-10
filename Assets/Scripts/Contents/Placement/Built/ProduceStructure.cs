@@ -41,11 +41,6 @@ public class ProduceStructure : PlacementObject
         }
     }
 
-    public override void Instruct()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override void SetData()
     {
         FarmTable.Data data = DataTableManager.FarmTable.Get(ID);

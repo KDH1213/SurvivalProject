@@ -22,6 +22,7 @@ public class PlacementObjectList
     {
         SetFarmObject();
         SetTurretObject();
+        SetOtherObject();
     }
 
     private void SetFarmObject()
@@ -48,17 +49,14 @@ public class PlacementObjectList
             objInfo.Name = data.Value.buildingNameID.ToString();
             objInfo.DefaultHp = construction.buildingHP;
             string prefab = "";
-            string sprite = "";
 
             if (data.Value.category == 1)
             {
                 prefab = "PlacementTest";
-                sprite = "AccesoryPack_01_F";
             }
             else
             {
                 prefab = "PlacementTest3";
-                sprite = "AccesoryPack_03_F";
             }
 
 
@@ -75,7 +73,7 @@ public class PlacementObjectList
 
 
             objInfo.Icon = Resources.Load<Sprite>
-                (string.Format(spritePathFormat, objInfo.Kind.ToString(), sprite));
+                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.buildingIcon));
             //objInfo.Feature = 
 
             objects.Add(objInfo);
@@ -107,17 +105,14 @@ public class PlacementObjectList
             objInfo.Name = data.Value.buildingNameID.ToString();
             objInfo.DefaultHp = construction.buildingHP;
             string prefab = "";
-            string sprite = "";
 
             if (data.Value.category == 1)
             {
                 prefab = "PlacementTest 1";
-                sprite = "AccesoryPack_05_F";
             }
             else
             {
                 prefab = "PlacementTest Lv2";
-                sprite = "AccesoryPack_06_F";
             }
 
 
@@ -134,7 +129,63 @@ public class PlacementObjectList
 
 
             objInfo.Icon = Resources.Load<Sprite>
-                (string.Format(spritePathFormat, objInfo.Kind.ToString(), sprite));
+                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.buildingIcon));
+            //objInfo.Feature = 
+
+            objects.Add(objInfo);
+
+        }
+    }
+
+    private void SetOtherObject()
+    {
+        var allData = DataTableManager.OtherTable.GetAll();
+        foreach (var data in allData)
+        {
+            PlacementObjectInfo objInfo = new PlacementObjectInfo();
+            objInfo.ID = data.Value.buildingID;
+            var construction = DataTableManager.ConstructionTable.Get(objInfo.ID);
+
+            objInfo.MaxBuildCount = Random.Range(1, 11);
+            string[] xy = construction.lengthXY.Split('_');
+            if (int.TryParse(xy[0], out int x) && int.TryParse(xy[1], out int y))
+            {
+                objInfo.Size = new Vector2Int(x, y);
+            }
+            else
+            {
+                Debug.LogError("잘못된 데이터!");
+            }
+
+            objInfo.Kind = (StructureKind)construction.category;
+            objInfo.Name = data.Value.buildingNameID.ToString();
+            objInfo.DefaultHp = construction.buildingHP;
+            string prefab = "";
+
+            if (data.Value.category == 1)
+            {
+                prefab = "FencePrefab1";
+            }
+            else
+            {
+                prefab = "FencePrefab2";
+            }
+
+
+
+            objInfo.Prefeb = Resources.Load<GameObject>
+                (string.Format(prefabPathFormat, objInfo.Kind.ToString(), prefab));
+
+            string[] needItemKeys = construction.buildCostID.Split('_');
+            string[] needItemValues = construction.buildCostValue.Split('_');
+            for (int i = 0; i < needItemKeys.Length; i++)
+            {
+                objInfo.NeedItems.Add(needItemKeys[i], int.Parse(needItemValues[i]));
+            }
+
+
+            objInfo.Icon = Resources.Load<Sprite>
+                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.buildingIcon));
             //objInfo.Feature = 
 
             objects.Add(objInfo);

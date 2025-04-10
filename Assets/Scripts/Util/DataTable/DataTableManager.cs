@@ -52,6 +52,11 @@ public static class DataTableManager
         string idTurret = PlacementTableIds.TurretTable;
         tableTurret.Load(idTurret);
         tables.Add(idTurret, tableTurret);
+
+        var tableOther = new OtherTable();
+        string idOther = PlacementTableIds.OtherTable;
+        tableOther.Load(idOther);
+        tables.Add(idOther, tableOther);
     }
 
 
@@ -105,5 +110,9 @@ public static class DataTableManager
     public static TurretTable TurretTable
     {
         get { return Get<TurretTable>(PlacementTableIds.TurretTable); }
+    }
+    public static OtherTable OtherTable
+    {
+        get { return Get<OtherTable>(PlacementTableIds.OtherTable); }
     }
 }
