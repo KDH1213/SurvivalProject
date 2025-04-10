@@ -36,8 +36,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         inputManager = GetComponent<PlacementInput>();
         placementMode = GetComponent<PlacementMode>();
         placementUI = GetComponent<PlacementUIController>();
-        GetGrid = grid;
-        gridData = new GridData(new Vector2Int(18,18));
+        GetGrid = grid; 
+        gridData = new GridData(new Vector2Int(20, 20));
         grid.cellSize = Vector3.one * 10 / gridCellCount;
 
         Database = new PlacementObjectList();
