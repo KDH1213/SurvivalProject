@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
 {
@@ -20,6 +21,7 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
     // private MonsterData monsterData;
     protected Coroutine spawnCoroutine;
 
+    public UnityAction<MonsterSpawner> onDestroySpawnerEvent;
     //public virtual void SetMonsterWaveData(WaveData monsterSpawnInfo)
     //{
     //    waveData = monsterSpawnInfo;
@@ -125,4 +127,9 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
         ++currentSpawnCount;
     }
 
+    public void OnDestroySpawnerEvent()
+    {
+        StopSpawn();
+        onDestroySpawnerEvent?.Invoke(this);
+    }
 }

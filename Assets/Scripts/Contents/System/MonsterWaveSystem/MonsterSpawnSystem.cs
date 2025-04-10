@@ -36,6 +36,14 @@ public class MonsterSpawnSystem : MonoBehaviour
 
     private readonly string timerFormat = "남은 시간 : {0:F}";
 
+    private void Awake()
+    {
+        foreach (var monsterSpawner in monsterSpawnerList)
+        {
+            monsterSpawner.onDestroySpawnerEvent += OnDestroySpawner;
+        }
+    }
+
     private void Start()
     {
         //StartSpawn();
@@ -96,6 +104,18 @@ public class MonsterSpawnSystem : MonoBehaviour
             ++currentWaveLevel;
             currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
             waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
+        }
+    }
+
+    public void OnDestroySpawner(MonsterSpawner monsterSpawner)
+    {
+        monsterSpawnerList.Remove(monsterSpawner);
+
+        if(monsterSpawnerList.Count == 0)
+        {
+            isActive = false;
+            enabled = false;
+            wavePanel.SetActive(false);
         }
     }
 }
