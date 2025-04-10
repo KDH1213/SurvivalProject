@@ -33,18 +33,20 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         {
             for (int i = 0; i < equipmentSockets.Length; ++i)
             {
-                equipmentSockets[i].InitializeSocket((EquipmentType)i, null);
+                equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);
                 equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
                 equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
                 equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
             }
         }
+        else
+        {
+            Load();
+        }
     }
 
     private void Start()
     {
-        Load();
-
         var statTable = playerStats.CurrentStatTable;
         statTable[StatType.BasicAttackPower].OnChangeValueAction((value) => attackPowerText.text = value.ToString());
         statTable[StatType.AttackSpeed].OnChangeValueAction((value) => attackSpeedText.text = value.ToString());
@@ -57,9 +59,9 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         statTable[StatType.Defense].OnActionChangeValue();
     }
 
-    public void OnEquipment(ItemType itemType, ItemData itemData)
+    public void OnEquipment(ItemType itemType, ItemData itemData, int amount)
     {
-        equipmentSockets[(int)itemType].OnEquipment((EquipmentType)itemType, itemData);
+        equipmentSockets[(int)itemType].OnEquipment((EquipmentType)itemType, itemData, amount);
         playerStats.OnEquipmentItem(itemData);
     }
 
@@ -71,7 +73,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         }
 
         DropItemInfo dropItemInfo = new DropItemInfo();
-        dropItemInfo.amount = 1;
+        dropItemInfo.amount = equipmentSockets[seleteSocket].Amount;
         dropItemInfo.ItemName = equipmentSockets[seleteSocket].ItemData.ItemName;
         dropItemInfo.id = equipmentSockets[seleteSocket].ItemData.ID;
         dropItemInfo.itemData = equipmentSockets[seleteSocket].ItemData;
@@ -90,10 +92,14 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         itemInfoView.OnSetItemInfo(equipmentSockets[seleteSocket].ItemData);
     }
 
-    public void OnChangeEquipment(EquipmentType equipmentType)
+    public void OnChangeEquipment(EquipmentType equipmentType, int amount)
     {
-        playerStats.OnUnEquipmentItem(equipmentSockets[(int)equipmentType].ItemData);
-        inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData); 
+        if(equipmentType != EquipmentType.Consumable)
+        {
+            playerStats.OnUnEquipmentItem(equipmentSockets[(int)equipmentType].ItemData);
+        }
+
+        inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData, amount); 
         itemInfoView.OnSetItemInfo(null);
         // equipmentSockets[seleteSocket].
     }
@@ -107,12 +113,21 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         {
             if (equipmentItemList[i] == -1)
             {
+                equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);
                 continue;
             }
 
             // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
             var itemData = DataTableManager.ItemTable.Get(equipmentItemList[i]);
-            equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData);
+            if((EquipmentType)i == EquipmentType.Consumable)
+            {
+                equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, SaveLoadManager.Data.equipmentConsumableCount);
+            }
+            else
+            {
+                equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, 1);
+            }
+
             equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
             equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
             equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
@@ -133,6 +148,11 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             {
                 SaveLoadManager.Data.equipmentItemIDList.Add(equipmentSockets[i].ItemData.ID);
             }
+        }
+
+        if (equipmentSockets[(int)EquipmentType.Consumable].ItemData != null)
+        {
+            SaveLoadManager.Data.equipmentConsumableCount = equipmentSockets[(int)EquipmentType.Consumable].Amount;
         }
     }
 

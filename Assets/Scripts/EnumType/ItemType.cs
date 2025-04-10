@@ -20,7 +20,6 @@ public enum EquipmentType
     Shoes,      // 신발
     Weapon,     // 무기
     Consumable, // 소모품
-    Material,    // 재료
     None
 }
 

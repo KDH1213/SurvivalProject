@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -16,8 +17,11 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     [SerializeField]
     private Slider durabilitySlider;
 
+    [SerializeField]
+    private TextMeshProUGUI amountText;
+
     public ItemData ItemData { get; private set; }
-    public ItemInfo ItemInfo { get; private set; }
+    public int Amount { get; private set; }
 
     private float prevClickTime;
     private float clickTime;
@@ -26,46 +30,56 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public UnityEvent onEquipEvent;
     public UnityEvent onUnEquipEvent;
     public UnityEvent<EquipmentType> onClickEvent;
-    public UnityEvent<EquipmentType> onChangeEquipEvent;
+    public UnityEvent<EquipmentType, int> onChangeEquipEvent;
 
-    public void InitializeSocket(EquipmentType equipmentType, ItemData itemData)
+
+    public void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount)
     {
         this.equipmentType = equipmentType;
-        OnEquipment(equipmentType, itemData);
+        OnEquipment(equipmentType, itemData, amount);
     }
 
-    public void OnEquipment(EquipmentType equipmentType, ItemData itemData)
+    public void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount)
     {
         if(ItemData != null)
         {
-            ChangeEquipment(itemData);
+            ChangeEquipment(itemData, amount);
         }
         else
         {
-            Equiment(itemData);
+            Equiment(itemData, amount);
         }
     }
 
-    private void Equiment(ItemData itemData)
+    private void Equiment(ItemData itemData, int amount)
     {
         this.ItemData = itemData;
+        this.Amount = amount;
 
         if (ItemData != null)
         {
             itemIcon.sprite = itemData.ItemImage;
             itemIcon.color = new Color(1, 1, 1, 1);
             durabilitySlider.gameObject.SetActive(true);
+
+            if(EquipmentType.Consumable == equipmentType)
+            {
+                durabilitySlider.gameObject.SetActive(false);
+                amountText.text = amount.ToString();
+                amountText.gameObject.SetActive(true);
+            }
         }
         else
         {
             itemIcon.color = new Color(1, 1, 1, 0);
             durabilitySlider.gameObject.SetActive(false);
+            amountText.gameObject.SetActive(false);
         }
     }
-    private void ChangeEquipment(ItemData itemData)
+    private void ChangeEquipment(ItemData itemData, int amount)
     {
-        onChangeEquipEvent?.Invoke(equipmentType);
-        Equiment(itemData);
+        onChangeEquipEvent?.Invoke(equipmentType, amount);
+        Equiment(itemData, amount);
     }
 
     public void OnUnEquipment()
@@ -80,6 +94,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
         itemIcon.color = new Color(1, 1, 1, 0);
         durabilitySlider.gameObject.SetActive(false);
+        amountText.gameObject.SetActive(false);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

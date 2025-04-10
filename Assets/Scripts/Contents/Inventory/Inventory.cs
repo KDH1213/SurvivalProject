@@ -192,7 +192,21 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             }
 
         }
+        var Item = DataTableManager.ItemTable.Get(1202001);
 
+        var testInfo = new DropItemInfo();
+        testInfo.amount = 10;
+        testInfo.ItemName = Item.ItemName;
+        testInfo.itemData = Item;
+        AddItem(testInfo);
+
+        Item = DataTableManager.ItemTable.Get(1202002);
+
+        testInfo = new DropItemInfo();
+        testInfo.amount = 10;
+        testInfo.ItemName = Item.ItemName;
+        testInfo.itemData = Item;
+        AddItem(testInfo);
         equipmentSocketView.Initialize();
     }
 
@@ -214,7 +228,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnUseItem()
     {
-        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Material)
+        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Consumable)
         {
             return;
         }
@@ -230,13 +244,14 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         }
 
         var equipItemData = itemInfos[SelectedSlotIndex].itemData;
-        UseItem();
-        equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData);
+        int amount = itemInfos[SelectedSlotIndex].Amount;
+        EquipItem();
+        equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData, amount);
     }
 
     private void EquipItem()
     {
-        itemInfos[SelectedSlotIndex].Amount -= 1;
+        itemInfos[SelectedSlotIndex].Amount = 0;
 
         if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
         {
@@ -388,10 +403,10 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         return useSlotCount == maxSlot;
     }
 
-    public void OnChangeEquimentItem(ItemData itemData)
+    public void OnChangeEquimentItem(ItemData itemData, int amount)
     {
         var unEquimentInfo = new DropItemInfo();
-        unEquimentInfo.amount = 1;
+        unEquimentInfo.amount = amount;
         unEquimentInfo.id = itemData.ID;
         unEquimentInfo.itemData = itemData;
         unEquimentInfo.ItemName = itemData.ItemName;

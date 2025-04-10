@@ -16,6 +16,7 @@ public class SaveDataV1 : SaveData
     public List<ItemInfoSaveData> ItemSlotInfoSaveDataList = new List<ItemInfoSaveData>();
 
     public List<int> equipmentItemIDList = new List<int>();
+    public int equipmentConsumableCount = 1;
     public List<int> skillUiViewSeleteList = new List<int>();
 
     public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
