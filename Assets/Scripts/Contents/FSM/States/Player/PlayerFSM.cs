@@ -222,6 +222,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         {
             transform.position = SaveLoadManager.Data.playerSaveInfo.position;
         }
+
+        PlayerInventory.Initialize();
     }
 
     public void SetAttackStat()

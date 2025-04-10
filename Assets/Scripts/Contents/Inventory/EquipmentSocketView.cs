@@ -27,9 +27,9 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     private int seleteSocket = -1;
 
-    private void Awake()
+    public void Initialize()
     {
-        if(SaveLoadManager.Data == null || SaveLoadManager.Data.equipmentItemIDList.Count == 0)
+        if (SaveLoadManager.Data == null || SaveLoadManager.Data.equipmentItemIDList.Count == 0)
         {
             for (int i = 0; i < equipmentSockets.Length; ++i)
             {
