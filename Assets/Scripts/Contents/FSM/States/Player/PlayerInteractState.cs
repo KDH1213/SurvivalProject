@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerInteractState : PlayerBaseState
 {
@@ -32,10 +33,22 @@ public class PlayerInteractState : PlayerBaseState
         if(target != null)
         {
             // Debug.Log($"Player: Interact {target.name}");
-            target.GetComponent<IInteractable>().Interact(this.gameObject);
+            var IInteractable = target.GetComponent<IInteractable>();
 
+
+            IInteractable.Interact(this.gameObject);
             transform.LookAt(target.transform);
-            target = null;
+
+            if (IInteractable.InteractType <= InteractType.Box)
+            {
+                var IDestructible = target.GetComponent<IDestructible>();
+                if (IDestructible != null)
+                {
+                    IDestructible.OnDestruction(this.gameObject);
+                }
+            }
+
+            target = null;                    
         }
 
     }

@@ -1600,6 +1600,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6879823483148415920}
+    - targetCorrespondingSourceObject: {fileID: 100006, guid: 9c09c78ed1209974db369788b8305a24,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3574489166902170012}
   m_SourcePrefab: {fileID: 100100000, guid: 9c09c78ed1209974db369788b8305a24, type: 3}
 --- !u!95 &5272701081797501969 stripped
 Animator:
@@ -1649,7 +1653,6 @@ MonoBehaviour:
   <MonsterData>k__BackingField: {fileID: 11400000, guid: 33228d193f2ee44439ed283ee4ce126e,
     type: 2}
   <AttackPoint>k__BackingField: {fileID: 5933162592300425331}
-  firstPosition: {x: 0, y: 0, z: 0}
   onEndInteractEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1971,6 +1974,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842da80347778f84ca1ef8ab5b2348b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3574489166902170012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272701081804789719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdfd117ef838a98418aefc5616f9b80e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 1
+  id: 1201003
 --- !u!4 &5272701081804950519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: 9c09c78ed1209974db369788b8305a24,
