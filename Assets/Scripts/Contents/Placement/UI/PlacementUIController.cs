@@ -41,6 +41,10 @@ public class PlacementUIController : MonoBehaviour
     private void Awake()
     {
         placementSystem = GetComponent<PlacementSystem>();
+    }
+
+    private void Start()
+    {
         dataBase = placementSystem.Database;
     }
 
@@ -100,6 +104,11 @@ public class PlacementUIController : MonoBehaviour
     {
         if (Objectcontents.Count <= 0)
         {
+            //if(dataBase == null)
+            //{
+            //    dataBase = placementSystem.Database;
+            //}
+
             foreach (var data in dataBase.objects)
             {
                 PlacementUIObjectInfo uiObjInfo = Instantiate(ObjectContentPrefeb, Objectcontent.transform);

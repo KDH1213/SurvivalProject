@@ -114,7 +114,7 @@ public class PlacementCameraSystem : MonoBehaviour
     // todo : 배치 시스템 화면 드래그 시 작업
     public void OnDragMouse(InputAction.CallbackContext value)
     {
-        if(inputManager.IsPointerOverUi)
+        if(inputManager == null && inputManager.IsPointerOverUi)
         {
             return;
         }

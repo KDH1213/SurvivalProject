@@ -49,6 +49,8 @@ public class ItemInfoView : MonoBehaviour
                 SetConsumableInfo(itemData);
                 break;
             case ItemType.Material:
+                itemStatsText.text = string.Empty;
+                break;
             default:
                 break;
         }
@@ -63,16 +65,19 @@ public class ItemInfoView : MonoBehaviour
 
     private void SetArmorInfo(ItemData itemData)
     {
-        // itemStatsText.text = string.Format(armorFormat, itemData.Defense, itemData.MoveSpeed);
+        var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
+        itemStatsText.text = string.Format(armorFormat, armorData.defance.ToString(), armorData.moveSpeed.ToString());
     }
 
     private void SetWeaponInfo(ItemData itemData)
     {
-        // itemStatsText.text = string.Format(weaponFormat, itemData.Attack, itemData.AttackSpeed);
+        var weaponData = DataTableManager.WeaponTable.Get(itemData.ID);
+        itemStatsText.text = string.Format(weaponFormat, weaponData.attack.ToString(), weaponData.attackSpeed.ToString());
     }
 
     private void SetConsumableInfo(ItemData itemData)
     {
+        // "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
         itemStatsText.text = string.Format(consumableFormat, "0", "0", "0", "0");
     }
 }
