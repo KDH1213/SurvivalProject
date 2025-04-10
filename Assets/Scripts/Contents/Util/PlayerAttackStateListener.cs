@@ -8,7 +8,7 @@ public class PlayerAttackStateListener : StateMachineBehaviour
 
     //public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //   if(stateInfo.normalizedTime >= 1f)
+    //    if (stateInfo.normalizedTime >= 0.9f)
     //    {
     //        if (playerAnimationEventListener == null)
     //        {

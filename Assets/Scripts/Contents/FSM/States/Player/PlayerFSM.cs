@@ -26,8 +26,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
     public bool UseMove { get; private set; }
 
-    public bool CanAttack { get; private set; }
-
     public bool IsAttack { get; private set; }
 
     public Vector2 MoveValue { get; private set; }
@@ -55,7 +53,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
             stageManager.GetComponent<StageManager>().onSaveEvent += Save;
         }
 
-        SetCanAttack(true);
         OnSetUseMove(true);
         OnEndAttack();
 
@@ -83,8 +80,9 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     // TODO :: TestPlayer -> PlayerInputHandler -> On Attack Event¿¡ ¿¬°á
     public void OnInputAttack()
     {
-        if (CanAttack)
+        if (!IsAttack)
         {
+            IsAttack = true;
             ChangeState(PlayerStateType.Attack);
         }
     }
@@ -108,11 +106,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public void OnSetIsPlayerInRange(bool value)
     {
         IsPlayerInRange = value;
-    }
-
-    public void SetCanAttack(bool value)
-    {
-        CanAttack = value;
     }
 
     public void OnSetUseMove(bool value)

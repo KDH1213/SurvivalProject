@@ -19,25 +19,23 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Enter()
     {
-        PlayerFSM.SetCanAttack(false);
-        playerFSM.Animator.SetTrigger(AnimationHashCode.hashAttack);
         playerFSM.Animator.SetBool(AnimationHashCode.hashCanMove, false);
+        playerFSM.Animator.SetTrigger(AnimationHashCode.hashAttack);
         playerFSM.Animator.speed = PlayerStats.AttackSpeed;
         isChangeMove = true;
     }
 
     public override void ExecuteUpdate()
     {
-        if (isChangeMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
-        {
-            PlayerFSM.ChangeState(PlayerStateType.Move);
-        }
+        //if (isChangeMove && PlayerFSM.MoveValue.sqrMagnitude > 0f)
+        //{
+        //    PlayerFSM.ChangeState(PlayerStateType.Move);
+        //}
     }
 
     public override void Exit()
     {
-        playerFSM.Animator.SetBool(AnimationHashCode.hashCanMove, true);
-        PlayerFSM.SetCanAttack(true);
+        playerFSM.OnEndAttack();
         playerFSM.Animator.speed = 1f;
         playerFSM.Animator.ResetTrigger(AnimationHashCode.hashAttack);
         // PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
@@ -48,7 +46,6 @@ public class PlayerAttackState : PlayerBaseState
     {
         if (playerFSM.CurrentStateType == PlayerStateType.Attack)
         {
-            playerFSM.OnEndAttack();
             playerFSM.ChangeState(PlayerStateType.Idle);
         }
     }

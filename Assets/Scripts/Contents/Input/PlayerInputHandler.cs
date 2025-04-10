@@ -75,7 +75,7 @@ public class PlayerInputHandler : MonoBehaviour
             return;
         }
 
-        if (playerFSM.CanAttack && context.phase == InputActionPhase.Performed)
+        if (context.started)
         {
             onAttackEvent?.Invoke();
         }
