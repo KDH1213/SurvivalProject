@@ -13,7 +13,11 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     [SerializeField]
     private Image itemIcon;
 
+    [SerializeField]
+    private Slider durabilitySlider;
+
     public ItemData ItemData { get; private set; }
+    public ItemInfo ItemInfo { get; private set; }
 
     private float prevClickTime;
     private float clickTime;
@@ -50,10 +54,12 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         {
             itemIcon.sprite = itemData.ItemImage;
             itemIcon.color = new Color(1, 1, 1, 1);
+            durabilitySlider.gameObject.SetActive(true);
         }
         else
         {
             itemIcon.color = new Color(1, 1, 1, 0);
+            durabilitySlider.gameObject.SetActive(false);
         }
     }
     private void ChangeEquipment(ItemData itemData)
@@ -73,7 +79,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         ItemData = null;
 
         itemIcon.color = new Color(1, 1, 1, 0);
-
+        durabilitySlider.gameObject.SetActive(false);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

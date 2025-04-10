@@ -213,7 +213,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnUseItem()
     {
-        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Consumable)
+        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Material)
         {
             return;
         }
@@ -223,7 +223,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnEquip()
     {
-        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Consumable)
+        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Material)
         {
             return;
         }
@@ -231,6 +231,22 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         var equipItemData = itemInfos[SelectedSlotIndex].itemData;
         UseItem();
         equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData);
+    }
+
+    private void EquipItem()
+    {
+        itemInfos[SelectedSlotIndex].Amount -= 1;
+
+        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
+        {
+            itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
+        }
+
+        itemInfoView.OnSetItemInfo(null);
+        itemInfos[SelectedSlotIndex].Empty();
+        --useSlotCount;
+
+        UpdateSlot(SelectedSlotIndex);
     }
 
     private void UseItem()

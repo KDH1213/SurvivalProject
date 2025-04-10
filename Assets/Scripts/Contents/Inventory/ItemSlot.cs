@@ -10,6 +10,9 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private Image image;
 
     [SerializeField]
+    private Slider durabilitySlider;
+
+    [SerializeField]
     private GameObject textGameObject;
 
     [SerializeField]
@@ -41,13 +44,25 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         {
             image.sprite = ItemData.ItemImage;
             image.color = new Color(1, 1, 1, 1);
-            amountText.text = string.Format(amountFormat, ItemInfo.Amount);
-            textGameObject.SetActive(true);
+
+            if(ItemData.ItemType >= ItemType.Consumable)
+            {
+                amountText.text = string.Format(amountFormat, ItemInfo.Amount);
+                textGameObject.SetActive(true);
+                durabilitySlider.gameObject.SetActive(false);
+            }
+            else
+            {
+                durabilitySlider.gameObject.SetActive(true);
+                textGameObject.SetActive(false);
+            }
+            
         }
         else
         {
             image.color = new Color(1, 1, 1, 0);
             textGameObject.SetActive(false);
+            durabilitySlider.gameObject.SetActive(false);
         }
     }
 
