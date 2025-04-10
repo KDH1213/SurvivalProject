@@ -1,15 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class MonsterSpawnSystem : MonoBehaviour
+public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 {
     //[SerializeField]
     //private MonsterManager monsterManager;
-    [SerializeField] 
+
+    [SerializeField]
     private List<MonsterSpawner> monsterSpawnerList;
+    private List<MonsterSpawner> monsterActiveSpawnerList = new List<MonsterSpawner>();
     // private List<WaveData> waveDataList = new List<WaveData>();
 
     [SerializeField]
@@ -29,7 +29,6 @@ public class MonsterSpawnSystem : MonoBehaviour
     private int currentWaveLevel = 0;
     public int CurrentWaveLevel { get  { return currentWaveLevel; } }
 
-    private int bossMonsterCount = 0;
     private bool isActive = false;
 
     private Coroutine coSpawn;
@@ -38,9 +37,21 @@ public class MonsterSpawnSystem : MonoBehaviour
 
     private void Awake()
     {
-        foreach (var monsterSpawner in monsterSpawnerList)
+        for (int i = 0; i < monsterSpawnerList.Count; ++i)
         {
-            monsterSpawner.onDestroySpawnerEvent += OnDestroySpawner;
+            monsterSpawnerList[i].onDestroySpawnerEvent += OnDestroySpawner;
+            monsterActiveSpawnerList.Add(monsterSpawnerList[i]);
+        }
+
+        if (SaveLoadManager.Data != null)
+        {
+            Load();
+        }
+
+        var stageManager = GameObject.FindGameObjectWithTag("StageManager");
+        if (stageManager != null)
+        {
+            stageManager.GetComponent<StageManager>().onSaveEvent += Save;
         }
     }
 
@@ -77,7 +88,7 @@ public class MonsterSpawnSystem : MonoBehaviour
             return;
         }
 
-        foreach (var spawner in monsterSpawnerList)
+        foreach (var spawner in monsterActiveSpawnerList)
         {
             spawner.SetMonsterWaveData(monsterWaveDatas[currentWaveLevel]);
             spawner.StartSpawn();
@@ -87,7 +98,7 @@ public class MonsterSpawnSystem : MonoBehaviour
 
     public void StopSpawn()
     {
-        foreach (var spawner in monsterSpawnerList)
+        foreach (var spawner in monsterActiveSpawnerList)
         {
             spawner.StopSpawn();
         }
@@ -109,13 +120,44 @@ public class MonsterSpawnSystem : MonoBehaviour
 
     public void OnDestroySpawner(MonsterSpawner monsterSpawner)
     {
-        monsterSpawnerList.Remove(monsterSpawner);
+        monsterActiveSpawnerList.Remove(monsterSpawner);
 
-        if(monsterSpawnerList.Count == 0)
+        if(monsterActiveSpawnerList.Count == 0)
         {
             isActive = false;
             enabled = false;
             wavePanel.SetActive(false);
         }
+    }
+
+    public void Save()
+    {
+        var monsterWaveSaveInfo = SaveLoadManager.Data.monsterWaveSaveInfo;
+
+        monsterWaveSaveInfo.activeSpawners = new bool[monsterSpawnerList.Count];
+        monsterWaveSaveInfo.waveTime = waveTime - Time.time;
+        monsterWaveSaveInfo.waveLevel = currentWaveLevel;
+
+        for (int i = 0; i < monsterSpawnerList.Count; ++i)
+        {
+            monsterWaveSaveInfo.activeSpawners[i] = monsterSpawnerList[i].gameObject.activeSelf;
+        }
+    }
+
+    public void Load()
+    {
+        var monsterWaveSaveInfo = SaveLoadManager.Data.monsterWaveSaveInfo;
+
+        for (int i = 0; i < monsterWaveSaveInfo.activeSpawners.Length; ++i)
+        {
+            if (!monsterWaveSaveInfo.activeSpawners[i])
+            {
+                monsterSpawnerList[i].gameObject.SetActive(false);
+                monsterSpawnerList[i].OnDestroySpawnerEvent();
+            }
+        }
+
+        waveTime =  monsterWaveSaveInfo.waveTime + Time.time;
+        currentWaveLevel = monsterWaveSaveInfo.waveLevel;
     }
 }

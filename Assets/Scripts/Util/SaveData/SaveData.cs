@@ -18,6 +18,8 @@ public class SaveDataV1 : SaveData
     public List<int> equipmentItemIDList = new List<int>();
     public List<int> skillUiViewSeleteList = new List<int>();
 
+    public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
+
     public LevelStatInfo levelStatInfo = new LevelStatInfo();
     public PlayerSaveInfo playerSaveInfo = new PlayerSaveInfo();
     public System.DateTime gameTime = new System.DateTime();
