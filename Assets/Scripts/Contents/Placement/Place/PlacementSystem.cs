@@ -49,7 +49,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             stageManager.GetComponent<StageManager>().onSaveEvent += Save;
         }
 
-        if (SaveLoadManager.Load(1))
+        if (SaveLoadManager.Data != null)
         {
             Load();
         }
@@ -236,6 +236,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
+        if(SelectedObject == null)
+        {
+            return;
+        }
+
         int index = Database.objects.FindIndex(x => x.ID == SelectedObject.PlacementData.ID);
         RemoveStructure(SelectedObject);
         placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, PlacedGameObjects);
@@ -273,10 +278,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
-        if (SaveLoadManager.Data == null)
-        {
-            return;
-        }
+       
 
         var placementSaveInfoList = SaveLoadManager.Data.farmPlacementSaveInfos;
         foreach (var placement in placementSaveInfoList)
@@ -335,10 +337,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     }
 
-    private void OnApplicationQuit()
-    {
-        Save();
+    //private void OnApplicationQuit()
+    //{
+    //    Save();
 
-        SaveLoadManager.Save(1);
-    }
+    //    SaveLoadManager.Save(1);
+    //}
 }
