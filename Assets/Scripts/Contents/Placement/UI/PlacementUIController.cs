@@ -34,7 +34,9 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private ObjectInfoUI objectInfo; // 건설물 정보 UI
     [SerializeField]
-    private UpgradeUI upgradeUI; // 건설물 정보 UI
+    private UpgradeUI upgradeUI; // 업그레이드 UI
+    [SerializeField]
+    private FarmUI farmUI; // 농장 UI
 
     private void Awake()
     {
@@ -172,5 +174,10 @@ public class PlacementUIController : MonoBehaviour
     {
         upgradeUI.gameObject.SetActive(true);
         upgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+    }
+    public void OnOpenFarmInfo(int id, string kind, int outPut, int maxOutPut)
+    {
+        farmUI.gameObject.SetActive(true);
+        farmUI.SetUIInfo(placementSystem, id, kind, outPut, maxOutPut);
     }
 }

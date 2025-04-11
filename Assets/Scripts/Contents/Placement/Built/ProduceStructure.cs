@@ -15,6 +15,7 @@ public class ProduceStructure : PlacementObject
     [SerializeField]
     private int outPutValue;
 
+
     private void Awake()
     {
 
@@ -74,6 +75,13 @@ public class ProduceStructure : PlacementObject
         var data = SaveLoadManager.Data.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
         outPut = data.outPut;
         currentTime = data.createTime + produceTime;
+    }
+
+    public override void Interact(GameObject interactor)
+    {
+        PlacementUIController uIController = system.GetComponent<PlacementUIController>();
+        uIController.OnOpenFarmInfo(ID, kind, outPut, maxOutPut);
+
     }
 
 }

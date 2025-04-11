@@ -13,6 +13,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public int Level { get; set; } = 1;
     public int ID { get; set; }
     public float Hp { get; set; }
+    public PlacementSystem system { get; set; }
 
     public InteractType InteractType => InteractType.Placement;
 
@@ -41,7 +42,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     {
     }
 
-    public void Interact(GameObject interactor)
+    public virtual void Interact(GameObject interactor)
     {
         DropItemInfo itemInfo = new DropItemInfo();
         //itemInfo.amount = 
