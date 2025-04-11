@@ -111,6 +111,9 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < equipmentItemList.Count; ++i)
         {
+            equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
+            equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
+            equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
             if (equipmentItemList[i] == -1)
             {
                 equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);
@@ -127,10 +130,6 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             {
                 equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, 1);
             }
-
-            equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
-            equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
-            equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
         }
     }
 
