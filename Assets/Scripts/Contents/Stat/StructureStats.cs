@@ -12,10 +12,13 @@ public class StructureStats : CharactorStats, ISaveLoadData
 
     protected override void Awake()
     {
+    }
+
+    public void Init()
+    {
         currentStatTable.Clear();
         currentStatTable.Add(StatType.HP, new StatValue(StatType.HP, hp));
     }
-
 
     public void Load()
     {

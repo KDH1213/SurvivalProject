@@ -25,7 +25,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public PlacementInput GetInputManager { get; private set; }
     public Grid GetGrid { get; private set; }
 
-    public PlacementObject SelectedObject; // { get; set; }
+    public PlacementObject SelectedObject { get; set; }
     public List<PlacementObject> PlacedGameObjects { get; private set; } = new List<PlacementObject>();
     private GridData gridData;
 
@@ -247,7 +247,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
-        if(SelectedObject == null)
+        if(SelectedObject == null || !preview.IsPreview)
         {
             return;
         }

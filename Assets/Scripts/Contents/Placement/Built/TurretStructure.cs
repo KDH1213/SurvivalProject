@@ -6,9 +6,11 @@ public class TurretStructure : PlacementObject
     private float attackRange;
     private float attackTerm;
     private GameObject effect;
+    private AttackDefinition atd;
 
     public override void SetData()
     {
-
+        StructureStats stat = GetComponent<StructureStats>();
+        stat.AttackPower = attackRange;
     }
 }
