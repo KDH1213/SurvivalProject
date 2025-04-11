@@ -29,19 +29,30 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public List<PlacementObject> PlacedGameObjects { get; private set; } = new List<PlacementObject>();
     private GridData gridData;
 
+    private bool isInit = false;
+
     private void Awake()
     {
+        if(!isInit)
+        {
+            Initialized();
+        }
+    }
+
+    public void Initialized()
+    {
+        isInit = true;
         SelectedObjectIndex = -1;
         inputManager = GetComponent<PlacementInput>();
         placementMode = GetComponent<PlacementMode>();
         placementUI = GetComponent<PlacementUIController>();
-        GetGrid = grid; 
+        GetGrid = grid;
         gridData = new GridData(new Vector2Int(20, 20));
         grid.cellSize = Vector3.one * 10 / gridCellCount;
 
         Database = new PlacementObjectList();
         Database.SetObjects();
-        
+
         var stageManager = GameObject.FindGameObjectWithTag("StageManager");
         if (stageManager != null)
         {

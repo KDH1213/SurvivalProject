@@ -779,6 +779,21 @@ MonoBehaviour:
   respawnLayerMask:
     serializedVersion: 2
     m_Bits: 1280
+  OnInitializeEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 273784015}
+        m_TargetAssemblyTypeName: PlacementSystem, Assembly-CSharp
+        m_MethodName: Initialized
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &261146467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,6 +1693,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97aabffe5c8638b45b87ac0cd3fc133a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &273784015 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5978757758294878559, guid: 37211cd18d4663f449c0c983cf488f37,
+    type: 3}
+  m_PrefabInstance: {fileID: 273784010}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7872049b5e04c2458bafb06efec2702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &282363854 stripped
@@ -6698,6 +6725,11 @@ PrefabInstance:
       propertyPath: <PlayerInventory>k__BackingField
       value: 
       objectReference: {fileID: 552497856}
+    - target: {fileID: 4766854409604859175, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: interactableTargetLayerMask.m_Bits
+      value: 640
+      objectReference: {fileID: 0}
     - target: {fileID: 4888348775712051221, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: fatigueSlider

@@ -24,6 +24,8 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private LayerMask respawnLayerMask;
 
+    public UnityEvent OnInitializeEvent;
+
     private void Awake()
     {
         var sceneSwitchers = GetComponentsInChildren<SceneSwitcher>();
@@ -51,6 +53,8 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         {
             Load();
         }
+
+        OnInitializeEvent?.Invoke();
     }
 
     public void OnStartRespawn(GameObject target)
