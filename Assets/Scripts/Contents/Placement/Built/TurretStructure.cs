@@ -10,7 +10,6 @@ public class TurretStructure : PlacementObject
 
     public override void SetData()
     {
-        StructureStats stat = GetComponent<StructureStats>();
-        stat.AttackPower = attackRange;
+        
     }
 }
