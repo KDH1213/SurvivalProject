@@ -74,13 +74,13 @@ public class ProduceStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
         outPut = data.outPut;
-        currentTime = data.createTime + produceTime;
+        currentTime = Time.time + data.createTime;
     }
 
     public override void Interact(GameObject interactor)
     {
         PlacementUIController uIController = system.GetComponent<PlacementUIController>();
-        uIController.OnOpenFarmInfo(ID, kind, outPut, maxOutPut);
+        uIController.OnOpenFarmInfo(system, ID, kind, outPut, maxOutPut);
 
     }
 
