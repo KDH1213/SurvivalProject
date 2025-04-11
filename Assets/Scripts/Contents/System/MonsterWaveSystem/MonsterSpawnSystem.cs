@@ -23,7 +23,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private float nextWaveTime;
 
-    private float waveTime;
+    private float waveTime = 0f;
 
     private int activeSpawnerCount;
     private int currentWaveLevel = 0;
@@ -60,7 +60,11 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
         //StartSpawn();
         isActive = false;
         wavePanel.SetActive(true);
-        waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
+
+        if(waveTime == 0f)
+        {
+            waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
+        }
     }
 
     private void Update()
@@ -153,17 +157,16 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        //for (int i = 0; i < monsterWaveSaveInfo.activeSpawners.Length; ++i)
+        //{
+        //    if (!monsterWaveSaveInfo.activeSpawners[i])
+        //    {
+        //        monsterSpawnerList[i].gameObject.SetActive(false);
+        //        monsterSpawnerList[i].OnDestroySpawnerEvent();
+        //    }
+        //}
 
-        for (int i = 0; i < monsterWaveSaveInfo.activeSpawners.Length; ++i)
-        {
-            if (!monsterWaveSaveInfo.activeSpawners[i])
-            {
-                monsterSpawnerList[i].gameObject.SetActive(false);
-                monsterSpawnerList[i].OnDestroySpawnerEvent();
-            }
-        }
-
-        waveTime =  monsterWaveSaveInfo.waveTime + Time.time;
+        waveTime = monsterWaveSaveInfo.waveTime + Time.time;
         currentWaveLevel = monsterWaveSaveInfo.waveLevel;
     }
 }
