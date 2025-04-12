@@ -123,11 +123,12 @@ public class PlacementObjectList
             objInfo.Prefeb = Resources.Load<GameObject>
                 (string.Format(prefabPathFormat, objInfo.Kind.ToString(), prefab));
 
-            /*var table = objInfo.Prefeb.GetComponent<StructureStats>().CurrentStatTable;
+            var table = objInfo.Prefeb.transform.GetChild(0).GetComponent<StructureStats>().CurrentStatTable;
             table.Clear();
             table.Add(StatType.HP, new StatValue(StatType.HP, objInfo.DefaultHp));
             table.Add(StatType.BasicAttackPower, new StatValue(StatType.BasicAttackPower, data.Value.turretAtkPower));
-            table.Add(StatType.AttackSpeed, new StatValue(StatType.AttackSpeed, data.Value.turretAtkSpeed));*/
+            table.Add(StatType.AttackSpeed, new StatValue(StatType.AttackSpeed, data.Value.turretAtkSpeed));
+            table.Add(StatType.AttackRange, new StatValue(StatType.AttackRange, data.Value.turretAtkRange));
 
             string[] needItemKeys = construction.buildCostID.Split('_');
             string[] needItemValues = construction.buildCostValue.Split('_');

@@ -7,6 +7,7 @@ public enum StatType
     MovementSpeed,
     AttackSpeed,
     BasicAttackPower,
+    AttackRange,
     Defense,
     Evasion,
     LifeExperience,

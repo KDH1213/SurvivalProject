@@ -338,6 +338,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.system = this;
+            placementObject.SetData();
             placementObject.Load();
 
             PlacedGameObjects.Add(placementObject);

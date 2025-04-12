@@ -2,28 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Turret.asset", menuName = "Attack/TurretAttack")]
 public class TurretAttack : AttackDefinition
 {
     public GameObject weaponPrefeb;
+    private float curTime;
 
     public override void Execute(GameObject attacker, GameObject defender)
-    {
+    { 
         if (defender == null)
             return;
 
-        var distance = Vector3.Distance(attacker.transform.position, defender.transform.position);
-        if (distance > Range)
-            return;
-
-        Vector3 toTarget = (defender.transform.position - attacker.transform.position).normalized;
-        float dot = Vector3.Dot(attacker.transform.forward, toTarget);
-        if (dot < 0.5f)
-        {
-            return;
-        }
-
         CharactorStats aStats = attacker.GetComponent<CharactorStats>();
         CharactorStats dStats = defender.GetComponent<CharactorStats>();
+
+        var distance = Vector3.Distance(attacker.transform.position, defender.transform.position);
+        if (distance > aStats.CurrentStatTable[StatType.AttackRange].Value)
+            return;
+
         DamageInfo attack = CreateAttack(aStats, dStats);
 
         IAttackable[] attackables = defender.GetComponents<IAttackable>();

@@ -14,6 +14,10 @@ public class DestructedLifeExperience : MonoBehaviour, IDestructible
 
     public void OnDestruction(GameObject attacker)
     {
+        if(attacker.GetComponent<LifeStat>() == null)
+        {
+            return;
+        }
         attacker.GetComponent<LifeStat>().OnAddExperience(experience);
     }
 }
