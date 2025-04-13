@@ -11,6 +11,8 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     [SerializeField]
     private EquipmentType equipmentType;
 
+    public EquipmentType EquipmentType { get { return equipmentType; } }
+
     [SerializeField]
     private Image itemIcon;
 
@@ -18,10 +20,10 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     private Slider durabilitySlider;
 
     [SerializeField]
-    private TextMeshProUGUI amountText;
+    protected TextMeshProUGUI amountText;
 
-    public ItemData ItemData { get; private set; }
-    public int Amount { get; private set; }
+    public ItemData ItemData { get; protected set; }
+    public int Amount { get; protected set; }
 
     private float prevClickTime;
     private float clickTime;
@@ -32,14 +34,16 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public UnityEvent<EquipmentType> onClickEvent;
     public UnityEvent<EquipmentType, int> onChangeEquipEvent;
 
+    public UnityEvent onDragEnter;
+    public UnityEvent<PointerEventData> onDragExit;
 
-    public void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount)
+    public virtual void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount)
     {
         this.equipmentType = equipmentType;
         OnEquipment(equipmentType, itemData, amount);
     }
 
-    public void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount)
+    public virtual void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount)
     {
         if(ItemData != null)
         {
@@ -51,7 +55,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
     }
 
-    private void Equiment(ItemData itemData, int amount)
+    protected void Equiment(ItemData itemData, int amount)
     {
         this.ItemData = itemData;
         this.Amount = amount;
@@ -76,9 +80,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             amountText.gameObject.SetActive(false);
         }
     }
-    private void ChangeEquipment(ItemData itemData, int amount)
+    protected void ChangeEquipment(ItemData itemData, int amount)
     {
-        onChangeEquipEvent?.Invoke(equipmentType, amount);
+        onChangeEquipEvent?.Invoke(equipmentType, Amount);
         Equiment(itemData, amount);
     }
 
@@ -87,7 +91,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         OnEmpty();
     }
 
-    private void OnEmpty()
+    protected void OnEmpty()
     {
         itemIcon.sprite = null;
         ItemData = null;
@@ -99,6 +103,15 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (ItemData == null)
+        {
+            eventData.pointerDrag = null;
+            onDragExit?.Invoke(eventData);
+        }
+        else
+        {
+            onDragEnter?.Invoke();
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -106,6 +119,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        onDragExit?.Invoke(eventData);
     }
 
 

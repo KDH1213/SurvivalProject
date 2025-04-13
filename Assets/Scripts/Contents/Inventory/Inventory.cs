@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     private ItemSlot[] itemSlots = new ItemSlot[maxSlot];
 
     private ItemInfo[] itemInfos = new ItemInfo[maxSlot];
-    private Dictionary<string, List<ItemInfo>> inventoryItemTable = new Dictionary<string, List<ItemInfo>>();
+    private Dictionary<int, List<ItemInfo>> inventoryItemTable = new Dictionary<int, List<ItemInfo>>();
 
     public int SelectedSlotIndex { get; private set; } = -1;
 
@@ -50,7 +50,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void Initialize()
     {
-
         for (int i = 0; i < maxSlot; ++i)
         {
             itemInfos[i] = new ItemInfo();
@@ -70,83 +69,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 dragSeletedSlotIndex = slot.SlotIndex;
             });
 
-            slot.onDragExit.AddListener((PointerEventData eventData) =>
-            {
-                if (dragSeletedSlotIndex < 0 || dragSeletedSlotIndex >= itemInfos.Length || itemInfos[dragSeletedSlotIndex] == null)
-                {
-                    isOnDrag = false;
-                    dragSeletedSlotIndex = -1;
-                    itemInfoView.OnSetItemInfo(null);
-                    return;
-                }
-
-                SelectedSlotIndex = -1;
-                var results = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(eventData, results);
-
-                foreach (var result in results)
-                {
-                    var uiItemSlot = result.gameObject.GetComponent<ItemSlot>();
-                    if (uiItemSlot == null)
-                    {
-                        continue;
-                    }
-
-                    int targetSlotIndex = dragSeletedSlotIndex;
-                    int sourceSlotIndex = uiItemSlot.SlotIndex;
-
-                    if (targetSlotIndex < 0 || targetSlotIndex >= itemInfos.Length)
-                    {
-                        continue;
-                    }
-
-                    if (targetSlotIndex == sourceSlotIndex)
-                    {
-                        return;
-                    }
-
-                    // string id로 변경
-                    if (itemInfos[sourceSlotIndex].itemData != null && itemInfos[sourceSlotIndex].itemData.ItemName == itemInfos[targetSlotIndex].itemData.ItemName)
-                    {
-                        // 같은 아이템일 경우 합치기
-                        int totalAmount = itemInfos[sourceSlotIndex].Amount + itemInfos[targetSlotIndex].Amount;
-
-                        if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxAmount)
-                        {
-                            if (inventoryItemTable.TryGetValue(itemInfos[sourceSlotIndex].itemData.ItemName, out var itemInfoList))
-                            {
-                                itemInfoList.Remove(itemInfos[sourceSlotIndex]);
-                            }
-
-                            itemInfos[targetSlotIndex].Amount = totalAmount;
-                            itemInfos[sourceSlotIndex].Empty();
-                        }
-                        else
-                        {
-                            itemInfos[targetSlotIndex].Amount = itemInfos[targetSlotIndex].itemData.MaxAmount;
-                            itemInfos[sourceSlotIndex].Amount = totalAmount - itemInfos[targetSlotIndex].itemData.MaxAmount;
-                        }
-                    }
-                    else
-                    {
-                        (itemInfos[targetSlotIndex], itemInfos[sourceSlotIndex]) = (itemInfos[sourceSlotIndex], itemInfos[targetSlotIndex]);
-                        itemInfos[targetSlotIndex].index = targetSlotIndex;
-                        itemInfos[sourceSlotIndex].index = sourceSlotIndex;
-                        itemSlots[targetSlotIndex].OnSwapItemInfo(itemSlots[sourceSlotIndex]);
-                        // itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
-                    }
-
-                    UpdateSlot(targetSlotIndex);
-                    UpdateSlot(sourceSlotIndex);
-                    isOnDrag = false;
-                    dragSeletedSlotIndex = -1;
-                    break;
-                }
-
-                // 드래그 해제 후에도 아이템이 제대로 이동되지 않았다면 초기화
-                isOnDrag = false;
-                dragSeletedSlotIndex = -1;
-            });
+            slot.onDragExit.AddListener(OnEndDrag);
             itemSlots[i] = slot;
         }
 
@@ -157,56 +80,55 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             Load();
         }
 
-        if (useSlotCount == 0)
-        {
-            for (int i = 0; i < 3; ++i)
-            {
-                var testItem = DataTableManager.ItemTable.Get(1201001 + i);
+        //if (useSlotCount == 0)
+        //{
+        //    for (int i = 0; i < 3; ++i)
+        //    {
+        //        var testItem = DataTableManager.ItemTable.Get(1201001 + i);
 
-                var test = new DropItemInfo();
-                test.amount = 1;
-                test.ItemName = testItem.ItemName;
-                test.itemData = testItem;
-                AddItem(test);
-            }
+        //        var test = new DropItemInfo();
+        //        test.amount = 1;
+        //        test.ItemName = testItem.ItemName;
+        //        test.itemData = testItem;
+        //        AddItem(test);
+        //    }
 
-            for (int i = 0; i < 2; ++i)
-            {
-                var testItem = DataTableManager.ItemTable.Get(1202001 + i);
+        //    for (int i = 0; i < 2; ++i)
+        //    {
+        //        var testItem = DataTableManager.ItemTable.Get(1202001 + i);
 
-                var test = new DropItemInfo();
-                test.amount = 1;
-                test.ItemName = testItem.ItemName;
-                test.itemData = testItem;
-                AddItem(test);
-            }
-            for (int i = 0; i < 2; ++i)
-            {
-                var testItem = DataTableManager.ItemTable.Get(1203005 + i);
+        //        var test = new DropItemInfo();
+        //        test.amount = 1;
+        //        test.ItemName = testItem.ItemName;
+        //        test.itemData = testItem;
+        //        AddItem(test);
+        //    }
+        //    for (int i = 0; i < 2; ++i)
+        //    {
+        //        var testItem = DataTableManager.ItemTable.Get(1203005 + i);
 
-                var test = new DropItemInfo();
-                test.amount = 1;
-                test.ItemName = testItem.ItemName;
-                test.itemData = testItem;
-                AddItem(test);
-            }
+        //        var test = new DropItemInfo();
+        //        test.amount = 1;
+        //        test.ItemName = testItem.ItemName;
+        //        test.itemData = testItem;
+        //        AddItem(test);
+        //    }
+        //}
+        //var Item = DataTableManager.ItemTable.Get(1202001);
 
-        }
-        var Item = DataTableManager.ItemTable.Get(1202001);
+        //var testInfo = new DropItemInfo();
+        //testInfo.amount = 10;
+        //testInfo.ItemName = Item.ItemName;
+        //testInfo.itemData = Item;
+        //AddItem(testInfo);
 
-        var testInfo = new DropItemInfo();
-        testInfo.amount = 10;
-        testInfo.ItemName = Item.ItemName;
-        testInfo.itemData = Item;
-        AddItem(testInfo);
+        //Item = DataTableManager.ItemTable.Get(1202002);
 
-        Item = DataTableManager.ItemTable.Get(1202002);
-
-        testInfo = new DropItemInfo();
-        testInfo.amount = 10;
-        testInfo.ItemName = Item.ItemName;
-        testInfo.itemData = Item;
-        AddItem(testInfo);
+        //testInfo = new DropItemInfo();
+        //testInfo.amount = 10;
+        //testInfo.ItemName = Item.ItemName;
+        //testInfo.itemData = Item;
+        //AddItem(testInfo);
         equipmentSocketView.Initialize();
     }
 
@@ -253,7 +175,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     {
         itemInfos[SelectedSlotIndex].Amount = 0;
 
-        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
+        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
         {
             itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
         }
@@ -271,7 +193,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
         if (itemInfos[SelectedSlotIndex].Amount == 0)
         {
-            if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
+            if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
             {
                 itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
             }
@@ -290,7 +212,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ItemName, out var itemInfoList))
+        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
         {
             itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
             itemInfos[SelectedSlotIndex].Empty();
@@ -317,9 +239,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     // string으로 찾는 경우 추 후 아이템 id로 변경
     public void AddItem(DropItemInfo dropItemInfo)
     {
-        if(inventoryItemTable.ContainsKey(dropItemInfo.ItemName))
+        if(inventoryItemTable.ContainsKey(dropItemInfo.id))
         {
-            var itemList = inventoryItemTable[dropItemInfo.ItemName];
+            var itemList = inventoryItemTable[dropItemInfo.id];
 
             foreach (var item in itemList)
             {
@@ -374,6 +296,130 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         itemSlots[slotIndex].OnUpdateSlot();
     }
 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (dragSeletedSlotIndex < 0 || dragSeletedSlotIndex >= itemInfos.Length || itemInfos[dragSeletedSlotIndex] == null)
+        {
+            isOnDrag = false;
+            dragSeletedSlotIndex = -1;
+            itemInfoView.OnSetItemInfo(null);
+            return;
+        }
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var result in results)
+        {
+            var uiItemSlot = result.gameObject.GetComponent<ItemSlot>();
+            var equipmentSocket = result.gameObject.GetComponent<EquipmentSocket>();
+
+            if (uiItemSlot == null && equipmentSocket == null)
+            {
+                continue;
+            }
+
+            if(uiItemSlot != null)
+            {
+                OnEndDragTargetToItemSlot(uiItemSlot);
+            }
+            else if (equipmentSocket != null)
+            {
+                OnEndDragTargetToEquipmentSocket(equipmentSocket);
+            }
+
+            break;
+        }
+
+        // 드래그 해제 후에도 아이템이 제대로 이동되지 않았다면 초기화
+        isOnDrag = false;
+
+        SelectedSlotIndex = -1;
+        dragSeletedSlotIndex = -1;
+    }
+
+    private void OnEndDragTargetToItemSlot(ItemSlot itemSlot)
+    {
+        int targetSlotIndex = dragSeletedSlotIndex;
+        int sourceSlotIndex = itemSlot.SlotIndex;
+
+        if (sourceSlotIndex < 0 || sourceSlotIndex >= itemInfos.Length || targetSlotIndex == sourceSlotIndex)
+        {
+            return;
+        }
+
+        // string id로 변경
+        if (itemInfos[sourceSlotIndex].itemData != null && itemInfos[sourceSlotIndex].itemData.ID == itemInfos[targetSlotIndex].itemData.ID)
+        {
+            // 같은 아이템일 경우 합치기
+            int totalAmount = itemInfos[targetSlotIndex].Amount + itemInfos[sourceSlotIndex].Amount;
+
+            if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxAmount)
+            {
+                if (inventoryItemTable.TryGetValue(itemInfos[sourceSlotIndex].itemData.ID, out var itemInfoList))
+                {
+                    itemInfoList.Remove(itemInfos[sourceSlotIndex]);
+                }
+
+                itemInfos[targetSlotIndex].Amount = totalAmount;
+                itemInfos[sourceSlotIndex].Empty();
+            }
+            else
+            {
+                itemInfos[targetSlotIndex].Amount = itemInfos[targetSlotIndex].itemData.MaxAmount;
+                itemInfos[sourceSlotIndex].Amount = totalAmount - itemInfos[targetSlotIndex].itemData.MaxAmount;
+            }
+        }
+        else
+        {
+            (itemInfos[targetSlotIndex], itemInfos[sourceSlotIndex]) = (itemInfos[sourceSlotIndex], itemInfos[targetSlotIndex]);
+            itemInfos[targetSlotIndex].index = targetSlotIndex;
+            itemInfos[sourceSlotIndex].index = sourceSlotIndex;
+            itemSlots[targetSlotIndex].OnSwapItemInfo(itemSlots[sourceSlotIndex]);
+            // itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
+        }
+
+        UpdateSlot(targetSlotIndex);
+        UpdateSlot(sourceSlotIndex);
+        isOnDrag = false;
+        dragSeletedSlotIndex = -1;
+    }
+
+    public void OnEndDragTargetToEquipmentSocket(EquipmentSocket equipmentSocket)
+    {
+        // itemInfos[dragSeletedSlotIndex].itemData
+        // if ()
+        if ((int)itemInfos[dragSeletedSlotIndex].itemData.ItemType != (int)equipmentSocket.EquipmentType)
+        {
+            return;
+        }
+
+        SelectedSlotIndex = dragSeletedSlotIndex;
+        OnEquip();
+        // equipmentSocket.onChangeEquipEvent?.Invoke(equipmentSocket.eq)
+    }
+
+    public void OnSetEquipmentItem(ItemData itemData, int amount)
+    {
+        itemInfos[dragSeletedSlotIndex].itemData = itemData;
+        itemInfos[dragSeletedSlotIndex].Amount = amount;
+
+        if (inventoryItemTable.ContainsKey(itemData.ID))
+        {
+            inventoryItemTable[itemData.ID].Add(itemInfos[dragSeletedSlotIndex]);
+        }
+        else
+        {
+            var itemInfoList = new List<ItemInfo>();
+            itemInfoList.Add(itemInfos[dragSeletedSlotIndex]);
+            inventoryItemTable.Add(itemData.ID, itemInfoList);
+        }
+
+        itemSlots[dragSeletedSlotIndex].SetItemData(itemInfos[dragSeletedSlotIndex]);
+        ++useSlotCount;
+        dragSeletedSlotIndex = -1;
+        isOnDrag = false;
+    }
+
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
     {
         var itemInfo = new ItemInfo();
@@ -382,15 +428,15 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         // TODO :: 임시 코드
         itemInfo.itemData = dropItemInfo.itemData;
 
-        if (inventoryItemTable.ContainsKey(dropItemInfo.ItemName))
+        if (inventoryItemTable.ContainsKey(dropItemInfo.id))
         {
-            inventoryItemTable[dropItemInfo.ItemName].Add(itemInfo);
+            inventoryItemTable[dropItemInfo.id].Add(itemInfo);
         }
         else
         {
             var itemInfoList = new List<ItemInfo>();
             itemInfoList.Add(itemInfo);
-            inventoryItemTable.Add(dropItemInfo.ItemName, itemInfoList);
+            inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
         }
 
         itemInfos[slotIndex] = itemInfo;
@@ -445,16 +491,16 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             itemInfos[i].index = itemSlotInfoList[i].index;
             itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
 
-            if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ItemName))
+            if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ID))
             {
-                inventoryItemTable[itemInfos[i].itemData.ItemName].Add(itemInfos[i]);
+                inventoryItemTable[itemInfos[i].itemData.ID].Add(itemInfos[i]);
                 ++useSlotCount;
             }
             else
             {
                 var itemInfoList = new List<ItemInfo>();
                 itemInfoList.Add(itemInfos[i]);
-                inventoryItemTable.Add(itemInfos[i].itemData.ItemName, itemInfoList);
+                inventoryItemTable.Add(itemInfos[i].itemData.ID, itemInfoList);
             }
         }
 
