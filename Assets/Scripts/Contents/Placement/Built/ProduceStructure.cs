@@ -67,12 +67,12 @@ public class ProduceStructure : PlacementObject
         saveInfo.createTime = currentTime - Time.time;
         saveInfo.outPut = outPut;
 
-        SaveLoadManager.Data.farmPlacementSaveInfos.Add(saveInfo);
+        SaveLoadManager.Data.StageSaveData.farmPlacementSaveInfos.Add(saveInfo);
     }
 
     public override void Load()
     {
-        var data = SaveLoadManager.Data.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
+        var data = SaveLoadManager.Data.StageSaveData.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
         outPut = data.outPut;
         currentTime = Time.time + data.createTime;
     }

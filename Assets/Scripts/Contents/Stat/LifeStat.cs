@@ -127,7 +127,7 @@ public class LifeStat : LevelStat, ISaveLoadData
             return;
         }
 
-        var levelStatInfo = SaveLoadManager.Data.levelStatInfo;
+        var levelStatInfo = SaveLoadManager.Data.PlayerSaveData.levelStatInfo;
         currentLevel = levelStatInfo.level;
         skillPoint = levelStatInfo.skillPoint;
         currentExperience = levelStatInfo.Experience;
@@ -178,6 +178,6 @@ public class LifeStat : LevelStat, ISaveLoadData
             }
         }
 
-        SaveLoadManager.Data.levelStatInfo = levelInfo;
+        SaveLoadManager.Data.PlayerSaveData.levelStatInfo = levelInfo;
     }
 }

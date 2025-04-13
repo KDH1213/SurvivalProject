@@ -60,15 +60,15 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty, ISaveLoad
     {
         if(SaveLoadManager.Data != null)
         {
-            SaveLoadManager.Data.playerSaveInfo.survivalStatValues[(int)survivalStatType] = value;
+            SaveLoadManager.Data.PlayerSaveData.playerSaveInfo.survivalStatValues[(int)survivalStatType] = value;
         }
     }
 
     public virtual void Load()
     {
-        if (SaveLoadManager.Data != null && SaveLoadManager.Data.playerSaveInfo.survivalStatValues != null)
+        if (SaveLoadManager.Data != null && SaveLoadManager.Data.PlayerSaveData.playerSaveInfo.survivalStatValues != null)
         {
-            value = SaveLoadManager.Data.playerSaveInfo.survivalStatValues[(int)survivalStatType];
+            value = SaveLoadManager.Data.PlayerSaveData.playerSaveInfo.survivalStatValues[(int)survivalStatType];
         }
     }
 }

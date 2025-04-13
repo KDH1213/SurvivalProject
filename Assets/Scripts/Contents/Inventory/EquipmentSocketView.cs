@@ -31,7 +31,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void Initialize()
     {
-        if (SaveLoadManager.Data == null || SaveLoadManager.Data.equipmentItemIDList.Count == 0)
+        if (SaveLoadManager.Data == null || SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList.Count == 0)
         {
             for (int i = 0; i < equipmentSockets.Length; ++i)
             {
@@ -154,7 +154,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
+        var equipmentItemList = SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList;
 
         for (int i = 0; i < equipmentItemList.Count; ++i)
         {
@@ -169,7 +169,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             var itemData = DataTableManager.ItemTable.Get(equipmentItemList[i]);
             if((EquipmentType)i == EquipmentType.Consumable)
             {
-                equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, SaveLoadManager.Data.equipmentConsumableCount);
+                equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, SaveLoadManager.Data.PlayerSaveData.equipmentConsumableCount);
             }
             else
             {
@@ -180,23 +180,23 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void Save()
     {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
-        SaveLoadManager.Data.equipmentItemIDList.Clear();
+        var equipmentItemList = SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList;
+        SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList.Clear();
         for (int i = 0; i < equipmentSockets.Length; ++i)
         {
             if(equipmentSockets[i].ItemData == null)
             {
-                SaveLoadManager.Data.equipmentItemIDList.Add(-1);
+                SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList.Add(-1);
             }
             else
             {
-                SaveLoadManager.Data.equipmentItemIDList.Add(equipmentSockets[i].ItemData.ID);
+                SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList.Add(equipmentSockets[i].ItemData.ID);
             }
         }
 
         if (equipmentSockets[(int)EquipmentType.Consumable].ItemData != null)
         {
-            SaveLoadManager.Data.equipmentConsumableCount = equipmentSockets[(int)EquipmentType.Consumable].Amount;
+            SaveLoadManager.Data.PlayerSaveData.equipmentConsumableCount = equipmentSockets[(int)EquipmentType.Consumable].Amount;
         }
     }
 

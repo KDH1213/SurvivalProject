@@ -277,8 +277,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        SaveLoadManager.Data.farmPlacementSaveInfos.Clear();
-        SaveLoadManager.Data.placementSaveInfoList.Clear();
+        SaveLoadManager.Data.StageSaveData.farmPlacementSaveInfos.Clear();
+        SaveLoadManager.Data.StageSaveData.placementSaveInfoList.Clear();
 
         foreach (var placedGameObject in PlacedGameObjects)
         {
@@ -291,7 +291,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     {
        
 
-        var placementSaveInfoList = SaveLoadManager.Data.farmPlacementSaveInfos;
+        var placementSaveInfoList = SaveLoadManager.Data.StageSaveData.farmPlacementSaveInfos;
         foreach (var placement in placementSaveInfoList)
         {
             // TODO :: 배치 오브젝트 생성 코드
@@ -320,7 +320,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         }
 
-        var placementSaveInfoList2 = SaveLoadManager.Data.placementSaveInfoList;
+        var placementSaveInfoList2 = SaveLoadManager.Data.StageSaveData.placementSaveInfoList;
         foreach (var placement in placementSaveInfoList2)
         {
             // TODO :: 배치 오브젝트 생성 코드

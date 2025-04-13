@@ -126,15 +126,15 @@ public class GameTimeManager : Singleton<GameTimeManager>, ISaveLoadData
 
     public void Save()
     {
-        SaveLoadManager.Data.gameTime = service.CurrentTime;
+        SaveLoadManager.Data.PlayerSaveData.gameTime = service.CurrentTime;
     }
 
     public void Load()
     {
         var data = SaveLoadManager.Data;
-        if (data != null && data.gameTime.Millisecond != 0)
+        if (data != null && data.PlayerSaveData.gameTime.Millisecond != 0)
         {
-            service = new TimeService(timeSettings, SaveLoadManager.Data.gameTime);
+            service = new TimeService(timeSettings, SaveLoadManager.Data.PlayerSaveData.gameTime);
         }
     }
 }

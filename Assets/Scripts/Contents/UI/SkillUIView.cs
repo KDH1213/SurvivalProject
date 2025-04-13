@@ -100,7 +100,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        SaveLoadManager.Data.skillUiViewSeleteList = skillTypeList;
+        SaveLoadManager.Data.PlayerSaveData.skillUiViewSeleteList = skillTypeList;
     }
 
     public void Load()
@@ -110,7 +110,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        skillTypeList = SaveLoadManager.Data.skillUiViewSeleteList;
+        skillTypeList = SaveLoadManager.Data.PlayerSaveData.skillUiViewSeleteList;
 
         if(skillTypeList.Count == 0)
         {

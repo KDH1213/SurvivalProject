@@ -461,7 +461,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void Save()
     {
-        var itemSlotList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
+        var itemSlotList = SaveLoadManager.Data.PlayerSaveData.ItemSlotInfoSaveDataList;
         itemSlotList.Clear();
 
         foreach (var itemInfo in itemInfos)
@@ -478,7 +478,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
-        var itemSlotInfoList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
+        var itemSlotInfoList = SaveLoadManager.Data.PlayerSaveData.ItemSlotInfoSaveDataList;
 
         for (var i = 0; i < itemSlotInfoList.Count; ++i)
         {

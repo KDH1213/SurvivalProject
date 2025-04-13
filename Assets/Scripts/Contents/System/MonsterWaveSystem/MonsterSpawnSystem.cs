@@ -136,7 +136,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     public void Save()
     {
-        var monsterWaveSaveInfo = SaveLoadManager.Data.monsterWaveSaveInfo;
+        var monsterWaveSaveInfo = SaveLoadManager.Data.StageSaveData.monsterWaveSaveInfo;
 
         monsterWaveSaveInfo.activeSpawners = new bool[monsterSpawnerList.Count];
         monsterWaveSaveInfo.waveTime = waveTime - Time.time;
@@ -150,7 +150,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
-        var monsterWaveSaveInfo = SaveLoadManager.Data.monsterWaveSaveInfo;
+        var monsterWaveSaveInfo = SaveLoadManager.Data.StageSaveData.monsterWaveSaveInfo;
 
         if(monsterWaveSaveInfo == null ||monsterWaveSaveInfo.activeSpawners == null)
         {

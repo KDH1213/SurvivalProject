@@ -5,9 +5,7 @@ using UnityEngine;
 
 public struct PlayerSaveInfo
 {
-    public Vector3 position;
     public float hp;
-
     public float[] survivalStatValues;
 }
 

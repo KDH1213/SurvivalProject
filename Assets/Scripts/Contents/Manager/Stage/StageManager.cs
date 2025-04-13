@@ -148,7 +148,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        SaveLoadManager.Data.gatherSaveInfoTable.Clear();
+        SaveLoadManager.Data.StageSaveData.gatherSaveInfoTable.Clear();
         var currentTime = Time.time;
 
         while (respawnObjectQueue.Count > 0)
@@ -176,7 +176,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
                     gatherSaveInfoList.Add(gatherSaveInfo);
                 }
 
-                SaveLoadManager.Data.gatherSaveInfoTable.Add(interactType, gatherSaveInfoList);
+                SaveLoadManager.Data.StageSaveData.gatherSaveInfoTable.Add(interactType, gatherSaveInfoList);
             }
         }
 
@@ -194,12 +194,12 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             monsterSaveInfoList.Add(monsterSaveInfo);
         }
 
-        SaveLoadManager.Data.monsterSaveInfoList = monsterSaveInfoList;
+        SaveLoadManager.Data.StageSaveData.monsterSaveInfoList = monsterSaveInfoList;
 }
 
     public void Load()
     {
-        var gatherSaveInfoTable = SaveLoadManager.Data.gatherSaveInfoTable;
+        var gatherSaveInfoTable = SaveLoadManager.Data.StageSaveData.gatherSaveInfoTable;
 
         for (int i = 0; i < (int)InteractType.Monster; ++i)
         {
@@ -224,7 +224,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             }
         }
 
-        var monsterSaveInfoList = SaveLoadManager.Data.monsterSaveInfoList;
+        var monsterSaveInfoList = SaveLoadManager.Data.StageSaveData.monsterSaveInfoList;
         var monsterList = interactTable[InteractType.Monster];
         for (int i = 0; i < monsterSaveInfoList.Count; ++i)
         {

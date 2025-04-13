@@ -185,9 +185,9 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void Load()
     {
         // lifeStat.Load();
-        currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
+        currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.PlayerSaveData.playerSaveInfo.hp);
 
-        var equipmentItemIDList = SaveLoadManager.Data.equipmentItemIDList;
+        var equipmentItemIDList = SaveLoadManager.Data.PlayerSaveData.equipmentItemIDList;
 
         for (int i = 0; i < equipmentItemIDList.Count; ++i)
         {

@@ -1,6 +1,9 @@
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Linq;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using SaveDataVC = SaveDataV1;
@@ -74,6 +77,33 @@ public static class SaveLoadManager
             Directory.CreateDirectory(SaveDirectory);
         }
         var path = Path.Combine(SaveDirectory, $"{name}.json");
+
+        var json = JsonConvert.SerializeObject(Data, settings);
+
+        File.WriteAllText(path, json);
+
+        return true;
+    }
+
+    public static bool SaveStage(int slot = 0)
+    {
+        if (Data == null || slot < 0 || slot >= SaveFileName.Length)
+            return false;
+
+        if (!Directory.Exists(SaveDirectory))
+        {
+            Directory.CreateDirectory(SaveDirectory);
+        }
+
+        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        // var json = File.ReadAllText(path);
+
+        //var jsonPlayer = JsonConvert.SerializeObject(Data.PlayerSaveData, settings);
+
+        //var jobject = JObject.Parse(json);
+        //var jToken = jobject["PlayerSaveData"];
+        //jToken.Replace(jsonPlayer);
+
         var json = JsonConvert.SerializeObject(Data, settings);
         File.WriteAllText(path, json);
 
@@ -88,12 +118,47 @@ public static class SaveLoadManager
             return false;
 
         var json = File.ReadAllText(path);
+
+        var jobject = JObject.Parse(json);
+        var jToken = jobject["PlayerSaveData"];
+        // var jTokenStageSaveData1 = jobject["StageSaveData"];
+        var jTokens = jobject["stageSaveDatas"].Children().ToArray();
+
+        // Debug.Log(jToken.ToString());
+        // Debug.Log(jTokenStageSaveData1.ToString());
+        // Debug.Log(jTokenStageSaveData.ToString());
+        // Debug.Log(jTokenStageSaveData2.ToString());
+        // var jTokens = jobject["stageSaveDatas"]["StageSaveData"].ToArray();
+        // var jTokenStageSaveData = jobject["stageSaveDatas"]["StageSaveData"];
+
+        //foreach (var jTokenz in jTokens)
+        //{
+        //    Debug.Log(jTokenz.ToString());
+        //}
+
+        
+        var playerData = JsonConvert.DeserializeObject<PlayerSaveData>(jToken.ToString(), settings);
+        // var stageData = JsonConvert.DeserializeObject<StageSaveData>(jTokenStageSaveData.ToString(), settings);
+
+        // Debug.Log(stageData);
+
+        //Data = new SaveDataVC();
+
+        Data.PlayerSaveData = playerData;
+
         var saveData = JsonConvert.DeserializeObject<SaveData>(json, settings);
 
         while (saveData.Version < SaveDataVersion)
         {
             saveData = saveData.VersionUp();
         }
+
+        // Data.stageSaveDatas[0] = stageData;
+
+        // while (saveData.Version < SaveDataVersion)
+        // {
+        //     saveData = saveData.VersionUp();
+        // }
 
         Data = saveData as SaveDataVC;
 

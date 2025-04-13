@@ -35,7 +35,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
         saveInfo.position = Position;
         saveInfo.rotation = Rotation;
         saveInfo.id = ID;
-        SaveLoadManager.Data.placementSaveInfoList.Add(saveInfo);
+        SaveLoadManager.Data.StageSaveData.placementSaveInfoList.Add(saveInfo);
     }
 
     public virtual void Load()
