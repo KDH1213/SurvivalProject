@@ -11453,8 +11453,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  joyStick: {fileID: 8411470357987494967, guid: ec3edbbd6efa8ac4188559d1b3198db4,
-    type: 3}
+  joyStickPrefab: {fileID: 0}
 --- !u!114 &4766854409604859175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11491,6 +11490,9 @@ MonoBehaviour:
     m_Bits: 512
   attackRange: 0
   onTargetInteractEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onDropItemEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &8282308662441228423
@@ -11690,7 +11692,6 @@ MonoBehaviour:
         m_CallState: 2
   survivalStats: {fileID: 6015766806403488649}
   lifeStat: {fileID: 936364590328128479}
-  craftingStat: {fileID: 5572263776794208988}
   HpBarSlider: {fileID: 8494851184522715503}
 --- !u!114 &6015766806403488649
 MonoBehaviour:
@@ -11905,9 +11906,16 @@ MonoBehaviour:
   currentLevel: 1
   maxLevel: 100
   lifeStatData: {fileID: 11400000, guid: 22409b408e1246645a292b3a9d8caf23, type: 2}
+  experienceSlider: {fileID: 0}
   skillLevelTable:
     _serializedList: []
   onLevelUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnChangeSkillPointEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnChangeSkillLevelEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &5572263776794208988
