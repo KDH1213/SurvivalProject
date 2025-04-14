@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,8 +19,15 @@ public class UpgradeUI : MonoBehaviour
     private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
     public TestInventory inven;
 
+    [SerializeField]
+    private Button upgradeButton;
+
+    private int nextStructureId;
+
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
+        upgradeButton.onClick.RemoveAllListeners();
+
         int index = 0;
         beforeImage.sprite = objInfo.Icon;
         beforeName.text = $"{objInfo.Name}";
@@ -27,6 +35,8 @@ public class UpgradeUI : MonoBehaviour
         PlacementObjectInfo nextLevelInfo = objInfo;
         afterImage.sprite = nextLevelInfo.Icon;
         afterName.text = $"{nextLevelInfo.Name}";
+
+        nextStructureId = objInfo.NextStructureID;
 
         foreach (var item in needItems)
         {
@@ -39,6 +49,11 @@ public class UpgradeUI : MonoBehaviour
             needItems.Add(needItems[index]);
             index++;
         }
+        var system = selectedObject.uiController.GetComponent<PlacementSystem>();
+        upgradeButton.onClick.AddListener(
+            () => system.UpgradeStructure(selectedObject, 1602002/*objInfo.NextStructureID*/));
     }
+
+    
 
 }

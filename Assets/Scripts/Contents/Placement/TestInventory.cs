@@ -8,11 +8,11 @@ using UnityEngine;
 public class TestInventory : MonoBehaviour
 {
     [SerializedDictionary("type", "count")]
-    public SerializedDictionary<string, int> inventory;
+    public SerializedDictionary<int, int> inventory;
 
     public int playerLevel = 1;
 
-    public bool CheckItemCount(Dictionary<string, int> items)
+    public bool CheckItemCount(Dictionary<int, int> items)
     {
         foreach (var item in items)
         {
@@ -27,7 +27,7 @@ public class TestInventory : MonoBehaviour
         }
         return true;
     }
-    public void MinusItem(Dictionary<string, int> items)
+    public void MinusItem(Dictionary<int, int> items)
     {
         foreach (var item in items)
         {
@@ -39,7 +39,7 @@ public class TestInventory : MonoBehaviour
         }
     }
 
-    public void PlusItem(Dictionary<string, int> items)
+    public void PlusItem(Dictionary<int, int> items)
     {
         foreach (var item in items)
         {

@@ -8,6 +8,8 @@ public class PlacementObjectInfo
     [field: SerializeField]
     public int ID { get; set; }
     [field: SerializeField]
+    public int NextStructureID { get; set; }
+    [field: SerializeField]
     public int MaxBuildCount { get; set; }
     [field: SerializeField]
     public Vector2Int Size { get; set; } = Vector2Int.one;
@@ -20,7 +22,7 @@ public class PlacementObjectInfo
     [field: SerializeField]
     public GameObject Prefeb { get; set; }
     [field: SerializeField]
-    public SerializedDictionary<string, int> NeedItems { get; set; } = new SerializedDictionary<string, int>();
+    public SerializedDictionary<int, int> NeedItems { get; set; } = new SerializedDictionary<int, int>();
     [field: SerializeField]
     public Sprite Icon { get; set; }
     [field: SerializeField]

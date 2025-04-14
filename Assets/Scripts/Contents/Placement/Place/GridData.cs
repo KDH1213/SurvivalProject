@@ -32,6 +32,11 @@ public class GridData
         }
     }
 
+    public void ReplaceData(Vector3Int pos, PlacementObject obj)
+    {
+        placedObject[pos] = obj;
+    }
+
     public Vector3Int SearchSide(Vector3Int gridPos, Vector2Int objectSize)
     {
         var visited = new HashSet<Vector3Int>();

@@ -11,7 +11,7 @@ public class BuildInfoUINeedItem : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI needCountTxt;
 
-    public void SetNeedItem(Sprite image, string type, int needCount, int hasCount)
+    public void SetNeedItem(Sprite image, int type, int needCount, int hasCount)
     {
         itemImage.sprite = image;
         needCountTxt.text = $"{type} : {needCount} / {hasCount}";

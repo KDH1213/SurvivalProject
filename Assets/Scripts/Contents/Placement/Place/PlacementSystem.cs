@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour, ISaveLoadData
@@ -13,6 +14,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     private PlacementPreview preview;
     [SerializeField]
     private TestInventory inven;
+    [SerializeField]
+    private Inventory inventory;
     [SerializeField]
     private Grid grid;
 
@@ -160,6 +163,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         else
         {
             inven.MinusItem(Database.objects[SelectedObjectIndex].NeedItems);
+            /*foreach(var data in Database.objects[SelectedObjectIndex].NeedItems)
+            {
+                inventory.ConsumeItem(data.Key, data.Value);
+            }*/
+            
         }
 
         GameObject newObject = Instantiate(Database.objects[SelectedObjectIndex].Prefeb);
@@ -171,7 +179,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.ID = Database.objects[SelectedObjectIndex].ID;
         placementObject.Position = gridPosition;
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
-        placementObject.system = this;
+        placementObject.uiController = placementUI;
         placementObject.SetData();
 
         PlacedGameObjects.Add(placementObject);
@@ -244,6 +252,33 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         return id;
     }
 
+    public void UpgradeStructure(PlacementObject before, int afterId)
+    {
+        int index = Database.objects.FindIndex(x => x.ID == afterId);
+        PlacementObjectInfo placeObjInfo = Database.objects[index];
+
+        GameObject newObject = Instantiate(placeObjInfo.Prefeb);
+        newObject.transform.position = grid.CellToWorld(before.Position);
+        newObject.transform.GetChild(0).rotation = before.Rotation;
+
+        PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
+        placementObject.IsPlaced = true;
+        placementObject.ID = placeObjInfo.ID;
+        placementObject.Position = before.Position;
+        placementObject.Rotation = before.Rotation;
+        placementObject.uiController = placementUI;
+
+        RemoveStructure(before);
+
+        PlacedGameObjects.Add(placementObject);
+
+        gridData.AddObjectAt(placementObject.Position, placeObjInfo.Size,
+            placementObject.ID,
+            PlacedGameObjects.Count - 1, placementObject);
+
+        Destroy(before.transform.parent.gameObject);
+    }
+
     // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
@@ -289,7 +324,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
-       
+        PlacedGameObjects.Clear();
 
         var placementSaveInfoList = SaveLoadManager.Data.farmPlacementSaveInfos;
         foreach (var placement in placementSaveInfoList)
@@ -308,7 +343,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.ID = placeObjInfo.ID;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
-            placementObject.system = this;
+            placementObject.uiController = placementUI;
             placementObject.SetData();
             placementObject.Load();
 
@@ -337,7 +372,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.ID = placeObjInfo.ID;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
-            placementObject.system = this;
+            placementObject.uiController = placementUI;
             placementObject.SetData();
             placementObject.Load();
 

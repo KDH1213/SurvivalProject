@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -207,6 +208,33 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         UpdateSlot(SelectedSlotIndex);
     }
 
+    public void ConsumeItem(int id, int count)
+    {
+        if (inventoryItemTable.ContainsKey(id))
+        {
+            var itemList = inventoryItemTable[id].OrderByDescending(item => item.Amount).ToList();
+            for ( int i = 0; i < itemList.Count; i++ )
+            {
+                if (itemList[i].Amount >= count)
+                {
+                    itemList[i].Amount -= count;
+                    UpdateSlot(itemList[i].index);
+                    break;
+                }
+                else
+                {
+                    int leftCount = count - itemList[i].Amount;
+                    itemList[i].Amount -= leftCount;
+                    UpdateSlot(itemList[i].index);
+                }
+                
+            }
+        }
+        else
+        {
+            new KeyNotFoundException($"키를 찾을 수 없습니다. {id}");
+        }
+    }
     public void OnEraseItem()
     {
         if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
@@ -287,6 +315,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             CreateItem(dropItemInfo, slotIndex);
         }
     }
+
 
     private void ChangeItem(DropItemInfo dropItemInfo)
     {

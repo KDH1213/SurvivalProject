@@ -5,7 +5,7 @@ using UnityEngine;
 public struct ProduceInfo
 {
     public ProduceStructure structure;
-    public string kind;
+    public int id;
     [SerializeField]
     public int outPut;
     [SerializeField]
@@ -55,7 +55,7 @@ public class ProduceStructure : PlacementObject
         FarmTable.Data data = DataTableManager.FarmTable.Get(ID);
         produceTime = data.outputTime;
         produceInfo.structure = this;
-        produceInfo.kind = data.category.ToString();
+        produceInfo.id = data.itemID;
         produceInfo.maxOutPut = data.maxStorage;
         produceInfo.outPutValue = data.outputValue;
         currentTime = Time.time + produceTime;
@@ -88,8 +88,7 @@ public class ProduceStructure : PlacementObject
 
     public override void Interact(GameObject interactor)
     {
-        PlacementUIController uIController = system.GetComponent<PlacementUIController>();
-        uIController.OnOpenFarmInfo(system, interactor, ID, produceInfo);
+        uiController.OnOpenFarmInfo(interactor, ID, produceInfo);
     }
 
     public void ReturnOutPut(int outPut)

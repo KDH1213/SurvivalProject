@@ -71,7 +71,7 @@ public class PlacementObjectList
             string[] needItemValues = construction.buildCostValue.Split('_');
             for (int i = 0; i < needItemKeys.Length; i++)
             {
-                objInfo.NeedItems.Add(needItemKeys[i], int.Parse(needItemValues[i]));
+                objInfo.NeedItems.Add(int.Parse(needItemKeys[i]), int.Parse(needItemValues[i]));
             }
 
 
@@ -134,7 +134,7 @@ public class PlacementObjectList
             string[] needItemValues = construction.buildCostValue.Split('_');
             for (int i = 0; i < needItemKeys.Length; i++)
             {
-                objInfo.NeedItems.Add(needItemKeys[i], int.Parse(needItemValues[i]));
+                objInfo.NeedItems.Add(int.Parse(needItemKeys[i]), int.Parse(needItemValues[i]));
             }
 
 
@@ -190,7 +190,7 @@ public class PlacementObjectList
             string[] needItemValues = construction.buildCostValue.Split('_');
             for (int i = 0; i < needItemKeys.Length; i++)
             {
-                objInfo.NeedItems.Add(needItemKeys[i], int.Parse(needItemValues[i]));
+                objInfo.NeedItems.Add(int.Parse(needItemKeys[i]), int.Parse(needItemValues[i]));
             }
 
 

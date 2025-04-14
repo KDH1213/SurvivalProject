@@ -38,7 +38,7 @@ public class FarmUI : MonoBehaviour
         }
 
         needItems[0].gameObject.SetActive(true);
-        needItems[0].SetNeedItem(null, produceInfo.kind, produceInfo.outPut, produceInfo.maxOutPut);
+        needItems[0].SetNeedItem(null, produceInfo.id, produceInfo.outPut, produceInfo.maxOutPut);
         needItems.Add(needItems[index]);
     }
 
