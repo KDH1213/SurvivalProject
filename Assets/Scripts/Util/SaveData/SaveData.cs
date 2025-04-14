@@ -48,7 +48,7 @@ public abstract class SaveData
 
 public class SaveDataV1 : SaveData
 {
-    public StageSaveData[] stageSaveDatas = new StageSaveData[7];
+    public List<StageSaveData> stageSaveDatas = new List<StageSaveData>();
     public PlayerSaveData PlayerSaveData = new PlayerSaveData();
     public int playStage = 0;
     public StageSaveData StageSaveData { get { return stageSaveDatas[6]; } }
@@ -59,7 +59,7 @@ public class SaveDataV1 : SaveData
 
         for(int i= 0; i < 7; ++i)
         {
-            stageSaveDatas[i] = new StageSaveData();
+            stageSaveDatas.Add(new StageSaveData());
         }
     }
 
