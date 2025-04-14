@@ -47,13 +47,16 @@ public class ItemInfoView : MonoBehaviour
         if(!isItemSlot)
         {
             equipButton.interactable = false;
-            eraseButton.interactable = false;
         }
         else
         {
             unEquiptButton.interactable = false;
         }
 
+        if (itemData.isDisposible == 1)
+        {
+            eraseButton.interactable = true;
+        }
 
         switch (itemData.ItemType)
         {
@@ -73,7 +76,6 @@ public class ItemInfoView : MonoBehaviour
                 itemStatsText.text = string.Empty;
                 useButton.interactable = false;
                 equipButton.interactable = false;
-                eraseButton.interactable = false;
                 break;
             default:
                 break;
@@ -113,10 +115,6 @@ public class ItemInfoView : MonoBehaviour
         {
             equipButton.interactable = true;
 
-            if (itemData.isDisposible == 1)
-            {
-                eraseButton.interactable = true;
-            }
         }
         else
         {
@@ -135,11 +133,6 @@ public class ItemInfoView : MonoBehaviour
         if (isItemSlot)
         {
             equipButton.interactable = true;
-
-            if (itemData.isDisposible == 1)
-            {
-                eraseButton.interactable = true;
-            }
         }
         else
         { 
@@ -157,11 +150,6 @@ public class ItemInfoView : MonoBehaviour
         if (isItemSlot)
         {
             equipButton.interactable = true;
-
-            if (itemData.isDisposible == 1)
-            {
-                eraseButton.interactable = true;
-            }
         }
         else
         {
