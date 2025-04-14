@@ -1,4 +1,18 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public struct ProduceInfo
+{
+    public ProduceStructure structure;
+    public string kind;
+    [SerializeField]
+    public int outPut;
+    [SerializeField]
+    public int maxOutPut;
+    [SerializeField]
+    public int outPutValue;
+}
 
 public class ProduceStructure : PlacementObject
 {
@@ -7,13 +21,7 @@ public class ProduceStructure : PlacementObject
     [SerializeField]
     private float currentTime;
     [SerializeField]
-    private string kind;
-    [SerializeField]
-    private int outPut;
-    [SerializeField]
-    private int maxOutPut;
-    [SerializeField]
-    private int outPutValue;
+    private ProduceInfo produceInfo;
 
 
     private void Awake()
@@ -30,14 +38,14 @@ public class ProduceStructure : PlacementObject
         {
             return;
         }
-        if(outPut >= maxOutPut)
+        if(produceInfo.outPut >= produceInfo.maxOutPut)
         {
-            outPut = maxOutPut;
+            produceInfo.outPut = produceInfo.maxOutPut;
         }
 
         if (Time.time >= currentTime)
         {
-            outPut += outPutValue;
+            produceInfo.outPut += produceInfo.outPutValue;
             currentTime = Time.time + produceTime;
         }
     }
@@ -46,9 +54,10 @@ public class ProduceStructure : PlacementObject
     {
         FarmTable.Data data = DataTableManager.FarmTable.Get(ID);
         produceTime = data.outputTime;
-        kind = data.category.ToString();
-        maxOutPut = data.maxStorage;
-        outPutValue = data.outputValue;
+        produceInfo.structure = this;
+        produceInfo.kind = data.category.ToString();
+        produceInfo.maxOutPut = data.maxStorage;
+        produceInfo.outPutValue = data.outputValue;
         currentTime = Time.time + produceTime;
     }
 
@@ -65,7 +74,7 @@ public class ProduceStructure : PlacementObject
         saveInfo.rotation = Rotation;
         saveInfo.id = ID;
         saveInfo.createTime = currentTime - Time.time;
-        saveInfo.outPut = outPut;
+        saveInfo.outPut = produceInfo.outPut;
 
         SaveLoadManager.Data.farmPlacementSaveInfos.Add(saveInfo);
     }
@@ -73,15 +82,18 @@ public class ProduceStructure : PlacementObject
     public override void Load()
     {
         var data = SaveLoadManager.Data.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
-        outPut = data.outPut;
+        produceInfo.outPut = data.outPut;
         currentTime = Time.time + data.createTime;
     }
 
     public override void Interact(GameObject interactor)
     {
         PlacementUIController uIController = system.GetComponent<PlacementUIController>();
-        uIController.OnOpenFarmInfo(system, ID, kind, outPut, maxOutPut);
-
+        uIController.OnOpenFarmInfo(system, interactor, ID, produceInfo);
     }
 
+    public void ReturnOutPut(int outPut)
+    {
+        produceInfo.outPut = outPut;
+    }
 }

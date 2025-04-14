@@ -34,6 +34,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     private ItemInfo[] itemInfos = new ItemInfo[maxSlot];
     private Dictionary<int, List<ItemInfo>> inventoryItemTable = new Dictionary<int, List<ItemInfo>>();
 
+    public Dictionary<int, List<ItemInfo>> InventroyItemTable => inventoryItemTable;
+
     public int SelectedSlotIndex { get; private set; } = -1;
 
     private int dragSeletedSlotIndex;

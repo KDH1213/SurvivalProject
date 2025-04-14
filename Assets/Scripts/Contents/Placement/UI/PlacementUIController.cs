@@ -175,9 +175,9 @@ public class PlacementUIController : MonoBehaviour
         upgradeUI.gameObject.SetActive(true);
         upgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
     }
-    public void OnOpenFarmInfo(PlacementSystem system, int id, string kind, int outPut, int maxOutPut)
+    public void OnOpenFarmInfo(PlacementSystem system, GameObject target, int id, ProduceInfo produceInfo)
     {
         farmUI.gameObject.SetActive(true);
-        farmUI.SetUIInfo(system, id, kind, outPut, maxOutPut);
+        farmUI.SetUIInfo(system, target, id, produceInfo);
     }
 }
