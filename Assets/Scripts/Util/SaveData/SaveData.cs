@@ -18,6 +18,7 @@ public class SaveDataV1 : SaveData
     public List<int> equipmentItemIDList = new List<int>();
     public int equipmentConsumableCount = 1;
     public List<int> skillUiViewSeleteList = new List<int>();
+    public bool isSkillReroll = true;
 
     public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
 
