@@ -90,7 +90,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         equipmentSockets[seleteSocket].OnUnEquipment();
         playerStats.OnUnEquipmentItem(dropItemInfo.itemData);
-        itemInfoView.OnSetItemInfo(null);
+        itemInfoView.OnSetEquipmentItemInfo(null);
 
         seleteSocket = -1;
     }
@@ -98,7 +98,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     public void OnSeleteSocket(EquipmentType equipmentType)
     {
         seleteSocket = (int)equipmentType;
-        itemInfoView.OnSetItemInfo(equipmentSockets[seleteSocket].ItemData);
+        itemInfoView.OnSetEquipmentItemInfo(equipmentSockets[seleteSocket].ItemData);
     }
 
     public void OnChangeEquipment(EquipmentType equipmentType, int amount)
@@ -109,7 +109,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         }
 
         inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData, amount); 
-        itemInfoView.OnSetItemInfo(null);
+        itemInfoView.OnSetEquipmentItemInfo(null);
         // equipmentSockets[seleteSocket].
     }
 
@@ -119,7 +119,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         {
             isOnDrag = false;
             seleteSocket = -1;
-            itemInfoView.OnSetItemInfo(null);
+            itemInfoView.OnSetEquipmentItemInfo(null);
             return;
         }
 

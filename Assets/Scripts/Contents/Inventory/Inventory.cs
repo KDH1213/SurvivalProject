@@ -60,7 +60,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             slot.button.onClick.AddListener(() =>
             {
                 SelectedSlotIndex = slot.SlotIndex;
-                itemInfoView.OnSetItemInfo(itemInfos[SelectedSlotIndex].itemData);
+                itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
             });
 
             slot.onDragEnter.AddListener(() =>
@@ -180,7 +180,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
         }
 
-        itemInfoView.OnSetItemInfo(null);
+        itemInfoView.OnSetItemSlotInfo(null);
         itemInfos[SelectedSlotIndex].Empty();
         --useSlotCount;
 
@@ -198,7 +198,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
             }
 
-            itemInfoView.OnSetItemInfo(null);
+            itemInfoView.OnSetItemSlotInfo(null);
             itemInfos[SelectedSlotIndex].Empty();
             --useSlotCount;
         }
@@ -216,7 +216,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         {
             itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
             itemInfos[SelectedSlotIndex].Empty();
-            itemInfoView.OnSetItemInfo(null);
+            itemInfoView.OnSetItemSlotInfo(null);
             --useSlotCount;
         }
 
@@ -302,7 +302,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         {
             isOnDrag = false;
             dragSeletedSlotIndex = -1;
-            itemInfoView.OnSetItemInfo(null);
+            itemInfoView.OnSetItemSlotInfo(null);
             return;
         }
         var results = new List<RaycastResult>();
@@ -494,7 +494,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ID))
             {
                 inventoryItemTable[itemInfos[i].itemData.ID].Add(itemInfos[i]);
-                ++useSlotCount;
             }
             else
             {
@@ -502,6 +501,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 itemInfoList.Add(itemInfos[i]);
                 inventoryItemTable.Add(itemInfos[i].itemData.ID, itemInfoList);
             }
+
+            ++useSlotCount;
         }
 
         UpdateSlots();
