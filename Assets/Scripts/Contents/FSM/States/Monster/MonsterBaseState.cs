@@ -10,12 +10,13 @@ public class MonsterBaseState : BaseState<MonsterStateType>
     public MonsterFSM MonsterFSM { get { return monsterFSM; } }
 
     // protected Animator Animator { get; private set; }
-    // protected NavMeshAgent Agent { get; private set; }
+    protected NavMeshAgent Agent { get; private set; }
 
     protected virtual void Awake()
     {
         monsterFSM = GetComponent<MonsterFSM>();
         MonsterStats = GetComponent<MonsterStats>();
+        Agent = GetComponent<NavMeshAgent>();
     }
 
     public override void Enter()

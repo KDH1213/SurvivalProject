@@ -12,13 +12,9 @@ public class MonsterReturnState : MonsterBaseState
 
     public override void Enter()
     {
-        if (MonsterFSM.Animator != null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
-        }
-
         MonsterFSM.Agent.isStopped = false;
         MonsterFSM.Agent.speed = MonsterStats.Speed;
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
     }
 
     public override void ExecuteUpdate()
@@ -34,11 +30,6 @@ public class MonsterReturnState : MonsterBaseState
 
     public override void Exit()
     {
-        if (MonsterFSM.Animator != null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, false);
-        }
-
         MonsterFSM.Agent.isStopped = true;
     }
 

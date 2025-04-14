@@ -13,7 +13,9 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void Enter()
     {
-        MonsterFSM.Agent.isStopped = true;
+        Agent.isStopped = true;
+        Agent.speed = 0f;
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
         enterStateEvent?.Invoke();
     }
 
@@ -29,7 +31,8 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void Exit()
     {
-
+        Agent.isStopped = false;
+        Agent.speed = MonsterStats.Speed;
     }
 
     private void FindTarget()

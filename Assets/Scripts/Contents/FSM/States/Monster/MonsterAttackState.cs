@@ -20,15 +20,19 @@ public class MonsterAttackState : MonsterBaseState
             return;
         }
         animationSpeed = MonsterStats.AttackSpeed;
-        MonsterFSM.Animator.SetFloat("attackSpeed", animationSpeed);
+        MonsterFSM.Animator.speed = animationSpeed;
 
         transform.LookAt(MonsterFSM.Target.transform.position);
 
-        MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
-        MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
+        //MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
+        //MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
 
-        MonsterFSM.Agent.isStopped = true;
-        MonsterFSM.Agent.destination = transform.position;
+        Agent.isStopped = true;
+        Agent.speed = 0f;
+        Agent.destination = transform.position;
+
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+        MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashAttack);
     }
 
     public override void ExecuteUpdate()
@@ -37,13 +41,27 @@ public class MonsterAttackState : MonsterBaseState
 
     public override void Exit()
     {
-        MonsterFSM.Agent.isStopped = false;
+        Agent.isStopped = false;
+        Agent.speed = MonsterStats.Speed;
+        MonsterFSM.Animator.speed = 1f;
     }
 
     public void OnEndAttackAnimationMonster()
     {
-        MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
-        MonsterFSM.ChangeState(MonsterStateType.Chase);
+        if(MonsterFSM.IsDead)
+        {
+            return;
+        }
+
+        if (MonsterFSM.Target == null || MonsterFSM.TargetDistance > MonsterFSM.Weapon.Range)
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
+            return;
+        }
+        else
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Attack);
+        }
     }
     public void OnMonsterAttack()
     {

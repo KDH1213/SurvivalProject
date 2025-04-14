@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class MonsterDeathState : MonsterBaseState
 {
     //[SerializeField]
@@ -17,20 +13,10 @@ public class MonsterDeathState : MonsterBaseState
 
     public override void Enter()
     {
-        // TODO :: 현재 체력 0이 되면 오브젝트 삭제
-        // Destroy(gameObject);
         MonsterFSM.OnEndInteractEvent?.Invoke(gameObject);
 
-        //for (int i = 0; i < items.Count; i++)
-        //{
-        //    ItemData newItem = Instantiate(items[i]);
-
-        //    Debug.Log(newItem.name);
-
-        //    inventory.AddItem(newItem);
-        //}
-
-        gameObject.SetActive(false);
+        MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashDeath);
+        MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashIsDeath, true);
     }
 
     public override void ExecuteUpdate()
@@ -40,5 +26,10 @@ public class MonsterDeathState : MonsterBaseState
     public override void Exit()
     {
 
+    }
+
+    public void OnEndAnimationEvent()
+    {
+        gameObject.SetActive(false);
     }
 }
