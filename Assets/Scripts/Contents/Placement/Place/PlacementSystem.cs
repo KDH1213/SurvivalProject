@@ -163,10 +163,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         else
         {
             inven.MinusItem(Database.objects[SelectedObjectIndex].NeedItems);
-            /*foreach(var data in Database.objects[SelectedObjectIndex].NeedItems)
+            foreach(var data in Database.objects[SelectedObjectIndex].NeedItems)
             {
                 inventory.ConsumeItem(data.Key, data.Value);
-            }*/
+            }
             
         }
 

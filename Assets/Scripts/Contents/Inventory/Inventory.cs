@@ -212,7 +212,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     {
         if (inventoryItemTable.ContainsKey(id))
         {
-            var itemList = inventoryItemTable[id].OrderByDescending(item => item.Amount).ToList();
+            var itemList = inventoryItemTable[id].OrderBy(item => item.Amount).
+                ThenByDescending(item => item.index).ToList();
             for ( int i = 0; i < itemList.Count; i++ )
             {
                 if (itemList[i].Amount >= count)
@@ -224,7 +225,10 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 else
                 {
                     int leftCount = count - itemList[i].Amount;
-                    itemList[i].Amount -= leftCount;
+                    itemList[i].Amount -= count - leftCount;
+                    itemInfos[itemList[i].index].Empty();
+                    --useSlotCount;
+                    count = leftCount;
                     UpdateSlot(itemList[i].index);
                 }
                 
@@ -235,6 +239,25 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             new KeyNotFoundException($"키를 찾을 수 없습니다. {id}");
         }
     }
+
+    public int GetTotalItem(int id)
+    {
+        int count = 0;
+        if (inventoryItemTable.ContainsKey(id))
+        {
+            var itemList = inventoryItemTable[id];
+            foreach(var item in itemList)
+            {
+                count += item.Amount;
+            }
+            return count;
+        }
+        else
+        {
+            return count;
+        }
+    }
+
     public void OnEraseItem()
     {
         if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
