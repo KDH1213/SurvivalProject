@@ -9,6 +9,9 @@ public class FatigueStat : SurvivalStatBehaviour
     [Range(0f, 1f)]
     private float startPenaltyPersent = 0.7f;
 
+
+    private float fatigueSkillValue = 1f;
+
     [SerializeField]
     private float extraValue = 1.5f;
     private bool isExtraValue = false;
@@ -25,11 +28,11 @@ public class FatigueStat : SurvivalStatBehaviour
     {
         if(isExtraValue)
         {
-            this.value += value * extraValue;
+            this.value += (value * fatigueSkillValue) * extraValue;
         }
         else
         {
-            this.value += value;
+            this.value += (value * fatigueSkillValue);
         }
 
 
@@ -81,5 +84,10 @@ public class FatigueStat : SurvivalStatBehaviour
     public void OnChangeValue()
     {
         fatigueSlider.value = value / maxValue;
+    }
+
+    public void OnSetFatigueSkillValue(float fatigue)
+    {
+        fatigueSkillValue = 1f - fatigue;
     }
 }

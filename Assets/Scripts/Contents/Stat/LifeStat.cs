@@ -29,6 +29,9 @@ public class LifeStat : LevelStat, ISaveLoadData
     public float AttackSpeed { get { return currentSkillStatValue[2]; } }
     public float Hungur { get { return currentSkillStatValue[3]; } }
     public float Thirst { get { return currentSkillStatValue[4]; } }
+    public float Defence { get { return currentSkillStatValue[5]; } }
+    public float HP { get { return currentSkillStatValue[6]; } }
+    public float Fatigue { get { return currentSkillStatValue[7]; } }
 
     private void Awake()
     {

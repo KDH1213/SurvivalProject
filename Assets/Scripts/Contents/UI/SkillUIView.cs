@@ -52,9 +52,9 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
 
     private void OnSetRandomSkillOption()
     {
-        if(skillTypeList.Count == 0)
+        if(skillTypeList.Count == 0 || skillTypeList.Count < (int)LifeSkillType.End)
         {
-            for (int i = 0; i < (int)LifeSkillType.End; ++i)
+            for (int i = skillTypeList.Count; i < (int)LifeSkillType.End; ++i)
             {
                 skillTypeList.Add(i);
             }
@@ -75,7 +75,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < skillTexts.Length; ++i)
         {
-            skillTexts[i].text = ((LifeSkillType)skillTypeList[i]).ToString();
+            skillTexts[i].text = TypeName.LifeSkillTypeName[skillTypeList[i]];
         }
     }
 
@@ -136,7 +136,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
         {
             for (int i = 0; i < skillTexts.Length; ++i)
             {
-                skillTexts[i].text = ((LifeSkillType)skillTypeList[i]).ToString();
+                skillTexts[i].text = TypeName.LifeSkillTypeName[i];
             }
         }      
     }
