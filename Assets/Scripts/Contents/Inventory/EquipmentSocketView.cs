@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 {
@@ -26,6 +27,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     private TextMeshProUGUI defenseText;
 
     private int seleteSocket = -1;
+    private bool isOnDrag = false;
 
     public void Initialize()
     {
@@ -33,16 +35,23 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         {
             for (int i = 0; i < equipmentSockets.Length; ++i)
             {
+                SetInitializeEvent(i);
                 equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);
-                equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
-                equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
-                equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
             }
         }
         else
         {
             Load();
         }
+    }
+
+    private void SetInitializeEvent(int index)
+    {
+        equipmentSockets[index].onClickEvent.AddListener(OnSeleteSocket);
+        equipmentSockets[index].onUnEquipEvent.AddListener(OnUnEquipSocket);
+        equipmentSockets[index].onChangeEquipEvent.AddListener(OnChangeEquipment);
+        equipmentSockets[index].onDragEnter.AddListener(() => { isOnDrag = true; seleteSocket = (int)equipmentSockets[index].EquipmentType; });
+        equipmentSockets[index].onDragExit.AddListener(OnEndDrag);
     }
 
     private void Start()
@@ -81,7 +90,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         equipmentSockets[seleteSocket].OnUnEquipment();
         playerStats.OnUnEquipmentItem(dropItemInfo.itemData);
-        itemInfoView.OnSetItemInfo(null);
+        itemInfoView.OnSetEquipmentItemInfo(null);
 
         seleteSocket = -1;
     }
@@ -89,7 +98,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     public void OnSeleteSocket(EquipmentType equipmentType)
     {
         seleteSocket = (int)equipmentType;
-        itemInfoView.OnSetItemInfo(equipmentSockets[seleteSocket].ItemData);
+        itemInfoView.OnSetEquipmentItemInfo(equipmentSockets[seleteSocket].ItemData);
     }
 
     public void OnChangeEquipment(EquipmentType equipmentType, int amount)
@@ -100,10 +109,48 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         }
 
         inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData, amount); 
-        itemInfoView.OnSetItemInfo(null);
+        itemInfoView.OnSetEquipmentItemInfo(null);
         // equipmentSockets[seleteSocket].
     }
 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (equipmentSockets[seleteSocket].ItemData == null)
+        {
+            isOnDrag = false;
+            seleteSocket = -1;
+            itemInfoView.OnSetEquipmentItemInfo(null);
+            return;
+        }
+
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var result in results)
+        {
+            var itemSlot = result.gameObject.GetComponent<ItemSlot>();
+
+            if (itemSlot == null)
+            {
+                continue;
+            }
+
+            itemSlot.onDragEnter?.Invoke();
+            if (itemSlot.ItemData == null)
+            {
+                inventory.OnSetEquipmentItem(equipmentSockets[seleteSocket].ItemData, equipmentSockets[seleteSocket].Amount);
+                equipmentSockets[seleteSocket].OnUnEquipment();
+            }
+            else
+            {
+                inventory.OnEndDragTargetToEquipmentSocket(equipmentSockets[seleteSocket]);
+            }
+            break;
+        }
+
+        seleteSocket = -1;
+        isOnDrag = false;
+    }
 
     public void Load()
     {
@@ -111,9 +158,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < equipmentItemList.Count; ++i)
         {
-            equipmentSockets[i].onClickEvent.AddListener(OnSeleteSocket);
-            equipmentSockets[i].onUnEquipEvent.AddListener(OnUnEquipSocket);
-            equipmentSockets[i].onChangeEquipEvent.AddListener(OnChangeEquipment);
+            SetInitializeEvent(i);
             if (equipmentItemList[i] == -1)
             {
                 equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);

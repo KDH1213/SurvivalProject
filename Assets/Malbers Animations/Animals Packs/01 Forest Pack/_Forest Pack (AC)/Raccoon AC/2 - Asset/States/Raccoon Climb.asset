@@ -1,0 +1,314 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1a8d37ca080bc4d9797c111d7a56e9, type: 3}
+  m_Name: Raccoon Climb
+  m_EditorClassIdentifier: 
+  Active: 1
+  animal: {fileID: 0}
+  Input: Action
+  ExitInput:
+    UseConstant: 1
+    ConstantValue: Sneak
+    Variable: {fileID: 0}
+  m_StateProfile:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  AlwaysForward:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  Priority: 5
+  resetInputOnFailed: 0
+  ResetLastState: 0
+  General:
+    modify: 4095
+    RootMotion: 1
+    Sprint: 1
+    Gravity: 0
+    Grounded: 0
+    OrientToGround: 0
+    CustomRotation: 1
+    FreeMovement: 0
+    AdditivePosition: 1
+    AdditiveRotation: 1
+    Persistent: 0
+    IgnoreLowerStates: 1
+    LockMovement: 0
+    LockInput: 0
+  GeneralMessage: []
+  TagModifiers:
+  - AnimationTag: ClimbStart
+    modifier:
+      modify: 3067
+      RootMotion: 1
+      Sprint: 1
+      Gravity: 0
+      Grounded: 0
+      OrientToGround: 0
+      CustomRotation: 1
+      FreeMovement: 0
+      AdditivePosition: 1
+      AdditiveRotation: 0
+      Persistent: 1
+      IgnoreLowerStates: 1
+      LockMovement: 1
+      LockInput: 1
+    tagMessages: []
+  - AnimationTag: ClimbEdge
+    modifier:
+      modify: 3323
+      RootMotion: 1
+      Sprint: 1
+      Gravity: 0
+      Grounded: 0
+      OrientToGround: 0
+      CustomRotation: 0
+      FreeMovement: 0
+      AdditivePosition: 1
+      AdditiveRotation: 0
+      Persistent: 1
+      IgnoreLowerStates: 1
+      LockMovement: 0
+      LockInput: 0
+    tagMessages: []
+  - AnimationTag: ClimbExit
+    modifier:
+      modify: -1
+      RootMotion: 1
+      Sprint: 1
+      Gravity: 0
+      Grounded: 0
+      OrientToGround: 0
+      CustomRotation: 0
+      FreeMovement: 0
+      AdditivePosition: 1
+      AdditiveRotation: 1
+      Persistent: 0
+      IgnoreLowerStates: 1
+      LockMovement: 0
+      LockInput: 0
+    tagMessages: []
+  UseSendMessage: 0
+  IncludeChildren: 1
+  AllowExitFromAnim: 0
+  CanTransitionToItself: 0
+  IncludeSleepState: 1
+  SleepFromState: []
+  SleepFromMode: []
+  QueueFrom: []
+  ResetFrom: []
+  SleepFromStance: []
+  stances:
+  - {fileID: 11400000, guid: 87ae38bfe93fc3f449ecd25863e2a6fe, type: 2}
+  TryLoop:
+    UseConstant: 1
+    ConstantValue: 5
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  EnterTag:
+    UseConstant: 1
+    ConstantValue: ClimbStart
+    Variable: {fileID: 0}
+  ExitTag:
+    UseConstant: 1
+    ConstantValue: ClimbExit
+    Variable: {fileID: 0}
+  ExitOnMain: 1
+  EnterCooldown:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  ExitCooldown:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  CanStrafe: 0
+  StrafeAnimations: 1
+  MovementStrafe: 1
+  IdleStrafe: 1
+  m_debug: 1
+  Editor_Tabs1: 4
+  SpeedSets:
+  - name: Climb
+    StartVerticalIndex:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    TopIndex:
+      UseConstant: 1
+      ConstantValue: 2
+      Variable: {fileID: 0}
+    m_SprintIndex:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    m_LockIndex:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    m_LockSpeed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    m_RootMotionPos:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    m_RootMotionRot:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    BackSpeedMult:
+      UseConstant: 1
+      ConstantValue: -1
+      Variable: {fileID: 0}
+    PitchLerpOn:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    PitchLerpOff:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    BankLerp:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    states:
+    - {fileID: 11400000, guid: 975403cc10f8cec46a3caa6ed4e3d6c5, type: 2}
+    stances: []
+    Speeds:
+    - name: Climb
+      Vertical:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      position:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      lerpPosition:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      lerpPosAnim:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      rotation:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      lerpRotAnim:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      animator:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      lerpAnimator:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      strafeSpeed:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      lerpStrafe:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+    - name: Climb Sprint
+      Vertical:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      position:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      lerpPosition:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      lerpPosAnim:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      rotation:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      lerpRotAnim:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      animator:
+        UseConstant: 1
+        ConstantValue: 1.3
+        Variable: {fileID: 0}
+      lerpAnimator:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      strafeSpeed:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      lerpStrafe:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+  ID: {fileID: 11400000, guid: 975403cc10f8cec46a3caa6ed4e3d6c5, type: 2}
+  ClimbLayer:
+    UseConstant: 1
+    ConstantValue:
+      serializedVersion: 2
+      m_Bits: 1
+    Variable: {fileID: 0}
+  Surface: {fileID: 13400000, guid: f0ca59673c9e3c24185551bc54962834, type: 2}
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  NoHorizontal:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  ClimbChest: {x: 0, y: 0.65, z: 0}
+  ClimbHip: {x: 0, y: 0.19, z: 0}
+  ClimbRayLength: 0.64
+  SprintClimbRayLength: 2
+  ClimbRayLengthOverride: []
+  DisablePivotChest: 1
+  m_rayRadius: 0.08
+  WallDistance: 0.15
+  AlignSmoothness: 10
+  GroundDistance: 0.3
+  InnerCorner: 0.4
+  OuterCornerSpeed: 1.27
+  ExitSlope: 30
+  HitTransform: ClimbHit
+  UseLedgeDetection: 1
+  RayLedgeOffset: {x: 0, y: 0.32, z: 0}
+  RayLedgeLength: 0.35
+  LedgeExitDistance: 0.1
+  MinLedgeAngle: 65
+  ClimbLedge: 1
+  ClimbOff: 2
+  ClimbDown: 3
+  ClimbExitSlope: 4

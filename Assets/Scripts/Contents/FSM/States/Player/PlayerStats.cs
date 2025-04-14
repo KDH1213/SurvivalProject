@@ -124,6 +124,23 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         }
     }
 
+    public void OnUseItem(ItemData itemData)
+    {
+        //var statInfoList = itemData.GetItemInfoList();
+
+        //foreach (var statInfo in statInfoList)
+        //{
+        //    if (statInfo.statType == StatType.AttackSpeed)
+        //    {
+        //        currentStatTable[statInfo.statType].SetValue(originalData.StatTable[statInfo.statType].Value);
+        //    }
+        //    else
+        //    {
+        //        currentStatTable[statInfo.statType].AddValue(-statInfo.value);
+        //    }
+        //}
+    }
+
     public void OnChangeLifeStat(LifeSkillType type)
     {
         switch (type)

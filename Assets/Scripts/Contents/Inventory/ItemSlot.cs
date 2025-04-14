@@ -22,8 +22,6 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public int SlotIndex { get; set; }
 
     public Button button;
-    public UnityEvent onPointerEnter;
-    public UnityEvent onPointerExit;
     public UnityEvent onDragEnter;
     public UnityEvent<PointerEventData> onDragExit;
 
@@ -68,7 +66,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-        
+        // eventData.position
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -82,7 +80,6 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         {
             onDragEnter?.Invoke();
         }
-        
     }
 
     public void OnEndDrag(PointerEventData eventData)
