@@ -290,7 +290,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         int index = Database.objects.FindIndex(x => x.ID == SelectedObject.PlacementData.ID);
         RemoveStructure(SelectedObject);
         placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, PlacedGameObjects);
-        inven.PlusItem(Database.objects[index].NeedItems);
         Destroy(SelectedObject.transform.parent.gameObject);
         preview.StopShowingPreview();
     }

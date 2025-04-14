@@ -177,6 +177,10 @@ public class PlacementUIController : MonoBehaviour
     }
     public void OnOpenFarmInfo(GameObject target, int id, ProduceInfo produceInfo)
     {
+        if(placementSystem == null)
+        {
+            placementSystem = GetComponent<PlacementSystem>();
+        }
         farmUI.gameObject.SetActive(true);
         farmUI.SetUIInfo(placementSystem, target, id, produceInfo);
     }
