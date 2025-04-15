@@ -48,19 +48,29 @@ public class MonsterAttackState : MonsterBaseState
 
     public void OnEndAttackAnimationMonster()
     {
-        if(MonsterFSM.IsDead)
+        if(MonsterFSM.CurrentStateType != stateType)
         {
             return;
         }
 
-        if (MonsterFSM.Target == null || MonsterFSM.TargetDistance > MonsterFSM.Weapon.Range)
+        if(MonsterFSM.Target == null)
         {
             MonsterFSM.ChangeState(MonsterStateType.Chase);
             return;
         }
         else
         {
-            MonsterFSM.ChangeState(MonsterStateType.Attack);
+            var targetDistance = MonsterFSM.Target.transform.position - MonsterFSM.transform.position;
+            targetDistance.y = 0f;
+            if(targetDistance.sqrMagnitude > MonsterFSM.Weapon.Range * MonsterFSM.Weapon.Range)
+            {
+                MonsterFSM.ChangeState(MonsterStateType.Chase);
+            }
+            else
+            {
+                MonsterFSM.ChangeState(MonsterStateType.Attack);
+            }
+            
         }
     }
     public void OnMonsterAttack()
