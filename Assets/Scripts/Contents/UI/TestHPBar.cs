@@ -11,7 +11,7 @@ public class TestHPBar : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         transform.rotation = mainCamera.transform.rotation;
     }
