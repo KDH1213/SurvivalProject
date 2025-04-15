@@ -43,20 +43,15 @@ public static class DataTableManager
         tableConstruction.Load(idConstruction);
         tables.Add(idConstruction, tableConstruction);
 
-        var tableFarm = new FarmTable();
-        string idFarm = PlacementTableIds.FarmTable;
-        tableFarm.Load(idFarm);
-        tables.Add(idFarm, tableFarm);
+        var tableStructure = new StructureTable();
+        string idStructure = PlacementTableIds.StructureTable;
+        tableStructure.Load(idStructure);
+        tables.Add(idStructure, tableStructure);
 
-        var tableTurret = new TurretTable();
-        string idTurret = PlacementTableIds.TurretTable;
-        tableTurret.Load(idTurret);
-        tables.Add(idTurret, tableTurret);
-
-        var tableOther = new OtherTable();
-        string idOther = PlacementTableIds.OtherTable;
-        tableOther.Load(idOther);
-        tables.Add(idOther, tableOther);
+        /*var tableItemCreate = new ItemCreateTable();
+        string idItemCreate = PlacementTableIds.ItemCreateTable;
+        tableItemCreate.Load(idItemCreate);
+        tables.Add(idItemCreate, tableItemCreate);*/
     }
 
 
@@ -102,17 +97,12 @@ public static class DataTableManager
         get { return Get<ConstructionTable>(PlacementTableIds.ConstructionTable); }
     }
 
-    public static FarmTable FarmTable
+    public static StructureTable StructureTable
     {
-        get { return Get<FarmTable>(PlacementTableIds.FarmTable); }
+        get { return Get<StructureTable>(PlacementTableIds.StructureTable); }
     }
-
-    public static TurretTable TurretTable
+    public static ItemCreateTable ItemCreateTable
     {
-        get { return Get<TurretTable>(PlacementTableIds.TurretTable); }
-    }
-    public static OtherTable OtherTable
-    {
-        get { return Get<OtherTable>(PlacementTableIds.OtherTable); }
+        get { return Get<ItemCreateTable>(PlacementTableIds.ItemCreateTable); }
     }
 }

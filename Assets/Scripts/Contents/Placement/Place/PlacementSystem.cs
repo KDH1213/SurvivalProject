@@ -64,7 +64,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         if (SaveLoadManager.Data != null)
         {
-            Load();
+            SaveLoadManager.Load(1);
         }
     }
 
@@ -148,12 +148,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         {
             return;
         }
-        bool invenValidity = inven.CheckItemCount(Database.objects[SelectedObjectIndex].NeedItems);
-        if (!invenValidity)
-        {
-            StopPlacement();
-            return;
-        }
+        
 
         if (SelectedObject != null)
         {
@@ -163,8 +158,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         else
         {
             inven.MinusItem(Database.objects[SelectedObjectIndex].NeedItems);
+            
             foreach(var data in Database.objects[SelectedObjectIndex].NeedItems)
             {
+                if (inventory == null)
+                    break;
                 inventory.ConsumeItem(data.Key, data.Value);
             }
             
@@ -194,6 +192,24 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             StopPlacement();
             return;
         }
+
+        bool invenValidity = inven.CheckItemCount(Database.objects[SelectedObjectIndex].NeedItems);
+        foreach (var data in Database.objects[SelectedObjectIndex].NeedItems)
+        {
+            if (inventory == null)
+                break;
+            if (inventory.GetTotalItem(data.Key) < data.Value)
+            {
+                
+                invenValidity = false;
+            }
+        }
+        if (!invenValidity)
+        {
+            StopPlacement();
+            return;
+        }
+
 
         Vector3Int nextPos = gridData.SearchSide(gridPosition, Database.objects[SelectedObjectIndex].Size);
         preview.UpdatePosition(grid.CellToWorld(nextPos),
@@ -385,10 +401,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     }
 
-    //private void OnApplicationQuit()
-    //{
-    //    Save();
+    private void OnApplicationQuit()
+    {
+        Save();
 
-    //    SaveLoadManager.Save(1);
-    //}
+        SaveLoadManager.Save(1);
+    }
 }

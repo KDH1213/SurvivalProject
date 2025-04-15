@@ -17,11 +17,11 @@ public struct ProduceInfo
 public class ProduceStructure : PlacementObject
 {
     [SerializeField]
-    private float produceTime;
+    public float produceTime;
     [SerializeField]
-    private float currentTime;
+    public float currentTime;
     [SerializeField]
-    private ProduceInfo produceInfo;
+    public ProduceInfo produceInfo;
 
 
     private void Awake()
@@ -41,6 +41,7 @@ public class ProduceStructure : PlacementObject
         if(produceInfo.outPut >= produceInfo.maxOutPut)
         {
             produceInfo.outPut = produceInfo.maxOutPut;
+            return;
         }
 
         if (Time.time >= currentTime)
@@ -52,12 +53,12 @@ public class ProduceStructure : PlacementObject
 
     public override void SetData()
     {
-        FarmTable.Data data = DataTableManager.FarmTable.Get(ID);
-        produceTime = data.outputTime;
+        StructureTable.Data data = DataTableManager.StructureTable.Get(ID);
+        produceTime = data.ProductionCycle;
         produceInfo.structure = this;
-        produceInfo.id = data.itemID;
-        produceInfo.maxOutPut = data.maxStorage;
-        produceInfo.outPutValue = data.outputValue;
+        produceInfo.id = data.ItemToProduce;
+        produceInfo.maxOutPut = data.MaxStorageCapacity;
+        produceInfo.outPutValue = data.AmountPerProduction;
         currentTime = Time.time + produceTime;
     }
 
@@ -88,7 +89,7 @@ public class ProduceStructure : PlacementObject
 
     public override void Interact(GameObject interactor)
     {
-        uiController.OnOpenFarmInfo(interactor, ID, produceInfo);
+        uiController.OnOpenFarmInfo(interactor, ID, this);
     }
 
     public void ReturnOutPut(int outPut)

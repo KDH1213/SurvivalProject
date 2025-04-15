@@ -42,6 +42,9 @@ public class ObjectInfoUI : MonoBehaviour
         }
 
         upgrade.onClick.AddListener(() => gameObject.SetActive(false));
+
+        
+
         upgrade.onClick.AddListener(() => uiController.OnOpenUpgradeInfo(objInfo));
     }
 

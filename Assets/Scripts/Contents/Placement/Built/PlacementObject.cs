@@ -47,7 +47,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
         
     }
 
-    public void OnAttack(GameObject attacker, DamageInfo damageInfo)
+    public virtual void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
         Hp -= damageInfo.damage;
 

@@ -36,11 +36,7 @@ public class TurretStructure : PlacementObject
 
     public override void SetData()
     {
-        TurretTable.Data data = DataTableManager.TurretTable.Get(ID);
-        damage = data.turretAtkPower;
-        attackRange = data.turretAtkRange;
-        attackTerm = data.turretAtkSpeed;
-        currentTime = Time.time + attackTerm;
+
     }
 
     private void OnDrawGizmos()

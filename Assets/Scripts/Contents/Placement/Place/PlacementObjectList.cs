@@ -6,10 +6,12 @@ using UnityEngine;
 
 public enum StructureKind
 {
-    Farm = 1,
+    // 1 = 기타 건물, 2 = 농장, 3 = 포탑, 4 = 제작, 5 = 보관
+    Other = 1,
+    Farm,
     Turret,
-    Other
-
+    Create,
+    Store,
 }
 
 public class PlacementObjectList
@@ -21,46 +23,26 @@ public class PlacementObjectList
 
     public void SetObjects()
     {
-        SetFarmObject();
-        SetTurretObject();
-        SetOtherObject();
+        SetStructureObject();
     }
 
-    private void SetFarmObject()
+    private void SetStructureObject()
     {
-        var allData = DataTableManager.FarmTable.GetAll();
+        var allData = DataTableManager.StructureTable.GetAll();
         foreach (var data in allData)
         {
             PlacementObjectInfo objInfo = new PlacementObjectInfo();
-            objInfo.ID = data.Value.buildingID;
+            objInfo.ID = data.Value.BuildingID;
+            objInfo.NextStructureID = data.Value.UpgradeID;
             var construction = DataTableManager.ConstructionTable.Get(objInfo.ID);
 
             objInfo.MaxBuildCount = Random.Range(1, 11);
-            string[] xy = construction.lengthXY.Split('_');
-            if (int.TryParse(xy[0], out int x) && int.TryParse(xy[1], out int y))
-            {
-                objInfo.Size = new Vector2Int(x, y);
-            }
-            else
-            {
-                Debug.LogError("잘못된 데이터!");
-            }
+            objInfo.Size = new Vector2Int(data.Value.BuildingSizeX, data.Value.BuildingSizeY);
 
-            objInfo.Kind = (StructureKind)construction.category;
-            objInfo.Name = data.Value.buildingNameID.ToString();
+            objInfo.Kind = (StructureKind)data.Value.BuildingCategory;
+            objInfo.Name = data.Value.NameID.ToString();
             objInfo.DefaultHp = construction.buildingHP;
-            string prefab = "";
-
-            if (data.Value.category == 1)
-            {
-                prefab = "PlacementTest";
-            }
-            else
-            {
-                prefab = "PlacementTest3";
-            }
-
-
+            string prefab = data.Value.PrefebName;
 
             objInfo.Prefeb = Resources.Load<GameObject>
                 (string.Format(prefabPathFormat, objInfo.Kind.ToString(), prefab));
@@ -76,130 +58,11 @@ public class PlacementObjectList
 
 
             objInfo.Icon = Resources.Load<Sprite>
-                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.buildingIcon));
-            //objInfo.Feature = 
+                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.IconName));
+            objInfo.Feature = data.Value.DescriptID.ToString();
 
             objects.Add(objInfo);
-
         }
     }
-
-    private void SetTurretObject()
-    {
-        var allData = DataTableManager.TurretTable.GetAll();
-        foreach (var data in allData)
-        {
-            PlacementObjectInfo objInfo = new PlacementObjectInfo();
-            objInfo.ID = data.Value.buildingID;
-            var construction = DataTableManager.ConstructionTable.Get(objInfo.ID);
-
-            objInfo.MaxBuildCount = Random.Range(1, 11);
-            string[] xy = construction.lengthXY.Split('_');
-            if (int.TryParse(xy[0], out int x) && int.TryParse(xy[1], out int y))
-            {
-                objInfo.Size = new Vector2Int(x, y);
-            }
-            else
-            {
-                Debug.LogError("잘못된 데이터!");
-            }
-
-            objInfo.Kind = (StructureKind)construction.category;
-            objInfo.Name = data.Value.buildingNameID.ToString();
-            objInfo.DefaultHp = construction.buildingHP;
-            string prefab = "";
-
-            if (data.Value.category == 1)
-            {
-                prefab = "PlacementTest 1";
-            }
-            else
-            {
-                prefab = "PlacementTest Lv2";
-            }
-
-
-
-            objInfo.Prefeb = Resources.Load<GameObject>
-                (string.Format(prefabPathFormat, objInfo.Kind.ToString(), prefab));
-
-            var table = objInfo.Prefeb.transform.GetChild(0).GetComponent<StructureStats>().CurrentStatTable;
-            table.Clear();
-            table.Add(StatType.HP, new StatValue(StatType.HP, objInfo.DefaultHp));
-            table.Add(StatType.BasicAttackPower, new StatValue(StatType.BasicAttackPower, data.Value.turretAtkPower));
-            table.Add(StatType.AttackSpeed, new StatValue(StatType.AttackSpeed, data.Value.turretAtkSpeed));
-            table.Add(StatType.AttackRange, new StatValue(StatType.AttackRange, data.Value.turretAtkRange));
-
-            string[] needItemKeys = construction.buildCostID.Split('_');
-            string[] needItemValues = construction.buildCostValue.Split('_');
-            for (int i = 0; i < needItemKeys.Length; i++)
-            {
-                objInfo.NeedItems.Add(int.Parse(needItemKeys[i]), int.Parse(needItemValues[i]));
-            }
-
-
-            objInfo.Icon = Resources.Load<Sprite>
-                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.buildingIcon));
-            //objInfo.Feature = 
-
-            objects.Add(objInfo);
-
-        }
-    }
-
-    private void SetOtherObject()
-    {
-        var allData = DataTableManager.OtherTable.GetAll();
-        foreach (var data in allData)
-        {
-            PlacementObjectInfo objInfo = new PlacementObjectInfo();
-            objInfo.ID = data.Value.buildingID;
-            var construction = DataTableManager.ConstructionTable.Get(objInfo.ID);
-
-            objInfo.MaxBuildCount = Random.Range(1, 11);
-            string[] xy = construction.lengthXY.Split('_');
-            if (int.TryParse(xy[0], out int x) && int.TryParse(xy[1], out int y))
-            {
-                objInfo.Size = new Vector2Int(x, y);
-            }
-            else
-            {
-                Debug.LogError("잘못된 데이터!");
-            }
-
-            objInfo.Kind = (StructureKind)construction.category;
-            objInfo.Name = data.Value.buildingNameID.ToString();
-            objInfo.DefaultHp = construction.buildingHP;
-            string prefab = "";
-
-            if (data.Value.category == 1)
-            {
-                prefab = "FencePrefab1";
-            }
-            else
-            {
-                prefab = "FencePrefab2";
-            }
-
-
-
-            objInfo.Prefeb = Resources.Load<GameObject>
-                (string.Format(prefabPathFormat, objInfo.Kind.ToString(), prefab));
-
-            string[] needItemKeys = construction.buildCostID.Split('_');
-            string[] needItemValues = construction.buildCostValue.Split('_');
-            for (int i = 0; i < needItemKeys.Length; i++)
-            {
-                objInfo.NeedItems.Add(int.Parse(needItemKeys[i]), int.Parse(needItemValues[i]));
-            }
-
-
-            objInfo.Icon = Resources.Load<Sprite>
-                (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.buildingIcon));
-            //objInfo.Feature = 
-
-            objects.Add(objInfo);
-
-        }
-    }
+    
 }
