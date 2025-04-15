@@ -80,9 +80,10 @@ public class MonsterAttackState : MonsterBaseState
         MonsterFSM.Weapon.StartAttack(MonsterFSM.AttackPoint, gameObject);
 
         var targetStats = MonsterFSM.Target.GetComponent<CharactorStats>();
-        if (!MonsterFSM.Target.activeSelf || (targetStats != null && targetStats.IsDead))
+        if (targetStats.IsDead)
         {
             MonsterFSM.Target = null;
+            MonsterFSM.TargetTransform = null;
         }
     }
 
