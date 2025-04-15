@@ -45,7 +45,6 @@ public class ConstructionTable : DataTable
             if (!dictionoary.ContainsKey(item.buildingID))
             {
                 dictionoary.Add(item.buildingID, item);
-                Debug.Log(item.ToString());
             }
             else
             {

@@ -106,9 +106,8 @@ public static class ReinforcedTableIds
 public static class PlacementTableIds
 {
     public static readonly string ConstructionTable = "ConstructionTable";
-    public static readonly string FarmTable = "FarmTable";
-    public static readonly string TurretTable = "TurretTable";
-    public static readonly string OtherTable = "OtherTable";
+    public static readonly string StructureTable = "StructureTable";
+    public static readonly string ItemCreateTable = "ItemCreateTable";
 
 }
 

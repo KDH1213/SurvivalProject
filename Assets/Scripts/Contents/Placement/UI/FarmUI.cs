@@ -40,6 +40,7 @@ public class FarmUI : MonoBehaviour
         needItems[0].gameObject.SetActive(true);
         needItems[0].SetNeedItem(null, produceInfo.id, produceInfo.outPut, produceInfo.maxOutPut);
         needItems.Add(needItems[index]);
+
     }
 
     private void SetButtonDisable()
@@ -59,7 +60,7 @@ public class FarmUI : MonoBehaviour
 
     public void onInteract()
     {
-        var testItem = DataTableManager.ItemTable.Get(1201001); // kind...?
+        var testItem = DataTableManager.ItemTable.Get(1201001); 
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 
         int totalOutPut = produceInfo.outPut;
@@ -67,7 +68,7 @@ public class FarmUI : MonoBehaviour
         int leftItems = totalOutPut % testItem.MaxAmount;
 
         var test = new DropItemInfo();
-        test.id = 1201001;
+        test.id = 1201001;  // testItem.ID
         test.ItemName = testItem.ItemName;
         test.itemData = testItem;
 

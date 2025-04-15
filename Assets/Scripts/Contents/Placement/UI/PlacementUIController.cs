@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
 
 public class PlacementUIController : MonoBehaviour
@@ -36,7 +37,9 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private UpgradeUI upgradeUI; // 업그레이드 UI
     [SerializeField]
-    private FarmUI farmUI; // 농장 UI
+    private FarmInfoUi farmUI; // 농장 UI
+    [SerializeField]
+    private UpgradeFarmUI upgradeFarmUI; // 농장 업그레이드 UI
 
     private void Awake()
     {
@@ -172,16 +175,27 @@ public class PlacementUIController : MonoBehaviour
 
     public void OnOpenUpgradeInfo(PlacementObjectInfo placementInfo)
     {
-        upgradeUI.gameObject.SetActive(true);
-        upgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+        if(placementInfo.Kind == StructureKind.Farm)
+        {
+            upgradeFarmUI.gameObject.SetActive(true);
+            upgradeFarmUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+        }
+        else
+        {
+            upgradeUI.gameObject.SetActive(true);
+            upgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+        }
+        
     }
-    public void OnOpenFarmInfo(GameObject target, int id, ProduceInfo produceInfo)
+    public void OnOpenFarmInfo(GameObject target, int id, ProduceStructure produceInfo)
     {
         if(placementSystem == null)
         {
             placementSystem = GetComponent<PlacementSystem>();
         }
         farmUI.gameObject.SetActive(true);
-        farmUI.SetUIInfo(placementSystem, target, id, produceInfo);
+        int index = placementSystem.Database.objects.FindIndex(x => x.ID == id);
+        PlacementObjectInfo data = placementSystem.Database.objects[index];
+        farmUI.SetUIInfo(data, target, produceInfo);
     }
 }
