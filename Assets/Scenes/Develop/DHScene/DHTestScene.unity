@@ -532,6 +532,12 @@ MonoBehaviour:
       - {fileID: 165186675}
       - {fileID: 1485637887}
       - {fileID: 1314032324}
+  respawnLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  OnInitializeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &261146467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2377,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -3546,7 +3553,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -5384,9 +5392,7 @@ MonoBehaviour:
   m_Follow: {fileID: 315731004}
   m_ShowDebugText: 0
   m_Loop: 0
-  m_ChildCameras:
-  - {fileID: 1388988211}
-  - {fileID: 7355456130801431905}
+  m_ChildCameras: []
   m_Instructions:
   - m_VirtualCamera: {fileID: 1388988211}
     m_Hold: 1
