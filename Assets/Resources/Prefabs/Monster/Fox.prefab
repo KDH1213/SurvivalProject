@@ -129,7 +129,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6036054333073493128}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.3
+  m_Radius: 0.5
   m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
@@ -138,7 +138,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.5
+  m_Height: 1
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
@@ -448,8 +448,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.27319813, y: 0.48586255, z: 0.60149765}
-  m_Center: {x: -0.0089764595, y: 0.2556363, z: -0.004491985}
+  m_Size: {x: 0.37918282, y: 0.77543753, z: 1.4439018}
+  m_Center: {x: -0.004169464, y: 0.4004238, z: -0.027690053}
 --- !u!1001 &4660374316048722138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -700,6 +700,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: f599f757241e3fd418f02476baa3ab12,
         type: 2}
+    - target: {fileID: 6076003843059800474, guid: 1cd0a6b264b1c744a94916eed0908344,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -4308192027403668925, guid: 1cd0a6b264b1c744a94916eed0908344, type: 3}
