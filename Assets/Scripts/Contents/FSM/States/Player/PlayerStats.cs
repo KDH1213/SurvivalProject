@@ -134,19 +134,33 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
     public void OnUseItem(ItemData itemData)
     {
-        //var statInfoList = itemData.GetItemInfoList();
+        var itemUseEffectInfoList = itemData.ItemUseEffectInfoList;
 
-        //foreach (var statInfo in statInfoList)
-        //{
-        //    if (statInfo.statType == StatType.AttackSpeed)
-        //    {
-        //        currentStatTable[statInfo.statType].SetValue(originalData.StatTable[statInfo.statType].Value);
-        //    }
-        //    else
-        //    {
-        //        currentStatTable[statInfo.statType].AddValue(-statInfo.value);
-        //    }
-        //}
+        int count = itemUseEffectInfoList.Count;
+
+        for (int i = 0; i < count; ++i)
+        {
+            switch (itemUseEffectInfoList[i].itemUseEffectType)
+            {
+                case ItemUseEffectType.None:
+                    break;
+                case ItemUseEffectType.Hp:
+                    currentStatTable[StatType.HP].AddValue(itemUseEffectInfoList[i].value);
+                    OnChangeHp();
+                    break;
+                case ItemUseEffectType.Fatigue:
+                    survivalStats.PenaltyTable[SurvivalStatType.Fatigue].SubPenaltyValue(itemUseEffectInfoList[i].value);
+                    break;
+                case ItemUseEffectType.Hunger:
+                    survivalStats.PenaltyTable[SurvivalStatType.Hunger].AddPenaltyValue(itemUseEffectInfoList[i].value);
+                    break;
+                case ItemUseEffectType.Thirst:
+                    survivalStats.PenaltyTable[SurvivalStatType.Thirst].AddPenaltyValue(itemUseEffectInfoList[i].value);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void OnChangeLifeStat(LifeSkillType type)
@@ -214,7 +228,12 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void Load()
     {
         // lifeStat.Load();
-        currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)LifeSkillType.HP] * 5f);
+
+        if(SaveLoadManager.Data.levelStatInfo.skillLevelList.Count >(int)LifeSkillType.HP)
+        {
+            currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)LifeSkillType.HP] * 5f);
+        }
+
         currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
 
         var equipmentItemIDList = SaveLoadManager.Data.equipmentItemIDList;

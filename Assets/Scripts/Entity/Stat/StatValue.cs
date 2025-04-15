@@ -30,7 +30,7 @@ public class StatValue
     public float AddValue(float addValue)
     {
         this.value += addValue;
-        this.value = System.Math.Max(minMaxValue.min, value);
+        this.value = Mathf.Clamp(value, minMaxValue.min, minMaxValue.max);
         OnChangeValue?.Invoke(value);
 
         return this.value;

@@ -45,7 +45,7 @@ public class FatigueStat : SurvivalStatBehaviour
         }
     }
 
-    public void SubPenaltyValue(float value)
+    public override void SubPenaltyValue(float value)
     {
         this.value -= value;
         this.value = Mathf.Clamp(this.value, 0f, maxValue);

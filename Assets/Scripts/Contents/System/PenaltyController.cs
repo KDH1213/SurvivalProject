@@ -5,7 +5,8 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 {
     //[field: SerializeField]
     //public SurvivalStatData SurvivalStatData { get; private set; }
-    private SerializedDictionary<SurvivalStatType, IPenalty> penaltyTable = new SerializedDictionary<SurvivalStatType, IPenalty>();
+    private SerializedDictionary<SurvivalStatType, SurvivalStatBehaviour> penaltyTable = new SerializedDictionary<SurvivalStatType, SurvivalStatBehaviour>();
+    public SerializedDictionary<SurvivalStatType, SurvivalStatBehaviour> PenaltyTable {  get { return penaltyTable; } }
     [SerializeField]
     private PlayerStats playerStats;
 
@@ -28,7 +29,7 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 
         penaltyTable.Clear();
 
-        var penaltys = GetComponents<IPenalty>();
+        var penaltys = GetComponents<SurvivalStatBehaviour>();
 
         foreach (var penalty in penaltys)
         {
