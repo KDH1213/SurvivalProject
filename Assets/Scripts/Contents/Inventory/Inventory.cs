@@ -414,13 +414,13 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                     itemInfoList.Remove(itemInfos[sourceSlotIndex]);
                 }
 
-                itemInfos[targetSlotIndex].Amount = totalAmount;
-                itemInfos[sourceSlotIndex].Empty();
+                itemInfos[sourceSlotIndex].Amount = totalAmount;
+                itemInfos[targetSlotIndex].Empty();
             }
             else
             {
-                itemInfos[targetSlotIndex].Amount = itemInfos[targetSlotIndex].itemData.MaxAmount;
-                itemInfos[sourceSlotIndex].Amount = totalAmount - itemInfos[targetSlotIndex].itemData.MaxAmount;
+                itemInfos[sourceSlotIndex].Amount = itemInfos[sourceSlotIndex].itemData.MaxAmount;
+                itemInfos[targetSlotIndex].Amount = totalAmount - itemInfos[sourceSlotIndex].itemData.MaxAmount;
             }
         }
         else

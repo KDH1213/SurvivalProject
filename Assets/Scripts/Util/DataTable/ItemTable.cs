@@ -61,7 +61,7 @@ public class ItemData
 public class ItemTable : DataTable
 {
     private Dictionary<int, ItemData> itemDataTable = new Dictionary<int, ItemData>();
-    private readonly string assetIconPath = "UI/Icon/{0}";
+    private readonly string assetIconPath = "Sprites/UI/Icons/{0}";
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
