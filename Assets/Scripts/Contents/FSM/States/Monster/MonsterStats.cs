@@ -14,7 +14,11 @@ public class MonsterStats : CharactorStats
         {
             originalData.CopyStat(ref currentStatTable);
         }
-
+        deathEvent.AddListener(() => 
+        { 
+            if (HpBarSlider != null)
+                HpBarSlider.gameObject.SetActive(false);
+        });
         OnChangeHp();
     }
 
@@ -24,6 +28,8 @@ public class MonsterStats : CharactorStats
         {
             currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
             IsDead = false;
+
+            HpBarSlider.gameObject.SetActive(true);
         }
         OnChangeHp();
     }
