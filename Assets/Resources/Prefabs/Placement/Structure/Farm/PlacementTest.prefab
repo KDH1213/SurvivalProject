@@ -210,7 +210,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 9.342485, y: 3.7051356, z: 1.2336514}
   m_Center: {x: -0.052490067, y: 9.79186, z: 4.1221747}
@@ -228,10 +228,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   produceTime: 10
   currentTime: 0
-  kind: Wood
-  outPut: 0
-  maxOutPut: 0
-  outPutValue: 0
+  produceInfo:
+    structure: {fileID: 0}
+    id: 0
+    outPut: 0
+    maxOutPut: 0
+    outPutValue: 0
 --- !u!208 &1880349872250189604
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -242,7 +244,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 3.5, y: 3.5, z: 5}
+  m_Extents: {x: 2, y: 3.5, z: 3.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
