@@ -9,32 +9,45 @@ public class ItemData
     [field: SerializeField]
     public int ID { get; set; }
     [field: SerializeField]
-    public int itemNameID { get; set; }
+    public int NameID { get; set; }
     [field: SerializeField]
-    public int itemDescID { get; set; }
+    public int DescriptID { get; set; }
     [field: SerializeField]
-    public string itemIconSpriteID { get; set; }
+    public string IconName { get; set; }
     [field: SerializeField]
     public ItemType ItemType { get; set; }
     [field: SerializeField]
-    public int MaxAmount { get; set; }
+    public int MaxStack { get; set; }
     [field: SerializeField]
-    public int isDisposible { get; set; }
-    [field: SerializeField]
-    public int itemCooltime { get; set; }
-    [field: SerializeField]
-    public string targetStat { get; set; }
-    [field: SerializeField]
-    public string value { get; set; }
-    [field: SerializeField]
-    public int seOnUse { get; set; }
-    [field: SerializeField]
-    public float lifeExpGain { get; set; }
+    public int IsDisposible { get; set; }
 
+    [field: SerializeField]
+    public int TargetStat1 { get; set; }
 
+    [field: SerializeField]
+    public int Value1 { get; set; }
+
+    [field: SerializeField]
+    public int TargetStat2 { get; set; }
+
+    [field: SerializeField]
+    public int Value2 { get; set; }
+
+    [field: SerializeField]
+    public int TargetStat3 { get; set; }
+
+    [field: SerializeField]
+    public int Value3 { get; set; }
+
+    [field: SerializeField]
+    public int TargetStat4 { get; set; }
+
+    [field: SerializeField]
+    public int Value4 { get; set; }
+    
 
     public Sprite ItemImage;
-    public string ItemName { get { return itemNameID.ToString(); } }
+    public string ItemName { get { return NameID.ToString(); } }
 
     public List<StatInfo> GetItemInfoList()
     {
@@ -47,7 +60,7 @@ public class ItemData
             list.Add(new StatInfo(StatType.BasicAttackPower, weaponData.attack));
             list.Add(new StatInfo(StatType.AttackSpeed, weaponData.attackSpeed));
         }
-        else if (ItemType >= ItemType.Helmet && ItemType <= ItemType.Shoes)
+        else if (ItemType == ItemType.Armor)
         {
             var armorData = DataTableManager.ArmorTable.Get(ID);
 
@@ -55,6 +68,13 @@ public class ItemData
             list.Add(new StatInfo(StatType.MovementSpeed, armorData.moveSpeed));
         }
         return list;
+    }
+
+    public static EquipmentType ConvertEquipmentType(ItemType itemType)
+    {
+
+
+        return EquipmentType.None;
     }
 }
 
@@ -76,7 +96,7 @@ public class ItemTable : DataTable
             if (!itemDataTable.ContainsKey(item.ID))
             {
                 itemDataTable.Add(item.ID, item);
-                item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
+                item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.IconName), typeof(Sprite)));
             }
             else
             {

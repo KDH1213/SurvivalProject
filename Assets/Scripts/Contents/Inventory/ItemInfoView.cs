@@ -41,8 +41,8 @@ public class ItemInfoView : MonoBehaviour
             return;
         }
 
-        itemNameText.text = itemData.itemNameID.ToString();
-        itemInfoText.text = itemData.itemDescID.ToString();
+        itemNameText.text = itemData.NameID.ToString();
+        itemInfoText.text = itemData.DescriptID.ToString();
 
         if(!isItemSlot)
         {
@@ -53,29 +53,28 @@ public class ItemInfoView : MonoBehaviour
             unEquiptButton.interactable = false;
         }
 
-        if (itemData.isDisposible == 1)
+        if (itemData.IsDisposible == 1)
         {
             eraseButton.interactable = true;
         }
 
         switch (itemData.ItemType)
         {
-            case ItemType.Helmet:
-            case ItemType.Armor:
-            case ItemType.Pants:
-            case ItemType.Shoes:
-                SetArmorInfo(itemData, isItemSlot);
-                break;
-            case ItemType.Weapon:
-                SetWeaponInfo(itemData, isItemSlot);
-                break;
-            case ItemType.Consumable:
-                SetConsumableInfo(itemData, isItemSlot);
-                break;
             case ItemType.Material:
                 itemStatsText.text = string.Empty;
                 useButton.interactable = false;
                 equipButton.interactable = false;
+                break;
+            case ItemType.Consumable:
+                SetConsumableInfo(itemData, isItemSlot);
+                break;
+            case ItemType.Relics:
+                break;
+            case ItemType.Weapon:
+                SetWeaponInfo(itemData, isItemSlot);
+                break;
+            case ItemType.Armor:
+                SetArmorInfo(itemData, isItemSlot);
                 break;
             default:
                 break;

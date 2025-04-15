@@ -298,7 +298,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             foreach (var item in itemList)
             {
-                int addUseCount = (item.itemData.MaxAmount - item.Amount);
+                int addUseCount = (item.itemData.MaxStack - item.Amount);
                 if(dropItemInfo.amount <= addUseCount)
                 {
                     item.Amount += dropItemInfo.amount;
@@ -308,7 +308,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 }
                 else
                 {
-                    item.Amount = item.itemData.MaxAmount;
+                    item.Amount = item.itemData.MaxStack;
                     dropItemInfo.amount -= addUseCount;
                 }
                
@@ -407,7 +407,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             // 같은 아이템일 경우 합치기
             int totalAmount = itemInfos[targetSlotIndex].Amount + itemInfos[sourceSlotIndex].Amount;
 
-            if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxAmount)
+            if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxStack)
             {
                 if (inventoryItemTable.TryGetValue(itemInfos[sourceSlotIndex].itemData.ID, out var itemInfoList))
                 {
@@ -419,8 +419,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             }
             else
             {
-                itemInfos[sourceSlotIndex].Amount = itemInfos[sourceSlotIndex].itemData.MaxAmount;
-                itemInfos[targetSlotIndex].Amount = totalAmount - itemInfos[sourceSlotIndex].itemData.MaxAmount;
+                itemInfos[sourceSlotIndex].Amount = itemInfos[sourceSlotIndex].itemData.MaxStack;
+                itemInfos[targetSlotIndex].Amount = totalAmount - itemInfos[sourceSlotIndex].itemData.MaxStack;
             }
         }
         else

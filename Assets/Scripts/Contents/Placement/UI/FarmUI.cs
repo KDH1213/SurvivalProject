@@ -63,8 +63,8 @@ public class FarmUI : MonoBehaviour
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 
         int totalOutPut = produceInfo.outPut;
-        int slotCount = totalOutPut / testItem.MaxAmount;
-        int leftItems = totalOutPut % testItem.MaxAmount;
+        int slotCount = totalOutPut / testItem.MaxStack;
+        int leftItems = totalOutPut % testItem.MaxStack;
 
         var test = new DropItemInfo();
         test.id = 1201001;
@@ -73,14 +73,14 @@ public class FarmUI : MonoBehaviour
 
         for (int i = 0; i < slotCount; i++)
         {
-            test.amount = testItem.MaxAmount;
+            test.amount = testItem.MaxStack;
 
             if (inventroy.IsFullInventory())
             {
                 var itemList = inventroy.InventroyItemTable[test.id];
                 foreach (var item in itemList)
                 {
-                    int addUseCount = (item.itemData.MaxAmount - item.Amount);
+                    int addUseCount = (item.itemData.MaxStack - item.Amount);
                     if (addUseCount > 0)
                     {
                         test.amount = addUseCount;
@@ -103,7 +103,7 @@ public class FarmUI : MonoBehaviour
             var itemList = inventroy.InventroyItemTable[test.id];
             foreach (var item in itemList)
             {
-                int addUseCount = (item.itemData.MaxAmount - item.Amount);
+                int addUseCount = (item.itemData.MaxStack - item.Amount);
                 if (addUseCount > 0)
                 {
                     test.amount = addUseCount;
