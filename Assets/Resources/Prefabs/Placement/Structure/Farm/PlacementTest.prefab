@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2860464542849029667
 Transform:
@@ -49,6 +49,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408191526801773530, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1783766399962597728, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
         type: 3}
@@ -140,10 +145,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3008925982948753929, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 9162984605186550963, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9162984605186550963, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -165,6 +180,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1880349872250189604}
+    - targetCorrespondingSourceObject: {fileID: 1408191526801773530, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5260643586293507844}
   m_SourcePrefab: {fileID: 100100000, guid: ee9a457c0c3e4674e9c09f97a7836d6c, type: 3}
 --- !u!1 &401836867212349440 stripped
 GameObject:
@@ -244,12 +263,44 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 2, y: 3.5, z: 3.5}
+  m_Extents: {x: 2, y: 5.5, z: 3.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 5, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &5260643586293507844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401836867212349440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3abe55323e4479d479a91b538b606919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalData: {fileID: 0}
+  currentStatTable:
+    _serializedList:
+    - Key: 1
+      Value:
+        statusInfoType: 1
+        value: 20
+        minMaxValue:
+          min: 0
+          max: 50
+  hitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  damegedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hp: 0
 --- !u!4 &1069688667480083130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1783766399962597728, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
