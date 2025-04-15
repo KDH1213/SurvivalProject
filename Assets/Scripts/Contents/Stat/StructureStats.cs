@@ -28,8 +28,12 @@ public class StructureStats : CharactorStats, ISaveLoadData
     {
         currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
         IsDead = false;
-        HpBarSlider.gameObject.SetActive(true);
-        OnChangeHp();
+
+        if(HpBarSlider != null)
+        {
+            HpBarSlider.gameObject.SetActive(true);
+            OnChangeHp();
+        }
     }
 
     public void Load()
