@@ -22,7 +22,9 @@ public class MonsterAttackState : MonsterBaseState
         animationSpeed = MonsterStats.AttackSpeed;
         MonsterFSM.Animator.speed = animationSpeed;
 
-        transform.LookAt(MonsterFSM.Target.transform.position);
+        var targetPosition = MonsterFSM.Target.transform.position;
+        targetPosition.y = transform.position.y;
+        transform.LookAt(targetPosition);
 
         //MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
         //MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
@@ -73,9 +75,15 @@ public class MonsterAttackState : MonsterBaseState
             
         }
     }
-    public void OnMonsterAttack()
+    public void OnStartAttack()
     {
         MonsterFSM.Weapon.StartAttack(MonsterFSM.AttackPoint, gameObject);
+
+        var targetStats = MonsterFSM.Target.GetComponent<CharactorStats>();
+        if (!MonsterFSM.Target.activeSelf || (targetStats != null && targetStats.IsDead))
+        {
+            MonsterFSM.Target = null;
+        }
     }
 
 #if UNITY_EDITOR

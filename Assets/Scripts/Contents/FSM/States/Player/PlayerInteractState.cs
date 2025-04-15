@@ -37,7 +37,10 @@ public class PlayerInteractState : PlayerBaseState
 
 
             IInteractable.Interact(this.gameObject);
-            transform.LookAt(target.transform);
+
+            var targetPosition = target.transform.position;
+            targetPosition.y = transform.position.y;
+            transform.LookAt(targetPosition);
 
             if (IInteractable.InteractType <= InteractType.Box)
             {
