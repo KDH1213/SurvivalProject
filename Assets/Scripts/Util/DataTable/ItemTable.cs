@@ -15,7 +15,7 @@ public class ItemData
     [field: SerializeField]
     public string IconName { get; set; }
     [field: SerializeField]
-    public ItemType ItemType { get; set; }
+    public int ItemCategory { get; set; }
     [field: SerializeField]
     public int MaxStack { get; set; }
     [field: SerializeField]
@@ -47,7 +47,11 @@ public class ItemData
     
 
     public Sprite ItemImage;
+    public ItemType ItemType;
     public string ItemName { get { return NameID.ToString(); } }
+
+    private List<ItemUseEffectInfo> itemUseEffectInfoList;
+    public List<ItemUseEffectInfo> ItemUseEffectInfoList { get { return itemUseEffectInfoList; } }
 
     public List<StatInfo> GetItemInfoList()
     {
@@ -70,11 +74,53 @@ public class ItemData
         return list;
     }
 
-    public static EquipmentType ConvertEquipmentType(ItemType itemType)
+    public static EquipmentType ConvertEquipmentType(int id, ItemType itemType)
     {
-
+        if(itemType == ItemType.Armor)
+        {
+            return (EquipmentType)DataTableManager.ArmorTable.Get(id).ArmorType;
+        }
+        else if(itemType == ItemType.Weapon)
+        {
+            return EquipmentType.Weapon;
+        }
+        else if (itemType == ItemType.Consumable)
+        {
+            return EquipmentType.Consumable;
+        }    
 
         return EquipmentType.None;
+    }
+
+    public void CreateItemUseEffectInfo()
+    {
+        if(TargetStat1 == 0)
+        {
+            return;
+        }
+        itemUseEffectInfoList = new List<ItemUseEffectInfo>();
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat1, Value1));
+
+        if (TargetStat2 == 0)
+        {
+            return;
+        }
+
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat2, Value2));
+
+        if (TargetStat3 == 0)
+        {
+            return;
+        }
+
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat3, Value3));
+
+        if (TargetStat4 == 0)
+        {
+            return;
+        }
+
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat4, Value4));
     }
 }
 
@@ -96,7 +142,9 @@ public class ItemTable : DataTable
             if (!itemDataTable.ContainsKey(item.ID))
             {
                 itemDataTable.Add(item.ID, item);
+                item.ItemType = (ItemType)item.ItemCategory;
                 item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.IconName), typeof(Sprite)));
+                item.CreateItemUseEffectInfo();
             }
             else
             {

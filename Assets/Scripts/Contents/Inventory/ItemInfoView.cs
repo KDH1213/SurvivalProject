@@ -70,11 +70,11 @@ public class ItemInfoView : MonoBehaviour
                 break;
             case ItemType.Relics:
                 break;
-            case ItemType.Weapon:
-                SetWeaponInfo(itemData, isItemSlot);
-                break;
             case ItemType.Armor:
                 SetArmorInfo(itemData, isItemSlot);
+                break;
+            case ItemType.Weapon:
+                SetWeaponInfo(itemData, isItemSlot);
                 break;
             default:
                 break;
