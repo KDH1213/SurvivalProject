@@ -142,7 +142,7 @@ public class ItemInfoView : MonoBehaviour
     private void SetConsumableInfo(ItemData itemData, bool isItemSlot)
     {
         // "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
-        itemStatsText.text = string.Format(consumableFormat, "0", "0", "0", "0");
+        itemStatsText.text = string.Format(consumableFormat, itemData.Value1.ToString(), itemData.Value2.ToString(), itemData.Value3.ToString(), itemData.Value4.ToString());
 
         useButton.interactable = true;
 
