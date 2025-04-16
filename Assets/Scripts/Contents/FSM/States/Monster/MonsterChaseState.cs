@@ -14,13 +14,9 @@ public class MonsterChaseState : MonsterBaseState
     {
         useReturn = false;
 
-        if (MonsterFSM.Animator != null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
-        }
-
-        MonsterFSM.Agent.isStopped = false;
-        MonsterFSM.Agent.speed = MonsterStats.Speed;
+        Agent.isStopped = false;
+        Agent.speed = MonsterStats.Speed;
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
     }
 
     public override void ExecuteUpdate()
@@ -31,21 +27,23 @@ public class MonsterChaseState : MonsterBaseState
             return;
         }
 
-        if (MonsterFSM.TargetTransform != null)
+        if (MonsterFSM.Target != null)
         {
-            MonsterFSM.Agent.SetDestination(MonsterFSM.TargetTransform.position);
+            Agent.SetDestination(MonsterFSM.TargetTransform.position); 
+
+            MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+            Chase();
+        }
+        else
+        {
+            MonsterFSM.ChangeState(MonsterStateType.Idle);
         }
 
-        Chase();
+        
     }
 
     public override void Exit()
     {
-        if (MonsterFSM.Animator != null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, false);
-        }
-
         useReturn = false;
         MonsterFSM.Agent.isStopped = true;
     }
@@ -54,7 +52,7 @@ public class MonsterChaseState : MonsterBaseState
     {
         MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
 
-        if (MonsterFSM.CanAttack && MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
+        if (MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
@@ -67,6 +65,5 @@ public class MonsterChaseState : MonsterBaseState
 
             return;
         }
-        
     }
 }

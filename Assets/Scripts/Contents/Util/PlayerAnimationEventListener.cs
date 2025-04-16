@@ -8,6 +8,7 @@ public class PlayerAnimationEventListener : MonoBehaviour
     public UnityEvent startAttackEvent;
     public UnityEvent endAttackAnimationEvent;
     public UnityEvent createAttackVFXEvnet;
+    public UnityEvent endDeathAnimationEvent;
 
     public void OnStartAttack()
     {
@@ -22,5 +23,10 @@ public class PlayerAnimationEventListener : MonoBehaviour
     public void OnCreateVFX()
     {
         createAttackVFXEvnet?.Invoke();
+    }
+
+    public void OnEndDeathAnimation()
+    {
+        endDeathAnimationEvent?.Invoke();
     }
 }

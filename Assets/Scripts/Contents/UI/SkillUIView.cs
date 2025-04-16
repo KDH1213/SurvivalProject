@@ -15,6 +15,9 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
     private Button[] skillButtons;
 
     [SerializeField]
+    private Button skillRerollButton;
+
+    [SerializeField]
     private TextMeshProUGUI[] skillTexts;
 
     public UnityEvent<int> onSeleteEvent;
@@ -22,6 +25,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
     public UnityEvent onDisableEvent;
 
     private List<int> skillTypeList = new List<int>();
+    private bool isReroll = true;
     
     private void OnDisable()
     {
@@ -48,9 +52,9 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
 
     private void OnSetRandomSkillOption()
     {
-        if(skillTypeList.Count == 0)
+        if(skillTypeList.Count == 0 || skillTypeList.Count < (int)LifeSkillType.End)
         {
-            for (int i = 0; i < (int)LifeSkillType.End; ++i)
+            for (int i = skillTypeList.Count; i < (int)LifeSkillType.End; ++i)
             {
                 skillTypeList.Add(i);
             }
@@ -71,7 +75,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < skillTexts.Length; ++i)
         {
-            skillTexts[i].text = ((LifeSkillType)skillTypeList[i]).ToString();
+            skillTexts[i].text = TypeName.LifeSkillTypeName[skillTypeList[i]];
         }
     }
 
@@ -86,11 +90,21 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
             OnSetRandomSkillOption();
         }
         onChangeSkillPoint?.Invoke(skillPoint);
+
+        isReroll = true;
+        skillRerollButton.interactable = true;
     }
 
     public void OnClickButton(int index)
     {
         onSeleteEvent?.Invoke(skillTypeList[index]);
+    }
+
+    public void OnClickRerollButton()
+    {
+        OnSetRandomSkillOption();
+        isReroll = false;
+        skillRerollButton.interactable = false;
     }
 
     public void Save()
@@ -101,6 +115,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
         }
 
         SaveLoadManager.Data.skillUiViewSeleteList = skillTypeList;
+        SaveLoadManager.Data.isSkillReroll = isReroll;
     }
 
     public void Load()
@@ -111,8 +126,9 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
         }
 
         skillTypeList = SaveLoadManager.Data.skillUiViewSeleteList;
+        isReroll = SaveLoadManager.Data.isSkillReroll;
 
-        if(skillTypeList.Count == 0)
+        if (skillTypeList.Count == 0)
         {
             OnSetRandomSkillOption();
         }
@@ -120,7 +136,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
         {
             for (int i = 0; i < skillTexts.Length; ++i)
             {
-                skillTexts[i].text = ((LifeSkillType)skillTypeList[i]).ToString();
+                skillTexts[i].text = TypeName.LifeSkillTypeName[i];
             }
         }      
     }

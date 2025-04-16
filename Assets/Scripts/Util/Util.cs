@@ -55,3 +55,11 @@ public static class AnimationHashCode
     public static readonly int hashSpeed = Animator.StringToHash("speed");
     public static readonly int hashCanMove = Animator.StringToHash("canMove");
 }
+
+public static class MonsterAnimationHashCode
+{
+    public static readonly int hashMove = Animator.StringToHash("MoveSpeed");
+    public static readonly int hashAttack = Animator.StringToHash("Attack");
+    public static readonly int hashDeath = Animator.StringToHash("Death");
+    public static readonly int hashIsDeath = Animator.StringToHash("IsDeath");
+}

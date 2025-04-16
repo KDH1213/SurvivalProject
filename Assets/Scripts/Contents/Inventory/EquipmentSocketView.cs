@@ -70,7 +70,8 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void OnEquipment(ItemType itemType, ItemData itemData, int amount)
     {
-        equipmentSockets[(int)itemType].OnEquipment((EquipmentType)itemType, itemData, amount);
+        var equipmentType = ItemData.ConvertEquipmentType(itemData.ID, itemType);
+        equipmentSockets[(int)equipmentType].OnEquipment(equipmentType, itemData, amount);
         playerStats.OnEquipmentItem(itemData);
     }
 

@@ -44,6 +44,11 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty, ISaveLoad
         this.value += value;
     }
 
+    public virtual void SubPenaltyValue(float value)
+    {
+        this.value -= value;
+    }
+
     public virtual void OnStartPenalty()
     {
         isOnDebuff = true; 

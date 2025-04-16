@@ -48,8 +48,7 @@ public class UpgradeFarmUI : MonoBehaviour
         afterImage.sprite = nextLevelInfo.Icon;
         afterName.text = $"{nextLevelInfo.Name}";
 
-        string produceInfoIcon = DataTableManager.ItemTable.Get(data.ItemToProduce).itemIconSpriteID;
-        Sprite sprite = Resources.Load<Sprite>($"UI/Icon/{produceInfoIcon}");
+        Sprite sprite = DataTableManager.ItemTable.Get(data.ItemToProduce).ItemImage;
         itemImage.sprite = sprite;
         beforeOutPut.text = $"{data.AmountPerProduction} ∞≥";
         beforeProduceTime.text = $"{data.ProductionCycle} √ ";

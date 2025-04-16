@@ -9,32 +9,49 @@ public class ItemData
     [field: SerializeField]
     public int ID { get; set; }
     [field: SerializeField]
-    public int itemNameID { get; set; }
+    public int NameID { get; set; }
     [field: SerializeField]
-    public int itemDescID { get; set; }
+    public int DescriptID { get; set; }
     [field: SerializeField]
-    public string itemIconSpriteID { get; set; }
+    public string IconName { get; set; }
     [field: SerializeField]
-    public ItemType ItemType { get; set; }
+    public int ItemCategory { get; set; }
     [field: SerializeField]
-    public int MaxAmount { get; set; }
+    public int MaxStack { get; set; }
     [field: SerializeField]
-    public int isDisposible { get; set; }
-    [field: SerializeField]
-    public int itemCooltime { get; set; }
-    [field: SerializeField]
-    public string targetStat { get; set; }
-    [field: SerializeField]
-    public string value { get; set; }
-    [field: SerializeField]
-    public int seOnUse { get; set; }
-    [field: SerializeField]
-    public float lifeExpGain { get; set; }
+    public int IsDisposible { get; set; }
 
+    [field: SerializeField]
+    public int TargetStat1 { get; set; }
 
+    [field: SerializeField]
+    public int Value1 { get; set; }
+
+    [field: SerializeField]
+    public int TargetStat2 { get; set; }
+
+    [field: SerializeField]
+    public int Value2 { get; set; }
+
+    [field: SerializeField]
+    public int TargetStat3 { get; set; }
+
+    [field: SerializeField]
+    public int Value3 { get; set; }
+
+    [field: SerializeField]
+    public int TargetStat4 { get; set; }
+
+    [field: SerializeField]
+    public int Value4 { get; set; }
+    
 
     public Sprite ItemImage;
-    public string ItemName { get { return itemNameID.ToString(); } }
+    public ItemType ItemType;
+    public string ItemName { get { return NameID.ToString(); } }
+
+    private List<ItemUseEffectInfo> itemUseEffectInfoList;
+    public List<ItemUseEffectInfo> ItemUseEffectInfoList { get { return itemUseEffectInfoList; } }
 
     public List<StatInfo> GetItemInfoList()
     {
@@ -47,7 +64,7 @@ public class ItemData
             list.Add(new StatInfo(StatType.BasicAttackPower, weaponData.attack));
             list.Add(new StatInfo(StatType.AttackSpeed, weaponData.attackSpeed));
         }
-        else if (ItemType >= ItemType.Helmet && ItemType <= ItemType.Shoes)
+        else if (ItemType == ItemType.Armor)
         {
             var armorData = DataTableManager.ArmorTable.Get(ID);
 
@@ -56,12 +73,61 @@ public class ItemData
         }
         return list;
     }
+
+    public static EquipmentType ConvertEquipmentType(int id, ItemType itemType)
+    {
+        if(itemType == ItemType.Armor)
+        {
+            return (EquipmentType)DataTableManager.ArmorTable.Get(id).ArmorType;
+        }
+        else if(itemType == ItemType.Weapon)
+        {
+            return EquipmentType.Weapon;
+        }
+        else if (itemType == ItemType.Consumable)
+        {
+            return EquipmentType.Consumable;
+        }    
+
+        return EquipmentType.None;
+    }
+
+    public void CreateItemUseEffectInfo()
+    {
+        if(TargetStat1 == 0)
+        {
+            return;
+        }
+        itemUseEffectInfoList = new List<ItemUseEffectInfo>();
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat1, Value1));
+
+        if (TargetStat2 == 0)
+        {
+            return;
+        }
+
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat2, Value2));
+
+        if (TargetStat3 == 0)
+        {
+            return;
+        }
+
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat3, Value3));
+
+        if (TargetStat4 == 0)
+        {
+            return;
+        }
+
+        itemUseEffectInfoList.Add(new ItemUseEffectInfo((ItemUseEffectType)TargetStat4, Value4));
+    }
 }
 
 public class ItemTable : DataTable
 {
     private Dictionary<int, ItemData> itemDataTable = new Dictionary<int, ItemData>();
-    private readonly string assetIconPath = "UI/Icon/{0}";
+    private readonly string assetIconPath = "Sprites/UI/Icons/{0}";
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
@@ -76,7 +142,9 @@ public class ItemTable : DataTable
             if (!itemDataTable.ContainsKey(item.ID))
             {
                 itemDataTable.Add(item.ID, item);
-                item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
+                item.ItemType = (ItemType)item.ItemCategory;
+                item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.IconName), typeof(Sprite)));
+                item.CreateItemUseEffectInfo();
             }
             else
             {

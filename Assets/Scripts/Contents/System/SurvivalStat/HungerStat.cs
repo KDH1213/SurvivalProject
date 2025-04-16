@@ -107,6 +107,28 @@ public class HungerStat : SurvivalStatBehaviour
         }
     }
 
+    public override void SubPenaltyValue(float value)
+    {
+        this.value -= value;
+
+        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        OnChangeValue();
+
+        if (!isOnDebuff && IsActivationCheckPenalty())
+        {
+            OnStartPenalty();
+        }
+        else if (isOnDebuff)
+        {
+            isOnDebuff = IsActivationCheckPenalty();
+
+            if (!isOnDebuff)
+            {
+                OnStopPenalty();
+            }
+        }
+    }
+
     public void OnSetHungerSkillValue(float value)
     {
         hungerSkillValue = value;

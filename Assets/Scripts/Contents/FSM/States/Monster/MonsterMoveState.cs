@@ -15,13 +15,9 @@ public class MonsterMoveState : MonsterBaseState
 
     public override void Enter()
     {
-        if (MonsterFSM.Animator != null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
-        }
-
         MonsterFSM.Agent.isStopped = false;
         MonsterFSM.Agent.speed = MonsterStats.Speed;
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
         MonsterFSM.Agent.SetDestination(movePosition);
     }
 
@@ -55,10 +51,6 @@ public class MonsterMoveState : MonsterBaseState
 
     public override void Exit()
     {
-        if (MonsterFSM.Animator != null)
-        {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, false);
-        }
     }
 
     private bool FindTarget()

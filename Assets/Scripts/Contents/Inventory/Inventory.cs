@@ -37,11 +37,18 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public Dictionary<int, List<ItemInfo>> InventroyItemTable => inventoryItemTable;
 
+    private PlayerStats playerStats;
+
     public int SelectedSlotIndex { get; private set; } = -1;
 
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
     private int useSlotCount = 0;
+
+    private void Start()
+    {
+        playerStats = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>();
+    }
 
     public void AddListeners(UnityAction action)
     {
@@ -117,21 +124,23 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         //        AddItem(test);
         //    }
         //}
-        //var Item = DataTableManager.ItemTable.Get(1202001);
+        var Item = DataTableManager.ItemTable.Get(1201002);
 
-        //var testInfo = new DropItemInfo();
-        //testInfo.amount = 10;
-        //testInfo.ItemName = Item.ItemName;
-        //testInfo.itemData = Item;
-        //AddItem(testInfo);
+        var testInfo = new DropItemInfo();
+        testInfo.amount = 100;
+        testInfo.ItemName = Item.ItemName;
+        testInfo.itemData = Item;
+        testInfo.id = 1201002;
+        AddItem(testInfo);
 
-        //Item = DataTableManager.ItemTable.Get(1202002);
+        Item = DataTableManager.ItemTable.Get(1201004);
 
-        //testInfo = new DropItemInfo();
-        //testInfo.amount = 10;
-        //testInfo.ItemName = Item.ItemName;
-        //testInfo.itemData = Item;
-        //AddItem(testInfo);
+        testInfo = new DropItemInfo();
+        testInfo.amount = 500;
+        testInfo.ItemName = Item.ItemName;
+        testInfo.itemData = Item;
+        testInfo.id = 1201004;
+        AddItem(testInfo);
         equipmentSocketView.Initialize();
     }
 
@@ -193,6 +202,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     private void UseItem()
     {
         itemInfos[SelectedSlotIndex].Amount -= 1;
+        playerStats.OnUseItem(itemInfos[SelectedSlotIndex].itemData);
 
         if (itemInfos[SelectedSlotIndex].Amount == 0)
         {
@@ -205,6 +215,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             itemInfos[SelectedSlotIndex].Empty();
             --useSlotCount;
         }
+
         UpdateSlot(SelectedSlotIndex);
     }
 
@@ -298,7 +309,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             foreach (var item in itemList)
             {
-                int addUseCount = (item.itemData.MaxAmount - item.Amount);
+                int addUseCount = (item.itemData.MaxStack - item.Amount);
                 if(dropItemInfo.amount <= addUseCount)
                 {
                     item.Amount += dropItemInfo.amount;
@@ -308,7 +319,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 }
                 else
                 {
-                    item.Amount = item.itemData.MaxAmount;
+                    item.Amount = item.itemData.MaxStack;
                     dropItemInfo.amount -= addUseCount;
                 }
                
@@ -407,20 +418,20 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             // 같은 아이템일 경우 합치기
             int totalAmount = itemInfos[targetSlotIndex].Amount + itemInfos[sourceSlotIndex].Amount;
 
-            if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxAmount)
+            if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxStack)
             {
                 if (inventoryItemTable.TryGetValue(itemInfos[sourceSlotIndex].itemData.ID, out var itemInfoList))
                 {
                     itemInfoList.Remove(itemInfos[sourceSlotIndex]);
                 }
 
-                itemInfos[targetSlotIndex].Amount = totalAmount;
-                itemInfos[sourceSlotIndex].Empty();
+                itemInfos[sourceSlotIndex].Amount = totalAmount;
+                itemInfos[targetSlotIndex].Empty();
             }
             else
             {
-                itemInfos[targetSlotIndex].Amount = itemInfos[targetSlotIndex].itemData.MaxAmount;
-                itemInfos[sourceSlotIndex].Amount = totalAmount - itemInfos[targetSlotIndex].itemData.MaxAmount;
+                itemInfos[sourceSlotIndex].Amount = itemInfos[sourceSlotIndex].itemData.MaxStack;
+                itemInfos[targetSlotIndex].Amount = totalAmount - itemInfos[sourceSlotIndex].itemData.MaxStack;
             }
         }
         else
@@ -442,7 +453,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     {
         // itemInfos[dragSeletedSlotIndex].itemData
         // if ()
-        if ((int)itemInfos[dragSeletedSlotIndex].itemData.ItemType != (int)equipmentSocket.EquipmentType)
+        if ((int)ItemData.ConvertEquipmentType(itemInfos[dragSeletedSlotIndex].itemData.ID, itemInfos[dragSeletedSlotIndex].itemData.ItemType) != (int)equipmentSocket.EquipmentType)
         {
             return;
         }

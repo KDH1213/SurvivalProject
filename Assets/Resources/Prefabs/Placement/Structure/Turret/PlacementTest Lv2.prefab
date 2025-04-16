@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5667794699236244136
 Transform:
@@ -115,20 +115,40 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: -5242665108804702281, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -3005280224581930788, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3005280224581930788, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: -2550982483557289929, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: -2550982483557289929, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -206473385604137448, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -206473385604137448, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
@@ -140,25 +160,50 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2178573620124137754, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2178573620124137754, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3595956587889054188, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3595956587889054188, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7585066094460078060, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585066094460078060, guid: d418ff4be0455e7489cff51d50d397b2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8626807420197121067, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8626807420197121067, guid: d418ff4be0455e7489cff51d50d397b2,
         type: 3}
-      propertyPath: m_Layer
-      value: 7
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -226,6 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fe7c050b56c794a96f2159ba029e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackTerm: 0
+  currentTime: 0
   atd: {fileID: 11400000, guid: 5f24ff4ca4e76434a94346ec6cccaf9b, type: 2}
 --- !u!208 &5148168801762746991
 NavMeshObstacle:

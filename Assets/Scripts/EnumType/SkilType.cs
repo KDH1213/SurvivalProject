@@ -6,12 +6,8 @@ public enum LifeSkillType
     AttackSpeed,
     Hungur,
     Thirst,
-    End,
-}
-
-[System.Serializable]
-public enum CraftingSkilType
-{
-
+    Defence,
+    HP,
+    Fatigue,
     End,
 }

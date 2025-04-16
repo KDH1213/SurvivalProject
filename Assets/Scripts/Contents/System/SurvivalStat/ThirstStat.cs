@@ -63,6 +63,18 @@ public class ThirstStat : SurvivalStatBehaviour
             OnStartPenalty();
         }
     }
+
+    public override void SubPenaltyValue(float value)
+    {
+        this.value -= value;
+        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        OnChangeValue();
+
+        if (!isOnDebuff && IsActivationCheckPenalty())
+        {
+            OnStartPenalty();
+        }
+    }
     public void OnSetThirstSkillValue(float value)
     {
         thirstSkillValue = value;

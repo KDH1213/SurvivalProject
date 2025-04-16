@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Languages
@@ -124,21 +125,19 @@ public static class Tags
 }
 
 
-//public static class TypeStringTable
-//{
+public static class TypeName
+{
 
-//    public static readonly string[] DebuffTypeStrings =
-//    {
-//        "����",
-//        "����",
-//        "������"
-//    };
+    public static readonly string[] LifeSkillTypeName =
+    {
+        "공격력 증가",
+        "이동속도 증가",
+        "공격속도 증가",
+        "배고픔 주기 감소",
+        "갈증 주기 감소",
+        "방어력 증가",
+        "체력 증가",
+        "피로 덜 느낌",
+    };
 
-//    public static readonly string[] AttackTypeStrings =
-// {
-//        "���� ����",
-//        "���� ����",
-//        "���� ����"
-//    };
-
-//}
+}

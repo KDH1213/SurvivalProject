@@ -33,14 +33,6 @@ public class PlayerAttackStateListener : StateMachineBehaviour
         }
 
         playerAnimationEventListener.endAttackAnimationEvent?.Invoke();
-        //if (stateInfo.normalizedTime >= 1f)
-        //{
-        //    if (playerAnimationEventListener == null)
-        //    {
-        //        playerAnimationEventListener = animator.GetComponent<PlayerAnimationEventListener>();
-        //    }
-        //    playerAnimationEventListener.endAttackAnimationEvent?.Invoke();
-        //}
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

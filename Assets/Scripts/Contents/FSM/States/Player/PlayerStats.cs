@@ -15,6 +15,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
     private float currentSpeed = 1f;
     private float currentAttackSpeed = 1f;
+    private float currentDamage = 1f;
+    private float currentDefence = 0f;
 
     protected override void Awake()
     {
@@ -32,8 +34,14 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
         currentStatTable[StatType.MovementSpeed].OnChangeValueAction(OnChangeSpeedValue);
         currentStatTable[StatType.AttackSpeed].OnChangeValueAction(OnChangeAttackSpeedValue);
+        currentStatTable[StatType.BasicAttackPower].OnChangeValueAction(OnChangeDamageValue);
+        currentStatTable[StatType.Defense].OnChangeValueAction(OnChangeDefenceValue);
+
         currentSpeed = currentStatTable[StatType.MovementSpeed].Value;
         currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value;
+        currentDamage = currentStatTable[StatType.BasicAttackPower].Value;
+        currentDefence = currentStatTable[StatType.Defense].Value;
+
         OnChangeHp();
 
         lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeLifeStat);
@@ -50,7 +58,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         get
         {
-            return currentStatTable[StatType.HP].Value;
+            return currentStatTable[StatType.HP].Value + lifeStat.HP;
         }
     }
 
@@ -66,7 +74,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         get
         {
-            return currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
+            return currentDamage;
         }
     }
 
@@ -74,7 +82,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         get
         {
-            return currentStatTable[StatType.Defense].Value;
+            return currentStatTable[StatType.Defense].Value + lifeStat.Defence;
         }
     }
 
@@ -126,19 +134,33 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
     public void OnUseItem(ItemData itemData)
     {
-        //var statInfoList = itemData.GetItemInfoList();
+        var itemUseEffectInfoList = itemData.ItemUseEffectInfoList;
 
-        //foreach (var statInfo in statInfoList)
-        //{
-        //    if (statInfo.statType == StatType.AttackSpeed)
-        //    {
-        //        currentStatTable[statInfo.statType].SetValue(originalData.StatTable[statInfo.statType].Value);
-        //    }
-        //    else
-        //    {
-        //        currentStatTable[statInfo.statType].AddValue(-statInfo.value);
-        //    }
-        //}
+        int count = itemUseEffectInfoList.Count;
+
+        for (int i = 0; i < count; ++i)
+        {
+            switch (itemUseEffectInfoList[i].itemUseEffectType)
+            {
+                case ItemUseEffectType.None:
+                    break;
+                case ItemUseEffectType.Hp:
+                    currentStatTable[StatType.HP].AddValue(itemUseEffectInfoList[i].value);
+                    OnChangeHp();
+                    break;
+                case ItemUseEffectType.Fatigue:
+                    survivalStats.PenaltyTable[SurvivalStatType.Fatigue].SubPenaltyValue(itemUseEffectInfoList[i].value);
+                    break;
+                case ItemUseEffectType.Hunger:
+                    survivalStats.PenaltyTable[SurvivalStatType.Hunger].AddPenaltyValue(itemUseEffectInfoList[i].value);
+                    break;
+                case ItemUseEffectType.Thirst:
+                    survivalStats.PenaltyTable[SurvivalStatType.Thirst].AddPenaltyValue(itemUseEffectInfoList[i].value);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void OnChangeLifeStat(LifeSkillType type)
@@ -146,6 +168,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         switch (type)
         {
             case LifeSkillType.Damage:
+                currentDamage = currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
                 break;
             case LifeSkillType.MoveSpeed:
                 currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
@@ -158,6 +181,15 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                 break;
             case LifeSkillType.Thirst:
                 GetComponent<ThirstStat>().OnSetThirstSkillValue(lifeStat.Thirst);
+                break;
+            case LifeSkillType.Defence:
+                currentDefence = currentStatTable[StatType.Defense].Value + lifeStat.Defence;
+                break;
+            case LifeSkillType.HP:
+                currentStatTable[StatType.HP].AddMaxValue(5f);
+                break;
+            case LifeSkillType.Fatigue:
+                GetComponent<FatigueStat>().OnSetFatigueSkillValue(lifeStat.Fatigue);
                 break;
             case LifeSkillType.End:
                 break;
@@ -176,6 +208,17 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         currentAttackSpeed = value + lifeStat.AttackSpeed;
     }
 
+    public void OnChangeDamageValue(float value)
+    {
+        currentDamage = value + lifeStat.Damage;
+    }
+
+    public void OnChangeDefenceValue(float value)
+    {
+        currentDefence = value + lifeStat.Defence;
+    }
+
+
     public void Save()
     {
         lifeStat.Save();
@@ -185,6 +228,12 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void Load()
     {
         // lifeStat.Load();
+
+        if(SaveLoadManager.Data.levelStatInfo.skillLevelList.Count >(int)LifeSkillType.HP)
+        {
+            currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)LifeSkillType.HP] * 5f);
+        }
+
         currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);
 
         var equipmentItemIDList = SaveLoadManager.Data.equipmentItemIDList;

@@ -41,8 +41,8 @@ public class ItemInfoView : MonoBehaviour
             return;
         }
 
-        itemNameText.text = itemData.itemNameID.ToString();
-        itemInfoText.text = itemData.itemDescID.ToString();
+        itemNameText.text = itemData.NameID.ToString();
+        itemInfoText.text = itemData.DescriptID.ToString();
 
         if(!isItemSlot)
         {
@@ -53,29 +53,28 @@ public class ItemInfoView : MonoBehaviour
             unEquiptButton.interactable = false;
         }
 
-        if (itemData.isDisposible == 1)
+        if (itemData.IsDisposible == 1)
         {
             eraseButton.interactable = true;
         }
 
         switch (itemData.ItemType)
         {
-            case ItemType.Helmet:
-            case ItemType.Armor:
-            case ItemType.Pants:
-            case ItemType.Shoes:
-                SetArmorInfo(itemData, isItemSlot);
-                break;
-            case ItemType.Weapon:
-                SetWeaponInfo(itemData, isItemSlot);
-                break;
-            case ItemType.Consumable:
-                SetConsumableInfo(itemData, isItemSlot);
-                break;
             case ItemType.Material:
                 itemStatsText.text = string.Empty;
                 useButton.interactable = false;
                 equipButton.interactable = false;
+                break;
+            case ItemType.Consumable:
+                SetConsumableInfo(itemData, isItemSlot);
+                break;
+            case ItemType.Relics:
+                break;
+            case ItemType.Armor:
+                SetArmorInfo(itemData, isItemSlot);
+                break;
+            case ItemType.Weapon:
+                SetWeaponInfo(itemData, isItemSlot);
                 break;
             default:
                 break;
@@ -143,7 +142,7 @@ public class ItemInfoView : MonoBehaviour
     private void SetConsumableInfo(ItemData itemData, bool isItemSlot)
     {
         // "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
-        itemStatsText.text = string.Format(consumableFormat, "0", "0", "0", "0");
+        itemStatsText.text = string.Format(consumableFormat, itemData.Value1.ToString(), itemData.Value2.ToString(), itemData.Value3.ToString(), itemData.Value4.ToString());
 
         useButton.interactable = true;
 

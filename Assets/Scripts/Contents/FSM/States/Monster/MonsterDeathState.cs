@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterDeathState : MonsterBaseState
@@ -8,29 +6,24 @@ public class MonsterDeathState : MonsterBaseState
     //private Inventory inventory;
 
     // public List<ItemData> items;
+    private Collider ownerCollider;
+
 
     protected override void Awake()
     {
         base.Awake();
         stateType = MonsterStateType.Death;
+        ownerCollider = GetComponent<Collider>();
     }
 
     public override void Enter()
     {
-        // TODO :: 현재 체력 0이 되면 오브젝트 삭제
-        // Destroy(gameObject);
         MonsterFSM.OnEndInteractEvent?.Invoke(gameObject);
 
-        //for (int i = 0; i < items.Count; i++)
-        //{
-        //    ItemData newItem = Instantiate(items[i]);
+        MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashDeath);
+        // MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashIsDeath, true);
 
-        //    Debug.Log(newItem.name);
-
-        //    inventory.AddItem(newItem);
-        //}
-
-        gameObject.SetActive(false);
+        ownerCollider.enabled = false;
     }
 
     public override void ExecuteUpdate()
@@ -40,5 +33,11 @@ public class MonsterDeathState : MonsterBaseState
     public override void Exit()
     {
 
+    }
+
+    public void OnEndAnimationEvent()
+    {
+        gameObject.SetActive(false);
+        ownerCollider.enabled = true;
     }
 }

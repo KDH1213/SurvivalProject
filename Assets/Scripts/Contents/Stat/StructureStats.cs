@@ -1,23 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StructureStats : CharactorStats, ISaveLoadData
 {
-    // TODO :: 테스트 코드
-    [SerializeField]
-    private float hp;
-
     public float HP { get { return currentStatTable[StatType.HP].Value; } }
 
+    [SerializeField]
+    private Slider HpBarSlider;
     protected override void Awake()
     {
     }
 
-    public void Init()
+    public void OnChangeHp() //*HP 갱신
     {
-        currentStatTable.Clear();
-        currentStatTable.Add(StatType.HP, new StatValue(StatType.HP, hp));
+        HpBarSlider.value = HP / currentStatTable[StatType.HP].MaxValue;
+
+        if (HP <= 0f)
+        {
+            IsDead = true;
+            HpBarSlider.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnEnable()
+    {
+        currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
+        IsDead = false;
+
+        if(HpBarSlider != null)
+        {
+            HpBarSlider.gameObject.SetActive(true);
+            OnChangeHp();
+        }
     }
 
     public void Load()

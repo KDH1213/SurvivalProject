@@ -1,6 +1,5 @@
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
 
 public class TurretStructure : PlacementObject
 {

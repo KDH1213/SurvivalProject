@@ -43,7 +43,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             image.sprite = ItemData.ItemImage;
             image.color = new Color(1, 1, 1, 1);
 
-            if(ItemData.ItemType >= ItemType.Consumable)
+            if(ItemData.ItemType <= ItemType.Relics)
             {
                 amountText.text = string.Format(amountFormat, ItemInfo.Amount);
                 textGameObject.SetActive(true);
