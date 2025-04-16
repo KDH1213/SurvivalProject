@@ -401,10 +401,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     }
 
-    private void OnApplicationQuit()
+    /*private void OnApplicationQuit()
     {
         Save();
 
         SaveLoadManager.Save(1);
-    }
+    }*/
 }

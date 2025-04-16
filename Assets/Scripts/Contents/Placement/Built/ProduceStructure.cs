@@ -89,6 +89,7 @@ public class ProduceStructure : PlacementObject
 
     public override void Interact(GameObject interactor)
     {
+        Debug.Log("»£√‚");
         uiController.OnOpenFarmInfo(interactor, ID, this);
     }
 

@@ -35,7 +35,8 @@ public class UpgradeFarmUI : MonoBehaviour
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
-        upgradeButton.onClick.RemoveAllListeners();
+
+        ResetInfo();
         var system = selectedObject.uiController.GetComponent<PlacementSystem>();
 
         var data = DataTableManager.StructureTable.Get(objInfo.ID);
@@ -87,4 +88,18 @@ public class UpgradeFarmUI : MonoBehaviour
             inventory.ConsumeItem(data.Key, data.Value);
         }
     }
+
+    private void ResetInfo()
+    {
+        upgradeButton.onClick.RemoveAllListeners();
+        beforeImage.sprite = null;
+        beforeName.text = null;
+        afterImage.sprite = null;
+        afterName.text = null;
+        itemImage.sprite = null;
+        beforeOutPut.text = null;
+        beforeProduceTime.text = null;
+        afterOutPut.text = null;
+        afterProduceTime.text = null;
+}
 }

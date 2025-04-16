@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class FarmInfoUi : MonoBehaviour
@@ -33,8 +34,6 @@ public class FarmInfoUi : MonoBehaviour
     private ProduceStructure currentObject;
     private GameObject target;
 
-    private ProduceInfo produceInfo;
-
 
     private void Update()
     {
@@ -60,7 +59,6 @@ public class FarmInfoUi : MonoBehaviour
         currentTime.text = $"{selectedObject.currentTime - Time.time:N0} ÃÊ";
         currentProduce.text = $"{selectedObject.produceInfo.outPut} °³";
 
-        produceInfo = selectedObject.produceInfo;
         this.target = target;
 
         interact.onClick.AddListener(() => onInteract());
@@ -69,15 +67,16 @@ public class FarmInfoUi : MonoBehaviour
 
     public void onInteract()
     {
-        var testItem = DataTableManager.ItemTable.Get(produceInfo.id);
+        ResetInfo();
+        var testItem = DataTableManager.ItemTable.Get(currentObject.produceInfo.id);
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 
-        int totalOutPut = produceInfo.outPut;
+        int totalOutPut = currentObject.produceInfo.outPut;
         int slotCount = totalOutPut / testItem.MaxStack;
         int leftItems = totalOutPut % testItem.MaxStack;
 
         var test = new DropItemInfo();
-        test.id = produceInfo.id;  // testItem.ID
+        test.id = currentObject.produceInfo.id;  // testItem.ID
         test.ItemName = testItem.ItemName;
         test.itemData = testItem;
 
@@ -98,7 +97,7 @@ public class FarmInfoUi : MonoBehaviour
                         inventroy.AddItem(test);
                     }
                 }
-                produceInfo.structure.ReturnOutPut(totalOutPut);
+                currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
                 return;
             }
 
@@ -121,12 +120,31 @@ public class FarmInfoUi : MonoBehaviour
                     inventroy.AddItem(test);
                 }
             }
-            produceInfo.structure.ReturnOutPut(totalOutPut);
+            currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
             return;
         }
         totalOutPut -= leftItems;
         inventroy.AddItem(test);
-        produceInfo.structure.ReturnOutPut(totalOutPut);
+        currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
     }
 
+    private void ResetInfo()
+    {
+        interact.onClick.RemoveAllListeners();
+
+        objectName.text = null;
+        objectImage.sprite = null;
+        objectLevel.text = null;
+
+        currentObject = null;
+
+        produceInfoImage.sprite = null;
+        produceTerm.text = null;
+        produceOutPut.text = null;
+        produceMax.text = null;
+
+        currentProduceImage.sprite = null;
+        currentTime.text = null;
+        currentProduce.text = null;
+    }
 }
