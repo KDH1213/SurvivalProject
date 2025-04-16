@@ -44,6 +44,7 @@ public class PlacementPreview : MonoBehaviour
         {
             PlacePreview();
         }
+        PreviewObject.transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
         PreparePreview(PreviewObject);
         PrepareCursor(size);
         cellIndicator.SetActive(true);
