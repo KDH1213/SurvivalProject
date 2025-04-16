@@ -20,7 +20,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     private LayerMask interactableTargetLayerMask;
 
     private Collider[] interactableTargets = new Collider[5];
-    public GameObject InteractableTarget { get; set; }
 
     public HashSet<GameObject> AttackTargets { get; set; } = new HashSet<GameObject>();
 
@@ -90,16 +89,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     // TODO :: TestPlayer -> PlayerInputHandler -> On Interact Event에 연결
     public void OnSetInteract()
     {
-        FindInteractableTarget();
-
-        // TODO :: 임시 코드
-        if (InteractableTarget != null)
-        {
-            onTargetInteractEvent?.Invoke(InteractableTarget);
-
-            ChangeState(PlayerStateType.Interact);
-        }
-
+        OnFindInteractableTarget();
     }
 
     // TODO :: 지금은 TestObject 스크립트에서 사용 중
@@ -153,21 +143,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     }
 
 
-    private void FindInteractableTarget()
+    private void OnFindInteractableTarget()
     {
-        if (InteractableTarget != null)
-        {
-            IInteractable currentTarget = InteractableTarget.GetComponent<IInteractable>();
-            if (currentTarget == null || !currentTarget.IsInteractable)
-            {
-                InteractableTarget = null;
-            }
-            else
-            {
-                return;
-            }
-        }
-
         // 상호작용 가능한 대상 탐색
         int index = Physics.OverlapSphereNonAlloc(transform.position, attackRange, interactableTargets, interactableTargetLayerMask);
 
@@ -198,10 +175,10 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
         if (closestTarget != null)
         {
-            InteractableTarget = closestTarget;
-            IInteractable target = InteractableTarget.GetComponent<IInteractable>();
-            target.Interact(gameObject);
+            onTargetInteractEvent?.Invoke(closestTarget);
+            ChangeState(PlayerStateType.Interact);
         }
+
     }
 
     public void Save()

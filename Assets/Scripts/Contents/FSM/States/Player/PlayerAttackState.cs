@@ -19,8 +19,8 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Enter()
     {
-        playerFSM.Animator.SetBool(AnimationHashCode.hashCanMove, false);
-        playerFSM.Animator.SetTrigger(AnimationHashCode.hashAttack);
+        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashCanMove, false);
+        playerFSM.Animator.SetTrigger(PlayerAnimationHashCode.hashAttack);
         playerFSM.Animator.speed = PlayerStats.AttackSpeed;
         isChangeMove = true;
     }
@@ -37,7 +37,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         playerFSM.OnEndAttack();
         playerFSM.Animator.speed = 1f;
-        playerFSM.Animator.ResetTrigger(AnimationHashCode.hashAttack);
+        playerFSM.Animator.ResetTrigger(PlayerAnimationHashCode.hashAttack);
         // PlayerFSM.Animator.SetBool(AnimationHashCode.hashAttack, false);
     }
 

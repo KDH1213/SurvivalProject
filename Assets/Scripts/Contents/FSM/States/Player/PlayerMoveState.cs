@@ -13,7 +13,7 @@ public class PlayerMoveState : PlayerBaseState
     public override void Enter()
     {
         if (playerFSM.Animator != null)
-            playerFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
+            playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, true);
     }
 
     public override void ExecuteUpdate()
@@ -25,7 +25,7 @@ public class PlayerMoveState : PlayerBaseState
     {
         if (playerFSM.Animator != null)
         {
-            playerFSM.Animator.SetBool(AnimationHashCode.hashMove, false);
+            playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, false);
         }
     }
 

@@ -44,7 +44,7 @@ public class MonsterReturnState : MonsterBaseState
     {
         if (MonsterFSM.Animator == null)
         {
-            MonsterFSM.Animator.SetBool(AnimationHashCode.hashMove, true);
+            MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashMove, true);
         }
         MonsterFSM.Agent.SetDestination(MonsterFSM.FirstPosition);
     }

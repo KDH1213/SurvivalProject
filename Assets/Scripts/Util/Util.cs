@@ -47,14 +47,18 @@ public struct FloatMinMax
     }
 }
 
-public static class AnimationHashCode
+public static class PlayerAnimationHashCode
 {
     public static readonly int hashMove = Animator.StringToHash("walk");
     public static readonly int hashAttack = Animator.StringToHash("attack");
     //public static readonly int hashInteract = Animator.StringToHash("interact");
     public static readonly int hashSpeed = Animator.StringToHash("speed");
     public static readonly int hashCanMove = Animator.StringToHash("canMove");
+    public static readonly int hashIsFarming = Animator.StringToHash("IsFarming");
+    public static readonly int hashIsPickingUp = Animator.StringToHash("IsPickingUp");
+    public static readonly int hashIsAxing = Animator.StringToHash("IsAxing");
 }
+
 
 public static class MonsterAnimationHashCode
 {
