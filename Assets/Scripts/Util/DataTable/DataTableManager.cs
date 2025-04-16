@@ -48,10 +48,10 @@ public static class DataTableManager
         tableStructure.Load(idStructure);
         tables.Add(idStructure, tableStructure);
 
-        /*var tableItemCreate = new ItemCreateTable();
+        var tableItemCreate = new ItemCreateTable();
         string idItemCreate = PlacementTableIds.ItemCreateTable;
         tableItemCreate.Load(idItemCreate);
-        tables.Add(idItemCreate, tableItemCreate);*/
+        tables.Add(idItemCreate, tableItemCreate);
     }
 
 

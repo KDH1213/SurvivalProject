@@ -35,7 +35,7 @@ public class PlacementCameraSystem : MonoBehaviour
     [SerializeField]
     private float scrollSpeed = 2f; 
     [SerializeField]
-    private float moveSpeed = 10f;
+    private float moveSpeed = 20f;
 
     public bool IsDrag { get; private set; }
 

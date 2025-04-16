@@ -21,9 +21,15 @@ public class BuildInfoUI : MonoBehaviour
     [SerializeField]
     private Button placeButton;
     public TestInventory inven;
+    private Inventory inventory;
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
+        }
+
         int index = 0;
         placementObject = objInfo;
         itemImage.sprite = objInfo.Icon;
@@ -32,20 +38,42 @@ public class BuildInfoUI : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
-        foreach (var item in objInfo.NeedItems)
+
+        if (inventory == null)
         {
-            needItems[index].gameObject.SetActive(true);
-            if(inven.inventory.ContainsKey(item.Key))
+            foreach (var item in objInfo.NeedItems)
             {
-                needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+                needItems[index].gameObject.SetActive(true);
+                if (inven.inventory.ContainsKey(item.Key))
+                {
+                    needItems[index].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
+                }
+                else
+                {
+                    needItems[index].SetNeedItem(null, item.Value, 0);
+                }
+
+                needItems.Add(needItems[index]);
+                index++;
             }
-            else
+        }
+        else
+        {
+            foreach (var item in objInfo.NeedItems)
             {
-                needItems[index].SetNeedItem(null, item.Key, item.Value, 0);
+                needItems[index].gameObject.SetActive(true);
+                if (inventory.GetTotalItem(item.Key) < item.Value)
+                {
+                    needItems[index].SetNeedItem(null, item.Value, inventory.GetTotalItem(item.Key));
+                }
+                else
+                {
+                    needItems[index].SetNeedItem(null, item.Value, 0);
+                }
+
+                needItems.Add(needItems[index]);
+                index++;
             }
-            
-            needItems.Add(needItems[index]);
-            index++;
         }
         SetButtonDisable();
         
@@ -53,6 +81,14 @@ public class BuildInfoUI : MonoBehaviour
 
     private void SetButtonDisable()
     {
+        if(CanPlaced())
+        {
+
+        }
+        else
+        {
+
+        }
         if (!inven.CheckItemCount(placementObject.NeedItems))
         {
             placeButton.interactable = false;
@@ -69,6 +105,20 @@ public class BuildInfoUI : MonoBehaviour
     public void OnCloseWindow()
     {
         gameObject.SetActive(false);
+    }
+
+    private bool CanPlaced()
+    {
+        foreach (var data in placementObject.NeedItems)
+        {
+            if (inventory == null)
+                break;
+            if (inventory.GetTotalItem(data.Key) < data.Value)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

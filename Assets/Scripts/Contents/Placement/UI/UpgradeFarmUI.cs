@@ -72,11 +72,11 @@ public class UpgradeFarmUI : MonoBehaviour
             needItems[index].gameObject.SetActive(true);
             if(inventory == null)
             {
-                needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+                needItems[index].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
             }
             else
             {
-                needItems[index].SetNeedItem(null, item.Key, item.Value, inventory.GetTotalItem(item.Key));
+                needItems[index].SetNeedItem(null, item.Value, inventory.GetTotalItem(item.Key));
             }
             needItems.Add(needItems[index]);
             index++;

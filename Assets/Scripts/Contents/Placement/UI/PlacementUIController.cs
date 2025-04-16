@@ -1,10 +1,8 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
 
 public class PlacementUIController : MonoBehaviour
@@ -40,6 +38,8 @@ public class PlacementUIController : MonoBehaviour
     private FarmInfoUi farmUI; // 농장 UI
     [SerializeField]
     private UpgradeFarmUI upgradeFarmUI; // 농장 업그레이드 UI
+    [SerializeField]
+    private CreateItemUI createItemUI; // 아이템 제작 UI
 
     private void Awake()
     {
@@ -197,5 +197,11 @@ public class PlacementUIController : MonoBehaviour
         int index = placementSystem.Database.objects.FindIndex(x => x.ID == id);
         PlacementObjectInfo data = placementSystem.Database.objects[index];
         farmUI.SetUIInfo(data, target, produceInfo);
+    }
+
+    public void OnOpenCreateItemUI(GameObject target)
+    {
+        createItemUI.gameObject.SetActive(true);
+        createItemUI.SetUI(target);
     }
 }

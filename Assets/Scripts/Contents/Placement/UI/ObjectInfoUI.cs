@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
 
 public class ObjectInfoUI : MonoBehaviour
@@ -36,7 +33,7 @@ public class ObjectInfoUI : MonoBehaviour
         foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
-            needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            needItems[index].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
             needItems.Add(needItems[index]);
             index++;
         }
