@@ -110,5 +110,5 @@ public class UpgradeFarmUI : MonoBehaviour
         beforeProduceTime.text = null;
         afterOutPut.text = null;
         afterProduceTime.text = null;
-}
+    }
 }

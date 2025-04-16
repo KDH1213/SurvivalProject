@@ -250,13 +250,20 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         SelectedObject.Rotation = SelectedObject.transform.rotation;
         SelectedObject.transform.parent.gameObject.SetActive(true);
         SetPlacementInfo(SelectedObject);
-        SelectedObject = null;
         StopPlacement();
     }
 
     public int RemoveStructure(PlacementObject obj)
     {
-        SelectedObject.transform.parent.gameObject.SetActive(false);
+        if(SelectedObject != null)
+        {
+            SelectedObject.transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            obj.transform.parent.gameObject.SetActive(false);
+        }
+        
         int id = gridData.RemoveObjectAt(obj);
         PlacedGameObjects.Remove(obj);
 
