@@ -26,6 +26,7 @@ public class MonsterPointSpawner : MonsterSpawner
             monsterController.transform.position = createPoints[randomPoint].position;
         }
 
+        monsterController.transform.rotation = Quaternion.identity;
         // TODO :: 더미 코드
         var moveState = monsterController.StateTable[MonsterStateType.Move] as MonsterMoveState;
         moveState.SetMovePosition(targetPoint);

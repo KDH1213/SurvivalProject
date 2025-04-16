@@ -31,6 +31,10 @@ public class SaveDataV1 : SaveData
         Version = 1;
         playerSaveInfo.survivalStatValues = new float[(int)SurvivalStatType.End];
         levelStatInfo.skillLevelList = new List<int>();
+
+        playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
+        playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;
+        playerSaveInfo.hp = 100f;
     }
 
     public override SaveData VersionUp()

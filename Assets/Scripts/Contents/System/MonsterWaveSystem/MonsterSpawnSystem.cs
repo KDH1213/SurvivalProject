@@ -94,7 +94,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
         foreach (var spawner in monsterActiveSpawnerList)
         {
-            spawner.SetMonsterWaveData(monsterWaveDatas[currentWaveLevel]);
+            // spawner.SetMonsterWaveData(monsterWaveDatas[currentWaveLevel]);
+            spawner.SetWaveIndex(currentWaveLevel);
             spawner.StartSpawn();
             ++activeSpawnerCount; 
         }
