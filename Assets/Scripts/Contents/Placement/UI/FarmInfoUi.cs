@@ -35,6 +35,12 @@ public class FarmInfoUi : MonoBehaviour
     private GameObject target;
 
 
+    private void Awake()
+    {
+
+        interact.onClick.AddListener(() => onInteract());
+    }
+
     private void Update()
     {
         produceTerm.text = $"{currentObject.produceTime} ÃÊ";
@@ -62,14 +68,12 @@ public class FarmInfoUi : MonoBehaviour
         currentProduce.text = $"{selectedObject.produceInfo.outPut} °³";
 
         this.target = target;
-
-        interact.onClick.AddListener(() => onInteract());
     }
 
 
     public void onInteract()
     {
-        
+        ResetInfo();
         var testItem = DataTableManager.ItemTable.Get(currentObject.produceInfo.id);
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 

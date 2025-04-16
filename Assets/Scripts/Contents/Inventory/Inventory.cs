@@ -237,6 +237,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 {
                     int leftCount = count - itemList[i].Amount;
                     itemList[i].Amount -= count - leftCount;
+                    inventoryItemTable[id].Remove(itemList[i]);
                     itemInfos[itemList[i].index].Empty();
                     --useSlotCount;
                     count = leftCount;
