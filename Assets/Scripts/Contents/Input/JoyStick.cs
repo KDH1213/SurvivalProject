@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class JoyStick : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class JoyStick : MonoBehaviour
     [SerializeField] private RectTransform joystickArea;       // 조이스틱이 활성화될 우측 하단 영역
     [SerializeField] private float moveRange = 100f;           // 조이스틱 이동 반경
     [SerializeField] private OnScreenStick onScreenStick;      // 입력 시스템용 조이스틱
+
+    private PointerEventData pointerEventData;
+    private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
     private Vector2 initialPosition;
     private bool isUsingMouse = false;
@@ -82,6 +86,11 @@ public class JoyStick : MonoBehaviour
 
     private void MoveJoystick(Vector2 position)
     {
+        //if (IsPointerOverUI() && IsRaycastHittingUIObject(position))
+        //{
+        //    return;
+        //}
+
         Vector2 direction = position - (Vector2)joystickBackground.position;
         Vector2 clampedPosition = Vector2.ClampMagnitude(direction, moveRange);
         joystickHandle.anchoredPosition = clampedPosition;
@@ -107,5 +116,18 @@ public class JoyStick : MonoBehaviour
         joystickHandle.anchoredPosition = Vector2.zero;
 
         onScreenStick.OnPointerUp(new PointerEventData(EventSystem.current));
+    }
+    private bool IsPointerOverUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private bool IsRaycastHittingUIObject(Vector2 position)
+    {
+        if (pointerEventData == null)
+            pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = position;
+        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+        return raycastResults.Count > 0;
     }
 }

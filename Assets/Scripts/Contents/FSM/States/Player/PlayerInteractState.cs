@@ -6,6 +6,11 @@ public class PlayerInteractState : PlayerBaseState
     [SerializeField]
     private Slider interactSilder;
 
+    [SerializeField]
+    private GameObject axe;
+    [SerializeField]
+    private GameObject pickaxe;
+
     private GameObject target;
     private float interactTime = 2f;
     private float currentTime = 0f;
@@ -25,14 +30,16 @@ public class PlayerInteractState : PlayerBaseState
 
         currentTime = Time.time + interactTime;
         playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, false);
-
+     
         switch (targetInteractable.InteractType)
         {
             case InteractType.Tree:
                 playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsAxing, true);
+                axe.gameObject.SetActive(true);
                 break;
             case InteractType.Stone:
                 playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsFarming, true);
+                pickaxe.gameObject.SetActive(true);
                 break;
             case InteractType.Branch:
             case InteractType.Rock:
@@ -88,6 +95,8 @@ public class PlayerInteractState : PlayerBaseState
         if (interactSilder != null)
         {
             interactSilder.gameObject.SetActive(false);
+            axe.SetActive(false);
+            pickaxe.SetActive(false);
         }
     }
 
@@ -96,10 +105,6 @@ public class PlayerInteractState : PlayerBaseState
         if(target != null)
         {
             targetInteractable.Interact(this.gameObject);
-
-            var targetPosition = target.transform.position;
-            targetPosition.y = transform.position.y;
-            transform.LookAt(targetPosition);
 
             if (targetInteractable.InteractType <= InteractType.Box)
             {
@@ -120,6 +125,9 @@ public class PlayerInteractState : PlayerBaseState
         this.target = target;
         targetInteractable = target.GetComponent<IInteractable>();
 
+        var targetPosition = target.transform.position;
+        targetPosition.y = transform.position.y;
+        transform.LookAt(targetPosition);
         // 타겟 별 애니메이션 호출
 
     }
