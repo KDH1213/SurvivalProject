@@ -187,7 +187,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
                 continue;
             }
 
-            Vector3 directionToTarget = (interactableTargets[i].transform.position - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, interactableTargets[i].transform.position);
 
             if (distance < closestDistance)
