@@ -27,6 +27,7 @@ public class UpgradeFarmUI : MonoBehaviour
     [SerializeField]
     private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
     public TestInventory inven;
+    private Inventory inventory;
 
     [SerializeField]
     private Button upgradeButton;
@@ -38,7 +39,11 @@ public class UpgradeFarmUI : MonoBehaviour
 
         ResetInfo();
         var system = selectedObject.uiController.GetComponent<PlacementSystem>();
-
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
+        }
+        
         var data = DataTableManager.StructureTable.Get(objInfo.ID);
 
         int index = system.Database.objects.FindIndex(data => data.ID == objInfo.NextStructureID);
@@ -65,7 +70,14 @@ public class UpgradeFarmUI : MonoBehaviour
         foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
-            needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            if(inventory == null)
+            {
+                needItems[index].SetNeedItem(null, item.Key, item.Value, inven.inventory[item.Key]);
+            }
+            else
+            {
+                needItems[index].SetNeedItem(null, item.Key, item.Value, inventory.GetTotalItem(item.Key));
+            }
             needItems.Add(needItems[index]);
             index++;
         }
@@ -78,9 +90,6 @@ public class UpgradeFarmUI : MonoBehaviour
 
     private void ConsumItem(Dictionary<int, int> needItems)
     {
-        if (GameObject.FindWithTag("Player") == null)
-            return;
-        var inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
         foreach (var data in needItems)
         {
             if (inventory == null)

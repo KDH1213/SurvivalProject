@@ -43,6 +43,8 @@ public class FarmInfoUi : MonoBehaviour
     }
     public void SetUIInfo(PlacementObjectInfo objInfo, GameObject target, ProduceStructure selectedObject)
     {
+        ResetInfo();
+
         objectName.text = objInfo.Name;
         objectImage.sprite = objInfo.Icon;
         objectLevel.text = $"Level : {selectedObject.Level}";
@@ -67,7 +69,7 @@ public class FarmInfoUi : MonoBehaviour
 
     public void onInteract()
     {
-        ResetInfo();
+        
         var testItem = DataTableManager.ItemTable.Get(currentObject.produceInfo.id);
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 

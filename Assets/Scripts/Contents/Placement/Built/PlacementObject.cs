@@ -54,7 +54,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
         if (Hp <= 0)
         {
             gameObject.SetActive(false);
-
+            uiController.GetComponent<PlacementSystem>().DestoryStructure(this);
         }
     }
 }

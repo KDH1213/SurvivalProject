@@ -47,7 +47,9 @@ public class PlacementObjectList
             objInfo.Prefeb = Resources.Load<GameObject>
                 (string.Format(prefabPathFormat, objInfo.Kind.ToString(), prefab));
 
-            
+            var table = objInfo.Prefeb.transform.GetChild(0).GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, objInfo.DefaultHp));
 
             string[] needItemKeys = construction.buildCostID.Split('_');
             string[] needItemValues = construction.buildCostValue.Split('_');

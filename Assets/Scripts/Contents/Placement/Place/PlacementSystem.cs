@@ -310,6 +310,14 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         preview.StopShowingPreview();
     }
 
+    public void DestoryStructure(PlacementObject obj)
+    {
+        int index = Database.objects.FindIndex(x => x.ID == obj.ID);
+        RemoveStructure(obj);
+        placementUI.OnSetObjectListUi(Database, obj.ID, PlacedGameObjects);
+        Destroy(obj.transform.parent.gameObject);
+    }
+
     // 오브젝트 원래 위치로 배치
     public void SetPlacementInfo(PlacementObject obj)
     {
