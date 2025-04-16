@@ -6,6 +6,9 @@ using UnityEngine.Events;
 public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
 {
     [SerializeField]
+    private MonsterWaveData[] waveDatas;
+
+    [SerializeField]
     protected MonsterSpawnSystem monsterSpawnSystem;
     [SerializeField]
     protected MonsterObjectPool monsterObjectPool;
@@ -13,6 +16,7 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
     protected float spawnTime;
     protected float currentSpawnTime = 0f;
     protected int currentSpawnCount = 0;
+    protected int currentSpawnIndex = 0;
 
     protected bool isActive = false;
     protected bool isRepeat = true;
@@ -29,7 +33,15 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
     //    monsterData = DataTableManager.MonsterDataTable.Get(waveData.MonsterID);
     //    monsterObjectPool.SetMonsterData(monsterData.PrefabObject, monsterData.Id);
     //}
+    public virtual void SetWaveIndex(int index)
+    {
+        currentSpawnIndex = index;
 
+        currentSpawnIndex = Mathf.Clamp(currentSpawnIndex, 0, waveDatas.Length);
+
+        waveData = waveDatas[currentSpawnIndex];
+        spawnTime = waveData.SpawnTime;
+    }
     public virtual void SetMonsterWaveData(MonsterWaveData monsterWaveData)
     {
         waveData = monsterWaveData;
@@ -46,6 +58,12 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
 
     public virtual void StartSpawn(bool isRepeat)
     {
+        if(waveData.SpawnCount == 0)
+        {
+            monsterSpawnSystem.EndSpawn();
+            return;
+        }
+
         if(isRepeat)
             spawnCoroutine = StartCoroutine(StartSpawnRepeatCoroutine());
         else
