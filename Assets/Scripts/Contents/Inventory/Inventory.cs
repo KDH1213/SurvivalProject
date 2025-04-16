@@ -556,6 +556,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             itemInfos[i].index = itemSlotInfoList[i].index;
             itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
 
+            if(itemInfos[i].itemData == null)
+            {
+                continue;
+            }
+
             if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ID))
             {
                 inventoryItemTable[itemInfos[i].itemData.ID].Add(itemInfos[i]);

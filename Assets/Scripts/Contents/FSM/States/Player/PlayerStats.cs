@@ -247,6 +247,12 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
             // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
             var itemData = DataTableManager.ItemTable.Get(equipmentItemIDList[i]);
+
+            if (itemData == null)
+            {
+                continue;
+            }
+
             OnEquipmentItem(itemData);
         }
 
