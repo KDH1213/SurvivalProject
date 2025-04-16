@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public struct DropItemInfo
 {
@@ -17,6 +18,9 @@ public struct DropItemInfo
 public class Inventory : MonoBehaviour, ISaveLoadData
 {
     private static int maxSlot = 20;
+
+    [field: SerializeField]
+    public GameObject PrivewIcon { get; private set; }
 
     [SerializeField]
     private EquipmentSocketView equipmentSocketView;
@@ -73,10 +77,18 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
             });
 
+            slot.OnDragEvent.AddListener((position) => { if (PrivewIcon != null) PrivewIcon.transform.position = position; });
+
             slot.onDragEnter.AddListener(() =>
             {
                 isOnDrag = true;
                 dragSeletedSlotIndex = slot.SlotIndex;
+
+                if(PrivewIcon != null && slot.ItemData != null)
+                {
+                    PrivewIcon.SetActive(true);
+                    PrivewIcon.GetComponent<Image>().sprite = slot.ItemData.ItemImage;
+                }
             });
 
             slot.onDragExit.AddListener(OnEndDrag);
@@ -364,6 +376,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(PrivewIcon != null)
+        {
+            PrivewIcon.SetActive(false);
+        }
+
         if (dragSeletedSlotIndex < 0 || dragSeletedSlotIndex >= itemInfos.Length || itemInfos[dragSeletedSlotIndex] == null)
         {
             isOnDrag = false;

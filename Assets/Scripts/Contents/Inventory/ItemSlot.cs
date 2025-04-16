@@ -23,6 +23,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public Button button;
     public UnityEvent onDragEnter;
+    public UnityEvent<Vector2> OnDragEvent;
     public UnityEvent<PointerEventData> onDragExit;
 
     public ItemInfo ItemInfo {  get; private set; }
@@ -66,7 +67,8 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-        // eventData.position
+        OnDragEvent?.Invoke(eventData.position);
+        // = eventData.position; 
     }
 
     public void OnBeginDrag(PointerEventData eventData)

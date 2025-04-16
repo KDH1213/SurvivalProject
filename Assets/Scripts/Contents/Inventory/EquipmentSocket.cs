@@ -35,6 +35,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public UnityEvent<EquipmentType, int> onChangeEquipEvent;
 
     public UnityEvent onDragEnter;
+    public UnityEvent<Vector2> onDragEvent;
     public UnityEvent<PointerEventData> onDragExit;
 
     public virtual void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount)
@@ -116,6 +117,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
+        onDragEvent?.Invoke(eventData.position);
     }
     public void OnEndDrag(PointerEventData eventData)
     {

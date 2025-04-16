@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 {
@@ -50,7 +51,17 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         equipmentSockets[index].onClickEvent.AddListener(OnSeleteSocket);
         equipmentSockets[index].onUnEquipEvent.AddListener(OnUnEquipSocket);
         equipmentSockets[index].onChangeEquipEvent.AddListener(OnChangeEquipment);
-        equipmentSockets[index].onDragEnter.AddListener(() => { isOnDrag = true; seleteSocket = (int)equipmentSockets[index].EquipmentType; });
+        equipmentSockets[index].onDragEnter.AddListener(() => 
+        { 
+            isOnDrag = true; seleteSocket = (int)equipmentSockets[index].EquipmentType;
+
+            if (inventory.PrivewIcon != null && equipmentSockets[index].ItemData != null)
+            {
+                inventory.PrivewIcon.SetActive(true);
+                inventory.PrivewIcon.GetComponent<Image>().sprite = equipmentSockets[index].ItemData.ItemImage;
+            }
+        });
+        equipmentSockets[index].onDragEvent.AddListener((position) => { if (inventory.PrivewIcon != null) inventory.PrivewIcon.transform.position = position; });
         equipmentSockets[index].onDragExit.AddListener(OnEndDrag);
     }
 
@@ -116,6 +127,11 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (inventory.PrivewIcon != null)
+        {
+            inventory.PrivewIcon.SetActive(false);
+        }
+
         if (equipmentSockets[seleteSocket].ItemData == null)
         {
             isOnDrag = false;
