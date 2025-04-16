@@ -9058,7 +9058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 7, z: -3}
+  m_FollowOffset: {x: 0, y: 7, z: -4}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -9861,6 +9861,29 @@ PrefabInstance:
       propertyPath: monsterSpawnSystem
       value: 
       objectReference: {fileID: 681727327}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa420fbae9737584681d990ef72a70f6,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ca19d6f66c6092a43a6ce03ea70bbf62,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: decb08f24d1f79143aafe7c8ff5bcfe1,
+        type: 2}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10512,6 +10535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15755ee85bd797a49af027f3e7bd6fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveDatas: []
   monsterSpawnSystem: {fileID: 681727327}
   monsterObjectPool: {fileID: 681727325}
 --- !u!114 &681727327
@@ -10550,6 +10574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d031e967efa95f41856642548cbe483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveDatas: []
   monsterSpawnSystem: {fileID: 681727327}
   monsterObjectPool: {fileID: 681727325}
   randomRadin: 20
@@ -13487,6 +13512,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1836983628}
     m_Modifications:
+    - target: {fileID: 2806582457021928874, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: currentStatTable._serializedList.Array.data[0].Value.value
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 3726290881750612549, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13527,6 +13557,29 @@ PrefabInstance:
       propertyPath: monsterSpawnSystem
       value: 
       objectReference: {fileID: 681727327}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8c6c6a2dd7cd86488683bb2fe301541,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a329b12e3e19c114098b977ea03b1cb9,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e74a9872ae00d84398bea27c1da74c1,
+        type: 2}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14188,7 +14241,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.85882354, g: 0.85490197, b: 0.7254902, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -16591,7 +16644,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!4 &1285649031
 Transform:
@@ -16655,7 +16708,7 @@ Terrain:
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 0
   m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
@@ -18087,7 +18140,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 315731004}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -18115,14 +18168,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1388988210}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.55049103, y: 4.041714e-15, z: -3.6512113e-15, w: 0.83484113}
-  m_LocalPosition: {x: 2.85, y: 7, z: -3.02}
+  m_LocalRotation: {x: 0.4848096, y: -0, z: -0, w: 0.8746197}
+  m_LocalPosition: {x: 2.85, y: 7, z: -4.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 574552310}
   m_Father: {fileID: 4651416156246103471}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 58, y: 0, z: 0}
 --- !u!1001 &1395967762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19525,14 +19578,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471407682}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.55049103, y: 4.041714e-15, z: -3.6512113e-15, w: 0.83484113}
-  m_LocalPosition: {x: 2.85, y: 7, z: -3.02}
+  m_LocalRotation: {x: 0.4848096, y: 0, z: 0, w: 0.8746197}
+  m_LocalPosition: {x: 2.85, y: 7, z: -4.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1263891893}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 31.454, y: -0.405, z: 0}
+  m_LocalEulerAnglesHint: {x: 66, y: 0, z: 0}
 --- !u!114 &1471407686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23017,7 +23070,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1721362244
 Transform:
   m_ObjectHideFlags: 0
@@ -23026,13 +23079,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721362243}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 14.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1629304161}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &1721362245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23067,7 +23120,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8584906, g: 0.8558444, b: 0.7248576, a: 1}
   m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
@@ -24901,7 +24954,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 0
 --- !u!4 &1854886457
 Transform:
@@ -26643,6 +26696,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1836983628}
     m_Modifications:
+    - target: {fileID: 2806582457021928874, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: currentStatTable._serializedList.Array.data[0].Value.value
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 3726290881750612549, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26683,6 +26741,29 @@ PrefabInstance:
       propertyPath: monsterSpawnSystem
       value: 
       objectReference: {fileID: 681727327}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c8c6c6a2dd7cd86488683bb2fe301541,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a329b12e3e19c114098b977ea03b1cb9,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e74a9872ae00d84398bea27c1da74c1,
+        type: 2}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -27885,6 +27966,11 @@ PrefabInstance:
       propertyPath: thirstSlider
       value: 
       objectReference: {fileID: 985078466}
+    - target: {fileID: 5337073670899731825, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      propertyPath: valueDownTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5418057839260207421, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: m_UpdateWhenOffscreen
@@ -28008,12 +28094,12 @@ PrefabInstance:
     - target: {fileID: 7720668712684393975, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: valueDownTime
-      value: 111
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7720668712684393975, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: startPenaltyPersent
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8081401019662844925, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
@@ -32463,7 +32549,7 @@ PrefabInstance:
     - target: {fileID: 2646057890983922191, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.078431375
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4084386097896986780, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
@@ -32498,12 +32584,12 @@ PrefabInstance:
     - target: {fileID: 4084386097896986780, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 700
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 4084386097896986780, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 4084386097896986780, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
@@ -32568,7 +32654,7 @@ PrefabInstance:
     - target: {fileID: 4753167645063402015, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
       propertyPath: moveRange
-      value: 300
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 6179794971065847188, guid: 5347fa993e16e9e4f987ac89f4d1b85e,
         type: 3}
@@ -32728,6 +32814,29 @@ PrefabInstance:
       propertyPath: monsterSpawnSystem
       value: 
       objectReference: {fileID: 681727327}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa420fbae9737584681d990ef72a70f6,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ca19d6f66c6092a43a6ce03ea70bbf62,
+        type: 2}
+    - target: {fileID: 6063698194024833992, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: waveDatas.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: decb08f24d1f79143aafe7c8ff5bcfe1,
+        type: 2}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x

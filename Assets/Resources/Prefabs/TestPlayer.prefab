@@ -11049,7 +11049,6 @@ GameObject:
   - component: {fileID: 5337073670899731825}
   - component: {fileID: 1478152083764109327}
   - component: {fileID: 936364590328128479}
-  - component: {fileID: 5572263776794208988}
   m_Layer: 10
   m_Name: TestPlayer
   m_TagString: Player
@@ -11768,7 +11767,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   startPenaltyPersent: 0.5
-  valueDownTime: 0.5
+  valueDownTime: 5
   hpDownTime: 5
   hungerSlider: {fileID: 0}
 --- !u!114 &2602794882264074313
@@ -11856,7 +11855,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   startPenaltyPersent: 0.5
-  valueDownTime: 0.5
+  valueDownTime: 5
   thirstSlider: {fileID: 0}
 --- !u!114 &1478152083764109327
 MonoBehaviour:
@@ -11891,6 +11890,9 @@ MonoBehaviour:
   createAttackVFXEvnet:
     m_PersistentCalls:
       m_Calls: []
+  endDeathAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &936364590328128479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11918,20 +11920,6 @@ MonoBehaviour:
   OnChangeSkillLevelEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5572263776794208988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8081401019662844925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f146c39f17da1d543945327a1ea5ea1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLevel: 1
-  maxLevel: 100
 --- !u!1 &8107886998491019709
 GameObject:
   m_ObjectHideFlags: 0
