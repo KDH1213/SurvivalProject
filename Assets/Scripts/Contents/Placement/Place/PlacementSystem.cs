@@ -65,7 +65,9 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         if (SaveLoadManager.Data != null)
         {
-            SaveLoadManager.Load(1);
+            SaveLoadManager.Load();
+
+            Load();
         }
     }
 
@@ -144,6 +146,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         Vector3 mousePosition = inputManager.LastPosition;
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
+        var objData = Database.objects[SelectedObjectIndex];
+
         bool placementValidity = CheckPlacementValidity(gridPosition, SelectedObjectIndex);
         if (!placementValidity)
         {
@@ -158,9 +162,9 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         }
         else
         {
-            inven.MinusItem(Database.objects[SelectedObjectIndex].NeedItems);
+            inven.MinusItem(objData.NeedItems);
             
-            foreach(var data in Database.objects[SelectedObjectIndex].NeedItems)
+            foreach(var data in objData.NeedItems)
             {
                 if (inventory == null)
                     break;
@@ -169,14 +173,15 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             
         }
 
-        GameObject newObject = Instantiate(Database.objects[SelectedObjectIndex].Prefeb);
+        GameObject newObject = Instantiate(objData.Prefeb);
         newObject.transform.position = grid.CellToWorld(gridPosition);
         newObject.transform.GetChild(0).rotation = preview.PreviewObject.transform.GetChild(0).rotation;
 
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
-        placementObject.ID = Database.objects[SelectedObjectIndex].ID;
-        placementObject.Rank = Database.objects[SelectedObjectIndex].Rank;
+        placementObject.Hp = objData.DefaultHp;
+        placementObject.ID = objData.ID;
+        placementObject.Rank = objData.Rank;
         placementObject.Position = gridPosition;
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
         placementObject.uiController = placementUI;
@@ -184,8 +189,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         PlacedGameObjects.Add(placementObject);
 
-        gridData.AddObjectAt(gridPosition, Database.objects[SelectedObjectIndex].Size,
-            Database.objects[SelectedObjectIndex].ID,
+        gridData.AddObjectAt(gridPosition, objData.Size,
+            objData.ID,
             PlacedGameObjects.Count - 1, placementObject);
 
         int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
@@ -195,8 +200,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        bool invenValidity = inven.CheckItemCount(Database.objects[SelectedObjectIndex].NeedItems);
-        foreach (var data in Database.objects[SelectedObjectIndex].NeedItems)
+        bool invenValidity = inven.CheckItemCount(objData.NeedItems);
+        foreach (var data in objData.NeedItems)
         {
             if (inventory == null)
                 break;
@@ -352,7 +357,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         {
             placedGameObject.Save();
         }
-        
+
     }
 
     public void Load()
@@ -374,6 +379,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
             placementObject.IsPlaced = true;
             placementObject.ID = placeObjInfo.ID;
+            placementObject.Hp = placeObjInfo.DefaultHp;
             placementObject.Rank = placeObjInfo.Rank;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
@@ -405,6 +411,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.IsPlaced = true;
             placementObject.ID = placeObjInfo.ID;
             placementObject.Rank = placeObjInfo.Rank;
+            placementObject.Hp = placeObjInfo.DefaultHp;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;

@@ -60,6 +60,10 @@ public class CreateItemUI : MonoBehaviour
         createList.Clear();
         foreach (var itemData in data)
         {
+            if(itemData.Value.Rank > structure.Rank)
+            {
+                continue;
+            }
             CreateItemSlot item = Instantiate(createItemPrefab, createListContents.transform);
             item.index = index;
             item.SetItemSlot(itemData.Key);
