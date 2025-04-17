@@ -22,6 +22,7 @@ public static class GetLayerMasks
 public static class GetLayer
 {
     public static readonly int Object = UnityEngine.LayerMask.NameToLayer("Object");
+    public static readonly int Preview = UnityEngine.LayerMask.NameToLayer("Preview");
     public static readonly int Ground = UnityEngine.LayerMask.NameToLayer("Ground");
     public static readonly int Enemy = UnityEngine.LayerMask.NameToLayer("Enemy");
     public static readonly int Monster = UnityEngine.LayerMask.NameToLayer("Monster");

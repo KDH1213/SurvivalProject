@@ -35,6 +35,7 @@ public class PlacementPreview : MonoBehaviour
     public void StartShowingPlacementPreview(GameObject prefeb, Vector2Int size, PlacementObject obj = null)
     {
         PreviewObject = Instantiate(prefeb);
+        PreviewObject.transform.GetChild(0).gameObject.layer = GetLayer.Preview;
         if (obj != null)
         {
             PreviewObject.transform.GetChild(0).transform.rotation = obj.Rotation;

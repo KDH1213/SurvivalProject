@@ -57,7 +57,7 @@ public class PlacementInput : MonoBehaviour
             {
                 
                 PlacementObject placementObject = hit.GetComponent<PlacementObject>();
-                if (hit.layer ==  GetLayer.Object)
+                if (hit.layer ==  GetLayer.Preview)
                 {
                     IsObjectHoldPress = true;
                 }
