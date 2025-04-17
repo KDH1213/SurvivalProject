@@ -63,17 +63,18 @@ public class CreateItemUI : MonoBehaviour
             CreateItemSlot item = Instantiate(createItemPrefab, createListContents.transform);
             item.index = index;
             item.SetItemSlot(itemData.Key);
-            item.GetComponent<Button>().onClick.AddListener(() => UpdateInfo(item.ItemInfo));
+            item.GetComponent<Button>().onClick.AddListener(() => UpdateInfo(item.index));
             createList.Add(item);
             index++;
         }
         currentObject.closeUI.AddListener(() => gameObject.SetActive(false));
     }
 
-    private void UpdateInfo(CreateItemInfo info)
+    private void UpdateInfo(int index)
     {
         createButton.onClick.RemoveAllListeners();
-
+        selectIndex = index;
+        var info = createList[index].ItemInfo;
         var data = DataTableManager.ItemCreateTable.Get(info.id);
         itemImage.sprite = info.itemImage;
         itemName.text = info.data.ItemName;
@@ -118,17 +119,21 @@ public class CreateItemUI : MonoBehaviour
         createItem.ItemName = data.ItemName;
         createItem.itemData = data;
         createItem.amount = createData.ResultValue;
-
-        if(inventory != null)
+        if (inventory != null)
         {
+            ConsumItem(createData.NeedItemList);
             inventory.AddItem(createItem);
+            
         }
         else
         {
             Dictionary<int, int> dict = new Dictionary<int, int>();
             dict.Add(createItem.id, createItem.amount);
+            inven.MinusItem(createData.NeedItemList);
             inven.PlusItem(dict);
         }
+
+        UpdateInfo(selectIndex);
     }
 
     private void SetButtonDisable(Dictionary<int, int> needItems)
@@ -170,5 +175,15 @@ public class CreateItemUI : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private void ConsumItem(Dictionary<int, int> needItems)
+    {
+        foreach (var data in needItems)
+        {
+            if (inventory == null)
+                break;
+            inventory.ConsumeItem(data.Key, data.Value);
+        }
     }
 }

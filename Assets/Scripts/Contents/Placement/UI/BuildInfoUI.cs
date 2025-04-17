@@ -35,11 +35,13 @@ public class BuildInfoUI : MonoBehaviour
         int index = 0;
         placementObject = objInfo;
         itemImage.sprite = objInfo.Icon;
-        featureInfo.text = $"Name : {objInfo.Name}\nLevel : {1}\nFeature : {objInfo.Feature}";
+        featureInfo.text = $"Name : {objInfo.Name}\nLevel : {objInfo.Rank}\nFeature : {objInfo.Feature}";
         foreach (var item in needItems)
         {
             item.gameObject.SetActive(false);
         }
+
+        var itemTable = DataTableManager.ItemTable;
 
         if (inventory == null)
         {
@@ -48,11 +50,13 @@ public class BuildInfoUI : MonoBehaviour
                 needItems[index].gameObject.SetActive(true);
                 if (inven.inventory.ContainsKey(item.Key))
                 {
-                    needItems[index].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
+                    needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
+                        item.Value, inven.inventory[item.Key]);
                 }
                 else
                 {
-                    needItems[index].SetNeedItem(null, item.Value, 0);
+                    needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
+                        item.Value, inven.inventory[item.Key]);
                 }
 
                 needItems.Add(needItems[index]);
@@ -66,11 +70,13 @@ public class BuildInfoUI : MonoBehaviour
                 needItems[index].gameObject.SetActive(true);
                 if (inventory.GetTotalItem(item.Key) < item.Value)
                 {
-                    needItems[index].SetNeedItem(null, item.Value, inventory.GetTotalItem(item.Key));
+                    needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
+                        item.Value, inventory.GetTotalItem(item.Key));
                 }
                 else
                 {
-                    needItems[index].SetNeedItem(null, item.Value, 0);
+                    needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
+                        item.Value, inventory.GetTotalItem(item.Key));
                 }
 
                 needItems.Add(needItems[index]);

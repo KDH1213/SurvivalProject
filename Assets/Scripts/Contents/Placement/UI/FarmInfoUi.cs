@@ -55,7 +55,7 @@ public class FarmInfoUi : MonoBehaviour
 
         objectName.text = objInfo.Name;
         objectImage.sprite = objInfo.Icon;
-        objectLevel.text = $"Level : {selectedObject.Level}";
+        objectLevel.text = $"Level : {selectedObject.Rank}";
 
         currentObject = selectedObject;
 

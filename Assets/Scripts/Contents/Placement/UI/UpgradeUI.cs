@@ -55,10 +55,21 @@ public class UpgradeUI : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
+
+        var itemTable = DataTableManager.ItemTable;
         foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
-            needItems[index].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
+            if (inventory == null)
+            {
+                needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
+                    item.Value, inven.inventory[item.Key]);
+            }
+            else
+            {
+                needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
+                    item.Value, inventory.GetTotalItem(item.Key));
+            }
             needItems.Add(needItems[index]);
             index++;
         }

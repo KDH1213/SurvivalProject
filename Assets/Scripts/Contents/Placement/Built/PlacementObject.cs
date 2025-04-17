@@ -11,7 +11,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public Quaternion Rotation { get; set; }
     public bool IsPlaced { get; set; } = false;
     public bool IsCollision { get; set; } = false;
-    public int Level { get; set; } = 1;
+    public int Rank { get; set; } = 1;
     public int ID { get; set; }
     public float Hp { get; set; }
     public PlacementUIController uiController { get; set; }

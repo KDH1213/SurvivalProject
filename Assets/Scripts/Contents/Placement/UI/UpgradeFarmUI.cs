@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -85,16 +86,20 @@ public class UpgradeFarmUI : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
+
+        var itemTable = DataTableManager.ItemTable;
         foreach (var item in objInfo.NeedItems)
         {
             needItems[needItemIndex].gameObject.SetActive(true);
             if(inventory == null)
             {
-                needItems[needItemIndex].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
+                needItems[needItemIndex].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
+                    item.Value, inven.inventory[item.Key]);
             }
             else
             {
-                needItems[needItemIndex].SetNeedItem(null, item.Value, inventory.GetTotalItem(item.Key));
+                needItems[needItemIndex].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
+                    item.Value, inventory.GetTotalItem(item.Key));
             }
             needItems.Add(needItems[needItemIndex]);
             needItemIndex++;

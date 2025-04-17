@@ -176,6 +176,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
         placementObject.ID = Database.objects[SelectedObjectIndex].ID;
+        placementObject.Rank = Database.objects[SelectedObjectIndex].Rank;
         placementObject.Position = gridPosition;
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
         placementObject.uiController = placementUI;
@@ -288,6 +289,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
         placementObject.ID = placeObjInfo.ID;
+        placementObject.Rank = placeObjInfo.Rank;
         placementObject.Position = before.Position;
         placementObject.Rotation = before.Rotation;
         placementObject.uiController = placementUI;
@@ -372,6 +374,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
             placementObject.IsPlaced = true;
             placementObject.ID = placeObjInfo.ID;
+            placementObject.Rank = placeObjInfo.Rank;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
@@ -401,6 +404,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
             placementObject.IsPlaced = true;
             placementObject.ID = placeObjInfo.ID;
+            placementObject.Rank = placeObjInfo.Rank;
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;

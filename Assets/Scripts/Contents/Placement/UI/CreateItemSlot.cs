@@ -34,6 +34,10 @@ public class CreateItemSlot : MonoBehaviour
         
         var data = DataTableManager.ItemCreateTable.Get(id);
         var itemData = DataTableManager.ItemTable.Get(id);
+        if (itemData == null)
+        {
+            return;
+        }
         var itemInfo = new CreateItemInfo();
         itemInfo.id = id;
         itemInfo.itemImage = itemData.ItemImage;

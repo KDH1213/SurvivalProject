@@ -34,7 +34,7 @@ public class ObjectInfoUI : MonoBehaviour
     {
         int index = 0;
         objectImage.sprite = objInfo.Icon;
-        objectInfo.text = $"Name : {objInfo.Name}\nLevel : {selectedObject.Level}\nFeature : {objInfo.Feature}";
+        objectInfo.text = $"Name : {objInfo.Name}\nLevel : {selectedObject.Rank}\nFeature : {objInfo.Feature}";
         foreach (var item in needItems)
         {
             item.gameObject.SetActive(false);

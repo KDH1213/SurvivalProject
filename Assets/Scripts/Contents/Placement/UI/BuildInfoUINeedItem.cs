@@ -14,6 +14,6 @@ public class BuildInfoUINeedItem : MonoBehaviour
     public void SetNeedItem(Sprite image, int needCount, int hasCount)
     {
         itemImage.sprite = image;
-        needCountTxt.text = $"{needCount} / {hasCount}";
+        needCountTxt.text = $"{hasCount} / {needCount}";
     }
 }
