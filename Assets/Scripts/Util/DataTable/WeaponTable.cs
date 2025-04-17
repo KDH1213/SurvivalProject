@@ -5,47 +5,31 @@ using UnityEngine;
 public class WeaponData
 {
     [field: SerializeField]
-    public int ID { get; set; }
+    public int ItemID { get; set; }
     [field: SerializeField]
-    public int itemNameID { get; set; }
+    public int WeaponType { get; set; }
     [field: SerializeField]
-    public int itemDescriptionID { get; set; }
+    public string Prefab { get; set; }
     [field: SerializeField]
-    public int prefabID { get; set; }
-    [field: SerializeField]
-    public string itemIconSpriteID { get; set; }
+    public float AttackPower { get; set; }
 
     [field: SerializeField]
-    public int category { get; set; }
+    public float AttackSpeed { get; set; }
 
     [field: SerializeField]
-    public int isDisposible { get; set; }
-
+    public float AttackRadius { get; set; }
     [field: SerializeField]
-    public float attack { get; set; }
-
+    public float Durability { get; set; }
     [field: SerializeField]
-    public float attackSpeed { get; set; }
-
+    public float GatherType { get; set; }
     [field: SerializeField]
-    public float attackRange { get; set; }
+    public int AttackEffect { get; set; }
     [field: SerializeField]
-    public float attackBoxX { get; set; }
-    [field: SerializeField]
-    public float miningTime { get; set; }
-    [field: SerializeField]
-    public int effect { get; set; }
-    [field: SerializeField]
-    public int seOnUse { get; set; }
-    [field: SerializeField]
-    public int collectableObeject1 { get; set; }
-    [field: SerializeField]
-    public int collectableObeject2 { get; set; }
-
+    public int AttackSFX { get; set; }
 
 
     public Sprite ItemImage;
-    public string ItemName { get { return itemNameID.ToString(); } }
+    public string ItemName { get { return ItemID.ToString(); } }
 
     public class WeaponTable : DataTable
     {
@@ -62,14 +46,14 @@ public class WeaponData
 
             foreach (var item in itemDataList)
             {
-                if (!weaponDataTable.ContainsKey(item.ID))
+                if (!weaponDataTable.ContainsKey(item.ItemID))
                 {
-                    weaponDataTable.Add(item.ID, item);
-                    item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
+                    weaponDataTable.Add(item.ItemID, item);
+                    // item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
                 }
                 else
                 {
-                    Debug.LogError($"Key Duplicated {item.ID}");
+                    Debug.LogError($"Key Duplicated {item.ItemID}");
                 }
             }
         }

@@ -125,7 +125,7 @@ public class ItemInfoView : MonoBehaviour
     private void SetWeaponInfo(ItemData itemData, bool isItemSlot)
     {
         var weaponData = DataTableManager.WeaponTable.Get(itemData.ID);
-        itemStatsText.text = string.Format(weaponFormat, weaponData.attack.ToString(), weaponData.attackSpeed.ToString());
+        itemStatsText.text = string.Format(weaponFormat, weaponData.AttackPower.ToString(), weaponData.AttackSpeed.ToString());
 
         useButton.interactable = false;
 

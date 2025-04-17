@@ -61,8 +61,8 @@ public class ItemData
         {
             var weaponData = DataTableManager.WeaponTable.Get(ID);
 
-            list.Add(new StatInfo(StatType.BasicAttackPower, weaponData.attack));
-            list.Add(new StatInfo(StatType.AttackSpeed, weaponData.attackSpeed));
+            list.Add(new StatInfo(StatType.BasicAttackPower, weaponData.AttackPower));
+            list.Add(new StatInfo(StatType.AttackSpeed, weaponData.AttackSpeed));
         }
         else if (ItemType == ItemType.Armor)
         {
