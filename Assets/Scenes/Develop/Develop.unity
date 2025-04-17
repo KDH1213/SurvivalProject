@@ -6942,6 +6942,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &396949051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3256192977246666883, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+    type: 3}
+  m_PrefabInstance: {fileID: 8872535100717136749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &404259096
 GameObject:
   m_ObjectHideFlags: 0
@@ -24808,6 +24820,104 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 792523001}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1831175390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1831175391}
+  - component: {fileID: 1831175392}
+  - component: {fileID: 1831175394}
+  - component: {fileID: 1831175393}
+  m_Layer: 13
+  m_Name: InteractableTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1831175391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831175390}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 315731004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1831175392
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831175390}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1831175393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831175390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c78ef633476d74e862f02471a2b5c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableButton: {fileID: 396949051}
+  interactableLayerMask:
+    serializedVersion: 2
+    m_Bits: 704
+--- !u!54 &1831175394
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831175390}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1836983627
 GameObject:
   m_ObjectHideFlags: 0
@@ -28456,7 +28566,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8469928535812163113, guid: 226405ed50c9e3f41844037cac5bab94, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3077329245886870758, guid: 226405ed50c9e3f41844037cac5bab94,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1831175391}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8081401019662844925, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
@@ -30568,11 +30682,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Tree_Root_01
       objectReference: {fileID: 0}
-    - target: {fileID: 7205648330398620200, guid: 565f1d5343e83b340a2c13c278aac8ab,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30619,11 +30728,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Fir_Tree_08
-      objectReference: {fileID: 0}
-    - target: {fileID: 4369506568432399261, guid: 6c5f00f70d64e234eadca44ba0c13a0b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8042315495007972893, guid: 6c5f00f70d64e234eadca44ba0c13a0b,
         type: 3}
@@ -30877,11 +30981,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree-baobab-mature-a
       objectReference: {fileID: 0}
-    - target: {fileID: 5759846546466184563, guid: e7ff97989134f9746bca0dd83f49696a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30956,11 +31055,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Rock_Gem_05_Silver
       objectReference: {fileID: 0}
-    - target: {fileID: 7367032054180712499, guid: 5e1aa761ea7183a48b185b62cc992f45,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30984,11 +31078,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Rock_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6981725838534173748, guid: 41a15edc030017f499bff92f9498229f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8530027445325158877, guid: 41a15edc030017f499bff92f9498229f,
         type: 3}
@@ -31063,11 +31152,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Tree_Root_10
-      objectReference: {fileID: 0}
-    - target: {fileID: 229540632076386876, guid: 1c72ff853fd8ed74f990417c3572f3b7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7907401024951037136, guid: 1c72ff853fd8ed74f990417c3572f3b7,
         type: 3}
@@ -31193,11 +31277,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: box-equipment-padded-small
       objectReference: {fileID: 0}
-    - target: {fileID: 9153596332018028482, guid: e39b581828e92f848ae49296fc817418,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31221,11 +31300,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Pebbles_11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1129027382345620253, guid: 1332ba15f49cbf74d9f9ea0925373c53,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8105121732361482711, guid: 1332ba15f49cbf74d9f9ea0925373c53,
         type: 3}
@@ -31300,11 +31374,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Pebbles_03
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737093967709309079, guid: 4ce1a28e14ea0d044b7d42ee299954e5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7838705977819701217, guid: 4ce1a28e14ea0d044b7d42ee299954e5,
         type: 3}
@@ -31430,11 +31499,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock-e
       objectReference: {fileID: 0}
-    - target: {fileID: 4335345327989423534, guid: 0db8f72d53e2f6445848fd939a7070e0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31458,11 +31522,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: twig-a
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032201976474117930, guid: 2c1cab9eb0194a8468eda63bcd5e509c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7700230522768358800, guid: 2c1cab9eb0194a8468eda63bcd5e509c,
         type: 3}
@@ -32066,11 +32125,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Grass_01
       objectReference: {fileID: 0}
-    - target: {fileID: 7521346679385775242, guid: 6a08c846b4fde9746b10e7b132c44c8f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32176,11 +32230,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Tree_06
       objectReference: {fileID: 0}
-    - target: {fileID: 6946268725971305748, guid: 9be0e7e95ecfd33428a6f6e409da560a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32204,11 +32253,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Tree_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1090120789143981867, guid: 026e09ad344f46842a783aaf00220961,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2026386638130427747, guid: 026e09ad344f46842a783aaf00220961,
         type: 3}
@@ -32366,11 +32410,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Grass_04
       objectReference: {fileID: 0}
-    - target: {fileID: 355882940159596893, guid: d1fde4dee2bf6c444a849a3715402630,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6500419190631069161, guid: d1fde4dee2bf6c444a849a3715402630,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32495,11 +32534,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock-polished
       objectReference: {fileID: 0}
-    - target: {fileID: 2010329624332645069, guid: 7a5c874380d69e4468f6dcb1359daae5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32523,11 +32557,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Rock_05
-      objectReference: {fileID: 0}
-    - target: {fileID: 6264924850810157009, guid: 9eb7fcd368af86a4e88b632aec9ccbfd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8388326975894069347, guid: 9eb7fcd368af86a4e88b632aec9ccbfd,
         type: 3}
@@ -32841,11 +32870,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Fir_Tree_02
       objectReference: {fileID: 0}
-    - target: {fileID: 3505599729741004990, guid: 5d8f7643d0f8abb4f9c331f385e57623,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6099837668418049186, guid: 5d8f7643d0f8abb4f9c331f385e57623,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32919,11 +32943,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Rock_Gem_03_Silver
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740124959458604119, guid: e1d39fc3085225d4fb7989545776238e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8574731883304548218, guid: e1d39fc3085225d4fb7989545776238e,
         type: 3}
@@ -33156,11 +33175,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Rock_03
       objectReference: {fileID: 0}
-    - target: {fileID: 7862209794542028161, guid: b692a5a406b967342bd25181834f5389,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33201,11 +33215,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PP_Pebbles_08
-      objectReference: {fileID: 0}
-    - target: {fileID: 1332435960806409439, guid: 7f59eba9df4b15d4e91b33107071cf62,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7022994242687536897, guid: 7f59eba9df4b15d4e91b33107071cf62,
         type: 3}

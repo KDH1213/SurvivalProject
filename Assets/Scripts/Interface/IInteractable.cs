@@ -8,3 +8,10 @@ public interface IInteractable
     void Interact(GameObject interactor);
     UnityEvent<GameObject> OnEndInteractEvent { get; }
 }
+
+
+public interface IInteractCollision
+{
+    void OnEnterCollision();
+    void OnExitCollision();
+}

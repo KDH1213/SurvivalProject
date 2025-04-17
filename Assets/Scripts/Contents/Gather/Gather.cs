@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Gather : MonoBehaviour, IInteractable, IRespawn
+public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
 {
     [SerializeField]
     private GameObject diskObject;
@@ -37,7 +37,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn
         //{
         //    diskObject = (GameObject)PrefabUtility.InstantiatePrefab((GameObject)(Resources.Load("Prefabs/Disk", typeof(GameObject))), transform);
         //}
-        diskObject.SetActive(true);
+        diskObject.SetActive(false);
     }
 
     private void Awake()
@@ -78,5 +78,15 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn
         {
             gameObject.SetActive(false);
         }
+    }
+
+    public void OnEnterCollision()
+    {
+        diskObject.SetActive(true);
+    }
+
+    public void OnExitCollision()
+    {
+        diskObject.SetActive(false);
     }
 }
