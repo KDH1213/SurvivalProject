@@ -131,6 +131,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Save();
     }
 
+#if !UNITY_EDITOR
     private void OnApplicationPause(bool pause)
     {
         if(pause)
@@ -140,6 +141,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             SaveLoadManager.Save();
         }      
     }
+#endif
 
     public void Save()
     {
@@ -190,7 +192,22 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             monsterSaveInfo.respawnPosition = respawnInfo.RespawnPosition;
             monsterSaveInfo.isRespawn = respawnInfo.IsRespawn;
             monsterSaveInfo.position = monsterList[i].transform.position;
-            monsterSaveInfo.hp = monsterList[i].GetComponent<MonsterStats>().Hp;
+
+            var monsterStats = monsterList[i].GetComponent<MonsterStats>();
+
+            if(monsterSaveInfo.isRespawn)
+            {
+                monsterSaveInfo.hp = 0f;
+            }
+            else
+            {
+                if(monsterStats.CurrentStatTable.Count == 0)
+                {
+                    monsterStats.OnInitialize();
+                }
+                monsterSaveInfo.hp = monsterList[i].GetComponent<MonsterStats>().Hp;
+            }
+
             monsterSaveInfoList.Add(monsterSaveInfo);
         }
 
