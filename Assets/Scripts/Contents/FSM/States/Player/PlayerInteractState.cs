@@ -30,7 +30,12 @@ public class PlayerInteractState : PlayerBaseState
 
         currentTime = Time.time + interactTime;
         playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, false);
-     
+
+        if (interactSilder != null)
+        {
+            interactSilder.gameObject.SetActive(true);
+        }
+
         switch (targetInteractable.InteractType)
         {
             case InteractType.Tree:
@@ -60,10 +65,6 @@ public class PlayerInteractState : PlayerBaseState
                 break;
         }
 
-        if(interactSilder != null)
-        {
-            interactSilder.gameObject.SetActive(true);
-        }
     }
 
     public override void ExecuteUpdate()
