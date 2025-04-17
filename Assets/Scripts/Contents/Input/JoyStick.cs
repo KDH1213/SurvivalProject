@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 
 public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
