@@ -71,7 +71,8 @@ public class PlacementUIController : MonoBehaviour
     {
         
         int index = database.objects.FindIndex(data => data.ID == ID);
-        GameObject obj = objectcontents[index].gameObject;
+        int listIndex = objectcontents.FindIndex(data => data.placementInfo.SubType == database.objects[index].SubType);
+        GameObject obj = objectcontents[listIndex].gameObject;
         int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
         int maxCount = placementSystem.buildCount.buildCounts[database.objects[index].SubType];
         if (currentCount >= maxCount)
@@ -82,7 +83,7 @@ public class PlacementUIController : MonoBehaviour
         {
             obj.GetComponent<Button>().interactable = true;
         }
-        objectcontents[index].leftCount = maxCount - currentCount;
+        objectcontents[listIndex].leftCount = maxCount - currentCount;
         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount - currentCount}";
 
         return maxCount - currentCount;

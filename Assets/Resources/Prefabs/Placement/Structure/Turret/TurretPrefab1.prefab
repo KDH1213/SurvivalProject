@@ -195,10 +195,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fe7c050b56c794a96f2159ba029e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  attackRange: 0
-  attackTerm: 1
-  currentTime: 1
+  closeUI:
+    m_PersistentCalls:
+      m_Calls: []
+  damage: 5
+  attackRange: 5
+  attackTerm: 3
+  currentTime: 0
   atd: {fileID: 11400000, guid: 5f24ff4ca4e76434a94346ec6cccaf9b, type: 2}
 --- !u!114 &8789484783814566083
 MonoBehaviour:

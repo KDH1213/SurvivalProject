@@ -21,7 +21,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
 
     public bool IsInteractable => true;
 
-    public UnityEvent<GameObject> OnEndInteractEvent => throw new System.NotImplementedException();
+    public UnityEvent<GameObject> OnEndInteractEvent => null;
 
     public abstract void SetData();
 

@@ -32,6 +32,8 @@ public class ObjectInfoUI : MonoBehaviour
     }
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
+        upgrade.onClick.RemoveAllListeners();
+
         int index = 0;
         objectImage.sprite = objInfo.Icon;
         objectInfo.text = $"Name : {objInfo.Name}\nLevel : {selectedObject.Rank}\nFeature : {objInfo.Feature}";
@@ -62,10 +64,7 @@ public class ObjectInfoUI : MonoBehaviour
 
         }
 
-            upgrade.onClick.AddListener(() => gameObject.SetActive(false));
-
-        
-
+        upgrade.onClick.AddListener(() => gameObject.SetActive(false));
         upgrade.onClick.AddListener(() => uiController.OnOpenUpgradeInfo(objInfo));
     }
 

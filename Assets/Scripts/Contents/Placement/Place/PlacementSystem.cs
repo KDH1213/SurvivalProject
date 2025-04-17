@@ -200,15 +200,19 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        bool invenValidity = inven.CheckItemCount(objData.NeedItems);
-        foreach (var data in objData.NeedItems)
+        bool invenValidity = true;
+        if (inventory == null)
         {
-            if (inventory == null)
-                break;
-            if (inventory.GetTotalItem(data.Key) < data.Value)
+            invenValidity = inven.CheckItemCount(objData.NeedItems);
+        }
+        else
+        {
+            foreach (var data in objData.NeedItems)
             {
-                
-                invenValidity = false;
+                if (inventory.GetTotalItem(data.Key) < data.Value)
+                {
+                    invenValidity = false;
+                }
             }
         }
         if (!invenValidity)

@@ -70,12 +70,13 @@ public class FarmInfoUi : MonoBehaviour
         currentProduce.text = $"{selectedObject.produceInfo.outPut} °³";
 
         this.target = target;
+
+        interact.onClick.AddListener(() => onInteract());
     }
 
 
     public void onInteract()
     {
-        ResetInfo();
         var testItem = DataTableManager.ItemTable.Get(currentObject.produceInfo.id);
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 
@@ -134,6 +135,7 @@ public class FarmInfoUi : MonoBehaviour
         totalOutPut -= leftItems;
         inventroy.AddItem(produceItem);
         currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
+
     }
 
     private void ResetInfo()
