@@ -113,16 +113,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         // testInfo.itemData = Item;
         // testInfo.id = 1201002;
         // AddItem(testInfo);
-        // 
-        // Item = DataTableManager.ItemTable.Get(1201004);
-        // 
-        // testInfo = new DropItemInfo();
-        // testInfo.amount = 500;
-        // testInfo.ItemName = Item.ItemName;
-        // testInfo.itemData = Item;
-        // testInfo.id = 1201004;
-        // AddItem(testInfo);
-        // equipmentSocketView.Initialize();
 
         //    for (int i = 0; i < 3; ++i)
         //    {
@@ -156,18 +146,44 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         //        AddItem(test);
         //    }
         //}
-
-        //var Item = DataTableManager.ItemTable.Get(1200111);
-
-        //var testInfo = new DropItemInfo();
-        //testInfo.amount = 500;
-        //testInfo.ItemName = Item.ItemName;
-        //testInfo.itemData = Item;
-        //testInfo.id = 1200111;
-        //AddItem(testInfo);
-
-
+       
         equipmentSocketView.Initialize();
+
+        if (useSlotCount == 0)
+        {
+            var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
+
+            if(equipmentItemList != null)
+            {
+                foreach (var equipmentItem in equipmentItemList)
+                {
+                    if(equipmentItem != -1)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            for (int i = 0; i < 4; ++i)
+            {
+                var testItem = DataTableManager.ItemTable.Get(1111111 + i);
+
+                var test = new DropItemInfo();
+                test.amount = 1;
+                test.ItemName = testItem.ItemName;
+                test.itemData = testItem;
+                AddItem(test);
+            }
+
+            var Item = DataTableManager.ItemTable.Get(1201004);
+
+            var testInfo = new DropItemInfo();
+            testInfo.amount = 500;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = 1200111;
+            AddItem(testInfo);
+        }
     }
 
     private void UpdateSlots(ItemInfo[] items)
@@ -534,6 +550,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             var itemInfoList = new List<ItemInfo>();
             itemInfoList.Add(itemInfo);
             inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
+        }
+
+        if(slotIndex == -1)
+        {
+            return;
         }
 
         itemInfos[slotIndex] = itemInfo;

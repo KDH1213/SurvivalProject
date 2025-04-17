@@ -34,7 +34,7 @@ public class ArmorData
 
 
     public Sprite ItemImage;
-    public string ItemName { get { return itemNameID.ToString(); } }
+    public string ItemName { get { return DataTableManager.StringTable.Get(itemNameID); } }
 
     public class ArmorTable : DataTable
     {
