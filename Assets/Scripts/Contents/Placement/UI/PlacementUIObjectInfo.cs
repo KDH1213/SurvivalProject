@@ -9,6 +9,10 @@ public class PlacementUIObjectInfo : MonoBehaviour
     public PlacementSystem system;
     public int leftCount;
     [SerializeField]
+    private TextMeshProUGUI count;
+    [SerializeField]
+    private TextMeshProUGUI name;
+    [SerializeField]
     private Button clickButton;
     private PlacementUIController uiController;
 
@@ -27,7 +31,8 @@ public class PlacementUIObjectInfo : MonoBehaviour
 
         int maxCount = system.buildCount.buildCounts[placementInfo.SubType];
 
-        GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount}";
+        count.text = $"x{maxCount}";
+        name.text = $"{info.Name}";
         leftCount = maxCount;
         icomImage.sprite = placementInfo.Icon;
         uiController = system.GetComponent<PlacementUIController>();
