@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerStats : CharactorStats, ISaveLoadData
@@ -17,6 +18,12 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     private float currentAttackSpeed = 1f;
     private float currentDamage = 1f;
     private float currentDefence = 0f;
+
+    public UnityAction<float> onChangeAttackSpeedValue;
+    public UnityAction<float> onChangeSpeedValue;
+    public UnityAction<float> onChangDamageValue;
+    public UnityAction<float> onChangeDefenceValue;
+
 
     protected override void Awake()
     {
@@ -47,6 +54,14 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         OnChangeHp();
 
         lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeLifeStat);
+    }
+
+    public void Start()
+    {
+        onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
+        onChangeSpeedValue?.Invoke(currentSpeed);
+        onChangDamageValue?.Invoke(currentDamage);
+        onChangeDefenceValue?.Invoke(currentDefence);
     }
 
     public float Speed
@@ -203,21 +218,25 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void OnChangeSpeedValue(float value)
     {
         currentSpeed = value + lifeStat.MoveSpeed;
+        onChangeSpeedValue?.Invoke(currentSpeed);
     }
 
     public void OnChangeAttackSpeedValue(float value)
     {
-        currentAttackSpeed = value + lifeStat.AttackSpeed;
+        currentAttackSpeed = value + lifeStat.AttackSpeed; 
+        onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
     }
 
     public void OnChangeDamageValue(float value)
     {
         currentDamage = value + lifeStat.Damage;
+        onChangDamageValue?.Invoke(currentDamage);
     }
 
     public void OnChangeDefenceValue(float value)
     {
         currentDefence = value + lifeStat.Defence;
+        onChangeDefenceValue?.Invoke(currentDefence);
     }
 
 

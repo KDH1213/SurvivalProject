@@ -104,6 +104,26 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
         //if (useSlotCount == 0)
         //{
+        //
+        // var Item = DataTableManager.ItemTable.Get(1201002);
+        // 
+        // var testInfo = new DropItemInfo();
+        // testInfo.amount = 100;
+        // testInfo.ItemName = Item.ItemName;
+        // testInfo.itemData = Item;
+        // testInfo.id = 1201002;
+        // AddItem(testInfo);
+        // 
+        // Item = DataTableManager.ItemTable.Get(1201004);
+        // 
+        // testInfo = new DropItemInfo();
+        // testInfo.amount = 500;
+        // testInfo.ItemName = Item.ItemName;
+        // testInfo.itemData = Item;
+        // testInfo.id = 1201004;
+        // AddItem(testInfo);
+        // equipmentSocketView.Initialize();
+
         //    for (int i = 0; i < 3; ++i)
         //    {
         //        var testItem = DataTableManager.ItemTable.Get(1201001 + i);
@@ -136,24 +156,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         //        AddItem(test);
         //    }
         //}
-        var Item = DataTableManager.ItemTable.Get(1201002);
-
-        var testInfo = new DropItemInfo();
-        testInfo.amount = 100;
-        testInfo.ItemName = Item.ItemName;
-        testInfo.itemData = Item;
-        testInfo.id = 1201002;
-        AddItem(testInfo);
-
-        Item = DataTableManager.ItemTable.Get(1201004);
-
-        testInfo = new DropItemInfo();
-        testInfo.amount = 500;
-        testInfo.ItemName = Item.ItemName;
-        testInfo.itemData = Item;
-        testInfo.id = 1201004;
-        AddItem(testInfo);
-        equipmentSocketView.Initialize();
     }
 
     private void UpdateSlots(ItemInfo[] items)

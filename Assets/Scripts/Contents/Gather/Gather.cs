@@ -17,7 +17,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
 
     public Vector3 RespawnPosition { get; set; }
 
-    public float RespawnTime { get; private set; } = 10f;
+    public float RespawnTime { get; private set; } = 120f;
 
     public float RemainingTime { get; private set; }
 
