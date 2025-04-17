@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class TurretStructure : PlacementObject
 {
+    [SerializeField]
     private float damage;
+    [SerializeField]
     private float attackRange;
     [SerializeField]
     private float attackTerm;
@@ -36,11 +38,16 @@ public class TurretStructure : PlacementObject
 
     public override void SetData()
     {
-
+        var table = GetComponent<StructureStats>().CurrentStatTable;
+        table.Clear();
+        table.Add(StatType.HP, new StatValue(StatType.HP, Hp));
+        table.Add(StatType.BasicAttackPower, new StatValue(StatType.BasicAttackPower, damage));
+        table.Add(StatType.AttackSpeed, new StatValue(StatType.AttackSpeed, attackTerm));
+        table.Add(StatType.AttackRange, new StatValue(StatType.AttackRange, attackRange));
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, 8);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
