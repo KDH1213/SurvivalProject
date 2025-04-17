@@ -10,6 +10,6 @@ public class CreateStructure : PlacementObject
     }
     public override void Interact(GameObject interactor)
     {
-        uiController.OnOpenCreateItemUI(interactor);
+        uiController.OnOpenCreateItemUI(interactor, this);
     }
 }

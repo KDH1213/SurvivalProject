@@ -23,6 +23,18 @@ public class StructureTable : DataTable
         public int MaxStorageCapacity { get; set; }
         public int BoxInventorySlot { get; set; }
         public int UpgradeID { get; set; }
+        public int BuildingSubType { get; set; }
+        public int ReturnedItem1 { get; set; }
+        public int ReturnedItemCount1 { get; set; }
+        public int ReturnedItem2 { get; set; }
+        public int ReturnedItemCount2 { get; set; }
+        public int ReturnedItem3 { get; set; }
+        public int ReturnedItemCount3 { get; set; }
+        public int ReturnedItem4 { get; set; }
+        public int ReturnedItemCount4 { get; set; }
+
+        public Dictionary<int, int> ReturnItemList { get; set; } = new Dictionary<int, int>();
+
     }
     private Dictionary<int, Data> dictionoary = new Dictionary<int, Data>();
 
@@ -39,6 +51,22 @@ public class StructureTable : DataTable
         {
             if (!dictionoary.ContainsKey(item.BuildingID))
             {
+                if (item.ReturnedItem1 != 0)
+                {
+                    item.ReturnItemList.Add(item.ReturnedItem1, item.ReturnedItemCount1);
+                }
+                if (item.ReturnedItem2 != 0)
+                {
+                    item.ReturnItemList.Add(item.ReturnedItem2, item.ReturnedItemCount2);
+                }
+                if (item.ReturnedItem3 != 0)
+                {
+                    item.ReturnItemList.Add(item.ReturnedItem3, item.ReturnedItemCount3);
+                }
+                if (item.ReturnedItem4 != 0)
+                {
+                    item.ReturnItemList.Add(item.ReturnedItem4, item.ReturnedItemCount4);
+                }
                 dictionoary.Add(item.BuildingID, item);
             }
             else

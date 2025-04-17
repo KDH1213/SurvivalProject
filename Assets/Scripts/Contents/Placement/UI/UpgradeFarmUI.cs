@@ -81,7 +81,6 @@ public class UpgradeFarmUI : MonoBehaviour
             needItems.Add(needItems[index]);
             index++;
         }
-
         upgradeButton.onClick.AddListener(
             () => ConsumItem(system.Database.objects[index].NeedItems));
         upgradeButton.onClick.AddListener(

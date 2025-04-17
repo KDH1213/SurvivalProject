@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public float Hp { get; set; }
     public PlacementUIController uiController { get; set; }
 
+    public UnityEvent closeUI;
     public InteractType InteractType => InteractType.Placement;
 
     public bool IsInteractable => true;
@@ -22,6 +24,12 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public UnityEvent<GameObject> OnEndInteractEvent => throw new System.NotImplementedException();
 
     public abstract void SetData();
+
+    private void OnDisable()
+    {
+        closeUI.Invoke();
+        closeUI.RemoveAllListeners();
+    }
 
     public virtual void Save()
     {

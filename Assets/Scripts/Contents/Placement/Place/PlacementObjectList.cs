@@ -33,15 +33,16 @@ public class PlacementObjectList
         {
             PlacementObjectInfo objInfo = new PlacementObjectInfo();
             objInfo.ID = data.Value.BuildingID;
-            objInfo.NextStructureID = data.Value.UpgradeID;
-            var construction = DataTableManager.ConstructionTable.Get(objInfo.ID);
+            var construction = DataTableManager.ConstructionTable.Get(data.Value.UpgradeID);
+            objInfo.NextStructureID = construction.ResultBuildingID;
 
-            objInfo.MaxBuildCount = Random.Range(1, 11);
+            objInfo.Rank = data.Value.Rank;
+            objInfo.SubType = data.Value.BuildingSubType;
             objInfo.Size = new Vector2Int(data.Value.BuildingSizeX, data.Value.BuildingSizeY);
 
             objInfo.Kind = (StructureKind)data.Value.BuildingCategory;
             objInfo.Name = data.Value.NameID.ToString();
-            objInfo.DefaultHp = construction.buildingHP;
+            objInfo.DefaultHp = data.Value.BuildingHealth;
             string prefab = data.Value.PrefebName;
 
             objInfo.Prefeb = Resources.Load<GameObject>
@@ -51,11 +52,9 @@ public class PlacementObjectList
             table.Clear();
             table.Add(StatType.HP, new StatValue(StatType.HP, objInfo.DefaultHp));
 
-            string[] needItemKeys = construction.buildCostID.Split('_');
-            string[] needItemValues = construction.buildCostValue.Split('_');
-            for (int i = 0; i < needItemKeys.Length; i++)
+            foreach (var needItem in construction.NeedItemList)
             {
-                objInfo.NeedItems.Add(int.Parse(needItemKeys[i]), int.Parse(needItemValues[i]));
+                objInfo.NeedItems.Add(needItem.Key, needItem.Value);
             }
 
 

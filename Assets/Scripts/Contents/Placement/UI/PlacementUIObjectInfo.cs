@@ -24,8 +24,11 @@ public class PlacementUIObjectInfo : MonoBehaviour
     {
         placementInfo = info;
         this.system = system;
-        GetComponentInChildren<TextMeshProUGUI>().text = $"x{placementInfo.MaxBuildCount}";
-        leftCount = placementInfo.MaxBuildCount;
+
+        int maxCount = system.buildCount.buildCounts[placementInfo.SubType];
+
+        GetComponentInChildren<TextMeshProUGUI>().text = $"x{maxCount}";
+        leftCount = maxCount;
         icomImage.sprite = placementInfo.Icon;
         uiController = system.GetComponent<PlacementUIController>();
         clickButton.onClick.AddListener(() => uiController.OnOpenBuildInfo(placementInfo));

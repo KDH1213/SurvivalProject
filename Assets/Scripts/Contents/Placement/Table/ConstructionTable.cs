@@ -7,26 +7,22 @@ public class ConstructionTable : DataTable
     
     public class Data
     {
-        public int buildingRecipeID { get; set; }
-        public int buildingRecipeNameID { get; set; }
-        public string buildingRecipeIcon { get; set; }
-        public int category { get; set; }
-        public int buildingID { get; set; }
-        public float buildingHP { get; set; }
-        public string buildCostID { get; set; }
-        public string buildCostValue { get; set; }
-        public string lengthXY { get; set; }
-        public string geOnBuild { get; set; }
-        public string seOnBuild { get; set; }
-        public string buildFeedback { get; set; }
-        public int buildResultExp { get; set; }
+        public int UpgradeID { get; set; }
+        public int ResultBuildingID { get; set; }
+        public int BuildCostItem1 { get; set; }
+        public int CostItemValue1 { get; set; }
+        public int BuildCostItem2 { get; set; }
+        public int CostItemValue2 { get; set; }
+        public int BuildCostItem3 { get; set; }
+        public int CostItemValue3 { get; set; }
+        public int BuildCostItem4 { get; set; }
+        public int CostItemValue4 { get; set; }
+        public int MinusSatiation { get; set; }
+        public int MinusHydration { get; set; }
+        public int PlusFatigue { get; set; }
+        public float DropExp { get; set; }
 
-        public override string ToString()
-        {
-            return $@"{buildingRecipeID} / {buildingRecipeNameID} / {buildingRecipeIcon} / {category} / 
-                      {buildingID} / {buildingHP} / {buildCostID} / {buildCostValue} /
-                    {lengthXY} /{geOnBuild} /{seOnBuild} /{buildFeedback} /{buildResultExp}";
-        }
+        public Dictionary<int, int> NeedItemList { get; set; } = new Dictionary<int, int>();
     }
 
     private Dictionary<int, Data> dictionoary = new Dictionary<int, Data>();
@@ -42,13 +38,29 @@ public class ConstructionTable : DataTable
 
         foreach (var item in list)
         {
-            if (!dictionoary.ContainsKey(item.buildingID))
+            if (!dictionoary.ContainsKey(item.UpgradeID))
             {
-                dictionoary.Add(item.buildingID, item);
+                if (item.BuildCostItem1 != 0)
+                {
+                    item.NeedItemList.Add(item.BuildCostItem1, item.CostItemValue1);
+                }
+                if (item.BuildCostItem2 != 0)
+                {
+                    item.NeedItemList.Add(item.BuildCostItem2, item.CostItemValue2);
+                }
+                if (item.BuildCostItem3 != 0)
+                {
+                    item.NeedItemList.Add(item.BuildCostItem3, item.CostItemValue3);
+                }
+                if (item.BuildCostItem4 != 0)
+                {
+                    item.NeedItemList.Add(item.BuildCostItem4, item.CostItemValue4);
+                }
+                dictionoary.Add(item.UpgradeID, item);
             }
             else
             {
-                Debug.LogError($"Key Duplicated {item.buildingID}");
+                Debug.LogError($"Key Duplicated {item.UpgradeID}");
             }
         }
         

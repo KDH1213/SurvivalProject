@@ -69,10 +69,11 @@ public class PlacementUIController : MonoBehaviour
     // 배치 된 갯수에 따라 오브젝트 리스트  UI변경
     public int OnSetObjectListUi(PlacementObjectList database, int ID, List<PlacementObject> placedGameObjects)
     {
+        
         int index = database.objects.FindIndex(data => data.ID == ID);
         GameObject obj = objectcontents[index].gameObject;
         int currentCount = placedGameObjects.Where(data => data.PlacementData.ID == ID).Count();
-        int maxCount = database.objects[index].MaxBuildCount;
+        int maxCount = placementSystem.buildCount.buildCounts[database.objects[index].SubType];
         if (currentCount >= maxCount)
         {
             obj.GetComponent<Button>().interactable = false;
@@ -109,6 +110,10 @@ public class PlacementUIController : MonoBehaviour
         {
             foreach (var data in database.objects)
             {
+                if(data.Rank != 1)
+                {
+                    continue;
+                }
                 PlacementUIObjectInfo uiObjInfo = Instantiate(objectContentPrefeb, objectcontent.transform);
                 uiObjInfo.SetUIObjectInfo(data, placementSystem);
                 objectcontents.Add(uiObjInfo);
@@ -199,9 +204,9 @@ public class PlacementUIController : MonoBehaviour
         farmUI.SetUIInfo(data, target, produceInfo);
     }
 
-    public void OnOpenCreateItemUI(GameObject target)
+    public void OnOpenCreateItemUI(GameObject target, CreateStructure structure)
     {
         createItemUI.gameObject.SetActive(true);
-        createItemUI.SetUI(target);
+        createItemUI.SetUI(target, structure);
     }
 }

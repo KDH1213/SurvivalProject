@@ -37,10 +37,12 @@ public class FarmInfoUi : MonoBehaviour
 
     private void Awake()
     {
-
         interact.onClick.AddListener(() => onInteract());
     }
-
+    private void OnDisable()
+    {
+        currentObject = null;
+    }
     private void Update()
     {
         produceTerm.text = $"{currentObject.produceTime} √ ";
