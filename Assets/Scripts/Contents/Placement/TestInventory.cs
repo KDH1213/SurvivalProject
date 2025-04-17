@@ -45,6 +45,7 @@ public class TestInventory : MonoBehaviour
         {
             if (!inventory.ContainsKey(item.Key))
             {
+                inventory.Add(item.Key, item.Value);
                 continue;
             }
             inventory[item.Key] += Mathf.RoundToInt(item.Value * 0.2f);

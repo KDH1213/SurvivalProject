@@ -81,56 +81,56 @@ public class FarmInfoUi : MonoBehaviour
         int slotCount = totalOutPut / testItem.MaxStack;
         int leftItems = totalOutPut % testItem.MaxStack;
 
-        var test = new DropItemInfo();
-        test.id = currentObject.produceInfo.id;  // testItem.ID
-        test.ItemName = testItem.ItemName;
-        test.itemData = testItem;
+        var produceItem = new DropItemInfo();
+        produceItem.id = currentObject.produceInfo.id;  // testItem.ID
+        produceItem.ItemName = testItem.ItemName;
+        produceItem.itemData = testItem;
 
         for (int i = 0; i < slotCount; i++)
         {
-            test.amount = testItem.MaxStack;
+            produceItem.amount = testItem.MaxStack;
 
             if (inventroy.IsFullInventory())
             {
-                var itemList = inventroy.InventroyItemTable[test.id];
+                var itemList = inventroy.InventroyItemTable[produceItem.id];
                 foreach (var item in itemList)
                 {
                     int addUseCount = (item.itemData.MaxStack - item.Amount);
                     if (addUseCount > 0)
                     {
-                        test.amount = addUseCount;
+                        produceItem.amount = addUseCount;
                         totalOutPut -= addUseCount;
-                        inventroy.AddItem(test);
+                        inventroy.AddItem(produceItem);
                     }
                 }
                 currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
                 return;
             }
 
-            totalOutPut -= test.amount;
-            inventroy.AddItem(test);
+            totalOutPut -= produceItem.amount;
+            inventroy.AddItem(produceItem);
         }
 
-        test.amount = leftItems;
+        produceItem.amount = leftItems;
 
         if (inventroy.IsFullInventory())
         {
-            var itemList = inventroy.InventroyItemTable[test.id];
+            var itemList = inventroy.InventroyItemTable[produceItem.id];
             foreach (var item in itemList)
             {
                 int addUseCount = (item.itemData.MaxStack - item.Amount);
                 if (addUseCount > 0)
                 {
-                    test.amount = addUseCount;
+                    produceItem.amount = addUseCount;
                     totalOutPut -= addUseCount;
-                    inventroy.AddItem(test);
+                    inventroy.AddItem(produceItem);
                 }
             }
             currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
             return;
         }
         totalOutPut -= leftItems;
-        inventroy.AddItem(test);
+        inventroy.AddItem(produceItem);
         currentObject.produceInfo.structure.ReturnOutPut(totalOutPut);
     }
 

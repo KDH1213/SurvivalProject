@@ -8,8 +8,7 @@ public struct CreateItemInfo
     public int id;
     public Sprite itemImage;
     public Dictionary<int, int> needItemList;
-    public string itemName;
-    public string itemDescription;
+    public ItemData data;
 }
 
 public class CreateItemSlot : MonoBehaviour
@@ -43,8 +42,7 @@ public class CreateItemSlot : MonoBehaviour
         {
             itemInfo.needItemList.Add(item.Key, item.Value);
         }
-        itemInfo.itemName = itemData.NameID.ToString();
-        itemInfo.itemDescription = data.DescriptID.ToString();
+        itemInfo.data = itemData;
 
         ItemInfo = itemInfo;
 

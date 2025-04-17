@@ -83,13 +83,16 @@ public class BuildInfoUI : MonoBehaviour
     {
         if(CanPlaced())
         {
-
+            placeButton.interactable = true;
+            placeButton.onClick.AddListener(OnCloseWindow);
+            placeButton.onClick.AddListener(() => system.StartPlacement(placementObject.ID));
         }
         else
         {
-
+            placeButton.interactable = false;
+            placeButton.onClick.RemoveAllListeners();
         }
-        if (!inven.CheckItemCount(placementObject.NeedItems))
+        if (!inven.CheckItemCount(placementObject.NeedItems) && inventory == null)
         {
             placeButton.interactable = false;
             placeButton.onClick.RemoveAllListeners();
