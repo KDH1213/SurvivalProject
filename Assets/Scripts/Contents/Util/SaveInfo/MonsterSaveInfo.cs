@@ -10,3 +10,10 @@ public struct MonsterSaveInfo
     public float remainingTime;
     public float hp;
 }
+
+public struct WaveMonsterSaveInfo
+{
+    public Vector3 position;
+    public Quaternion rotation;
+    public float hp;
+}

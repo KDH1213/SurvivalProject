@@ -24,6 +24,11 @@ public class StructureStats : CharactorStats, ISaveLoadData
         }
     }
 
+    public void OnDestoryStructure()
+    {
+        IsDead = true;
+    }
+
     private void OnEnable()
     {
         currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);

@@ -330,7 +330,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         int index = Database.objects.FindIndex(x => x.ID == obj.ID);
         RemoveStructure(obj);
         placementUI.OnSetObjectListUi(Database, obj.ID, PlacedGameObjects);
-        Destroy(obj.transform.parent.gameObject);
+        // Destroy(obj.transform.parent.gameObject);
     }
 
     // 오브젝트 원래 위치로 배치

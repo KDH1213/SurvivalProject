@@ -5,6 +5,7 @@ using UnityEngine;
 public class MonsterAttackState : MonsterBaseState
 {
     private float animationSpeed;
+    private GameObject attacker = null;
 
     protected override void Awake()
     {
@@ -44,6 +45,7 @@ public class MonsterAttackState : MonsterBaseState
         Agent.isStopped = false;
         Agent.speed = MonsterStats.Speed;
         MonsterFSM.Animator.speed = 1f;
+        attacker = null;
     }
 
     public void OnEndAttackAnimationMonster()
@@ -53,13 +55,19 @@ public class MonsterAttackState : MonsterBaseState
             return;
         }
 
+
         if(MonsterFSM.Target == null)
         {
             MonsterFSM.ChangeState(MonsterStateType.Chase);
             return;
         }
-        else
+        else if (attacker != null && attacker.activeSelf && attacker != MonsterFSM.Target)
         {
+            MonsterFSM.Target = attacker;
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
+        }
+        else
+        {           
             var targetDistance = MonsterFSM.Target.transform.position - MonsterFSM.transform.position;
             targetDistance.y = 0f;
             if(targetDistance.sqrMagnitude > MonsterFSM.Weapon.Range * MonsterFSM.Weapon.Range)
@@ -83,6 +91,11 @@ public class MonsterAttackState : MonsterBaseState
             MonsterFSM.Target = null;
             MonsterFSM.TargetTransform = null;
         }
+    }
+
+    public void OnSetAttacker(GameObject attacker)
+    {
+        this.attacker = attacker;
     }
 
 #if UNITY_EDITOR

@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 8196060507151699676}
   - component: {fileID: 1782459507337594455}
   - component: {fileID: 7084480495494317953}
+  - component: {fileID: 1880663674547085454}
   m_Layer: 8
   m_Name: Boar
   m_TagString: Monster
@@ -71,7 +72,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3716744197715673722}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.56, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -166,6 +167,12 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
+  attackTargets:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &8874217267125749348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,6 +457,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.78588676, y: 1.095958, z: 1.6694367}
   m_Center: {x: 0.010514259, y: 0.5606841, z: 0.08747193}
+--- !u!114 &1880663674547085454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3716744197715673722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc8ec983125187a4faaae549cc49e4bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onAttackerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3841556732580564287}
+        m_TargetAssemblyTypeName: MonsterAttackState, Assembly-CSharp
+        m_MethodName: OnSetAttacker
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4249891578834663306
 GameObject:
   m_ObjectHideFlags: 0
