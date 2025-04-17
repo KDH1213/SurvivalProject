@@ -24,7 +24,7 @@ public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private bool isUsingMouse = false;
     private bool isActive = false; // 조이스틱 활성화 여부
 
-    private void Start()
+    private void Awake()
     {
         initialPosition = joystickBackground.anchoredPosition;
     }
@@ -110,12 +110,9 @@ public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         return EventSystem.current.IsPointerOverGameObject();
     }
 
-    private bool IsRaycastHittingUIObject(Vector2 position)
+    private bool IsRaycastHittingUIObject(PointerEventData eventData)
     {
-        if (pointerEventData == null)
-            pointerEventData = new PointerEventData(EventSystem.current);
-        pointerEventData.position = position;
-        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+        EventSystem.current.RaycastAll(eventData, raycastResults);
         return raycastResults.Count > 0;
     }
 
@@ -125,7 +122,7 @@ public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         ActivateJoystick(eventData.position);
         isActive = true;
 
-        if (!RectTransformUtility.RectangleContainsScreenPoint(joystickArea, eventData.position))
+        if (!RectTransformUtility.RectangleContainsScreenPoint(joystickArea, eventData.position) || (!IsPointerOverUI() && !IsRaycastHittingUIObject(eventData)))
         {
             OnEndDrag(eventData);
         }
