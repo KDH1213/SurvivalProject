@@ -30,6 +30,7 @@ public class CreateItemUI : MonoBehaviour
 
     public TestInventory inven;
 
+    private CreateStructure currentObject;
     private GameObject target;
 
     private void Awake()
@@ -38,16 +39,25 @@ public class CreateItemUI : MonoBehaviour
         {
             inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
         }
+    }
 
-
+    private void OnDisable()
+    {
+        currentObject = null;
     }
 
     [ContextMenu("openCreate")]
-    public void SetUI(GameObject target)
+    public void SetUI(GameObject target, CreateStructure structure)
     {
+        currentObject = structure;
         this.target = target;
         int index = 0;
         var data = DataTableManager.ItemCreateTable.GetAll();
+        foreach (var item in createList)
+        {
+            Destroy(item.gameObject);
+        }
+        createList.Clear();
         foreach (var itemData in data)
         {
             CreateItemSlot item = Instantiate(createItemPrefab, createListContents.transform);
@@ -57,6 +67,7 @@ public class CreateItemUI : MonoBehaviour
             createList.Add(item);
             index++;
         }
+        currentObject.closeUI.AddListener(() => gameObject.SetActive(false));
     }
 
     private void UpdateInfo(CreateItemInfo info)
@@ -121,22 +132,29 @@ public class CreateItemUI : MonoBehaviour
 
     private void SetButtonDisable(Dictionary<int, int> needItems)
     {
-        if (CanPlaced(needItems))
+        if (inventory != null)
         {
-            createButton.interactable = true;
+            if (CanPlaced(needItems))
+            {
+                createButton.interactable = true;
+            }
+            else
+            {
+                createButton.interactable = false;
+            }
         }
         else
         {
-            createButton.interactable = false;
+            if (!inven.CheckItemCount(needItems))
+            {
+                createButton.interactable = false;
+            }
+            else
+            {
+                createButton.interactable = true;
+            }
         }
-        if (inventory == null && !inven.CheckItemCount(needItems))
-        {
-            createButton.interactable = false;
-        }
-        else
-        {
-            createButton.interactable = true;
-        }
+        
     }
 
     private bool CanPlaced(Dictionary<int, int> needItems)

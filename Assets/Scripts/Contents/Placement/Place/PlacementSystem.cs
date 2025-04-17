@@ -22,6 +22,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public PlacementObjectList Database { get; set; }
     public int SelectedObjectIndex { get; set; }
     public float gridCellCount;
+
+    public MaxBuildCount buildCount;
     
     private GameObject testGameObject;
     public PlacementInput GetInputManager { get; private set; }
