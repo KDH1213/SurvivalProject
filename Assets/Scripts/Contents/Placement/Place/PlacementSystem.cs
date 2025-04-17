@@ -298,7 +298,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Position = before.Position;
         placementObject.Rotation = before.Rotation;
         placementObject.uiController = placementUI;
-
+        placementObject.SetData();
         RemoveStructure(before);
 
         PlacedGameObjects.Add(placementObject);
