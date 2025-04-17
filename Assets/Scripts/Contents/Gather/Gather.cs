@@ -6,6 +6,9 @@ using UnityEngine.Events;
 public class Gather : MonoBehaviour, IInteractable, IRespawn
 {
     [SerializeField]
+    private GameObject diskObject;
+
+    [SerializeField]
     private InteractType interactType;
 
     public bool IsInteractable => gameObject.activeSelf;
@@ -22,6 +25,20 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn
 
     public UnityEvent<GameObject> OnEndInteractEvent => onEndInteractEvent;
     public UnityEvent<GameObject> onEndInteractEvent;
+
+    [ContextMenu("CreateDisk")]
+    public void OnSetDisk()
+    {
+        //if (transform.childCount > 0)
+        //{
+        //    diskObject = transform.GetChild(0).gameObject;
+        //}
+        //else
+        //{
+        //    diskObject = (GameObject)PrefabUtility.InstantiatePrefab((GameObject)(Resources.Load("Prefabs/Disk", typeof(GameObject))), transform);
+        //}
+        diskObject.SetActive(true);
+    }
 
     private void Awake()
     {

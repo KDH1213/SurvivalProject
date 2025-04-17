@@ -132,7 +132,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             inventory.PrivewIcon.SetActive(false);
         }
 
-        if (equipmentSockets[seleteSocket].ItemData == null)
+        if (seleteSocket == -1 || equipmentSockets[seleteSocket].ItemData == null)
         {
             isOnDrag = false;
             seleteSocket = -1;

@@ -26,12 +26,10 @@ public class MonsterAttackState : MonsterBaseState
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);
 
-        //MonsterFSM.Animator.SetBool(AnimationHashCode.hashAttack, true);
-        //MonsterFSM.Animator.Play(AnimationHashCode.hashAttack, 0, 0f);
-
         Agent.isStopped = true;
         Agent.speed = 0f;
         Agent.destination = transform.position;
+        Agent.velocity = Vector3.zero;
 
         MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
         MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashAttack);
