@@ -32,6 +32,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
             Load();
         }
 
+        GetComponent<PlayerFSM>().onActAction += survivalStats.OnPlayAct;
+
         currentStatTable[StatType.MovementSpeed].OnChangeValueAction(OnChangeSpeedValue);
         currentStatTable[StatType.AttackSpeed].OnChangeValueAction(OnChangeAttackSpeedValue);
         currentStatTable[StatType.BasicAttackPower].OnChangeValueAction(OnChangeDamageValue);

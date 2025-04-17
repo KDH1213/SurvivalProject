@@ -10,6 +10,6 @@ public class AttackedAct : MonoBehaviour, IAttackable
         {
             return;
         }
-        attacker.GetComponent<IAct>().PlayAct((int)ActType.Attack);
+        attacker.GetComponent<IAct>().OnPlayAct((int)ActType.Attack);
     }
 }

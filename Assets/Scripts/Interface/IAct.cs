@@ -1,4 +1,4 @@
 public interface IAct
 {
-    void PlayAct(int id);
+    void OnPlayAct(int id);
 }

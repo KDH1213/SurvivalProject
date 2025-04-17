@@ -38,6 +38,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
     public UnityEvent<GameObject> onTargetInteractEvent;
     public UnityEvent<DropItemInfo> onDropItemEvent;
+    public UnityAction<int> onActAction;
 
     protected override void Awake()
     {
@@ -135,6 +136,10 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         // onDropItemEvent?.Invoke(dropItemInfo);
     }
 
+    public void OnPlayAct(int id)
+    {
+        onActAction?.Invoke(id);
+    }
 
 
     private void OnDrawGizmos()
