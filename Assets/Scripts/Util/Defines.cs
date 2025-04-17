@@ -15,8 +15,8 @@ public static class DataTableIds
     public static readonly string[] String =
     {
         "StringTableKr",
-        "StringTableEn",
-        "StringTableJp",
+        // "StringTableEn",
+        // "StringTableJp",
     };
 }
 

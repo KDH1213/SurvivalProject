@@ -41,8 +41,8 @@ public class ItemInfoView : MonoBehaviour
             return;
         }
 
-        itemNameText.text = itemData.NameID.ToString();
-        itemInfoText.text = itemData.DescriptID.ToString();
+        itemNameText.text = DataTableManager.StringTable.Get(itemData.NameID);
+        itemInfoText.text = DataTableManager.StringTable.Get(itemData.DescriptID);
 
         if(!isItemSlot)
         {

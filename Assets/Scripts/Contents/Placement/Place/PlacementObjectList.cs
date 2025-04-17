@@ -49,7 +49,7 @@ public class PlacementObjectList
             objInfo.Size = new Vector2Int(data.Value.BuildingSizeX, data.Value.BuildingSizeY);
 
             objInfo.Kind = (StructureKind)data.Value.BuildingCategory;
-            objInfo.Name = data.Value.NameID.ToString();
+            objInfo.Name = DataTableManager.StringTable.Get(data.Value.NameID);
             objInfo.DefaultHp = data.Value.BuildingHealth;
             string prefab = data.Value.PrefebName;
 
@@ -68,7 +68,7 @@ public class PlacementObjectList
 
             objInfo.Icon = Resources.Load<Sprite>
                 (string.Format(spritePathFormat, objInfo.Kind.ToString(), data.Value.IconName));
-            objInfo.Feature = data.Value.DescriptID.ToString();
+            objInfo.Feature = DataTableManager.StringTable.Get(data.Value.DescriptID);
 
             objects.Add(objInfo);
         }

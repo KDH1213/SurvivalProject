@@ -9,12 +9,12 @@ public static class DataTableManager
 
     static DataTableManager()
     {
-        //foreach (var id in DataTableIds.String)
-        //{
-        //    var table = new StringTable();
-        //    table.Load(id);
-        //    tables.Add(id, table);
-        //}
+        foreach (var id in DataTableIds.String)
+        {
+            var table = new StringTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
 
         foreach (var id in ItemTableIds.String)
         {
@@ -55,6 +55,13 @@ public static class DataTableManager
     }
 
 
+    public static StringTable StringTable
+    {
+        get
+        {
+            return Get<StringTable>(DataTableIds.String[0]);
+        }
+    }
 
     public static T Get<T>(string id) where T : DataTable
     {

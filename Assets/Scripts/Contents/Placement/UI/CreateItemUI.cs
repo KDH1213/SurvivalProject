@@ -82,7 +82,7 @@ public class CreateItemUI : MonoBehaviour
         var data = DataTableManager.ItemCreateTable.Get(info.id);
         itemImage.sprite = info.itemImage;
         itemName.text = info.data.ItemName;
-        itemDescript.text = info.data.DescriptID.ToString();
+        itemDescript.text = DataTableManager.StringTable.Get(info.data.DescriptID);
         int itemIdx = 0;
 
         foreach (var item in needItemList)

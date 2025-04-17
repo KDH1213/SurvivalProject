@@ -48,7 +48,7 @@ public class ItemData
 
     public Sprite ItemImage;
     public ItemType ItemType;
-    public string ItemName { get { return NameID.ToString(); } }
+    public string ItemName { get { return DataTableManager.StringTable.Get(NameID); } }
 
     private List<ItemUseEffectInfo> itemUseEffectInfoList;
     public List<ItemUseEffectInfo> ItemUseEffectInfoList { get { return itemUseEffectInfoList; } }

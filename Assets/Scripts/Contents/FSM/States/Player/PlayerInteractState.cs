@@ -46,8 +46,8 @@ public class PlayerInteractState : PlayerBaseState
                 playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsFarming, true);
                 pickaxe.gameObject.SetActive(true);
                 break;
-            case InteractType.Branch:
             case InteractType.Rock:
+            case InteractType.Branch:
             case InteractType.Bush:
                 playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsPickingUp, true);
                 break;
