@@ -39,5 +39,12 @@ public class QuickSlotSocket : EquipmentSocket
         amountText.text = Amount.ToString();
         onUseItemEvent?.Invoke(ItemData);
         onAmountEvent?.Invoke(Amount);
+
+        if(Amount == 0)
+        {
+            OnEmpty();
+            quickSlotButtonView.OnSetItemInfo();
+        }
+
     }
 }

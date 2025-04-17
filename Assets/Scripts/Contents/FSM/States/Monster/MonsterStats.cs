@@ -22,6 +22,12 @@ public class MonsterStats : CharactorStats
         OnChangeHp();
     }
 
+    public void OnInitialize()
+    {
+        currentStatTable.Clear();
+        originalData.CopyStat(ref currentStatTable);
+    }
+
     private void OnEnable()
     {
         if(IsDead)
