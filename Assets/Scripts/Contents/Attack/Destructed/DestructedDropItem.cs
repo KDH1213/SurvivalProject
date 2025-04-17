@@ -6,25 +6,34 @@ public class DestructedDropItem : MonoBehaviour, IDestructible
 { 
     // TODO :: 임시 코드
     [SerializeField]
-    private int count;
+    private int[] counts;
 
     [SerializeField]
-    private int id;
+    private int[] ids;
 
-    private DropItemInfo dropItemInfo = new DropItemInfo();
+    private List<DropItemInfo> dropItemInfoList = new List<DropItemInfo>();
 
     private void Awake()
     {
-        dropItemInfo.itemData = DataTableManager.ItemTable.Get(id);
-        dropItemInfo.ItemName = dropItemInfo.itemData.ItemName;
-        dropItemInfo.amount = count;
+        for (int i = 0; i < ids.Length; ++i)
+        {
+            var dropItemInfo = new DropItemInfo();
+            dropItemInfo.itemData = DataTableManager.ItemTable.Get(ids[i]);
+            dropItemInfo.ItemName = dropItemInfo.itemData.ItemName;
+            dropItemInfo.amount = counts[i];
+            dropItemInfoList.Add(dropItemInfo);
+        }
     }
     public void OnDestruction(GameObject attacker)
     {
         var player = attacker.GetComponent<PlayerFSM>();
         if (player != null)
         {
-            player.OnDropItem(dropItemInfo);
+            for (int i = 0; i < dropItemInfoList.Count; ++i)
+            {
+                player.OnDropItem(dropItemInfoList[i]);
+            }
+
         }
     }
 }

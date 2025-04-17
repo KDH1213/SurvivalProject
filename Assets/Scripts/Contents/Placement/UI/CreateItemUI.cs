@@ -129,7 +129,7 @@ public class CreateItemUI : MonoBehaviour
         {
             createButton.interactable = false;
         }
-        if (!inven.CheckItemCount(needItems) && inventory == null)
+        if (inventory == null && !inven.CheckItemCount(needItems))
         {
             createButton.interactable = false;
         }
