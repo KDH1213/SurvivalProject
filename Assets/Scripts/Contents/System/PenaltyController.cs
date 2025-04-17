@@ -50,7 +50,7 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         return currentAttackSpeedPersent;
     }
 
-    public void PlayAct(int id)
+    public void OnPlayAct(int id)
     {
         var actInfoList = actInfoData.actDataTable[(ActType)id].actInfoList; // ActManager.actDataTable[id].actInfoList;
         foreach (var act in actInfoList)
