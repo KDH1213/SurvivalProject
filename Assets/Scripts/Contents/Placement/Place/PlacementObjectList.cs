@@ -33,8 +33,16 @@ public class PlacementObjectList
         {
             PlacementObjectInfo objInfo = new PlacementObjectInfo();
             objInfo.ID = data.Value.BuildingID;
-            var construction = DataTableManager.ConstructionTable.Get(data.Value.UpgradeID);
-            objInfo.NextStructureID = construction.ResultBuildingID;
+            var construction = DataTableManager.ConstructionTable.Get(data.Value.PlaceBuildingID);
+            if(data.Value.NextUpgradeID != 0)
+            {
+                objInfo.NextStructureID = DataTableManager.ConstructionTable.Get(data.Value.NextUpgradeID).ResultBuildingID;
+            }
+            else
+            {
+                objInfo.NextStructureID = 0;
+            }
+            
 
             objInfo.Rank = data.Value.Rank;
             objInfo.SubType = data.Value.BuildingSubType;

@@ -22,7 +22,7 @@ public class StructureTable : DataTable
         public int AmountPerProduction { get; set; }
         public int MaxStorageCapacity { get; set; }
         public int BoxInventorySlot { get; set; }
-        public int UpgradeID { get; set; }
+        public int PlaceBuildingID { get; set; }
         public int BuildingSubType { get; set; }
         public int ReturnedItem1 { get; set; }
         public int ReturnedItemCount1 { get; set; }
@@ -32,6 +32,7 @@ public class StructureTable : DataTable
         public int ReturnedItemCount3 { get; set; }
         public int ReturnedItem4 { get; set; }
         public int ReturnedItemCount4 { get; set; }
+        public int NextUpgradeID { get; set; }
 
         public Dictionary<int, int> ReturnItemList { get; set; } = new Dictionary<int, int>();
 

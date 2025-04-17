@@ -30,6 +30,8 @@ public class BuildInfoUI : MonoBehaviour
             inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
         }
 
+        //var stringTable = DataTableManager.
+
         int index = 0;
         placementObject = objInfo;
         itemImage.sprite = objInfo.Icon;
