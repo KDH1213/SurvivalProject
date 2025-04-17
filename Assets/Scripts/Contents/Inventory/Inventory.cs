@@ -156,6 +156,15 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         //        AddItem(test);
         //    }
         //}
+
+        //var Item = DataTableManager.ItemTable.Get(1200111);
+
+        //var testInfo = new DropItemInfo();
+        //testInfo.amount = 500;
+        //testInfo.ItemName = Item.ItemName;
+        //testInfo.itemData = Item;
+        //testInfo.id = 1200111;
+        //AddItem(testInfo);
     }
 
     private void UpdateSlots(ItemInfo[] items)
@@ -574,7 +583,19 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             itemInfos[i].Amount = itemSlotInfoList[i].amount;
             itemInfos[i].index = itemSlotInfoList[i].index;
-            itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
+            if(1201001 == itemSlotInfoList[i].itemID)
+            {
+                itemInfos[i].itemData = DataTableManager.ItemTable.Get(1200111);
+            }
+            else if (1201002 == itemSlotInfoList[i].itemID)
+            {
+                itemInfos[i].itemData = DataTableManager.ItemTable.Get(1200211);
+            }
+            else
+            {
+                itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
+            }
+
 
             if(itemInfos[i].itemData == null)
             {
