@@ -165,6 +165,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         //testInfo.itemData = Item;
         //testInfo.id = 1200111;
         //AddItem(testInfo);
+
+
+        equipmentSocketView.Initialize();
     }
 
     private void UpdateSlots(ItemInfo[] items)
