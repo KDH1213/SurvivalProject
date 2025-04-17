@@ -104,8 +104,6 @@ public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         isUsingMouse = false;
         joystickBackground.anchoredPosition = initialPosition;
         joystickHandle.anchoredPosition = Vector2.zero;
-
-        onScreenStick.OnPointerUp(new PointerEventData(EventSystem.current));
     }
     private bool IsPointerOverUI()
     {
@@ -125,6 +123,7 @@ public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         onScreenStick.enabled = true;
         ActivateJoystick(eventData.position);
+        isActive = true;
 
         if (!RectTransformUtility.RectangleContainsScreenPoint(joystickArea, eventData.position))
         {
@@ -141,6 +140,11 @@ public class JoyStick : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(!isActive)
+        {
+            return;
+        }
+
         if (!RectTransformUtility.RectangleContainsScreenPoint(joystickArea, eventData.position))
         {
             OnEndDrag(eventData);
