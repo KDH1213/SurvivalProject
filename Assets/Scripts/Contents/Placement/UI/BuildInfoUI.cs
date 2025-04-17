@@ -83,27 +83,33 @@ public class BuildInfoUI : MonoBehaviour
 
     private void SetButtonDisable()
     {
-        if(CanPlaced())
+        if (inventory != null)
         {
-            placeButton.interactable = true;
-            placeButton.onClick.AddListener(OnCloseWindow);
-            placeButton.onClick.AddListener(() => system.StartPlacement(placementObject.ID));
+            if (CanPlaced())
+            {
+                placeButton.interactable = true;
+                placeButton.onClick.AddListener(OnCloseWindow);
+                placeButton.onClick.AddListener(() => system.StartPlacement(placementObject.ID));
+            }
+            else
+            {
+                placeButton.interactable = false;
+                placeButton.onClick.RemoveAllListeners();
+            }
         }
-        else
-        {
-            placeButton.interactable = false;
-            placeButton.onClick.RemoveAllListeners();
-        }
-        if (!inven.CheckItemCount(placementObject.NeedItems) && inventory == null)
-        {
-            placeButton.interactable = false;
-            placeButton.onClick.RemoveAllListeners();
-        }
-        else
-        {
-            placeButton.interactable = true;
-            placeButton.onClick.AddListener(OnCloseWindow);
-            placeButton.onClick.AddListener(() => system.StartPlacement(placementObject.ID));
+        else 
+        { 
+            if (!inven.CheckItemCount(placementObject.NeedItems))
+            {
+                placeButton.interactable = false;
+                placeButton.onClick.RemoveAllListeners();
+            }
+            else
+            {
+                placeButton.interactable = true;
+                placeButton.onClick.AddListener(OnCloseWindow);
+                placeButton.onClick.AddListener(() => system.StartPlacement(placementObject.ID));
+            }
         }
     }
 

@@ -21,6 +21,15 @@ public class ObjectInfoUI : MonoBehaviour
     private Button upgrade;
     public TestInventory inven;
 
+    private Inventory inventory;
+
+    private void Awake()
+    {
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
+        }
+    }
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         int index = 0;
@@ -30,15 +39,30 @@ public class ObjectInfoUI : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
-        foreach (var item in objInfo.NeedItems)
+
+        if (inventory != null)
         {
-            needItems[index].gameObject.SetActive(true);
-            needItems[index].SetNeedItem(null, item.Value, inven.inventory[item.Key]);
-            needItems.Add(needItems[index]);
-            index++;
+            foreach (var itemData in objInfo.NeedItems)
+            {
+                var item = DataTableManager.ItemTable.Get(itemData.Key);
+                needItems[index].gameObject.SetActive(true);
+                needItems[index].SetNeedItem(item.ItemImage, itemData.Value, inventory.GetTotalItem(itemData.Key));
+                index++;
+            }
+        }
+        else
+        {
+            foreach (var itemData in objInfo.NeedItems)
+            {
+                var item = DataTableManager.ItemTable.Get(itemData.Key);
+                needItems[index].gameObject.SetActive(true);
+                needItems[index].SetNeedItem(item.ItemImage, itemData.Value, inven.inventory[itemData.Key]);
+                index++;
+            }
+
         }
 
-        upgrade.onClick.AddListener(() => gameObject.SetActive(false));
+            upgrade.onClick.AddListener(() => gameObject.SetActive(false));
 
         
 

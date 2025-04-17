@@ -110,6 +110,7 @@ public class CreateItemUI : MonoBehaviour
         createButton.onClick.AddListener(() => CreateItem(data, info.data));
     }
 
+
     private void CreateItem(ItemCreateTable.Data createData, ItemData data)
     {
         var createItem = new DropItemInfo();
