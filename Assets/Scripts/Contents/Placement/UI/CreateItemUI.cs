@@ -60,7 +60,7 @@ public class CreateItemUI : MonoBehaviour
         createList.Clear();
         foreach (var itemData in data)
         {
-            if(itemData.Value.Rank > structure.Rank)
+            if(itemData.Value.Rank > structure.Rank || DataTableManager.ItemTable.Get(itemData.Key) == null)
             {
                 continue;
             }
