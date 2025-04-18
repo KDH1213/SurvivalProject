@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterIdleState : MonsterBaseState
 {
-    public Collider[] attackTargets = new Collider[2];
+    private Collider[] findTargets = new Collider[2];
     protected override void Awake()
     {
         base.Awake();
@@ -43,7 +43,7 @@ public class MonsterIdleState : MonsterBaseState
             return;
         }
 
-        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, attackTargets, MonsterFSM.Weapon.WeaponLayerMask);
+        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, findTargets, MonsterFSM.Weapon.WeaponLayerMask);
 
         for(int i = 0; i < index; ++i)
         {
