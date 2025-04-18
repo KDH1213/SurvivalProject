@@ -26,7 +26,7 @@ public class AttackDefinition : ScriptableObject
 
         if (targetStats != null)
         {
-            damageInfo.damage -= charactorStats.GetStatValue(StatType.Defense);
+            damageInfo.damage -= targetStats.GetStatValue(StatType.Defense);
             damageInfo.damage = Mathf.Max(1f, damageInfo.damage);
         }
         return damageInfo;

@@ -181,7 +181,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             testInfo.amount = 500;
             testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
-            testInfo.id = 1200111;
+            testInfo.id = 1201004;
             AddItem(testInfo);
         }
     }
