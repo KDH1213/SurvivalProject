@@ -2,6 +2,134 @@
     "name": "PlacementInputSystem",
     "maps": [
         {
+            "name": "Player",
+            "id": "42f6f6a0-8f42-4444-9bb0-25c070d89e7d",
+            "actions": [
+                {
+                    "name": "Movemonet",
+                    "type": "Value",
+                    "id": "4cd7f651-0f53-4750-8ea1-276654a302fc",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "b4f647b8-7e9f-41ad-a1ee-aa6aef3a3456",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "c6f988a2-1cb8-4c6b-990f-8c123fdd38a2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SubTool",
+                    "type": "Button",
+                    "id": "04d61043-b8d8-474f-b930-0c554695f493",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Buiding",
+                    "type": "Button",
+                    "id": "0f1acd6f-75fc-4c2e-8361-52398dcc4f64",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "11d7bddc-b03c-4f51-9599-2d276e38407c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b6ef567d-78d8-4472-9db1-acb5464f2b82",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad;Touch;Keyboard&Mouse",
+                    "action": "Movemonet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "96961e17-543b-4c6d-93fc-b17a852d9f12",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4be111cf-3a77-4cec-8eb1-4fffc239a575",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "042369c7-6993-47d4-9271-42ae75d32bc0",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SubTool",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32bb3e91-5f04-4b63-8f79-4bde6f356cc5",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Buiding",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc48f939-76c0-4111-a0a2-45243e902cfd",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Object",
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [

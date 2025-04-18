@@ -59,7 +59,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     {
         Hp -= damageInfo.damage;
 
-        if (Hp <= 0)
+        if (Hp <= 0 && gameObject.activeSelf)
         {
             gameObject.SetActive(false);
             GetComponent<StructureStats>().OnDestoryStructure();
