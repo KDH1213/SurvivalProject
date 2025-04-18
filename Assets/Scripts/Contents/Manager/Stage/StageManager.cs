@@ -124,6 +124,13 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         }
     }
 
+    public void OnSave()
+    {
+        onSaveEvent?.Invoke();
+        GameTimeManager.Instance.Save();
+        SaveLoadManager.Save();
+    }
+
     private void OnApplicationQuit()
     {
         onSaveEvent?.Invoke();

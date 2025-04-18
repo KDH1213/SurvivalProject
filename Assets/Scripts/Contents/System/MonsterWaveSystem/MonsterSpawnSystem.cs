@@ -13,6 +13,9 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     // private List<WaveData> waveDataList = new List<WaveData>();
 
     [SerializeField]
+    private StageManager stageManager;
+
+    [SerializeField]
     private List<MonsterWaveData> monsterWaveDatas;
 
     [SerializeField]
@@ -34,6 +37,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     private Coroutine coSpawn;
 
     private readonly string timerFormat = "남은 시간 : {0:F}";
+    private bool isSave = false;
 
     private void Awake()
     {
@@ -75,6 +79,12 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             if(waveTime < Time.time)
             {
                 StartSpawn();
+            }
+
+            if(!isSave && waveTime - Time.time < 1f)
+            {
+                isSave = true;
+                stageManager?.OnSave();
             }
         }
     }
@@ -120,6 +130,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             ++currentWaveLevel;
             currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
             waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
+
+            isSave = false;
         }
     }
 
@@ -158,14 +170,14 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        //for (int i = 0; i < monsterWaveSaveInfo.activeSpawners.Length; ++i)
-        //{
-        //    if (!monsterWaveSaveInfo.activeSpawners[i])
-        //    {
-        //        monsterSpawnerList[i].gameObject.SetActive(false);
-        //        monsterSpawnerList[i].OnDestroySpawnerEvent();
-        //    }
-        //}
+        for (int i = 0; i < monsterWaveSaveInfo.activeSpawners.Length; ++i)
+        {
+            if (!monsterWaveSaveInfo.activeSpawners[i])
+            {
+                monsterSpawnerList[i].gameObject.SetActive(false);
+                monsterSpawnerList[i].OnDestroySpawnerEvent();
+            }
+        }
 
         waveTime = monsterWaveSaveInfo.waveTime + Time.time;
         currentWaveLevel = monsterWaveSaveInfo.waveLevel;
