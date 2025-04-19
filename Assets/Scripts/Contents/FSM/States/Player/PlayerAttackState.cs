@@ -46,7 +46,14 @@ public class PlayerAttackState : PlayerBaseState
     {
         if (playerFSM.CurrentStateType == PlayerStateType.Attack)
         {
-            playerFSM.ChangeState(PlayerStateType.Idle);
+            if(playerFSM.IsInputAttack)
+            {
+                playerFSM.ChangeState(PlayerStateType.Attack);
+            }
+            else
+            {
+                playerFSM.ChangeState(PlayerStateType.Idle);
+            }
         }
     }
 

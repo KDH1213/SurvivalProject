@@ -6,7 +6,7 @@
             "id": "8fa81f2c-2baa-4e08-97a3-0f78583e9c9a",
             "actions": [
                 {
-                    "name": "moveAndRotate",
+                    "name": "Move",
                     "type": "Value",
                     "id": "61f1a590-cf35-4e31-8ecf-a42de1be258d",
                     "expectedControlType": "Vector2",
@@ -15,16 +15,16 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "mainToolAndAttack",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "e29f2714-cc19-4f62-a38e-eb2a13354759",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "interact",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "72c91ca7-ed86-402a-89f5-7402ef2216c6",
                     "expectedControlType": "",
@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "subTool",
+                    "name": "SubTool",
                     "type": "Button",
                     "id": "3b0861f9-8c8c-48a8-b7c9-b33371564cec",
                     "expectedControlType": "",
@@ -59,9 +59,64 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "moveAndRotate",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "7e0df1fd-1ddf-4747-a1b9-4f94ca2db8b6",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "423a9c42-8cc7-4393-a712-75350d801a0a",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "d0353b75-c440-4a84-ac93-07f9d3f41643",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "268b27d9-4194-46aa-b968-aca43b6ba6df",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "a2705ed6-6793-48f3-b2c0-c324308fbcf0",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -70,7 +125,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "mainToolAndAttack",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46f54c12-f63a-4476-85cd-60c646a8268f",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -81,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "subTool",
+                    "action": "SubTool",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -103,7 +169,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "interact",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

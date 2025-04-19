@@ -31,6 +31,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
     public bool IsFindTarget { get; private set; }
 
+    public bool IsInputAttack { get; private set; } = false;
+
     [HideInInspector]
     public float attackRange;
 
@@ -78,9 +80,10 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     }
 
     // TODO :: TestPlayer -> PlayerInputHandler -> On Attack Event¿¡ ¿¬°á
-    public void OnInputAttack()
+    public void OnInputAttack(bool isInput)
     {
-        if (!IsAttack)
+        IsInputAttack = isInput;
+        if (!IsAttack && IsInputAttack)
         {
             IsAttack = true;
             ChangeState(PlayerStateType.Attack);

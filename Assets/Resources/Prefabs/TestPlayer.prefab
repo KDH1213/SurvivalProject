@@ -11489,9 +11489,61 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7d44f2ac-a1f1-435f-8467-800dbfb6ed55
     m_ActionName: player/Building[/Keyboard/b]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f7a934ea-5c85-4813-a72b-b5146ae90bfd
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 67d1da86-d03b-4012-8849-9745577188bb
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 738fecaa-41a3-4f44-9210-e68e62a10997
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dfd770f4-7f1c-4346-8f40-6dca361ff81b
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 943c896b-f0f4-4f8f-a43b-612b34048793
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8517e564-045e-4b9c-b98c-d8b6bb2f5752
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3016132b-598a-4f9e-83df-6c8951f81326
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e8295c56-c01a-4991-81e0-b47a147364eb
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c9aa1595-0482-4bac-9e2b-9de2b1651d9f
+    m_ActionName: Object/Placement[/Mouse/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f09b365a-c19e-43ca-b2b4-7418a0e3f33d
+    m_ActionName: Object/Move[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8dd227dc-848b-4fa1-a238-e6e758bb5cb7
+    m_ActionName: Object/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1130a409-3acf-488b-860c-bcc0fb36d2dc
+    m_ActionName: Object/Drag[/Mouse/leftButton,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a6619684-70f9-49d3-9573-9bc696720cd7
+    m_ActionName: Object/ZoomMouse[/Mouse/scroll/down,/Mouse/scroll/up]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: player
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1068120905921239531
@@ -11507,13 +11559,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputDirection: {x: 0, y: 0}
-  onAttackEvent:
+  onInputAttackEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4766854409604859175}
         m_TargetAssemblyTypeName: PlayerFSM, Assembly-CSharp
         m_MethodName: OnInputAttack
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -13,7 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private PlayerFSM playerFSM;
 
-    public UnityEvent onAttackEvent;
+    public UnityEvent<bool> onInputAttackEvent;
     public UnityEvent onInteractEvent;
     public UnityEvent<Vector2> onMoveAndRotateEvent;
 
@@ -75,10 +75,7 @@ public class PlayerInputHandler : MonoBehaviour
             return;
         }
 
-        if (context.started)
-        {
-            onAttackEvent?.Invoke();
-        }
+        onInputAttackEvent?.Invoke(context.ReadValueAsButton());
     }
 
     // TODO :: TestPlayer -> PlayerInput -> Events -> player -> interact¿¡ ¿¬°á
