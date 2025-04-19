@@ -91,9 +91,12 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     }
 
     // TODO :: TestPlayer -> PlayerInputHandler -> On Interact Event에 연결
-    public void OnSetInteract()
+    public void OnInputInteract()
     {
-        OnFindInteractableTarget();
+        if(currentStateType != PlayerStateType.Interact)
+        {
+            OnFindInteractableTarget();
+        }
     }
 
     // TODO :: 지금은 TestObject 스크립트에서 사용 중
