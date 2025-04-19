@@ -23,44 +23,49 @@ public class MonsterMoveState : MonsterBaseState
 
     public override void ExecuteUpdate()
     {
-        if (MonsterFSM.Target == null && !FindTarget())
+        if(!FindTarget())
         {
-           
-        }
+            var position = movePosition - transform.position;
+            position.y = 0f;
 
-        if(MonsterFSM.Target != null)
-        {
-            MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
-
-            // 플레이어를 발견하면 추적 시작
-            if (MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
+            if (position.sqrMagnitude < 1f)
             {
-                MonsterFSM.ChangeState(MonsterStateType.Chase);
-                return;
+                MonsterFSM.StateTable[MonsterStateType.Idle].enterStateEvent.RemoveAllListeners();
+                MonsterFSM.ChangeState(MonsterStateType.Idle);
             }
         }
-
-        if (Vector3.Distance(movePosition, transform.position) < 1f)
-        {
-            MonsterFSM.StateTable[MonsterStateType.Idle].enterStateEvent.RemoveAllListeners();
-            MonsterFSM.ChangeState(MonsterStateType.Idle);
-            return;
-        }
-
     }
 
     public override void Exit()
     {
     }
 
+
     private bool FindTarget()
     {
         int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, MonsterFSM.Weapon.attackTargets, MonsterFSM.Weapon.WeaponLayerMask);
+        Transform target = null;
+
+        float distance = float.MaxValue;
+        Vector3 position = MonsterFSM.transform.position;
+        Vector3 positionCheck;
 
         for (int i = 0; i < index; ++i)
         {
-            MonsterFSM.Target = MonsterFSM.Weapon.attackTargets[i].gameObject;
-            MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
+            target = MonsterFSM.Weapon.attackTargets[i].gameObject.transform;
+            positionCheck = target.position - position;
+            positionCheck.y = 0f;
+            if (distance > positionCheck.sqrMagnitude)
+            {
+                distance = positionCheck.sqrMagnitude;
+            }
+        }
+
+        if (target != null)
+        {
+            MonsterFSM.Target = target.gameObject;
+            monsterFSM.TargetTransform = target;
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
             return true;
         }
 

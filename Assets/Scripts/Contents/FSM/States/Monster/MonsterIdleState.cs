@@ -65,10 +65,4 @@ public class MonsterIdleState : MonsterBaseState
         }
     }
 
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, MonsterFSM.MonsterData.aggroRange);
-    }
 }

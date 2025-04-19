@@ -8,12 +8,11 @@ public class PlayerMoveState : PlayerBaseState
     {
         base.Awake();
         stateType = PlayerStateType.Move;
+
     }
 
     public override void Enter()
     {
-        if (playerFSM.Animator != null)
-            playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, true);
     }
 
     public override void ExecuteUpdate()
@@ -23,10 +22,6 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void Exit()
     {
-        if (playerFSM.Animator != null)
-        {
-            playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, false);
-        }
     }
 
     private void MoveAndRotate(Vector2 direction)
@@ -41,6 +36,7 @@ public class PlayerMoveState : PlayerBaseState
 
         transform.rotation = Quaternion.LookRotation(dir);
 
+        PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, PlayerStats.Speed);
         PlayerFSM.CharacterController.Move(dir * Time.deltaTime);
     }
 }

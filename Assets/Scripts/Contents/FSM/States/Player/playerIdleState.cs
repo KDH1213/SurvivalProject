@@ -16,6 +16,7 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void Enter()
     {
+        PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed , 0f);
     }
 
     public override void ExecuteUpdate()
