@@ -21,7 +21,14 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public int Amount { get { return ItemInfo.Amount; } }
     public int SlotIndex { get; set; }
 
+    private float prevClickTime;
+    private float clickTime;
+    private float doubleClickTime = 0.3f;
+
+    private bool isDrag = false;
+
     public Button button;
+    public UnityEvent onDoubleClickEvent;
     public UnityEvent onDragEnter;
     public UnityEvent<Vector2> OnDragEvent;
     public UnityEvent<PointerEventData> onDragExit;
@@ -73,7 +80,8 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(ItemData == null)
+        isDrag = true;
+        if (ItemData == null)
         {
             eventData.pointerDrag = null;
             onDragExit?.Invoke(eventData);
@@ -86,7 +94,19 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        isDrag = false;
         onDragExit?.Invoke(eventData);
+    }
+
+    public void OnClickSlot()
+    {
+        prevClickTime = clickTime;
+        clickTime = Time.time;
+
+        if (!isDrag && doubleClickTime > clickTime - prevClickTime)
+        {
+            onDoubleClickEvent?.Invoke();
+        }
     }
 
     public void OnSwapItemInfo(ItemSlot itemSlot)

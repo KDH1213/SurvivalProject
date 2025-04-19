@@ -74,6 +74,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             slot.button.onClick.AddListener(() =>
             {
                 SelectedSlotIndex = slot.SlotIndex;
+                slot.OnClickSlot();
                 itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
             });
 
@@ -91,6 +92,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 }
             });
 
+            slot.onDoubleClickEvent.AddListener(OnEquip);
             slot.onDragExit.AddListener(OnEndDrag);
             itemSlots[i] = slot;
         }
