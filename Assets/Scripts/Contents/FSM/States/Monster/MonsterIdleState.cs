@@ -14,6 +14,9 @@ public class MonsterIdleState : MonsterBaseState
 
     public override void Enter()
     {
+        MonsterFSM.Target = null;
+        MonsterFSM.TargetTransform = null;
+
         Agent.isStopped = true;
         Agent.speed = 0f;
         MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
@@ -26,8 +29,6 @@ public class MonsterIdleState : MonsterBaseState
         {
             FindTarget();
         }
-
-        ChangeChaseState();
     }
 
     public override void Exit()
@@ -38,34 +39,36 @@ public class MonsterIdleState : MonsterBaseState
 
     private void FindTarget()
     {
-        if (MonsterFSM.Target != null)
+        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, findTargets, MonsterFSM.Weapon.WeaponLayerMask);
+        Transform target = null;
+
+        float distance = float.MaxValue;
+        Vector3 position = MonsterFSM.transform.position;
+        Vector3 positionCheck;
+
+        for (int i = 0; i < index; ++i)
         {
-            return;
+            target = findTargets[i].gameObject.transform;
+            positionCheck = target.position - position;
+            positionCheck.y = 0f;
+            if (distance > positionCheck.sqrMagnitude)
+            {
+                distance = positionCheck.sqrMagnitude;
+            }
         }
 
-        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, findTargets, MonsterFSM.Weapon.WeaponLayerMask);
-
-        for(int i = 0; i < index; ++i)
+        if(target != null)
         {
-            MonsterFSM.Target = findTargets[0].gameObject;
-            MonsterFSM.TargetTransform = MonsterFSM.Target.transform;
-            ChangeChaseState();
-            return;
+            MonsterFSM.Target = target.gameObject;
+            monsterFSM.TargetTransform = target;
+            MonsterFSM.ChangeState(MonsterStateType.Chase);
         }
     }
 
-    private void ChangeChaseState()
+
+    private void OnDrawGizmos()
     {
-        if (MonsterFSM.Target == null)
-        {
-            return;
-        }
-
-        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
-
-        if (MonsterFSM.TargetDistance < MonsterFSM.MonsterData.aggroRange)
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Chase);
-        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, MonsterFSM.MonsterData.aggroRange);
     }
 }
