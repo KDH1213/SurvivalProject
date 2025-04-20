@@ -611,6 +611,7 @@ GameObject:
   - component: {fileID: 3260619404319451306}
   - component: {fileID: 1010822697074811360}
   - component: {fileID: 3084697881959399512}
+  - component: {fileID: 5231628473482176866}
   m_Layer: 5
   m_Name: backgroundButton
   m_TagString: Untagged
@@ -731,6 +732,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5231628473482176866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373207419311829058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &6429323231073697642
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +829,7 @@ GameObject:
   - component: {fileID: 59705277724098450}
   - component: {fileID: 1293619835489579299}
   m_Layer: 5
-  m_Name: Image
+  m_Name: EraseView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1069,7 +1090,7 @@ GameObject:
   - component: {fileID: 1662063649876810239}
   - component: {fileID: 6785920033942593673}
   m_Layer: 5
-  m_Name: EraseView
+  m_Name: ErasePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2414,6 +2435,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1949310552996358080, guid: 9e9bee372ee55414d99d2c29d79b5df5,
         type: 3}
+      propertyPath: m_text
+      value: "\uC7A5\uCC29\uD574\uC81C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949310552996358080, guid: 9e9bee372ee55414d99d2c29d79b5df5,
+        type: 3}
       propertyPath: m_fontSize
       value: 72
       objectReference: {fileID: 0}
@@ -2422,6 +2448,11 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2519496070563567211, guid: 9e9bee372ee55414d99d2c29d79b5df5,
+        type: 3}
+      propertyPath: eraseView
+      value: 
+      objectReference: {fileID: 8038921088275309508}
     - target: {fileID: 2519496070563567211, guid: 9e9bee372ee55414d99d2c29d79b5df5,
         type: 3}
       propertyPath: useButton
@@ -2745,6 +2776,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5826039177070053083}
     m_Modifications:
+    - target: {fileID: 777401482918720417, guid: 8c66f315f4a0f5547a7cb5009642bf08,
+        type: 3}
+      propertyPath: m_text
+      value: "\uC0AD\uC81C"
+      objectReference: {fileID: 0}
     - target: {fileID: 807599920654184912, guid: 8c66f315f4a0f5547a7cb5009642bf08,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2927,6 +2963,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6131375705705077340, guid: 8c66f315f4a0f5547a7cb5009642bf08,
         type: 3}
+      propertyPath: m_text
+      value: "\uC7A5\uCC29"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131375705705077340, guid: 8c66f315f4a0f5547a7cb5009642bf08,
+        type: 3}
       propertyPath: m_fontSize
       value: 72
       objectReference: {fileID: 0}
@@ -2959,6 +3000,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -146
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294936439650584223, guid: 8c66f315f4a0f5547a7cb5009642bf08,
+        type: 3}
+      propertyPath: m_text
+      value: "\uC544\uC774\uD15C \uC0AC\uC6A9"
       objectReference: {fileID: 0}
     - target: {fileID: 7897094849234296088, guid: 8c66f315f4a0f5547a7cb5009642bf08,
         type: 3}
