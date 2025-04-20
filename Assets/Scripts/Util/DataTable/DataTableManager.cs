@@ -37,6 +37,13 @@ public static class DataTableManager
             tables.Add(id, table);
         }
 
+        foreach (var id in GatherTableIds.String)
+        {
+            var table = new GatherTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
 
         var tableConstruction = new ConstructionTable();
         string idConstruction = PlacementTableIds.ConstructionTable;

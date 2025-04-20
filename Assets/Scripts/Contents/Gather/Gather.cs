@@ -11,19 +11,24 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
     [SerializeField]
     private InteractType interactType;
 
+    public GatherData GatherData { get; private set; }
+
     public bool IsInteractable => gameObject.activeSelf;
 
     public InteractType InteractType => interactType;
 
     public Vector3 RespawnPosition { get; set; }
 
-    public float RespawnTime { get; private set; } = 120f;
-
     public float RemainingTime { get; private set; }
+
 
     public bool IsRespawn { get; private set; } = true;
 
     public UnityEvent<GameObject> OnEndInteractEvent => onEndInteractEvent;
+
+    public float RespawnTime => GatherData.RespawnTime;
+    public float InteractTime => GatherData.GatheringTime;
+
     public UnityEvent<GameObject> onEndInteractEvent;
 
     [ContextMenu("CreateDisk")]
@@ -39,6 +44,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
         //}
         diskObject.SetActive(false);
     }
+
 
     private void Awake()
     {
@@ -61,6 +67,10 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
         interactor.GetComponent<IAct>()?.OnPlayAct((int)ActType.Interation);
     }
 
+    public void SetGatherData(GatherData gatherData)
+    {
+        GatherData = gatherData;
+    }
     public void SetRemainTime(float remainTime)
     {
         RemainingTime = remainTime;

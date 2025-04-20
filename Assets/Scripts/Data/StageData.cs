@@ -33,7 +33,7 @@ public class StageData : ScriptableObject
     public SerializedDictionary<GatherType, IntMinMax> CreateGatherCountTable = new SerializedDictionary<GatherType, IntMinMax>();
 
     [field: SerializeField]
-    public SerializedDictionary<GatherType, GatherData> GatherDataTable = new SerializedDictionary<GatherType, GatherData>();
+    public SerializedDictionary<GatherType, GatherInfoData> GatherDataTable = new SerializedDictionary<GatherType, GatherInfoData>();
 
     [ContextMenu("CreateTable")]
     private void OnCreateTable()
@@ -41,7 +41,7 @@ public class StageData : ScriptableObject
         CreateGatherPercentTable.Clear();
         CreateGatherCountTable.Clear();
 
-        var gatherDataTable = new SerializedDictionary<GatherType, GatherData>();
+        var gatherDataTable = new SerializedDictionary<GatherType, GatherInfoData>();
 
         for (int i = (int)GatherType.None + 1; i < (int)GatherType.End; ++i)
         {

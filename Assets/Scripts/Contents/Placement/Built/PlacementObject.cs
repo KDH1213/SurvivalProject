@@ -23,6 +23,8 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
 
     public UnityEvent<GameObject> OnEndInteractEvent => null;
 
+    public float InteractTime => 0f;
+
     public abstract void SetData();
 
     private void OnDisable()

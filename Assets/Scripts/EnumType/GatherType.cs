@@ -2,11 +2,11 @@
 public enum GatherType
 {
     None,
-    Tree,
+    Bush,
     Branch,
+    Tree,
     Rock,
     Stone,
-    Bush,
     Box,        
 
     End
@@ -17,11 +17,11 @@ public enum GatherType
 public enum GatherTypeMask
 {
     None = 1 << GatherType.None,
-    Tree = 1 << GatherType.Tree,
+    Bush = 1 << GatherType.Bush,
     Branch = 1 << GatherType.Branch,
+    Tree = 1 << GatherType.Tree,
     Rock = 1 << GatherType.Rock,
     Stone = 1 << GatherType.Stone,
-    Bush = 1 << GatherType.Bush,
     Box = 1 << GatherType.Box,
 
 }

@@ -11,7 +11,7 @@ public struct GatherInfo
 
 
 [CreateAssetMenu(fileName = "StageData", menuName = "System/Stage/GatherData", order = 1)]
-public class GatherData : ScriptableObject
+public class GatherInfoData : ScriptableObject
 {
     [field: SerializeField]
     public GatherType GatherType { get; private set; }

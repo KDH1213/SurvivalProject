@@ -35,6 +35,13 @@ public static class WeaponTableIds
         "WeaponTable",
     };
 }
+public static class GatherTableIds
+{
+    public static readonly string[] String =
+    {
+        "GatherTable",
+    };
+}
 
 public static class ArmorTableIds
 {

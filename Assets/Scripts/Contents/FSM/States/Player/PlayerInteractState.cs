@@ -126,6 +126,7 @@ public class PlayerInteractState : PlayerBaseState
         this.target = target;
         targetInteractable = target.GetComponent<IInteractable>();
 
+        interactTime = 2f;//targetInteractable.InteractTime;
         var targetPosition = target.transform.position;
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);

@@ -5,6 +5,12 @@ public struct ActInfo
 {
     public SurvivalStatType penaltyType;
     public float value;
+
+    public ActInfo(SurvivalStatType type, float value)
+    {
+        this.value = value;
+        penaltyType = type;
+    }
 }
 
 [System.Serializable]

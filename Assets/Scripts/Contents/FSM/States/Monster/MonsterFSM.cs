@@ -55,6 +55,8 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public bool IsRespawn => IsDead;
 
+    public float InteractTime => 0f;
+
     protected override void Awake()
     {
         CanAttack = true;
