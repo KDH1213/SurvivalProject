@@ -72,6 +72,16 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
         isActive = true;
         enabled = true;
     }
+
+    public virtual void RestartSpawn(int count, float time)
+    {
+        currentSpawnTime = time;
+        currentSpawnCount = count;
+
+        spawnCoroutine = StartCoroutine(RestartSpawnCoroutine());
+        isActive = true;
+        enabled = true;
+    }
     public virtual void StopSpawn()
     {
         currentSpawnCount = 0;
@@ -104,6 +114,25 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
 
         monsterSpawnSystem.EndSpawn();
     }
+
+    private IEnumerator RestartSpawnCoroutine()
+    {
+        while (currentSpawnCount < waveData.SpawnCount)
+        {
+            currentSpawnTime += Time.deltaTime;
+
+            if (currentSpawnTime >= spawnTime)
+            {
+                ISpawn();
+                currentSpawnTime -= spawnTime;
+            }
+
+            yield return null;
+        }
+
+        monsterSpawnSystem.EndSpawn();
+    }
+
     private IEnumerator StartSpawnRepeatCoroutine()
     {
         ISpawn();
@@ -141,6 +170,7 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
             monsterController.transform.position = transform.position;
         }
         monsterController.ChangeState(MonsterStateType.Idle);
+        monsterSpawnSystem.createMonsterTable.Add(monsterController);
 
         ++currentSpawnCount;
     }
@@ -149,5 +179,18 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
     {
         StopSpawn();
         onDestroySpawnerEvent?.Invoke(this);
+    }
+
+    public void Save()
+    {
+        if(!gameObject.activeSelf)
+        {
+            SaveLoadManager.Data.spawnerSaveInfoList.Add(new SpawnerSaveInfo(0f, 0, true));
+        }
+        else
+        {
+            SaveLoadManager.Data.spawnerSaveInfoList.Add(new SpawnerSaveInfo(currentSpawnTime, currentSpawnCount, isActive));
+        }
+
     }
 }

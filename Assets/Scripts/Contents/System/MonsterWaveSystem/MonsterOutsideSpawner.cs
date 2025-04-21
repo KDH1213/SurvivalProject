@@ -34,6 +34,7 @@ public class MonsterOutsideSpawner : MonsterSpawner
         monsterController.StateTable[MonsterStateType.Idle].enterStateEvent.AddListener(() => monsterController.ChangeState(MonsterStateType.Move));
 
         monsterController.ChangeState(MonsterStateType.Move);
+        monsterSpawnSystem.createMonsterTable.Add(monsterController);
 
         ++currentSpawnCount;
     }

@@ -10,6 +10,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private List<MonsterSpawner> monsterSpawnerList;
     private List<MonsterSpawner> monsterActiveSpawnerList = new List<MonsterSpawner>();
+
+    public HashSet<MonsterFSM> createMonsterTable {  get; private set; } = new HashSet<MonsterFSM>();
     // private List<WaveData> waveDataList = new List<WaveData>();
 
     [SerializeField]
@@ -111,6 +113,34 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
         }
     }
 
+    public void RestartSpawn()
+    {
+        isActive = true;
+        wavePanel.SetActive(false);
+        activeSpawnerCount = 0;
+
+        currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
+        if (currentWaveLevel < 0)
+        {
+            return;
+        }
+
+        var spawnerSaveInfoList = SaveLoadManager.Data.spawnerSaveInfoList;
+
+        for (int i = 0; i < monsterSpawnerList.Count; i++)
+        {
+            if(spawnerSaveInfoList[i].isEnd)
+            {
+                continue;
+            }
+
+            monsterSpawnerList[i].RestartSpawn(spawnerSaveInfoList[i].spawnCount, spawnerSaveInfoList[i].currentSpawnTime);
+            monsterSpawnerList[i].SetWaveIndex(currentWaveLevel);
+            monsterSpawnerList[i].StartSpawn();
+            ++activeSpawnerCount;
+        }
+    }
+
     public void StopSpawn()
     {
         foreach (var spawner in monsterActiveSpawnerList)
@@ -154,11 +184,37 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
         monsterWaveSaveInfo.activeSpawners = new bool[monsterSpawnerList.Count];
         monsterWaveSaveInfo.waveTime = waveTime - Time.time;
         monsterWaveSaveInfo.waveLevel = currentWaveLevel;
+        monsterWaveSaveInfo.isStartWave = isActive;
 
         for (int i = 0; i < monsterSpawnerList.Count; ++i)
         {
             monsterWaveSaveInfo.activeSpawners[i] = monsterSpawnerList[i].gameObject.activeSelf;
         }
+
+        if(monsterWaveSaveInfo.isStartWave)
+        {
+            var spawnerSaveInfoList = SaveLoadManager.Data.spawnerSaveInfoList;
+            spawnerSaveInfoList.Clear(); 
+            for (int i = 0; i < monsterSpawnerList.Count; ++i)
+            {
+                monsterSpawnerList[i].Save();
+            }
+        }
+
+        var waveMonsterSaveInfos = SaveLoadManager.Data.waveMonsterSaveInfos;
+        waveMonsterSaveInfos.Clear();
+
+        foreach (var monster in createMonsterTable)
+        {
+            if(!monster.gameObject.activeSelf)
+            {
+                continue;
+            }
+
+            var transform = monster.transform;
+            waveMonsterSaveInfos.Add(new WaveMonsterSaveInfo(transform.position, transform.rotation, monster.GetComponent<MonsterStats>().Hp, monster.ID));
+        } 
+
     }
 
     public void Load()
@@ -179,7 +235,38 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             }
         }
 
+        LoadMonster();
+
+        if(monsterWaveSaveInfo.isStartWave)
+        {
+            RestartSpawn();
+        }
         waveTime = monsterWaveSaveInfo.waveTime + Time.time;
         currentWaveLevel = monsterWaveSaveInfo.waveLevel;
     }
+
+    private void LoadMonster()
+    {
+        var waveMonsterSaveInfos = SaveLoadManager.Data.waveMonsterSaveInfos;
+        var monsterObjectPool = GetComponent<MonsterObjectPool>();
+        createMonsterTable.Clear();
+
+        foreach (var monster in waveMonsterSaveInfos)
+        {
+            var monsterPrefab = DataTableManager.MonsterTable.Get(monster.id).monsterPrefab;
+            monsterObjectPool.SetMonsterData(monsterPrefab, monster.id);
+            var createMonster = monsterObjectPool.GetMonster();
+            createMonster.transform.position = monster.position;
+            createMonster.transform.rotation = monster.rotation;
+            createMonster.GetComponent<MonsterStats>().GetStat(StatType.HP).SetValue(monster.hp);
+
+            var moveState = createMonster.StateTable[MonsterStateType.Move] as MonsterMoveState;
+            // TODO :: 수정 예정
+            moveState.SetMovePosition(Vector3.zero);
+            createMonster.StateTable[MonsterStateType.Idle].enterStateEvent.AddListener(() => createMonster.ChangeState(MonsterStateType.Move));
+            createMonster.ChangeState(MonsterStateType.Move);
+            createMonsterTable.Add(createMonster);
+        }
+    }
+
 }

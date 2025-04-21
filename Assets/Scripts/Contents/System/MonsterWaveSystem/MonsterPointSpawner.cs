@@ -31,8 +31,9 @@ public class MonsterPointSpawner : MonsterSpawner
         var moveState = monsterController.StateTable[MonsterStateType.Move] as MonsterMoveState;
         moveState.SetMovePosition(targetPoint);
         monsterController.StateTable[MonsterStateType.Idle].enterStateEvent.AddListener(() => monsterController.ChangeState(MonsterStateType.Move));
-
         monsterController.ChangeState(MonsterStateType.Move);
         ++currentSpawnCount;
+
+        monsterSpawnSystem.createMonsterTable.Add(monsterController);
     }
 }

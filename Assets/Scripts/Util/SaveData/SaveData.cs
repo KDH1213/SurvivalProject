@@ -14,6 +14,8 @@ public class SaveDataV1 : SaveData
     public Dictionary<InteractType, List<GatherSaveInfo>> gatherSaveInfoTable = new Dictionary<InteractType, List<GatherSaveInfo>>();
     public List<MonsterSaveInfo> monsterSaveInfoList = new List<MonsterSaveInfo>();
     public List<ItemInfoSaveData> ItemSlotInfoSaveDataList = new List<ItemInfoSaveData>();
+    public List<WaveMonsterSaveInfo> waveMonsterSaveInfos = new List<WaveMonsterSaveInfo>();
+    public List<SpawnerSaveInfo> spawnerSaveInfoList = new List<SpawnerSaveInfo>();
 
     public List<int> equipmentItemIDList = new List<int>();
     public int equipmentConsumableCount = 1;
