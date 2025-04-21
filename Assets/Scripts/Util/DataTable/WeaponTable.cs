@@ -31,40 +31,41 @@ public class WeaponData
     public Sprite ItemImage;
     public string ItemName { get { return ItemID.ToString(); } }
 
-    public class WeaponTable : DataTable
+}
+public class WeaponTable : DataTable
+{
+    private Dictionary<int, WeaponData> weaponDataTable = new Dictionary<int, WeaponData>();
+    private readonly string assetIconPath = "UI/Icon/{0}";
+    public override void Load(string filename)
     {
-        private Dictionary<int, WeaponData> weaponDataTable = new Dictionary<int, WeaponData>();
-        private readonly string assetIconPath = "UI/Icon/{0}";
-        public override void Load(string filename)
+        var path = string.Format(FormatPath, filename);
+
+        var textAsset = Resources.Load<TextAsset>(path);
+        var itemDataList = LoadCSV<WeaponData>(textAsset.text);
+
+        weaponDataTable.Clear();
+
+        foreach (var item in itemDataList)
         {
-            var path = string.Format(FormatPath, filename);
-
-            var textAsset = Resources.Load<TextAsset>(path);
-            var itemDataList = LoadCSV<WeaponData>(textAsset.text);
-
-            weaponDataTable.Clear();
-
-            foreach (var item in itemDataList)
+            if (!weaponDataTable.ContainsKey(item.ItemID))
             {
-                if (!weaponDataTable.ContainsKey(item.ItemID))
-                {
-                    weaponDataTable.Add(item.ItemID, item);
-                    // item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
-                }
-                else
-                {
-                    Debug.LogError($"Key Duplicated {item.ItemID}");
-                }
+                weaponDataTable.Add(item.ItemID, item);
+                // item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
             }
-        }
-        public WeaponData Get(int key)
-        {
-            if (!weaponDataTable.ContainsKey(key))
+            else
             {
-                return default;
+                Debug.LogError($"Key Duplicated {item.ItemID}");
             }
-
-            return weaponDataTable[key];
         }
     }
+    public WeaponData Get(int key)
+    {
+        if (!weaponDataTable.ContainsKey(key))
+        {
+            return default;
+        }
+
+        return weaponDataTable[key];
+    }
 }
+

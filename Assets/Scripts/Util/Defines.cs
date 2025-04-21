@@ -58,7 +58,7 @@ public static class WaveDataTableIds
         "WaveTable",
     };
 }
-public static class MonsterDataTableIds
+public static class MonsterTableIds
 {
     public static readonly string[] String =
     {

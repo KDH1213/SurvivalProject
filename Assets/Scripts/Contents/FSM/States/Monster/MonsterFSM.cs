@@ -16,8 +16,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
 
-    [field: SerializeField]
-    public Data MonsterData { get; private set; }
+    public MonsterData MonsterData { get; private set; } = null;
 
     [HideInInspector]
     public GameObject Target { get; set; }
@@ -59,6 +58,11 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     protected override void Awake()
     {
+        if(MonsterData == null)
+        {
+            MonsterData = DataTableManager.MonsterTable.Get(ID);
+        }
+
         CanAttack = true;
         IsAttack = false;
         IsDead = false;

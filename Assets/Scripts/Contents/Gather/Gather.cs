@@ -13,6 +13,9 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
 
     public GatherData GatherData { get; private set; }
 
+    [field: SerializeField]
+    public int ID { get; private set; } = 0;
+
     public bool IsInteractable => gameObject.activeSelf;
 
     public InteractType InteractType => interactType;
@@ -26,7 +29,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
 
     public UnityEvent<GameObject> OnEndInteractEvent => onEndInteractEvent;
 
-    public float RespawnTime => 180f;
+    public float RespawnTime => GatherData.RespawnTime;
     public float InteractTime => GatherData.GatheringTime;
 
     public UnityEvent<GameObject> onEndInteractEvent;
@@ -48,6 +51,11 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
 
     private void Awake()
     {
+        if(GatherData == null)
+        {
+            GatherData = DataTableManager.GatherTable.Get(ID);
+        }
+
         RespawnPosition = transform.position;
     }
 

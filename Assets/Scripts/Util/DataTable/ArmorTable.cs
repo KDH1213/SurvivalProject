@@ -35,41 +35,40 @@ public class ArmorData
 
     public Sprite ItemImage;
     public string ItemName { get { return DataTableManager.StringTable.Get(itemNameID); } }
-
-    public class ArmorTable : DataTable
+}
+public class ArmorTable : DataTable
+{
+    private Dictionary<int, ArmorData> armorDataTable = new Dictionary<int, ArmorData>();
+    private readonly string assetIconPath = "UI/Icon/{0}";
+    public override void Load(string filename)
     {
-        private Dictionary<int, ArmorData> armorDataTable = new Dictionary<int, ArmorData>();
-        private readonly string assetIconPath = "UI/Icon/{0}";
-        public override void Load(string filename)
+        var path = string.Format(FormatPath, filename);
+
+        var textAsset = Resources.Load<TextAsset>(path);
+        var itemDataList = LoadCSV<ArmorData>(textAsset.text);
+
+        armorDataTable.Clear();
+
+        foreach (var item in itemDataList)
         {
-            var path = string.Format(FormatPath, filename);
-
-            var textAsset = Resources.Load<TextAsset>(path);
-            var itemDataList = LoadCSV<ArmorData>(textAsset.text);
-
-            armorDataTable.Clear();
-
-            foreach (var item in itemDataList)
+            if (!armorDataTable.ContainsKey(item.ID))
             {
-                if (!armorDataTable.ContainsKey(item.ID))
-                {
-                    armorDataTable.Add(item.ID, item);
-                    item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
-                }
-                else
-                {
-                    Debug.LogError($"Key Duplicated {item.ID}");
-                }
+                armorDataTable.Add(item.ID, item);
+                item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
+            }
+            else
+            {
+                Debug.LogError($"Key Duplicated {item.ID}");
             }
         }
-        public ArmorData Get(int key)
+    }
+    public ArmorData Get(int key)
+    {
+        if (!armorDataTable.ContainsKey(key))
         {
-            if (!armorDataTable.ContainsKey(key))
-            {
-                return default;
-            }
-
-            return armorDataTable[key];
+            return default;
         }
+
+        return armorDataTable[key];
     }
 }

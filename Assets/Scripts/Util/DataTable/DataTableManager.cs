@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static ArmorData;
-using static WeaponData;
 
 public static class DataTableManager
 {
@@ -40,6 +38,13 @@ public static class DataTableManager
         foreach (var id in GatherTableIds.String)
         {
             var table = new GatherTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
+        foreach (var id in MonsterTableIds.String)
+        {
+            var table = new MonsterTable();
             table.Load(id);
             tables.Add(id, table);
         }
@@ -105,6 +110,21 @@ public static class DataTableManager
         }
     }
 
+    public static MonsterTable MonsterTable
+    {
+        get
+        {
+            return Get<MonsterTable>(MonsterTableIds.String[0]);
+        }
+    }
+
+    public static GatherTable GatherTable
+    {
+        get
+        {
+            return Get<GatherTable>(GatherTableIds.String[0]);
+        }
+    }
 
     public static ConstructionTable ConstructionTable
     {

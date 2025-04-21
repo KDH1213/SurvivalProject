@@ -39,7 +39,7 @@ public class MonsterIdleState : MonsterBaseState
 
     private void FindTarget()
     {
-        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.aggroRange, findTargets, MonsterFSM.Weapon.WeaponLayerMask);
+        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.ChaseRadius, findTargets, MonsterFSM.Weapon.WeaponLayerMask);
         Transform target = null;
 
         float distance = float.MaxValue;
