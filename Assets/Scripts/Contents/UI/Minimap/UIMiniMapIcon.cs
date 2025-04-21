@@ -7,9 +7,16 @@ public class UIMiniMapIcon : MonoBehaviour
     private Transform ownerTransform;
     private RectTransform rectTransform;
 
+    private Vector2 mapRatio;
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+    }
+
+    private void Update()
+    {
+        rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * mapRatio;
     }
 
     public void SetOnwer(Transform owner)
@@ -20,5 +27,6 @@ public class UIMiniMapIcon : MonoBehaviour
     public void ConvertPosition(Vector2 ratio)
     {
         rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * ratio;
+        mapRatio = ratio;
     }
 }

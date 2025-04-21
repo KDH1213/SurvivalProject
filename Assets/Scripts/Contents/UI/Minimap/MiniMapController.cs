@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class MiniMapController : MonoBehaviour
 {
-    private List<UIMiniMapIcon> staticObjectList = new List<UIMiniMapIcon>();
-    private List<UIMiniMapIcon> dynamicObjectList = new List<UIMiniMapIcon>();
-
     [SerializeField]
     private GameObject iconPrefab;
 
@@ -50,20 +47,22 @@ public class MiniMapController : MonoBehaviour
     public void AddObject(MiniMapObject createObject)
     {
         var createIcon = Instantiate(iconPrefab, createPoint);
-        createIcon.GetComponent<RectTransform>().anchoredPosition = ConvertPosition(createObject.transform.position);
         createIcon.GetComponent<Image>().sprite = createObject.Icon;
+
         var miniMapDynamicIcon = createIcon.GetComponent<UIMiniMapIcon>();
         miniMapDynamicIcon.SetOnwer(createObject.transform);
+        miniMapDynamicIcon.ConvertPosition(mapRatio);
+
         createObject.OnActiveEvent.AddListener((_) => { miniMapDynamicIcon.gameObject.SetActive(true); });
         createObject.OnDisabledEvent.AddListener((_) => { miniMapDynamicIcon.gameObject.SetActive(false); });
 
         if (createObject.IsStatic)
         {
-            staticObjectList.Add(miniMapDynamicIcon);
+            miniMapDynamicIcon.enabled = false;
         }
         else
         {
-            dynamicObjectList.Add(miniMapDynamicIcon);
+            miniMapDynamicIcon.enabled = true;
         }
     }
 
@@ -73,11 +72,6 @@ public class MiniMapController : MonoBehaviour
         {
             var position = ConvertPosition(targetTransform.position);
             mapRectTransform.anchoredPosition = -position;
-        }
-
-        foreach (var dynamicObject in dynamicObjectList)
-        {
-            dynamicObject.ConvertPosition(mapRatio);
         }
     }
 
@@ -93,5 +87,4 @@ public class MiniMapController : MonoBehaviour
     {
         targetTransform = target;
     }
-
 }
