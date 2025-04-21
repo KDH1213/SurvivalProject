@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 4927743693575841885}
   - component: {fileID: 5029684717416027711}
   - component: {fileID: 1071315026367855003}
+  - component: {fileID: -4250592314023095105}
   m_Layer: 8
   m_Name: Bear
   m_TagString: Monster
@@ -199,9 +200,6 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
-  attackTargets:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &5783433876109241799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +511,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-4250592314023095105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7722941127125952148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 21300000, guid: ee4645b471245254691f3ba1cec46374,
+    type: 3}
+  <IsStatic>k__BackingField: 0
 --- !u!1001 &377386182231706403
 PrefabInstance:
   m_ObjectHideFlags: 0

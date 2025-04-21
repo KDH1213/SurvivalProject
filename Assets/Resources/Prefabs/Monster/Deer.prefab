@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 7041802616146105271}
   - component: {fileID: 3758884436814702382}
   - component: {fileID: 5553414894230001105}
+  - component: {fileID: -4207536392910272337}
   m_Layer: 8
   m_Name: Deer
   m_TagString: Monster
@@ -168,12 +169,6 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
-  attackTargets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &5405474514463473410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +480,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-4207536392910272337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808540635936083286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 21300000, guid: 216ea6f485d2bd1468bc7ce0435538a2,
+    type: 2}
+  <IsStatic>k__BackingField: 0
 --- !u!1 &8115999696977314826
 GameObject:
   m_ObjectHideFlags: 0

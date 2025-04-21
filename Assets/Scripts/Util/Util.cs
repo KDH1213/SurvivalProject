@@ -1,5 +1,5 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+
 
 [System.Serializable]
 public struct IntMinMax
@@ -46,6 +46,9 @@ public struct FloatMinMax
         return UnityEngine.Random.Range(min, max);
     }
 }
+
+
+
 
 public static class PlayerAnimationHashCode
 {

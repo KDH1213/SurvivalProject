@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 1758916394864858316}
   - component: {fileID: 5974161088073290262}
   - component: {fileID: 3661166244943986796}
+  - component: {fileID: -8986745195117459248}
   m_Layer: 8
   m_Name: MonsterScript
   m_TagString: Monster
@@ -393,8 +394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd117ef838a98418aefc5616f9b80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 1
-  id: 1201003
+  counts: 
+  ids: 
 --- !u!65 &3661166244943986796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -416,3 +417,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.27319813, y: 0.48586255, z: 0.60149765}
   m_Center: {x: -0.0089764595, y: 0.2556363, z: -0.004491985}
+--- !u!114 &-8986745195117459248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193249081902057589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 0}
+  <IsStatic>k__BackingField: 0

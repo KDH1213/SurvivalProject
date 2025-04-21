@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 1782459507337594455}
   - component: {fileID: 7084480495494317953}
   - component: {fileID: 1880663674547085454}
+  - component: {fileID: 5381075938687510914}
   m_Layer: 8
   m_Name: Boar
   m_TagString: Monster
@@ -167,12 +168,6 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
-  attackTargets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &8874217267125749348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,6 +479,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5381075938687510914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3716744197715673722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 21300000, guid: 17513d4252bc4014aabae0b4ac571145,
+    type: 2}
+  <IsStatic>k__BackingField: 0
 --- !u!1 &4249891578834663306
 GameObject:
   m_ObjectHideFlags: 0
