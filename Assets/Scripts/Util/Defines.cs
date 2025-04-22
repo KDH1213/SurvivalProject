@@ -130,6 +130,7 @@ public static class Tags
     public static readonly string GameTimer = "GameTimer";
     public static readonly string GameController = "GameController";
     public static readonly string OverlapCollider = "OverlapCollider";
+    public static readonly string StageManager = "StageManager";
 }
 
 public static class SceneName

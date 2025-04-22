@@ -73,6 +73,11 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         StateTable[currentStateType].ExecuteUpdate();
     }
 
+    private void FixedUpdate()
+    {
+        StateTable[currentStateType].ExecuteFixedUpdate();
+    }
+
     // TODO :: // TODO :: TestPlayer -> PlayerInputHandler -> On Move And Rotate Event¿¡ ¿¬°á
     public void OnSetMoveValue(Vector2 moveValue)
     {
@@ -115,6 +120,11 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         ChangeState(PlayerStateType.Idle);
     }
 
+    public void OnResurrection()
+    {
+
+    }
+
     public void OnEndAttack()
     {
         IsAttack = false;
@@ -146,13 +156,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     {
         onActAction?.Invoke(id);
     }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-    }
-
 
     private void OnFindInteractableTarget()
     {
@@ -213,10 +216,5 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         }
 
         PlayerInventory.Initialize();
-    }
-
-    public void SetAttackStat()
-    {
-
     }
 }

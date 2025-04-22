@@ -219,6 +219,11 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
+        if(SaveLoadManager.Data.isRestart)
+        {
+            return;
+        }
+
         var monsterWaveSaveInfo = SaveLoadManager.Data.monsterWaveSaveInfo;
 
         if(monsterWaveSaveInfo == null ||monsterWaveSaveInfo.activeSpawners == null)
