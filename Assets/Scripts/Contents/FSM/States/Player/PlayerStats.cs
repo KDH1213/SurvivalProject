@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,10 +14,14 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     [SerializeField]
     private Slider HpBarSlider;
 
+    [SerializeField]
+    private TextMeshProUGUI hpText;
+
     private float currentSpeed = 1f;
     private float currentAttackSpeed = 1f;
     private float currentDamage = 1f;
     private float currentDefence = 0f;
+    private readonly string hpFormat = "{0} / /{1}";
 
     public UnityAction<float> onChangeAttackSpeedValue;
     public UnityAction<float> onChangeSpeedValue;
@@ -114,7 +119,9 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     }
     public void OnChangeHp() //*HP ����
     {
-        HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
+        var value = currentStatTable[StatType.HP];
+        HpBarSlider.value = value.Value / value.MaxValue;
+        hpText.text = string.Format(hpFormat, value.Value.ToString(), value.MaxValue);
     }
 
     public void OnEquipmentItem(ItemData itemData)

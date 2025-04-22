@@ -46,10 +46,13 @@ public class GameOverController : MonoBehaviour
     {
         if(isDeathPlayer)
         {
+            // TODO :: 스트링 테이블 연동 예정
+            uiGameOverView.SetGameOverText("플레이어가 사망하였습니다.");
             onPlayerResurrectionEvent?.Invoke();
         }
         else if (isDestroyStrongpoint)
         {
+            uiGameOverView.SetGameOverText("거점이 파괴되었습니다.");
             onResurrectionEventEvent?.Invoke();
         }
     }

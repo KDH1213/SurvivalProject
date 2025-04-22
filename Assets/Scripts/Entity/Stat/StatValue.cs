@@ -20,6 +20,8 @@ public class StatValue
 
     public System.Action<float> OnChangeValue;
 
+    public float PersentValue { get { return value / minMaxValue.max; } }
+
     public void ValueCopy(StatValue statusValue)
     {
         this.minMaxValue.max = statusValue.MaxValue;
