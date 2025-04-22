@@ -29,8 +29,6 @@ public class MonsterChaseState : MonsterBaseState
 
         if (MonsterFSM.Target != null)
         {
-            Agent.SetDestination(MonsterFSM.TargetTransform.position); 
-
             MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
             Chase();
         }
@@ -40,6 +38,14 @@ public class MonsterChaseState : MonsterBaseState
         }
 
         
+    }
+
+    public override void ExecuteFixedUpdate()
+    {
+        if (MonsterFSM.Target != null)
+        {
+            Agent.SetDestination(MonsterFSM.TargetTransform.position);
+        }
     }
 
     public override void Exit()

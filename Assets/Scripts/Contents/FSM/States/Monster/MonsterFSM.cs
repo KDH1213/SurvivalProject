@@ -84,6 +84,11 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     {
         StateTable[currentStateType].ExecuteUpdate();
     }
+
+    private void FixedUpdate()
+    {
+        StateTable[currentStateType].ExecuteFixedUpdate();
+    }
     public void SetCanAttack(bool value)
     {
         CanAttack = value;

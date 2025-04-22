@@ -25,7 +25,12 @@ public class MonsterReturnState : MonsterBaseState
             return;
         }
 
-        ReturnPosition();
+        MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashMove, true);
+    }
+
+    public override void ExecuteFixedUpdate()
+    {
+        MonsterFSM.Agent.SetDestination(MonsterFSM.FirstPosition);
     }
 
     public override void Exit()
@@ -38,14 +43,5 @@ public class MonsterReturnState : MonsterBaseState
         return !MonsterFSM.Agent.pathPending &&
                MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance &&
                !MonsterFSM.Agent.hasPath;
-    }
-
-    private void ReturnPosition()
-    {
-        if (MonsterFSM.Animator == null)
-        {
-            MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashMove, true);
-        }
-        MonsterFSM.Agent.SetDestination(MonsterFSM.FirstPosition);
     }
 }

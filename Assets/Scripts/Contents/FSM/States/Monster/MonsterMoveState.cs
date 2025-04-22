@@ -36,6 +36,11 @@ public class MonsterMoveState : MonsterBaseState
         }
     }
 
+    public override void ExecuteFixedUpdate()
+    {
+        Agent.SetDestination(movePosition);
+    }
+
     public override void Exit()
     {
     }
