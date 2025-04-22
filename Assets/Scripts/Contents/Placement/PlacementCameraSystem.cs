@@ -1,7 +1,6 @@
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
-using DG.Tweening;
 
 public class PlacementCameraSystem : MonoBehaviour
 {
@@ -39,15 +38,24 @@ public class PlacementCameraSystem : MonoBehaviour
     [SerializeField]
     private float maxZoom;
     [SerializeField]
-    private float scrollSpeed = 2f; 
+    private float minSpeed;
     [SerializeField]
+    private float maxSpeed;
+    [SerializeField]
+    private float scrollSpeed = 2f; 
     private float moveSpeed = 20f;
 
+    private float prevMagnitude = 0;
+    private int touchCount = 0;
+
+    private Vector2 firstFingerPos;
+    private Vector2 secondFingerPos;
     public bool IsDrag { get; private set; }
 
     private void Awake()
     {
         inputManager = GetComponent<PlacementInput>();
+        moveSpeed = minSpeed;
         blendList.m_Loop = false;
         startCameraPos = placementCamera.transform.position;
 
@@ -71,6 +79,11 @@ public class PlacementCameraSystem : MonoBehaviour
         blendList.m_Instructions[1].m_VirtualCamera = vCam2;
     }
 
+    private void Update()
+    {
+        testTxt.text = $"TouchCount : ";
+    }
+
     // todo : 배치 시스템 화면 -> 플레이 화면
     public void OutPlacementCamera()
     {
@@ -91,7 +104,7 @@ public class PlacementCameraSystem : MonoBehaviour
             }
             placementCamera.m_Lens.FieldOfView -= scrollSpeed;
             moveSpeed = Mathf.Clamp(moveSpeed + moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom, 
-                10f, 30f);
+                minSpeed, maxSpeed);
 
         }
         else if (axis > 0)
@@ -102,8 +115,8 @@ public class PlacementCameraSystem : MonoBehaviour
                 return;
             }
             placementCamera.m_Lens.FieldOfView += scrollSpeed;
-            moveSpeed = Mathf.Clamp(moveSpeed - moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom, 
-                10f, 30f);
+            moveSpeed = Mathf.Clamp(moveSpeed - moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom,
+                minSpeed, maxSpeed);
             
         }
         
@@ -126,7 +139,7 @@ public class PlacementCameraSystem : MonoBehaviour
             return;
         }
 
-        if (value.performed)
+        if (value.performed && touchCount < 2)
         {
             if (inputManager.IsObjectHoldPress)
             {
@@ -174,6 +187,76 @@ public class PlacementCameraSystem : MonoBehaviour
         else if (value.canceled)
         {
             endClickPos = MousePos;
+        }
+    }
+
+    public void OnTouchFirstFinger(InputAction.CallbackContext value)
+    {
+        firstFingerPos = value.ReadValue<Vector2>();
+    }
+
+    public void OnTouchSecondFinger(InputAction.CallbackContext value)
+    {
+        secondFingerPos = value.ReadValue<Vector2>();
+        if(value.performed)
+        {
+            if (touchCount < 2)
+                return;
+            var magnitude = (firstFingerPos - secondFingerPos).magnitude;
+            if (prevMagnitude == 0)
+                prevMagnitude = magnitude;
+
+            var difference = magnitude - prevMagnitude;
+            prevMagnitude = magnitude;
+
+            if(difference > 0)
+            {
+                if (placementCamera.m_Lens.FieldOfView <= minZoom)
+                {
+                    placementCamera.m_Lens.FieldOfView = minZoom;
+                    return;
+                }
+                placementCamera.m_Lens.FieldOfView -= scrollSpeed;
+                moveSpeed = Mathf.Clamp(moveSpeed + moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom,
+                    minSpeed, maxSpeed);
+            }
+            else if (difference < 0)
+            {
+                if (placementCamera.m_Lens.FieldOfView >= maxZoom)
+                {
+                    placementCamera.m_Lens.FieldOfView = maxZoom;
+                    return;
+                }
+                placementCamera.m_Lens.FieldOfView += scrollSpeed;
+                moveSpeed = Mathf.Clamp(moveSpeed - moveSpeed * (maxZoom - placementCamera.m_Lens.FieldOfView) / maxZoom,
+                    minSpeed, maxSpeed);
+            }
+        }
+        
+    }
+
+    public void OnTouch0(InputAction.CallbackContext value)
+    {
+        if(value.performed)
+        {
+            touchCount++;
+        }
+        if(value.canceled)
+        {
+            touchCount--;
+            prevMagnitude = 0;
+        }
+    }
+    public void OnTouch1(InputAction.CallbackContext value)
+    {
+        if (value.performed)
+        {
+            touchCount++;
+        }
+        if (value.canceled)
+        {
+            touchCount--;
+            prevMagnitude = 0;
         }
     }
 }
