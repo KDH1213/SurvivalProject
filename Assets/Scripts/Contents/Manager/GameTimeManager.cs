@@ -132,7 +132,7 @@ public class GameTimeManager : Singleton<GameTimeManager>, ISaveLoadData
     public void Load()
     {
         var data = SaveLoadManager.Data;
-        if (data != null && data.gameTime.Millisecond != 0)
+        if (data != null && !data.isRestart && data.gameTime.Millisecond != 0)
         {
             service = new TimeService(timeSettings, SaveLoadManager.Data.gameTime);
         }

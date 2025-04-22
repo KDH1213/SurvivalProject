@@ -598,6 +598,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
+        if (SaveLoadManager.Data.isRestart)
+        {
+            return;
+        }
+
         var itemSlotInfoList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
 
         for (var i = 0; i < itemSlotInfoList.Count; ++i)

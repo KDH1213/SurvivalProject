@@ -16,18 +16,19 @@ public class SaveDataV1 : SaveData
     public List<ItemInfoSaveData> ItemSlotInfoSaveDataList = new List<ItemInfoSaveData>();
     public List<WaveMonsterSaveInfo> waveMonsterSaveInfos = new List<WaveMonsterSaveInfo>();
     public List<SpawnerSaveInfo> spawnerSaveInfoList = new List<SpawnerSaveInfo>();
+    public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
 
     public List<int> equipmentItemIDList = new List<int>();
     public int equipmentConsumableCount = 1;
     public List<int> skillUiViewSeleteList = new List<int>();
     public bool isSkillReroll = true;
 
-    public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
 
     public LevelStatInfo levelStatInfo = new LevelStatInfo();
     public PlayerSaveInfo playerSaveInfo = new PlayerSaveInfo();
     public System.DateTime gameTime = new System.DateTime();
 
+    public bool isRestart = false;
     public SaveDataV1()
     {
         Version = 1;
@@ -43,5 +44,25 @@ public class SaveDataV1 : SaveData
     {
         var data = new SaveDataV1();
         return data;
+    }
+
+    public void ResetStageInfo()
+    {
+        placementSaveInfoList.Clear();
+        farmPlacementSaveInfos.Clear();
+        gatherSaveInfoTable.Clear();
+        monsterSaveInfoList.Clear();
+        ItemSlotInfoSaveDataList.Clear();
+        waveMonsterSaveInfos.Clear();
+        spawnerSaveInfoList.Clear();
+        equipmentItemIDList.Clear();
+
+        playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
+        playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;
+        playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Fatigue] = 0;
+
+        isRestart = true;
+
+        // monsterWaveSaveInfo;
     }
 }

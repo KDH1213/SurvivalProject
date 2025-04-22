@@ -38,7 +38,7 @@ public class GatherData
 
     public GatherType GatherType;
     public GameObject Prefab;
-    public List<ActInfo> actInfo = new List<ActInfo>();
+    public List<ActInfo> actInfoList = new List<ActInfo>();
     public float InteractTime;
 
     public void Initialize()
@@ -51,9 +51,9 @@ public class GatherData
 
     private void CreateActInfo()
     {
-        actInfo.Add(new ActInfo(SurvivalStatType.Fatigue, PlusFatigue));
-        actInfo.Add(new ActInfo(SurvivalStatType.Hunger, MinusSatiation));
-        actInfo.Add(new ActInfo(SurvivalStatType.Thirst, MinusHydration));
+        actInfoList.Add(new ActInfo(SurvivalStatType.Fatigue, PlusFatigue));
+        actInfoList.Add(new ActInfo(SurvivalStatType.Hunger, MinusSatiation));
+        actInfoList.Add(new ActInfo(SurvivalStatType.Thirst, MinusHydration));
     }
 }
 

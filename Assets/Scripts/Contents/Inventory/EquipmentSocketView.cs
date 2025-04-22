@@ -34,15 +34,21 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     {
         if (SaveLoadManager.Data == null || SaveLoadManager.Data.equipmentItemIDList.Count == 0)
         {
-            for (int i = 0; i < equipmentSockets.Length; ++i)
-            {
-                SetInitializeEvent(i);
-                equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);
-            }
+            InitializeSockets();
         }
         else
         {
             Load();
+        }
+    }
+
+
+    private void InitializeSockets()
+    {
+        for (int i = 0; i < equipmentSockets.Length; ++i)
+        {
+            SetInitializeEvent(i);
+            equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0);
         }
     }
 
@@ -171,6 +177,12 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
+        if (SaveLoadManager.Data.isRestart)
+        {
+            InitializeSockets();
+            return;
+        }
+
         var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
 
         for (int i = 0; i < equipmentItemList.Count; ++i)

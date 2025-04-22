@@ -59,6 +59,15 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         }
     }
 
+    public void OnPlayAct(ActData actData)
+    {
+        var actInfoList = actData.actInfoList; // ActManager.actDataTable[id].actInfoList;
+        foreach (var act in actInfoList)
+        {
+            penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
+        }
+    }
+
     // TODO ::Hunger컴포넌트에 연결
     public void OnStartPenaltyHpDown()
     {

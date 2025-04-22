@@ -150,6 +150,11 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     }
 #endif
 
+    public void OnGameOver()
+    {
+
+    }
+
     public void Save()
     {
         if(SaveLoadManager.Data == null)
@@ -223,6 +228,11 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     public void Load()
     {
+        if(SaveLoadManager.Data.isRestart)
+        {
+            return;
+        }
+
         var gatherSaveInfoTable = SaveLoadManager.Data.gatherSaveInfoTable;
 
         for (int i = 0; i < (int)InteractType.Monster; ++i)
