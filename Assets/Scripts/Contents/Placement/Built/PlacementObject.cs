@@ -14,6 +14,8 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public int Rank { get; set; } = 1;
     public int ID { get; set; }
     public float Hp { get; set; }
+    
+    public List<ActInfo> actInfos { get; set; } = new List<ActInfo>();
     public PlacementUIController uiController { get; set; }
 
     public UnityEvent closeUI;
@@ -27,6 +29,15 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
 
     public abstract void SetData();
 
+    public void CreateActInfo()
+    {
+        var structureData = DataTableManager.StructureTable.Get(ID);
+        var data = DataTableManager.ConstructionTable.Get(structureData.PlaceBuildingID);
+
+        actInfos.Add(new ActInfo(SurvivalStatType.Fatigue, data.PlusFatigue));
+        actInfos.Add(new ActInfo(SurvivalStatType.Hunger, data.MinusSatiation));
+        actInfos.Add(new ActInfo(SurvivalStatType.Thirst, data.MinusHydration));
+    }
     private void OnDisable()
     {
         closeUI.Invoke();

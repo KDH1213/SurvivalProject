@@ -66,7 +66,7 @@ public class UpgradeFarmUI : MonoBehaviour
             SetMaxUpgrade();
             return;
         }
-
+        
         PlacementObjectInfo nextLevelInfo = system.Database.objects[index];
         afterImage.sprite = nextLevelInfo.Icon;
         afterName.text = $"{nextLevelInfo.Name}";

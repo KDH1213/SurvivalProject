@@ -186,8 +186,15 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
         placementObject.uiController = placementUI;
         placementObject.SetData();
+        placementObject.CreateActInfo();
 
-        PlacedGameObjects.Add(placementObject);
+        if (GameObject.FindWithTag(Tags.Player) != null)
+        {
+            var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
+            target.OnPlayAct(placementObject);
+
+            PlacedGameObjects.Add(placementObject);
+        }
 
         gridData.AddObjectAt(gridPosition, objData.Size,
             objData.ID,
