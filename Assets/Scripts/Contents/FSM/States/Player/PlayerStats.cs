@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -39,7 +38,10 @@ public class PlayerStats : CharactorStats, ISaveLoadData
             Load();
         }
 
-        GetComponent<PlayerFSM>().onActAction += survivalStats.OnPlayAct;
+        var playerFSM = GetComponent<PlayerFSM>();
+        playerFSM.onActAction += survivalStats.OnPlayAct;
+
+        deathEvent.AddListener(() => playerFSM.ChangeState(PlayerStateType.Death));
 
         currentStatTable[StatType.MovementSpeed].OnChangeValueAction(OnChangeSpeedValue);
         currentStatTable[StatType.AttackSpeed].OnChangeValueAction(OnChangeAttackSpeedValue);
@@ -75,7 +77,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         get
         {
-            return currentStatTable[StatType.HP].Value + lifeStat.HP;
+            return currentStatTable[StatType.HP].Value;
         }
     }
 

@@ -102,7 +102,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         amountText.gameObject.SetActive(false);
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         if (ItemData == null)
         {
@@ -115,17 +115,17 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
         onDragEvent?.Invoke(eventData.position);
     }
-    public void OnEndDrag(PointerEventData eventData)
+    public virtual void OnEndDrag(PointerEventData eventData)
     {
         onDragExit?.Invoke(eventData);
     }
 
 
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         prevClickTime = clickTime;
         clickTime = Time.time;

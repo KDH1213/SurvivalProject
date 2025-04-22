@@ -49,6 +49,11 @@ public class AreaWeapon : AttackDefinition
         CharactorStats aStats = attacker.GetComponent<CharactorStats>();
         CharactorStats dStats = defender.GetComponent<CharactorStats>();
 
+        if(dStats.IsDead)
+        {
+            return;
+        }
+
         DamageInfo attack = CreateAttack(aStats, dStats);
 
         IAttackable[] attackables = defender.GetComponents<IAttackable>();

@@ -53,4 +53,9 @@ public class CharactorStats : MonoBehaviour
             return 0f;
         }
     }
+
+    public void OnDeath()
+    {
+        IsDead = true;
+    }
 }

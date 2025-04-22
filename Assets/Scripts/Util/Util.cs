@@ -60,6 +60,9 @@ public static class PlayerAnimationHashCode
     public static readonly int hashIsFarming = Animator.StringToHash("IsFarming");
     public static readonly int hashIsPickingUp = Animator.StringToHash("IsPickingUp");
     public static readonly int hashIsAxing = Animator.StringToHash("IsAxing");
+
+    public static readonly int hashDeath = Animator.StringToHash("Death");
+    public static readonly int hashIsDeath = Animator.StringToHash("IsDeath");
 }
 
 

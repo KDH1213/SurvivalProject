@@ -4,5 +4,6 @@ public enum PlayerStateType
     Idle,
     Move,
     Attack,
-    Interact
+    Interact,
+    Death
 }
