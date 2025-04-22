@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlacementPreview : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlacementPreview : MonoBehaviour
     public bool IsPreview { get; private set; }
     [SerializeField]
     private GameObject cellIndicator;
+    [SerializeField]
     public GameObject PreviewObject { get; private set; }
     [SerializeField]
     private Material previewMaterialsPrefeb;
@@ -106,6 +108,17 @@ public class PlacementPreview : MonoBehaviour
         }
     }
 
+    public void SetCellIndicator(GameObject placementObj, Vector2Int size)
+    {
+        var cell = Instantiate(cellIndicator);
+        var pos = placementObj.transform.position;
+        cell.transform.position = new Vector3(pos.x, pos.y + previewYOffset, pos.z);
+        cell.transform.localScale = new Vector3(0.5f * size.x * 5f, 0.5f,
+                0.5f * size.y * 5f);
+        cell.GetComponentInChildren<Renderer>().material.color = Color.red;
+        cell.transform.parent = placementObj.transform;
+        cell.gameObject.SetActive(true);
+    }
     public void OnRotate()
     {
         PreviewObject.transform.GetChild(0).Rotate(new Vector3(0f, 90f, 0f));

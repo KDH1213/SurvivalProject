@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7617794825233561975
 Transform:
@@ -138,6 +138,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fe7c050b56c794a96f2159ba029e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeUI:
+    m_PersistentCalls:
+      m_Calls: []
+  damage: 0
+  attackRange: 0
   attackTerm: 1
   currentTime: 1
   atd: {fileID: 11400000, guid: 5f24ff4ca4e76434a94346ec6cccaf9b, type: 2}
@@ -165,7 +170,7 @@ MonoBehaviour:
   damegedEvent:
     m_PersistentCalls:
       m_Calls: []
-  hp: 0
+  HpBarSlider: {fileID: 0}
 --- !u!1 &7284358339262542277
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +185,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2860464542849029667
 Transform:

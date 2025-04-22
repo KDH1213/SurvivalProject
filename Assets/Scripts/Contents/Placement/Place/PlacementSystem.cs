@@ -177,6 +177,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         newObject.transform.position = grid.CellToWorld(gridPosition);
         newObject.transform.GetChild(0).rotation = preview.PreviewObject.transform.GetChild(0).rotation;
 
+        preview.SetCellIndicator(newObject, objData.Size);
+
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
         placementObject.Hp = objData.DefaultHp;
@@ -312,6 +314,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.SetData();
         RemoveStructure(before);
 
+        preview.SetCellIndicator(newObject, placeObjInfo.Size);
+
         PlacedGameObjects.Add(placementObject);
 
         gridData.AddObjectAt(placementObject.Position, placeObjInfo.Size,
@@ -398,6 +402,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.SetData();
             placementObject.Load();
 
+            preview.SetCellIndicator(newObject, placeObjInfo.Size);
+
             PlacedGameObjects.Add(placementObject);
 
             gridData.AddObjectAt(placement.position, placeObjInfo.Size,
@@ -429,6 +435,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.SetData();
             placementObject.Load();
 
+            preview.SetCellIndicator(newObject, placeObjInfo.Size);
             PlacedGameObjects.Add(placementObject);
 
             gridData.AddObjectAt(placement.position, placeObjInfo.Size,
@@ -437,6 +444,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         }
 
+        var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
+        foreach (var go in goes)
+        {
+            go.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     /*private void OnApplicationQuit()
