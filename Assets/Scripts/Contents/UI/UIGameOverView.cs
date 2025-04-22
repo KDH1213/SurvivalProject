@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UIGameOverController : MonoBehaviour
+public class UIGameOverView : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI gameOverText;
@@ -25,10 +26,8 @@ public class UIGameOverController : MonoBehaviour
 
     private void Awake()
     {
-        var player = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerFSM>();
         var stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
 
-        resurrectionButton.onClick.AddListener(player.OnResurrection);
         resurrectionButton.onClick.AddListener(() => { gameoverPanel.SetActive(false); isSelete = true; });
 
         restartButton.onClick.AddListener(stageManager.OnRestart);
@@ -67,4 +66,8 @@ public class UIGameOverController : MonoBehaviour
         tipText.text = DataTableManager.StringTable.Get(id);
     }
 
+    public void SetResurrectionAction(UnityAction resurrectionAction)
+    {
+        resurrectionButton.onClick.AddListener(resurrectionAction);
+    }
 }

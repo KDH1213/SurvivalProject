@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 {
@@ -24,6 +25,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     private GameObject wavePanel;
     [SerializeField]
     private TextMeshProUGUI timerText;
+
+    public UnityEvent<bool> onWaveActiveEvent;
 
     [SerializeField]
     private float nextWaveTime;
@@ -104,6 +107,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        onWaveActiveEvent?.Invoke(isActive);
+
         foreach (var spawner in monsterActiveSpawnerList)
         {
             // spawner.SetMonsterWaveData(monsterWaveDatas[currentWaveLevel]);
@@ -162,6 +167,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
 
             isSave = false;
+
+            onWaveActiveEvent?.Invoke(isActive);
         }
     }
 
