@@ -22,6 +22,6 @@ public class PlayerDeathState : PlayerBaseState
 
     public override void Exit()
     {
-        PlayerFSM.Animator.SetBool(PlayerAnimationHashCode.hashDeath, false);
+        PlayerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsDeath, false);
     }
 }

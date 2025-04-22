@@ -241,6 +241,13 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         onChangeDefenceValue?.Invoke(currentDefence);
     }
 
+    public void OnResurrection()
+    {
+        IsDead = false;
+        var hpStat = currentStatTable[StatType.HP];
+        hpStat.SetValue(hpStat.MaxValue);
+        OnChangeHp();
+    }
 
     public void Save()
     {

@@ -3341,7 +3341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1505367924d821e4c90823863ef32f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiGameOverView: {fileID: 1174398486}
+  uiGameOverView: {fileID: 1396601898}
   onPlayerResurrectionEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -16720,7 +16720,6 @@ GameObject:
   - component: {fileID: 1174398485}
   - component: {fileID: 1174398484}
   - component: {fileID: 1174398483}
-  - component: {fileID: 1174398486}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -16814,23 +16813,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174398481}
   m_CullTransparentMesh: 1
---- !u!114 &1174398486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1174398481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88f93fa579a8ce24e92ed906e0e11328, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameOverText: {fileID: 386011677}
-  tipText: {fileID: 502958366}
-  restartButton: {fileID: 929127153}
-  resurrectionButton: {fileID: 50422124}
-  gameoverPanel: {fileID: 1174398481}
 --- !u!1 &1185249512 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1129027382345620253, guid: 1332ba15f49cbf74d9f9ea0925373c53,
@@ -19374,6 +19356,7 @@ GameObject:
   - component: {fileID: 1396601895}
   - component: {fileID: 1396601897}
   - component: {fileID: 1396601896}
+  - component: {fileID: 1396601898}
   m_Layer: 5
   m_Name: GameOverCanvas
   m_TagString: GameOverUI
@@ -19441,6 +19424,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 4
   m_TargetDisplay: 0
+--- !u!114 &1396601898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396601894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f93fa579a8ce24e92ed906e0e11328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverText: {fileID: 386011677}
+  tipText: {fileID: 502958366}
+  restartButton: {fileID: 929127153}
+  resurrectionButton: {fileID: 50422124}
+  gameoverPanel: {fileID: 1396601894}
 --- !u!1 &1398465892 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7205648330398620200, guid: 565f1d5343e83b340a2c13c278aac8ab,

@@ -117,25 +117,19 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
     public void OnDeath()
     {
-        ChangeState(PlayerStateType.Idle);
+        ChangeState(PlayerStateType.Death);
     }
 
     public void OnResurrection()
     {
-
+        GetComponent<PlayerStats>().OnResurrection();
+        ChangeState(PlayerStateType.Idle);
     }
 
     public void OnEndAttack()
     {
         IsAttack = false;
     }
-
-    // TODO :: 임시 / CancleButton의 On Click 이벤트에 연결
-    public void OnChangeIdleState()
-    {
-        ChangeState(PlayerStateType.Idle);
-    }
-    
     public void OnShowInventory()
     {
         PlayerInventory.gameObject.SetActive(true);        

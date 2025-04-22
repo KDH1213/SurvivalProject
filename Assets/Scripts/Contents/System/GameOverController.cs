@@ -23,7 +23,7 @@ public class GameOverController : MonoBehaviour
         playerStats.deathEvent.AddListener(OnDeathPlayer);
 
         onPlayerResurrectionEvent.AddListener(player.GetComponent<PlayerFSM>().OnResurrection);
-
+        uiGameOverView.SetResurrectionAction(OnResurrectionEvent);
         // var strongpointStats = GameObject.FindWithTag(Tags.Strongpoint).GetComponent<Strongpoint>();
         // strongpointStats.deathEvent.AddListener(OnDestroyStrongpoint);
     }

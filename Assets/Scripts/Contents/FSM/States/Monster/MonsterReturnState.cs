@@ -25,7 +25,7 @@ public class MonsterReturnState : MonsterBaseState
             return;
         }
 
-        MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashMove, true);
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
     }
 
     public override void ExecuteFixedUpdate()
