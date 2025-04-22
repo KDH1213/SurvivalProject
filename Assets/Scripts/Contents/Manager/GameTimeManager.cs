@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using System;
 
-public class GameTimeManager : Singleton<GameTimeManager>, ISaveLoadData
+public class GameTimeManager : MonoBehaviour, ISaveLoadData
 {
     [SerializeField] 
     private TextMeshProUGUI timeText;
@@ -60,10 +60,8 @@ public class GameTimeManager : Singleton<GameTimeManager>, ISaveLoadData
 
     TimeService service;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
         Load();
     }
 

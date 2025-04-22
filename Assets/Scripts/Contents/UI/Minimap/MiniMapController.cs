@@ -54,7 +54,7 @@ public class MiniMapController : MonoBehaviour
         miniMapDynamicIcon.ConvertPosition(mapRatio);
 
         createObject.OnActiveEvent.AddListener((_) => { miniMapDynamicIcon.gameObject.SetActive(true); });
-        createObject.OnDisabledEvent.AddListener((_) => { miniMapDynamicIcon.gameObject.SetActive(false); });
+        createObject.OnDisabledEvent.AddListener((_) => { if(miniMapDynamicIcon != null) miniMapDynamicIcon.gameObject.SetActive(false); });
 
         if (createObject.IsStatic)
         {

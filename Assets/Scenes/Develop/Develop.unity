@@ -3136,6 +3136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5598436e4cf9646af74a77f7f8190e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneSwitcher: {fileID: 1885310397}
   interactTable:
     _serializedList:
     - Key: 4
@@ -9705,6 +9706,7 @@ Transform:
   - {fileID: 205340203}
   - {fileID: 681727324}
   - {fileID: 931898354}
+  - {fileID: 1885310396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &573771526 stripped
@@ -13492,7 +13494,7 @@ GameObject:
   - component: {fileID: 931898355}
   m_Layer: 0
   m_Name: TimeManager
-  m_TagString: Untagged
+  m_TagString: GameTimer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13524,7 +13526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65560d5553bdee4c8ce0304370bf336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDontDestroy: 1
   timeText: {fileID: 1002514538}
   sun: {fileID: 1067597731}
   moon: {fileID: 579017}
@@ -27985,6 +27986,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1877026601}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1885310395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1885310396}
+  - component: {fileID: 1885310397}
+  m_Layer: 0
+  m_Name: SceneSwicher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1885310396
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885310395}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 573730082}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1885310397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885310395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285c0fcab497f7c4497f9388852f4cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSceneSwitchEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1888140844
 PrefabInstance:
   m_ObjectHideFlags: 0

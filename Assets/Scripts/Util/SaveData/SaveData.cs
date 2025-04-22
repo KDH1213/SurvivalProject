@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class SaveData
 {
@@ -60,6 +61,7 @@ public class SaveDataV1 : SaveData
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Fatigue] = 0;
+        playerSaveInfo.position = Vector3.zero;
 
         isRestart = true;
 

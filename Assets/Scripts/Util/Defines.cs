@@ -127,8 +127,17 @@ public static class Varibalbes
 public static class Tags
 {
     public static readonly string Player = "Player";
+    public static readonly string GameTimer = "GameTimer";
     public static readonly string GameController = "GameController";
     public static readonly string OverlapCollider = "OverlapCollider";
+}
+
+public static class SceneName
+{
+    public static readonly string Develop = "Assets/Scenes/Develop/Develop.unity";
+    public static readonly string Stage1 = "Stage1";
+    public static readonly string Stage2 = "Stage2";
+    public static readonly string Stage3 = "Stage3";
 }
 
 

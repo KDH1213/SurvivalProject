@@ -37,6 +37,11 @@ public class MiniMapObject : MonoBehaviour, IMiniMap
         OnDisabledEvent?.Invoke(gameObject);
     }
 
+    protected void OnDestroy()
+    {
+        OnDisabledEvent.RemoveAllListeners();
+    }
+
     private void OnApplicationQuit()
     {
         OnDisabledEvent.RemoveAllListeners();

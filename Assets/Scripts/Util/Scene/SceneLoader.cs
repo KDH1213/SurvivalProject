@@ -17,6 +17,7 @@ public class SceneLoader : Singleton<SceneLoader>
     [SerializeField]
     private string NextSceneAddress;
     private bool isLoadScene = false;
+    private bool isChangeScene = false;
 
     private AsyncOperationHandle<SceneInstance> sceneOperation;
 
@@ -28,6 +29,12 @@ public class SceneLoader : Singleton<SceneLoader>
 
     public void SwitchScene(string nextScene, bool useFade = true)
     {
+        if(isChangeScene)
+        {
+            return;
+        }
+
+        isChangeScene = true;
         NextSceneAddress = nextScene;
         if (useFade)
         {
@@ -86,6 +93,10 @@ public class SceneLoader : Singleton<SceneLoader>
         if (loadScene)
         {
             LoadNextScene(NextSceneAddress);
+        }
+        else
+        {
+            isChangeScene  = false;
         }
         Addressables.Release(sceneOperation);
     }

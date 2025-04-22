@@ -14,6 +14,9 @@ public struct RespawnInfo
 
 public class StageManager : MonoBehaviour, ISaveLoadData
 {
+    [SerializeField]
+    private SceneSwitcher sceneSwitcher;
+
     [SerializedDictionary, SerializeField]
     private SerializedDictionary<InteractType, List<GameObject>> interactTable = new SerializedDictionary<InteractType, List<GameObject>>();
 
@@ -127,14 +130,14 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     public void OnSave()
     {
         onSaveEvent?.Invoke();
-        GameTimeManager.Instance.Save();
+        GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().Save();
         SaveLoadManager.Save();
     }
 
     private void OnApplicationQuit()
     {
         onSaveEvent?.Invoke();
-        GameTimeManager.Instance.Save();
+        GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().Save();
         SaveLoadManager.Save();
     }
 
@@ -153,6 +156,13 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     public void OnGameOver()
     {
 
+    }
+
+    public void OnRestart()
+    {
+        SaveLoadManager.Data.ResetStageInfo();
+        sceneSwitcher.SwitchScene(SceneName.Develop);
+        SaveLoadManager.Save();
     }
 
     public void Save()
