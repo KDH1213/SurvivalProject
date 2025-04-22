@@ -17,6 +17,11 @@ public class PlacementCameraSystem : MonoBehaviour
     private CinemachineVirtualCameraBase vCam2;
 
     [SerializeField]
+    private float maxRangeX;
+    [SerializeField]
+    private float maxRangeY;
+
+    [SerializeField]
     private Vector3 cameraDefaultPosition;
     [SerializeField]
     private Vector3 cameraDefaultRotation;
@@ -27,6 +32,7 @@ public class PlacementCameraSystem : MonoBehaviour
 
     private Vector2 startClickPos;
     private Vector2 endClickPos;
+    private Vector3 startCameraPos;
 
     [SerializeField]
     private float minZoom;
@@ -43,6 +49,7 @@ public class PlacementCameraSystem : MonoBehaviour
     {
         inputManager = GetComponent<PlacementInput>();
         blendList.m_Loop = false;
+        startCameraPos = placementCamera.transform.position;
 
         vCam1 = currentCamera.GetComponent<CinemachineVirtualCameraBase>();
         vCam2 = placementCamera.GetComponent<CinemachineVirtualCameraBase>();
@@ -127,6 +134,7 @@ public class PlacementCameraSystem : MonoBehaviour
             }
             else
             {
+                Vector3 pos = placementCamera.transform.position;
                 IsDrag = true;
                 Vector2 dir = (startClickPos - MousePos).normalized;
                 if (Mathf.Abs(dir.x) < 0.2f)
@@ -139,6 +147,11 @@ public class PlacementCameraSystem : MonoBehaviour
                 }
 
                 placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * moveSpeed * Time.deltaTime;
+                placementCamera.transform.position = new Vector3(
+                    Mathf.Clamp(placementCamera.transform.position.x, startCameraPos.x - maxRangeX, startCameraPos.x + maxRangeX),
+                    placementCamera.transform.position.y,
+                    Mathf.Clamp(placementCamera.transform.position.z, startCameraPos.z - maxRangeY, startCameraPos.z + maxRangeY)
+                );
             }
         }
         
