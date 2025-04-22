@@ -79,11 +79,6 @@ public class PlacementCameraSystem : MonoBehaviour
         blendList.m_Instructions[1].m_VirtualCamera = vCam2;
     }
 
-    private void Update()
-    {
-        testTxt.text = $"TouchCount : ";
-    }
-
     // todo : 배치 시스템 화면 -> 플레이 화면
     public void OutPlacementCamera()
     {
