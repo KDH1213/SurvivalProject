@@ -78,7 +78,7 @@ public class ItemData
     {
         if(itemType == ItemType.Armor)
         {
-            return (EquipmentType)DataTableManager.ArmorTable.Get(id).ArmorType;
+            return (EquipmentType)DataTableManager.ArmorTable.Get(id).ArmorType - 1;
         }
         else if(itemType == ItemType.Weapon)
         {

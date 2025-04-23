@@ -17,6 +17,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     [SerializeField]
     private TextMeshProUGUI hpText;
 
+
     private float currentSpeed = 1f;
     private float currentAttackSpeed = 1f;
     private float currentDamage = 1f;
@@ -27,6 +28,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public UnityAction<float> onChangeSpeedValue;
     public UnityAction<float> onChangDamageValue;
     public UnityAction<float> onChangeDefenceValue;
+    public UnityEvent<ItemData> onEquipmentItemEvent;
+    public UnityEvent<ItemData> onUnEquipmentItemEvent;
 
 
     protected override void Awake()
@@ -37,6 +40,10 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         {
             survivalStats = GetComponent<PenaltyController>();
         }
+
+        var playerAssetController = GetComponent<PlayerAssetController>();
+        onEquipmentItemEvent.AddListener(playerAssetController.OnEquipmentItem);
+        onUnEquipmentItemEvent.AddListener(playerAssetController.OnUnEquipmentItem);
 
         if (SaveLoadManager.Data != null)
         {
@@ -127,6 +134,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void OnEquipmentItem(ItemData itemData)
     {
         var statInfoList = itemData.GetItemInfoList();
+        onEquipmentItemEvent?.Invoke(itemData);
 
         foreach (var statInfo in statInfoList)
         {
@@ -144,6 +152,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void OnUnEquipmentItem(ItemData itemData)
     {
         var statInfoList = itemData.GetItemInfoList();
+        onUnEquipmentItemEvent?.Invoke(itemData);
 
         foreach (var statInfo in statInfoList)
         {

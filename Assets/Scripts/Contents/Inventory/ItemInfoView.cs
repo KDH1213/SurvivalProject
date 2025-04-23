@@ -56,7 +56,7 @@ public class ItemInfoView : MonoBehaviour
 
     private void OnSetItemInfo(ItemInfo itemInfo, bool isItemSlot)
     {
-        if (itemInfo.itemData == null)
+        if (itemInfo == null || itemInfo.itemData == null)
         {
             Empty();
             return;

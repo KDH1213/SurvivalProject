@@ -22,6 +22,12 @@ public class PlayerAssetController : MonoBehaviour
 
     private void Awake()
     {
+        Initialized();
+    }
+
+    private void Initialized()
+    {
+        skinnedMeshRendererLists.Clear();
         skinnedMeshRendererLists.Add(helmetMeshRendererList);
         skinnedMeshRendererLists.Add(armorMeshRendererList);
         skinnedMeshRendererLists.Add(pantsMeshRendererList);
@@ -49,7 +55,13 @@ public class PlayerAssetController : MonoBehaviour
         else if (itemData.ItemType == ItemType.Armor)
         {
             var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
-            OnUnEquipmentArmor(armorData);
+            var meshList = armorMeshData.defalutTable[armorData.ArmorType];
+            int index = (int)armorData.ArmorType - 1;
+
+            for (int i = 0; i < helmetMeshRendererList.Count; ++i)
+            {
+                skinnedMeshRendererLists[index][i].sharedMesh = meshList[i];
+            }
         }
     }
 
@@ -57,6 +69,11 @@ public class PlayerAssetController : MonoBehaviour
     {
         var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ID);
         int index = (int)armorData.ArmorType - 1;
+
+        if(skinnedMeshRendererLists.Count == 0)
+        {
+            Initialized();
+        }
 
         for (int i = 0; i < helmetMeshRendererList.Count; ++i)
         {
@@ -74,14 +91,14 @@ public class PlayerAssetController : MonoBehaviour
         var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ID);
         int index = (int)armorData.ArmorType - 1;
 
+        if (skinnedMeshRendererLists.Count == 0)
+        {
+            Initialized();
+        }
+
         for (int i = 0; i < helmetMeshRendererList.Count; ++i)
         {
             skinnedMeshRendererLists[index][i].sharedMesh = meshList[i];
         }
-    }
-
-    private void OnUnEquipmentWeapon()
-    {
-
     }
 }
