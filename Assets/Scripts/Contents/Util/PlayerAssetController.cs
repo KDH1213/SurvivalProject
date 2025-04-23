@@ -68,6 +68,12 @@ public class PlayerAssetController : MonoBehaviour
     private void OnEquipmentArmor(ArmorData armorData)
     {
         var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ID);
+
+        if (meshList == null)
+        {
+            return;
+        }
+
         int index = (int)armorData.ArmorType - 1;
 
         if(skinnedMeshRendererLists.Count == 0)
