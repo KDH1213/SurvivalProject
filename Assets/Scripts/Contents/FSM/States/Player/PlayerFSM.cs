@@ -148,7 +148,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     private void OnFindInteractableTarget()
     {
         // 상호작용 가능한 대상 탐색
-        int index = Physics.OverlapSphereNonAlloc(transform.position, 2f, interactableTargets, interactableTargetLayerMask);
+        int index = Physics.OverlapSphereNonAlloc(transform.position, 5f, interactableTargets, interactableTargetLayerMask);
 
         float closestDistance = float.MaxValue;
         GameObject closestTarget = null;
@@ -166,11 +166,11 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
                 continue;
             }
 
-            float distance = Vector3.Distance(transform.position, interactableTargets[i].transform.position);
+            var range = (transform.position - interactableTargets[i].transform.position).ConvertVector2().sqrMagnitude;
 
-            if (distance < closestDistance)
+            if (range < closestDistance)
             {
-                closestDistance = distance;
+                closestDistance = range;
                 closestTarget = interactableTargets[i].gameObject;
             }
         }

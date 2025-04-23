@@ -30,7 +30,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
     public UnityEvent<GameObject> OnEndInteractEvent => onEndInteractEvent;
 
     public float RespawnTime => GatherData.RespawnTime;
-    public float InteractTime => GatherData.GatheringTime;
+    public float InteractTime => GatherData.InteractTime;
 
     public UnityEvent<GameObject> onEndInteractEvent;
 

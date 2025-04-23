@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class PlayerInteractState : PlayerBaseState
@@ -15,12 +16,18 @@ public class PlayerInteractState : PlayerBaseState
     private float interactTime = 2f;
     private float currentTime = 0f;
 
+    private NavMeshAgent agent;
+
+    private float interactRange = 3f;
+    private bool isIntercting = false;
+
     private IInteractable targetInteractable;
 
     protected override void Awake()
     {
         base.Awake();
         stateType = PlayerStateType.Interact;
+        agent = gameObject.GetComponent<NavMeshAgent>();
     }
 
     public override void Enter()
@@ -28,13 +35,94 @@ public class PlayerInteractState : PlayerBaseState
         // InteractObject();
         //playerFSM.ChangeState(PlayerStateType.Idle);
 
+        var targetPosition = target.transform.position;
+        float distance = (targetPosition - transform.position).ConvertVector2().magnitude;
+
+        if (distance > interactRange)
+        {
+            PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, PlayerStats.Speed);
+            agent.speed = PlayerStats.Speed;
+            agent.isStopped = false;
+            agent.SetDestination(target.transform.position);
+        }
+        else
+        {
+            PlayInteract();
+        }
+    }
+
+    public override void ExecuteUpdate()
+    {
+        if (PlayerFSM.MoveValue.sqrMagnitude > 0f)
+        {
+            PlayerFSM.ChangeState(PlayerStateType.Move);
+            return;
+        }
+
+        if (!isIntercting)
+        {
+            var targetPosition = target.transform.position;
+            float distance = (targetPosition - transform.position).ConvertVector2().magnitude;
+            PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, PlayerStats.Speed);
+
+            if (distance < interactRange)
+            {
+                PlayInteract();
+            }
+        }
+        else
+        {
+            if (Time.time > currentTime)
+            {
+                InteractObject();
+                playerFSM.ChangeState(PlayerStateType.Idle);
+            }
+
+            if (interactSilder != null)
+            {
+                interactSilder.value = (interactTime - (currentTime - Time.time)) / interactTime;
+            }
+        }       
+    }
+
+    public override void Exit()
+    {
+        isIntercting = false; 
+        agent.isStopped = true;
+        agent.destination = transform.position;
+        agent.velocity = Vector3.zero;
+
+        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsFarming, false);
+        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsPickingUp, false);
+        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsAxing, false);
+
+        if (interactSilder != null)
+        {
+            interactSilder.gameObject.SetActive(false);
+            axe.SetActive(false);
+            pickaxe.SetActive(false);
+        }
+    }
+
+    private void PlayInteract()
+    {
+        agent.isStopped = true;
+        agent.destination = transform.position;
+        agent.velocity = Vector3.zero;
+
+        PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, 0f);
+        isIntercting = true;
+
         currentTime = Time.time + interactTime;
-        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashMove, false);
 
         if (interactSilder != null)
         {
             interactSilder.gameObject.SetActive(true);
         }
+
+        var targetPosition = target.transform.position;
+        targetPosition.y = transform.position.y;
+        transform.LookAt(targetPosition);
 
         switch (targetInteractable.InteractType)
         {
@@ -63,41 +151,6 @@ public class PlayerInteractState : PlayerBaseState
                 break;
             default:
                 break;
-        }
-
-    }
-
-    public override void ExecuteUpdate()
-    {
-        if (Time.time > currentTime)
-        {
-            InteractObject();
-            playerFSM.ChangeState(PlayerStateType.Idle);
-        }
-        else
-        {
-            if (PlayerFSM.MoveValue.sqrMagnitude > 0f)
-            {
-                PlayerFSM.ChangeState(PlayerStateType.Move);
-            }
-        }
-        if (interactSilder != null)
-        {
-            interactSilder.value = (interactTime - (currentTime - Time.time)) / interactTime;
-        }
-    }
-
-    public override void Exit()
-    {
-        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsFarming, false);
-        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsPickingUp, false);
-        playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsAxing, false);
-
-        if (interactSilder != null)
-        {
-            interactSilder.gameObject.SetActive(false);
-            axe.SetActive(false);
-            pickaxe.SetActive(false);
         }
     }
 
