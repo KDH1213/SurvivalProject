@@ -14076,6 +14076,8 @@ MonoBehaviour:
   placementCamera: {fileID: 0}
   currentCamera: {fileID: 0}
   blendList: {fileID: 0}
+  maxRangeX: 0
+  maxRangeY: 0
   cameraDefaultPosition: {x: 0, y: 30, z: 0}
   cameraDefaultRotation: {x: 90, y: 0, z: 0}
   cameraDefaultFOV: 60
@@ -14177,7 +14179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 04468e21539fdd145bb84082837d1c12,
+  m_Actions: {fileID: -944628639613478452, guid: 031bb2bd3f32efd4d812168ea2b96c4c,
     type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 4917547419986300855}
@@ -14299,6 +14301,78 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f87870ed-00be-4f96-a544-fe61d5ca1498
     m_ActionName: Object/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4cd7f651-0f53-4750-8ea1-276654a302fc
+    m_ActionName: Player/Movemonet
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b4f647b8-7e9f-41ad-a1ee-aa6aef3a3456
+    m_ActionName: Player/Attack
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c6f988a2-1cb8-4c6b-990f-8c123fdd38a2
+    m_ActionName: Player/Interact
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 04d61043-b8d8-474f-b930-0c554695f493
+    m_ActionName: Player/SubTool
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0f1acd6f-75fc-4c2e-8361-52398dcc4f64
+    m_ActionName: Player/Buiding
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 11d7bddc-b03c-4f51-9599-2d276e38407c
+    m_ActionName: Player/Inventory
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2924244019283631754}
+        m_TargetAssemblyTypeName: PlacementCameraSystem, Assembly-CSharp
+        m_MethodName: OnTouchFirstFinger
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8c1dafbc-db3f-41ad-9491-635c8e0e5b42
+    m_ActionName: Object/PrimaryFingerPosition
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2924244019283631754}
+        m_TargetAssemblyTypeName: PlacementCameraSystem, Assembly-CSharp
+        m_MethodName: OnTouchSecondFinger
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 18c64a30-dda1-46af-a774-67a4870d9219
+    m_ActionName: Object/SecondaryFingerPosition
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2924244019283631754}
+        m_TargetAssemblyTypeName: PlacementCameraSystem, Assembly-CSharp
+        m_MethodName: OnZoomScreen
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0554acc5-46f2-4941-96fb-81ce8f5d13ab
+    m_ActionName: Object/SecondaryFingerContact
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Touch
   m_DefaultActionMap: Object

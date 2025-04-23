@@ -59,9 +59,9 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         }
     }
 
-    public void OnPlayAct(ActData actData)
+    public void OnPlayAct(PlacementObject placementObj)
     {
-        var actInfoList = actData.actInfoList; // ActManager.actDataTable[id].actInfoList;
+        var actInfoList = placementObj.actInfos; // ActManager.actDataTable[id].actInfoList;
         foreach (var act in actInfoList)
         {
             penaltyTable[act.penaltyType].AddPenaltyValue(act.value);

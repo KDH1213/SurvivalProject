@@ -22,6 +22,11 @@ public class PlacementMode : MonoBehaviour
     public void OnInPlacementMode()
     {
         CurrentMode = Mode.Place;
+        var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
+        foreach (var go in goes)
+        {
+            go.GetComponent<MeshRenderer>().enabled = true;
+        }
         gridVisualization.SetActive(true);
         uiController.ShowObjectList();
     }
@@ -29,6 +34,11 @@ public class PlacementMode : MonoBehaviour
     public void OnOutPlacementMode()
     {
         CurrentMode = Mode.None;
+        var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
+        foreach (var go in goes)
+        {
+            go.GetComponent<MeshRenderer>().enabled = false;
+        }
         gridVisualization.SetActive(false);
         uiController.StopShowObjectList();
     }
