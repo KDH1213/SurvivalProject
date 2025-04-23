@@ -66,46 +66,46 @@ public class PlayerAttackState : PlayerBaseState
 
     private void FindTarget()
     {
-        int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
+        //int index = Physics.OverlapSphereNonAlloc(transform.position, PlayerFSM.attackRange, attackTargets, attackTargetLayerMask);
 
-        foreach (var attackTargets in PlayerFSM.AttackTargets)
-        {
-            if (attackTargets != null)
-            {
-                MonsterFSM currentTarget = attackTargets.GetComponent<MonsterFSM>();
-                if (currentTarget == null || currentTarget.IsDead)
-                {
-                    PlayerFSM.AttackTargets.Remove(attackTargets);
-                }
-            }
-        }
+        //foreach (var attackTargets in PlayerFSM.AttackTargets)
+        //{
+        //    if (attackTargets != null)
+        //    {
+        //        MonsterFSM currentTarget = attackTargets.GetComponent<MonsterFSM>();
+        //        if (currentTarget == null || currentTarget.IsDead)
+        //        {
+        //            PlayerFSM.AttackTargets.Remove(attackTargets);
+        //        }
+        //    }
+        //}
 
 
         // TODO :: 단일 타겟에서 다중 타겟으로 수정
 
-        Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
+        //Vector3 forward = transform.forward; // 플레이어가 바라보는 방향
 
-        for (int i = 0; i < index; ++i)
-        {
-            if (attackTargets[i] == null)
-            {
-                break;
-            }
+        //for (int i = 0; i < index; ++i)
+        //{
+        //    if (attackTargets[i] == null)
+        //    {
+        //        break;
+        //    }
 
-            MonsterFSM target = attackTargets[i].GetComponent<MonsterFSM>();
-            if (target == null || target.IsDead)
-            {
-                continue;
-            }
+        //    MonsterFSM target = attackTargets[i].GetComponent<MonsterFSM>();
+        //    if (target == null || target.IsDead)
+        //    {
+        //        continue;
+        //    }
 
-            Vector3 directionToTarget = (attackTargets[i].transform.position - transform.position).normalized;
+        //    Vector3 directionToTarget = (attackTargets[i].transform.position - transform.position).normalized;
 
-            // 전방 90도(±45도) 범위 안에 있는지 확인
-            if (Vector3.Dot(forward, directionToTarget) > Mathf.Cos(Mathf.Deg2Rad * 45))
-            {
-                PlayerFSM.AttackTargets.Add(attackTargets[i].gameObject);
-            }
-        }
+        //    // 전방 90도(±45도) 범위 안에 있는지 확인
+        //    if (Vector3.Dot(forward, directionToTarget) > Mathf.Cos(Mathf.Deg2Rad * 45))
+        //    {
+        //        PlayerFSM.AttackTargets.Add(attackTargets[i].gameObject);
+        //    }
+        //}
     }
 
     private void OnDrawGizmos()

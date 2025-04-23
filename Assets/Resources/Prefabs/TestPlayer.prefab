@@ -11149,6 +11149,8 @@ GameObject:
   - component: {fileID: 5337073670899731825}
   - component: {fileID: 1478152083764109327}
   - component: {fileID: 936364590328128479}
+  - component: {fileID: 1807447404484842026}
+  - component: {fileID: 2449569301793440573}
   m_Layer: 10
   m_Name: TestPlayer
   m_TagString: Player
@@ -11629,6 +11631,8 @@ MonoBehaviour:
       Value: {fileID: 6348002441938118340}
     - Key: 3
       Value: {fileID: 6548592573739144491}
+    - Key: 4
+      Value: {fileID: 2449569301793440573}
   <Animator>k__BackingField: {fileID: 1379409574410569205}
   <CharacterController>k__BackingField: {fileID: 7632884530578718145}
   <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
@@ -11639,7 +11643,6 @@ MonoBehaviour:
   interactableTargetLayerMask:
     serializedVersion: 2
     m_Bits: 640
-  attackRange: 0
   onTargetInteractEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -11847,6 +11850,7 @@ MonoBehaviour:
   survivalStats: {fileID: 6015766806403488649}
   lifeStat: {fileID: 936364590328128479}
   HpBarSlider: {fileID: 0}
+  hpText: {fileID: 0}
 --- !u!114 &6015766806403488649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12073,6 +12077,51 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   OnChangeSkillLevelEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1807447404484842026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 21300000, guid: 8a5d5b34dab14c2408bff40bdb0da75f,
+    type: 3}
+  <IsStatic>k__BackingField: 0
+--- !u!114 &2449569301793440573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04fdfb80bc87bd44a8a737eb2d4c0c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeFixedUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8107886998491019709

@@ -21,8 +21,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
     private Collider[] interactableTargets = new Collider[5];
 
-    public HashSet<GameObject> AttackTargets { get; set; } = new HashSet<GameObject>();
-
     public bool UseMove { get; private set; }
 
     public bool IsAttack { get; private set; }
@@ -32,9 +30,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public bool IsFindTarget { get; private set; }
 
     public bool IsInputAttack { get; private set; } = false;
-
-    [HideInInspector]
-    public float attackRange;
 
     public bool IsPlayerInRange { get; private set; }
 
@@ -60,7 +55,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
 
         IsFindTarget = false;
         IsPlayerInRange = false;
-        attackRange = 2f;
     }
 
     private void Start()
@@ -154,7 +148,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     private void OnFindInteractableTarget()
     {
         // 상호작용 가능한 대상 탐색
-        int index = Physics.OverlapSphereNonAlloc(transform.position, attackRange, interactableTargets, interactableTargetLayerMask);
+        int index = Physics.OverlapSphereNonAlloc(transform.position, 2f, interactableTargets, interactableTargetLayerMask);
 
         float closestDistance = float.MaxValue;
         GameObject closestTarget = null;

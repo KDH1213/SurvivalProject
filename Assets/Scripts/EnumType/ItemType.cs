@@ -23,9 +23,9 @@ public enum EquipmentType
 
 public enum ArmorType
 {
+    None,
     Helmet,     // 모자
     Armor,      // 상의
     Pants,      // 하의
     Shoes,      // 신발
-    None
 }
