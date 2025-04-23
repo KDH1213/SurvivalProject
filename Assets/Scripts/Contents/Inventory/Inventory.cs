@@ -54,6 +54,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         playerStats = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>();
     }
 
+    //private void OnEnable()
+    //{
+    //    UpdateSlots();
+    //}
+
     public void AddListeners(UnityAction action)
     {
         foreach (var slot in itemSlots)
@@ -64,6 +69,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void Initialize()
     {
+        itemInfoView.onDisableDivisionButtonFunc += IsFullInventory;
+        itemInfoView.UIInventoryDivisionView.onDivisionEvent.AddListener(OnDivisionItem);
+
         for (int i = 0; i < maxSlot; ++i)
         {
             itemInfos[i] = new ItemInfo();
@@ -75,7 +83,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             {
                 SelectedSlotIndex = slot.SlotIndex;
                 slot.OnClickSlot();
-                itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
+                itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex]);
             });
 
             slot.OnDragEvent.AddListener((position) => { if (PrivewIcon != null) PrivewIcon.transform.position = position; });
@@ -332,6 +340,32 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         UpdateSlot(SelectedSlotIndex);
     }
 
+    public void OnDivisionItem(int count)
+    {
+        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
+        {
+            return;
+        }
+
+        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
+        {
+            itemInfos[SelectedSlotIndex].Amount -= count;
+
+            int slotIndex = FindEmptySlotIndex();
+
+            itemInfos[slotIndex].Amount = count;
+            itemInfos[slotIndex].itemData = itemInfos[SelectedSlotIndex].itemData;
+
+            inventoryItemTable[itemInfos[SelectedSlotIndex].itemData.ID].Add(itemInfos[slotIndex]);
+
+            ++useSlotCount;
+
+            itemSlots[slotIndex].OnUpdateSlot();
+            UpdateSlot(SelectedSlotIndex);
+        }
+
+    }
+
     private int FindEmptySlotIndex()
     {
         foreach (var slot in itemSlots)
@@ -537,30 +571,26 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
     {
-        var itemInfo = new ItemInfo();
-        itemInfo.index = slotIndex;
-        itemInfo.Amount = dropItemInfo.amount;
-        // TODO :: 임시 코드
-        itemInfo.itemData = dropItemInfo.itemData;
-
-        if (inventoryItemTable.ContainsKey(dropItemInfo.id))
-        {
-            inventoryItemTable[dropItemInfo.id].Add(itemInfo);
-        }
-        else
-        {
-            var itemInfoList = new List<ItemInfo>();
-            itemInfoList.Add(itemInfo);
-            inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
-        }
-
-        if(slotIndex == -1)
+        if (slotIndex == -1)
         {
             return;
         }
 
-        itemInfos[slotIndex] = itemInfo;
-        itemSlots[slotIndex].SetItemData(itemInfo); 
+        itemInfos[slotIndex].Amount = dropItemInfo.amount;
+        itemInfos[slotIndex].itemData = dropItemInfo.itemData;
+
+        if (inventoryItemTable.ContainsKey(dropItemInfo.id))
+        {
+            inventoryItemTable[dropItemInfo.id].Add(itemInfos[slotIndex]);
+        }
+        else
+        {
+            var itemInfoList = new List<ItemInfo>();
+            itemInfoList.Add(itemInfos[slotIndex]);
+            inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
+        }
+
+        itemSlots[slotIndex].OnUpdateSlot(); 
         ++useSlotCount;
     }
 

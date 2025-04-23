@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ItemInfoView : MonoBehaviour
@@ -17,13 +16,26 @@ public class ItemInfoView : MonoBehaviour
     private Button useButton;
     [SerializeField]
     private Button equipButton;
+
     [SerializeField]
     private Button eraseButton;
+
+    [SerializeField]
+    private Button divisionButton;
+
     [SerializeField]
     private Button unEquiptButton;
 
     [SerializeField]
     private GameObject eraseView;
+
+    [SerializeField]
+    private UIInventoryDivisionView uIInventoryDivisionView;
+    public UIInventoryDivisionView UIInventoryDivisionView { get {  return uIInventoryDivisionView; } }
+
+    public UnityEvent<ItemInfo> onSetItemInfoEvent;
+
+    public System.Func<bool> onDisableDivisionButtonFunc;
 
     // private void OnSetItemInfo()
 
@@ -31,13 +43,39 @@ public class ItemInfoView : MonoBehaviour
     private readonly string weaponFormat = "공격력 : {0}\n공격 속도 : {1}\n";
     private readonly string consumableFormat = "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
 
+    private void Awake()
+    {
+        onSetItemInfoEvent.AddListener(uIInventoryDivisionView.OnSetItemInfoEvnet);
+    }
+
     private void OnEnable()
     {
         Empty();
         eraseView.gameObject.SetActive(false);
     }
 
-    private void OnSetItemInfo(ItemData itemData, bool isItemSlot)
+    private void OnSetItemInfo(ItemInfo itemInfo, bool isItemSlot)
+    {
+        if (itemInfo.itemData == null)
+        {
+            Empty();
+            return;
+        }
+
+        var itemData = itemInfo.itemData;
+        OnSetItemData(itemData, isItemSlot);
+
+        if (isItemSlot && itemInfo.Amount > 1 && !onDisableDivisionButtonFunc())
+        {
+            divisionButton.interactable = true;
+        }
+        else
+        {
+            divisionButton.interactable = false;
+        }
+    }
+
+    private void OnSetItemData(ItemData itemData, bool isItemSlot)
     {
         if (itemData == null)
         {
@@ -48,7 +86,7 @@ public class ItemInfoView : MonoBehaviour
         itemNameText.text = DataTableManager.StringTable.Get(itemData.NameID);
         itemInfoText.text = DataTableManager.StringTable.Get(itemData.DescriptID);
 
-        if(!isItemSlot)
+        if (!isItemSlot)
         {
             equipButton.interactable = false;
         }
@@ -85,14 +123,16 @@ public class ItemInfoView : MonoBehaviour
         }
     }
 
-    public void OnSetItemSlotInfo(ItemData itemData)
+    public void OnSetItemSlotInfo(ItemInfo itemInfo)
     {
-        OnSetItemInfo(itemData, true);
+        OnSetItemInfo(itemInfo, true);
+        onSetItemInfoEvent?.Invoke(itemInfo);
     }
 
     public void OnSetEquipmentItemInfo(ItemData itemData)
     {
-        OnSetItemInfo(itemData, false);
+
+        OnSetItemData(itemData, false);
     }
 
     private void Empty()
@@ -105,6 +145,7 @@ public class ItemInfoView : MonoBehaviour
         equipButton.interactable = false;
         eraseButton.interactable = false;
         unEquiptButton.interactable = false;
+        divisionButton.interactable = false;
     }
 
     private void SetArmorInfo(ItemData itemData, bool isItemSlot)
