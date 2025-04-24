@@ -117,6 +117,7 @@ public class PlacementPreview : MonoBehaviour
                 0.5f * size.y * 5f);
         cell.GetComponentInChildren<Renderer>().material.color = Color.red;
         cell.transform.parent = placementObj.transform;
+        cell.transform.GetChild(0).tag = "CellIndicator";
         cell.gameObject.SetActive(true);
     }
     public void OnRotate()

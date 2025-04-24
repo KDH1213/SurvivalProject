@@ -40,6 +40,8 @@ public class PlacementUIController : MonoBehaviour
     private UpgradeFarmUI upgradeFarmUI; // 농장 업그레이드 UI
     [SerializeField]
     private CreateItemUI createItemUI; // 아이템 제작 UI
+    [SerializeField]
+    private StorageUI storageUI; // 창고 UI
 
     private void Awake()
     {
@@ -209,5 +211,11 @@ public class PlacementUIController : MonoBehaviour
     {
         createItemUI.gameObject.SetActive(true);
         createItemUI.SetUI(target, structure);
+    }
+
+    public void OnOpenStorageUI(GameObject target, StorageStructure structure)
+    {
+        storageUI.gameObject.SetActive(true);
+        storageUI.SetUI(target, structure);
     }
 }

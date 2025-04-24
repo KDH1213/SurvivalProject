@@ -40,6 +40,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     private Dictionary<int, List<ItemInfo>> inventoryItemTable = new Dictionary<int, List<ItemInfo>>();
 
     public Dictionary<int, List<ItemInfo>> InventroyItemTable => inventoryItemTable;
+    public ItemInfo[] ItemInfos => itemInfos;
 
     private PlayerStats playerStats;
 
@@ -48,6 +49,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
     private int useSlotCount = 0;
+
+    private void OnEnable()
+    {
+        UpdateSlots();
+    }
 
     private void Start()
     {
