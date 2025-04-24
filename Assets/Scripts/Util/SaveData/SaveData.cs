@@ -52,6 +52,7 @@ public class SaveDataV1 : SaveData
     {
         placementSaveInfoList.Clear();
         farmPlacementSaveInfos.Clear();
+        storagePlacementSaveInfo.Clear();
         gatherSaveInfoTable.Clear();
         monsterSaveInfoList.Clear();
         ItemSlotInfoSaveDataList.Clear();

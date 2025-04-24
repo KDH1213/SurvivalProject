@@ -98,7 +98,7 @@ public class StorageUI : MonoBehaviour
         }
         else
         {
-            int count = DataTableManager.StructureTable.Get(1800111/*currentStructure.ID*/).BoxInventorySlot;
+            int count = DataTableManager.StructureTable.Get(currentStructure.ID).BoxInventorySlot;
             for (int j = count; j < itemInfos.Length; j++)
             {
                 itemSlots[j].GetComponent<Button>().interactable = false;
@@ -271,7 +271,8 @@ public class StorageUI : MonoBehaviour
         int targetSlotIndex = dragSeletedSlotIndex;
         int sourceSlotIndex = itemSlot.SlotIndex;
 
-        if (sourceSlotIndex < 0 || sourceSlotIndex >= storageItemInfos.Length || targetSlotIndex == sourceSlotIndex)
+        if (sourceSlotIndex < 0 || sourceSlotIndex >= storageItemInfos.Length || targetSlotIndex == sourceSlotIndex ||
+            itemSlot.GetComponent<Button>().interactable == false)
         {
             return;
         }
@@ -321,7 +322,9 @@ public class StorageUI : MonoBehaviour
         int sourceSlotIndex = dragSeletedSlotIndex;
         int targetSlotIndex = itemSlot.SlotIndex;
 
-        if (sourceSlotIndex < 0 || sourceSlotIndex >= sourceInfo.Length )
+        if (sourceSlotIndex < 0 || sourceSlotIndex >= sourceInfo.Length ||
+            sourceSlots[sourceSlotIndex].GetComponent<Button>().interactable == false ||
+            targetSlots[targetSlotIndex].GetComponent<Button>().interactable == false)
         {
             return;
         }
@@ -444,7 +447,9 @@ public class StorageUI : MonoBehaviour
             return;
         }
 
-        if (sourceSlotIndex < 0 || sourceSlotIndex >= sourceInfo.Length)
+        if (sourceSlotIndex < 0 || sourceSlotIndex >= sourceInfo.Length ||
+            sourceSlots[sourceSlotIndex].GetComponent<Button>().interactable == false ||
+            targetSlots[targetSlotIndex].GetComponent<Button>().interactable == false)
         {
             return;
         }
