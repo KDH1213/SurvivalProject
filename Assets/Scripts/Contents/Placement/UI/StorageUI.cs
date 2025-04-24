@@ -30,6 +30,7 @@ public class StorageUI : MonoBehaviour
     private StorageStructure currentStructure;
 
     public int SelectedSlotIndex { get; private set; } = -1;
+    public List<ItemSlot> SelectedSlots { get; private set; } = null;
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
     public void SetUI(GameObject target, StorageStructure structure)
@@ -57,6 +58,7 @@ public class StorageUI : MonoBehaviour
             slot.button.onClick.AddListener(() =>
             {
                 SelectedSlotIndex = slot.SlotIndex;
+                SelectedSlots = itemSlots;
                 slot.OnClickSlot();
                 itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
             });
@@ -373,6 +375,11 @@ public class StorageUI : MonoBehaviour
         inventoryItemTable.Clear();
         foreach(var item in inventoryItemInfos)
         {
+            if(item.itemData == null)
+            {
+                continue;
+            }
+
             if (inventoryItemTable.ContainsKey(item.itemData.ID))
             {
                 inventoryItemTable[item.itemData.ID].Add(item);
@@ -388,6 +395,10 @@ public class StorageUI : MonoBehaviour
         storageItemTable.Clear();
         foreach (var item in storageItemInfos)
         {
+            if (item.itemData == null)
+            {
+                continue;
+            }
             if (storageItemTable.ContainsKey(item.itemData.ID))
             {
                 storageItemTable[item.itemData.ID].Add(item);
@@ -399,5 +410,121 @@ public class StorageUI : MonoBehaviour
                 storageItemTable.Add(item.itemData.ID, itemInfoList);
             }
         }
+    }
+
+    public void OnClickMoveButton()
+    {
+        int sourceSlotIndex = SelectedSlotIndex;
+        int targetSlotIndex;
+
+        ItemInfo[] sourceInfo;
+        ItemInfo[] targetInfo;
+        List<ItemSlot> sourceSlots;
+        List<ItemSlot> targetSlots;
+
+        if (SelectedSlots == inventoryItemSlots)
+        {
+            targetSlotIndex = FindEmptySlotIndex(storageItemInfos);
+            sourceInfo = inventoryItemInfos;
+            targetInfo = storageItemInfos;
+            sourceSlots = inventoryItemSlots;
+            targetSlots = storageItemSlots;
+        }
+        else
+        {
+            targetSlotIndex = FindEmptySlotIndex(inventoryItemInfos);
+            sourceInfo = storageItemInfos;
+            targetInfo = inventoryItemInfos;
+            sourceSlots = storageItemSlots;
+            targetSlots = inventoryItemSlots;
+        }
+
+        if (sourceSlotIndex == -1 || targetSlotIndex == -1)
+        {
+            return;
+        }
+
+        if (sourceSlotIndex < 0 || sourceSlotIndex >= sourceInfo.Length)
+        {
+            return;
+        }
+
+        // string id로 변경
+        if (sourceInfo[sourceSlotIndex].itemData != null && targetInfo[targetSlotIndex].itemData != null
+            && sourceInfo[sourceSlotIndex].itemData.ID == targetInfo[targetSlotIndex].itemData.ID)
+        {
+            // 같은 아이템일 경우 합치기
+            int totalAmount = targetInfo[targetSlotIndex].Amount + sourceInfo[sourceSlotIndex].Amount;
+
+            if (totalAmount <= targetInfo[targetSlotIndex].itemData.MaxStack)
+            {
+                var table = target.GetComponent<PlayerFSM>().PlayerInventory.InventroyItemTable;
+                if (table.TryGetValue(sourceInfo[sourceSlotIndex].itemData.ID, out var itemInfoList))
+                {
+                    itemInfoList.Remove(sourceInfo[sourceSlotIndex]);
+                }
+
+                sourceInfo[sourceSlotIndex].Amount = totalAmount;
+                targetInfo[targetSlotIndex].Empty();
+            }
+            else
+            {
+                sourceInfo[sourceSlotIndex].Amount = sourceInfo[sourceSlotIndex].itemData.MaxStack;
+                targetInfo[targetSlotIndex].Amount = totalAmount - sourceInfo[sourceSlotIndex].itemData.MaxStack;
+            }
+        }
+        else
+        {
+            (targetInfo[targetSlotIndex], sourceInfo[sourceSlotIndex]) = (sourceInfo[sourceSlotIndex], targetInfo[targetSlotIndex]);
+            targetInfo[targetSlotIndex].index = targetSlotIndex;
+            sourceInfo[sourceSlotIndex].index = sourceSlotIndex;
+            // targetSlots[targetSlotIndex].OnSwapItemInfo(sourceSlots[sourceSlotIndex]);
+            // itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
+        }
+
+        UpdateSlots(targetInfo, targetSlots);
+        UpdateSlots(sourceInfo, sourceSlots);
+        isOnDrag = false;
+        dragSeletedSlotIndex = -1;
+        UpdateItemTable();
+    }
+
+    private int FindEmptySlotIndex(ItemInfo[] itemInfos)
+    {
+        foreach (var info in itemInfos)
+        {
+            if (info.itemData == null)
+            {
+                return info.index;
+            }
+        }
+
+        return -1;
+    }
+
+    public void OnEraseItem()
+    {
+        ItemInfo[] itemInfos;
+        if (SelectedSlots == inventoryItemSlots)
+        {
+            itemInfos = inventoryItemInfos;
+        }
+        else
+        {
+            itemInfos = storageItemInfos;
+        }
+
+        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
+        {
+            return;
+        }
+
+        itemInfos[SelectedSlotIndex].Empty();
+        itemInfoView.OnSetItemSlotInfo(null);
+
+        UpdateSlot(SelectedSlots, SelectedSlotIndex);
+        UpdateItemTable();
+
+        SelectedSlotIndex = -1;
     }
 }
