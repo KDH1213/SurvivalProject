@@ -7,4 +7,5 @@ public interface IMiniMap
     UnityEvent<GameObject> OnDisabledEvent { get; }
     Sprite Icon { get; }
     bool IsStatic { get; }
+    bool IsMarker { get; }
 }

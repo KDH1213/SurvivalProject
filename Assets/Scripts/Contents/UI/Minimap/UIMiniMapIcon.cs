@@ -6,8 +6,12 @@ public class UIMiniMapIcon : MonoBehaviour
 {
     private Transform ownerTransform;
     private RectTransform rectTransform;
+    private RectTransform minimapRectTransform;
 
     private Vector2 mapRatio;
+
+    private bool isMarker = false;
+    private float maskRadius;
 
     private void Awake()
     {
@@ -16,10 +20,25 @@ public class UIMiniMapIcon : MonoBehaviour
 
     private void Update()
     {
-        rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * mapRatio;
+        if(!isMarker)
+        {
+            rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * mapRatio;
+        }
+        else
+        {
+            rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * mapRatio;
+
+            var minimapPosition = minimapRectTransform.anchoredPosition;
+            var direction = minimapPosition - rectTransform.anchoredPosition;
+            if(direction.magnitude > maskRadius)
+            {
+                direction.Normalize();
+                rectTransform.anchoredPosition = minimapPosition + (direction * maskRadius) - rectTransform.rect.center;
+            }
+        }
     }
 
-    public void SetOnwer(Transform owner)
+    public void SetOwner(Transform owner)
     {
         ownerTransform = owner;
     }
@@ -28,5 +47,21 @@ public class UIMiniMapIcon : MonoBehaviour
     {
         rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * ratio;
         mapRatio = ratio;
+    }
+
+    public void SetMinimapInfo(RectTransform minimapRectTransform, Rect maskRect)
+    {
+        this.minimapRectTransform = minimapRectTransform;
+        maskRadius = maskRect.width;
+    }
+
+    public void SetActiveMarker(bool isMarker)
+    {
+        this.isMarker = isMarker;
+
+        if(isMarker)
+        {
+            enabled = true;
+        }
     }
 }

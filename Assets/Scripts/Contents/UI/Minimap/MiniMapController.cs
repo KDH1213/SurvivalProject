@@ -11,6 +11,9 @@ public class MiniMapController : MonoBehaviour
     [SerializeField]
     private GameObject mapPlane;
 
+    [SerializeField] 
+    private RectTransform masktransform;
+
     [SerializeField]
     private Transform createPoint;
 
@@ -49,21 +52,32 @@ public class MiniMapController : MonoBehaviour
         var createIcon = Instantiate(iconPrefab, createPoint);
         createIcon.GetComponent<Image>().sprite = createObject.Icon;
 
-        var miniMapDynamicIcon = createIcon.GetComponent<UIMiniMapIcon>();
-        miniMapDynamicIcon.SetOnwer(createObject.transform);
-        miniMapDynamicIcon.ConvertPosition(mapRatio);
+        var miniMapIcon = createIcon.GetComponent<UIMiniMapIcon>();
+        miniMapIcon.SetOwner(createObject.transform);
+        miniMapIcon.ConvertPosition(mapRatio);
 
-        createObject.OnActiveEvent.AddListener((_) => { miniMapDynamicIcon.gameObject.SetActive(true); });
-        createObject.OnDisabledEvent.AddListener((_) => { if(miniMapDynamicIcon != null) miniMapDynamicIcon.gameObject.SetActive(false); });
+        createObject.OnActiveEvent.AddListener((_) => { miniMapIcon.gameObject.SetActive(true); });
+        createObject.OnDisabledEvent.AddListener((_) => { if(miniMapIcon != null) miniMapIcon.gameObject.SetActive(false); });
 
         if (createObject.IsStatic)
         {
-            miniMapDynamicIcon.enabled = false;
+            miniMapIcon.enabled = false;
         }
         else
         {
-            miniMapDynamicIcon.enabled = true;
+            miniMapIcon.enabled = true;
         }
+
+        if(createObject.IsMarker)
+        {
+            SetMarker(miniMapIcon);
+        }
+    }
+
+    public void SetMarker(UIMiniMapIcon uIMiniMapIcon)
+    {
+        uIMiniMapIcon.SetMinimapInfo(mapRectTransform, masktransform.rect);
+        uIMiniMapIcon.SetActiveMarker(true);
     }
 
     private void Update()

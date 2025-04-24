@@ -17,9 +17,8 @@ public class MiniMapObject : MonoBehaviour, IMiniMap
     [field: SerializeField]
     public bool IsStatic {  get; private set; }
 
-    protected virtual void Awake()
-    {
-    }
+    [field: SerializeField]
+    public bool IsMarker { get; private set; }
 
     protected virtual void Start()
     {
