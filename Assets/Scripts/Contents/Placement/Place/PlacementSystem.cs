@@ -366,6 +366,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         }
 
         SaveLoadManager.Data.farmPlacementSaveInfos.Clear();
+        SaveLoadManager.Data.storagePlacementSaveInfo.Clear();
         SaveLoadManager.Data.placementSaveInfoList.Clear();
 
         foreach (var placedGameObject in PlacedGameObjects)
@@ -379,6 +380,27 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     {
         PlacedGameObjects.Clear();
 
+        LoadFarm();
+        LoadStorage();
+        LoadStructure();
+
+        var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
+        foreach (var go in goes)
+        {
+            go.GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+    /*private void OnApplicationQuit()
+    {
+        Save();
+
+        SaveLoadManager.Save(1);
+    }*/
+
+
+    private void LoadFarm()
+    {
         var placementSaveInfoList = SaveLoadManager.Data.farmPlacementSaveInfos;
         foreach (var placement in placementSaveInfoList)
         {
@@ -411,9 +433,48 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
                 PlacedGameObjects.Count - 1, placementObject);
 
         }
+    }
 
-        var placementSaveInfoList2 = SaveLoadManager.Data.placementSaveInfoList;
-        foreach (var placement in placementSaveInfoList2)
+    private void LoadStorage()
+    {
+        var placementSaveInfoList = SaveLoadManager.Data.storagePlacementSaveInfo;
+        foreach (var placement in placementSaveInfoList)
+        {
+            // TODO :: 배치 오브젝트 생성 코드
+
+            int index = Database.objects.FindIndex(x => x.ID == placement.id);
+            PlacementObjectInfo placeObjInfo = Database.objects[index];
+
+            GameObject newObject = Instantiate(placeObjInfo.Prefeb);
+            newObject.transform.position = grid.CellToWorld(placement.position);
+            newObject.transform.GetChild(0).rotation = placement.rotation;
+
+            PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
+            placementObject.IsPlaced = true;
+            placementObject.ID = placeObjInfo.ID;
+            placementObject.Hp = placeObjInfo.DefaultHp;
+            placementObject.Rank = placeObjInfo.Rank;
+            placementObject.Position = placement.position;
+            placementObject.Rotation = placement.rotation;
+            placementObject.uiController = placementUI;
+            placementObject.SetData();
+            placementObject.Load();
+
+            preview.SetCellIndicator(newObject, placeObjInfo.Size);
+
+            PlacedGameObjects.Add(placementObject);
+
+            gridData.AddObjectAt(placement.position, placeObjInfo.Size,
+                placement.id,
+                PlacedGameObjects.Count - 1, placementObject);
+
+        }
+    }
+
+    private void LoadStructure()
+    {
+        var placementSaveInfoList = SaveLoadManager.Data.placementSaveInfoList;
+        foreach (var placement in placementSaveInfoList)
         {
             // TODO :: 배치 오브젝트 생성 코드
 
@@ -443,18 +504,5 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
                 PlacedGameObjects.Count - 1, placementObject);
 
         }
-
-        var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
-        foreach (var go in goes)
-        {
-            go.GetComponent<MeshRenderer>().enabled = false;
-        }
     }
-
-    /*private void OnApplicationQuit()
-    {
-        Save();
-
-        SaveLoadManager.Save(1);
-    }*/
 }

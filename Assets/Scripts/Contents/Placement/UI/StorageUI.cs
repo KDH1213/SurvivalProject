@@ -81,6 +81,7 @@ public class StorageUI : MonoBehaviour
             }
             else
             {
+                
                 slot.onDragExit.AddListener(OnEndDragStorage);
             }
             //slot.onDoubleClickEvent.AddListener(OnEquip);
@@ -95,6 +96,11 @@ public class StorageUI : MonoBehaviour
         }
         else
         {
+            int count = DataTableManager.StructureTable.Get(1800111/*currentStructure.ID*/).BoxInventorySlot;
+            for (int j = count; j < itemInfos.Length; j++)
+            {
+                itemSlots[j].GetComponent<Button>().interactable = false;
+            }
             storageItemSlots = itemSlots;
         }
         
@@ -355,6 +361,43 @@ public class StorageUI : MonoBehaviour
         UpdateSlots(sourceInfo, sourceSlots);
         isOnDrag = false;
         dragSeletedSlotIndex = -1;
+        UpdateItemTable();
     }
 
+    private void UpdateItemTable()
+    {
+        var inventoryItemTable = target.GetComponent<PlayerFSM>().PlayerInventory.InventroyItemTable;
+        var storageItemTable = currentStructure.inventory.InventroyItemTable;
+
+
+        inventoryItemTable.Clear();
+        foreach(var item in inventoryItemInfos)
+        {
+            if (inventoryItemTable.ContainsKey(item.itemData.ID))
+            {
+                inventoryItemTable[item.itemData.ID].Add(item);
+            }
+            else
+            {
+                var itemInfoList = new List<ItemInfo>();
+                itemInfoList.Add(item);
+                inventoryItemTable.Add(item.itemData.ID, itemInfoList);
+            }
+        }
+
+        storageItemTable.Clear();
+        foreach (var item in storageItemInfos)
+        {
+            if (storageItemTable.ContainsKey(item.itemData.ID))
+            {
+                storageItemTable[item.itemData.ID].Add(item);
+            }
+            else
+            {
+                var itemInfoList = new List<ItemInfo>();
+                itemInfoList.Add(item);
+                storageItemTable.Add(item.itemData.ID, itemInfoList);
+            }
+        }
+    }
 }

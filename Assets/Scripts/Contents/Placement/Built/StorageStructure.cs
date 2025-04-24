@@ -24,6 +24,22 @@ public class StorageStructure : PlacementObject
         inventory.SetItemInfos(maxStorage);
     }
 
+    public override void Save()
+    {
+        if (SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        var saveInfo = new StoragePlacementSaveInfo();
+        saveInfo.hp = Hp;
+        saveInfo.position = Position;
+        saveInfo.rotation = Rotation;
+        saveInfo.id = ID;
+        inventory.Save(ID);
+        SaveLoadManager.Data.storagePlacementSaveInfo.Add(saveInfo);
+    }
+
     public override void Interact(GameObject interactor)
     {
         uicon.OnOpenStorageUI(interactor, this);

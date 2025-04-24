@@ -161,9 +161,9 @@ public class StorageInventory : MonoBehaviour
         return useSlotCount == itemInfos.Length;
     }
 
-    public void Save()
+    public void Save(int id)
     {
-        var itemSlotList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
+        var itemSlotList = SaveLoadManager.Data.storagePlacementSaveInfo[id].itemDatas;
         itemSlotList.Clear();
 
         foreach (var itemInfo in itemInfos)
@@ -177,14 +177,14 @@ public class StorageInventory : MonoBehaviour
 
     }
 
-    public void Load()
+    public void Load(int id)
     {
         if (SaveLoadManager.Data.isRestart)
         {
             return;
         }
 
-        var itemSlotInfoList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
+        var itemSlotInfoList = SaveLoadManager.Data.storagePlacementSaveInfo[id].itemDatas;
 
         for (var i = 0; i < itemSlotInfoList.Count; ++i)
         {
@@ -195,18 +195,7 @@ public class StorageInventory : MonoBehaviour
 
             itemInfos[i].Amount = itemSlotInfoList[i].amount;
             itemInfos[i].index = itemSlotInfoList[i].index;
-            if (1201001 == itemSlotInfoList[i].itemID)
-            {
-                itemInfos[i].itemData = DataTableManager.ItemTable.Get(1200111);
-            }
-            else if (1201002 == itemSlotInfoList[i].itemID)
-            {
-                itemInfos[i].itemData = DataTableManager.ItemTable.Get(1200211);
-            }
-            else
-            {
-                itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
-            }
+            itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
 
 
             if (itemInfos[i].itemData == null)
