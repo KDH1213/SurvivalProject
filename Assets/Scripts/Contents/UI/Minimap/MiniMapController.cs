@@ -76,7 +76,7 @@ public class MiniMapController : MonoBehaviour
 
     public void SetMarker(UIMiniMapIcon uIMiniMapIcon)
     {
-        uIMiniMapIcon.SetMinimapInfo(mapRectTransform, masktransform.rect);
+        uIMiniMapIcon.SetMinimapInfo(targetTransform, mapRectTransform, masktransform.rect);
         uIMiniMapIcon.SetActiveMarker(true);
     }
 

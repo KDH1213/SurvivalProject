@@ -8,6 +8,7 @@ public class UIMiniMapIcon : MonoBehaviour
     private RectTransform rectTransform;
     private RectTransform minimapRectTransform;
 
+    private Transform targetTransform;
     private Vector2 mapRatio;
     private Vector2 rectSize;
 
@@ -17,7 +18,7 @@ public class UIMiniMapIcon : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        rectSize = rectTransform.rect.size;
+        rectSize = rectTransform.rect.size * 0.5f;
     }
 
     private void Update()
@@ -29,13 +30,15 @@ public class UIMiniMapIcon : MonoBehaviour
         else
         {
             rectTransform.anchoredPosition = ownerTransform.position.ConvertVector2() * mapRatio;
+            var targetPosition = targetTransform.position.ConvertVector2() * mapRatio;
 
             var minimapPosition = minimapRectTransform.anchoredPosition;
-            var direction = minimapPosition - rectTransform.anchoredPosition;
+            var direction = targetPosition - rectTransform.anchoredPosition;
             if(direction.magnitude > maskRadius)
             {
                 direction.Normalize();
-                rectTransform.anchoredPosition = -minimapPosition - (direction * maskRadius) + (rectSize * direction);
+                // rectTransform.anchoredPosition = -minimapPosition - (direction * maskRadius) + (rectSize * direction);
+                rectTransform.anchoredPosition = targetPosition - (direction * maskRadius) + (rectSize * direction);
             }
         }
     }
@@ -51,8 +54,9 @@ public class UIMiniMapIcon : MonoBehaviour
         mapRatio = ratio;
     }
 
-    public void SetMinimapInfo(RectTransform minimapRectTransform, Rect maskRect)
+    public void SetMinimapInfo(Transform target , RectTransform minimapRectTransform, Rect maskRect)
     {
+        targetTransform = target;
         this.minimapRectTransform = minimapRectTransform;
         maskRadius = maskRect.width * 0.5f;
     }
