@@ -23,6 +23,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     private float currentDamage = 1f;
     private float currentDefence = 0f;
     private readonly string hpFormat = "{0} / /{1}";
+    private const string pointFormat = "F0";
 
     public UnityAction<float> onChangeAttackSpeedValue;
     public UnityAction<float> onChangeSpeedValue;
@@ -128,7 +129,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         var value = currentStatTable[StatType.HP];
         HpBarSlider.value = value.Value / value.MaxValue;
-        hpText.text = string.Format(hpFormat, value.Value.ToString(), value.MaxValue);
+        hpText.text = string.Format(hpFormat, value.Value.ToString(pointFormat), value.MaxValue.ToString(pointFormat));
     }
 
     public void OnEquipmentItem(ItemData itemData)
