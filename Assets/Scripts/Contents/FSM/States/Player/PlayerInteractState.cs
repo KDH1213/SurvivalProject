@@ -18,10 +18,12 @@ public class PlayerInteractState : PlayerBaseState
 
     private NavMeshAgent agent;
 
-    private float interactRange = 3f;
+    private float interactRange = 1f;
     private bool isIntercting = false;
 
     private IInteractable targetInteractable;
+
+    private Vector3 closestPoint;
 
     protected override void Awake()
     {
@@ -32,18 +34,16 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        // InteractObject();
-        //playerFSM.ChangeState(PlayerStateType.Idle);
-
-        var targetPosition = target.transform.position;
-        float distance = (targetPosition - transform.position).ConvertVector2().magnitude;
+        Collider collider = target.GetComponentInChildren<Collider>();
+        closestPoint = collider.ClosestPoint(transform.position);
+        float distance = (closestPoint - transform.position).ConvertVector2().magnitude;
 
         if (distance > interactRange)
         {
             PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, PlayerStats.Speed);
             agent.speed = PlayerStats.Speed;
             agent.isStopped = false;
-            agent.SetDestination(target.transform.position);
+            agent.SetDestination(closestPoint);
         }
         else
         {
@@ -62,7 +62,7 @@ public class PlayerInteractState : PlayerBaseState
         if (!isIntercting)
         {
             var targetPosition = target.transform.position;
-            float distance = (targetPosition - transform.position).ConvertVector2().magnitude;
+            float distance = (closestPoint - transform.position).ConvertVector2().magnitude;
             PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, PlayerStats.Speed);
 
             if (distance < interactRange)
@@ -183,7 +183,5 @@ public class PlayerInteractState : PlayerBaseState
         var targetPosition = target.transform.position;
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);
-        // 타겟 별 애니메이션 호출
-
     }
 }
