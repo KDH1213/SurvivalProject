@@ -659,6 +659,26 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         return useSlotCount == maxSlot;
     }
 
+    public bool IsFullInventoryAndMaxStack(int id)
+    {
+        bool canAdd = false;
+        if (inventoryItemTable.ContainsKey(id))
+        {
+            var itemList = inventoryItemTable[id];
+
+            foreach (var item in itemList)
+            {
+                if (item.Amount == item.itemData.MaxStack)
+                {
+                    canAdd = false;
+                    continue;
+                }
+                canAdd = true;
+            }
+        }
+        return IsFullInventory() && canAdd;
+    }
+
     public void OnChangeEquimentItem(ItemData itemData, int amount)
     {
         var unEquimentInfo = new DropItemInfo();

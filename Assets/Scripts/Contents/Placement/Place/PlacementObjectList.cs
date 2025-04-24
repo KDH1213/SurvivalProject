@@ -11,7 +11,8 @@ public enum StructureKind
     Farm,
     Turret,
     Create,
-    Store,
+    Storage,
+    Rest,
 }
 
 public class PlacementObjectList
