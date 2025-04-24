@@ -22,7 +22,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     private float currentAttackSpeed = 1f;
     private float currentDamage = 1f;
     private float currentDefence = 0f;
-    private readonly string hpFormat = "{0} / /{1}";
+    private readonly string hpFormat = "{0} / {1}";
     private const string pointFormat = "F0";
 
     public UnityAction<float> onChangeAttackSpeedValue;

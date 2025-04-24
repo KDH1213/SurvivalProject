@@ -9,6 +9,7 @@ public class UIMiniMapIcon : MonoBehaviour
     private RectTransform minimapRectTransform;
 
     private Vector2 mapRatio;
+    private Vector2 rectSize;
 
     private bool isMarker = false;
     private float maskRadius;
@@ -16,6 +17,7 @@ public class UIMiniMapIcon : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        rectSize = rectTransform.rect.size;
     }
 
     private void Update()
@@ -33,7 +35,7 @@ public class UIMiniMapIcon : MonoBehaviour
             if(direction.magnitude > maskRadius)
             {
                 direction.Normalize();
-                rectTransform.anchoredPosition = minimapPosition + (direction * maskRadius) - rectTransform.rect.center;
+                rectTransform.anchoredPosition = -minimapPosition - (direction * maskRadius) + (rectSize * direction);
             }
         }
     }
@@ -52,7 +54,7 @@ public class UIMiniMapIcon : MonoBehaviour
     public void SetMinimapInfo(RectTransform minimapRectTransform, Rect maskRect)
     {
         this.minimapRectTransform = minimapRectTransform;
-        maskRadius = maskRect.width;
+        maskRadius = maskRect.width * 0.5f;
     }
 
     public void SetActiveMarker(bool isMarker)
