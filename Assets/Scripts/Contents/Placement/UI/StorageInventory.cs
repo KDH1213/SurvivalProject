@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class StorageInventory : MonoBehaviour
 {
@@ -155,10 +156,9 @@ public class StorageInventory : MonoBehaviour
         return useSlotCount == itemInfos.Length;
     }
 
-    public void Save(int id)
+    public void Save(int index)
     {
-        var itemSlotList = SaveLoadManager.Data.storagePlacementSaveInfo[id].itemDatas;
-        itemSlotList.Clear();
+        List<ItemInfoSaveData> itemSlotList = new List<ItemInfoSaveData>();
 
         foreach (var itemInfo in itemInfos)
         {
@@ -169,6 +169,7 @@ public class StorageInventory : MonoBehaviour
             itemSlotList.Add(itemInfoSaveData);
         }
 
+        SaveLoadManager.Data.storagePlacementSaveInfo[index].itemDatas = itemSlotList;
     }
 
     public void Load(int id)
@@ -179,6 +180,10 @@ public class StorageInventory : MonoBehaviour
         }
 
         var itemSlotInfoList = SaveLoadManager.Data.storagePlacementSaveInfo[id].itemDatas;
+        if(itemSlotInfoList == null)
+        {
+            return;
+        }
 
         for (var i = 0; i < itemSlotInfoList.Count; ++i)
         {
