@@ -211,12 +211,15 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         {
             case LifeSkillType.Damage:
                 currentDamage = currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
+                onChangDamageValue?.Invoke(currentDamage);
                 break;
             case LifeSkillType.MoveSpeed:
                 currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
+                onChangeSpeedValue?.Invoke(currentSpeed);
                 break;
             case LifeSkillType.AttackSpeed:
                 currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
+                onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
                 break;
             case LifeSkillType.Hungur:
                 GetComponent<HungerStat>().OnSetHungerSkillValue(lifeStat.Hungur);
@@ -226,9 +229,11 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                 break;
             case LifeSkillType.Defence:
                 currentDefence = currentStatTable[StatType.Defense].Value + lifeStat.Defence;
+                onChangeDefenceValue?.Invoke(currentDefence);
                 break;
             case LifeSkillType.HP:
                 currentStatTable[StatType.HP].AddMaxValue(5f);
+                OnChangeHp();
                 break;
             case LifeSkillType.Fatigue:
                 GetComponent<FatigueStat>().OnSetFatigueSkillValue(lifeStat.Fatigue);
