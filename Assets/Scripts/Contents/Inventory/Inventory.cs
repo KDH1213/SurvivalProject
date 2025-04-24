@@ -415,6 +415,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             ++useSlotCount;
 
+            if (itemInfos[SelectedSlotIndex].Amount <= 0)
+            {
+                itemInfos[SelectedSlotIndex].itemData = null;
+            }
+
             itemSlots[slotIndex].OnUpdateSlot();
             UpdateSlot(SelectedSlotIndex);
         }
