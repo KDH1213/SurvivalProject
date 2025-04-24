@@ -146,12 +146,15 @@ public class GridData
         localScale = new Vector3(magX * objectSize.x, 0f, magY * objectSize.y);
 
         Collider[] testCollider = Physics.OverlapBox(test,
-            new Vector3(magX * objectSize.x, 1f, magY * objectSize.y), grid.transform.rotation);
+            new Vector3(magX * objectSize.x * 0.5f, 1f, magY * objectSize.y * 0.5f), grid.transform.rotation);
+
+        Debug.Log(grid.transform.rotation.eulerAngles);
 
         foreach(var obj in testCollider)
         {
             if (obj.tag.Equals("Monster") || obj.tag.Equals("Player") 
-                || obj.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+                || obj.gameObject.layer == LayerMask.NameToLayer("Interactable")
+                || obj.gameObject.layer == LayerMask.NameToLayer("PointStructure"))
             {
                 return true;
             }

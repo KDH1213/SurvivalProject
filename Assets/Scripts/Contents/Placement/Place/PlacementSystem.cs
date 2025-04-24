@@ -332,11 +332,25 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         {
             return;
         }
+        var data = DataTableManager.StructureTable.Get(SelectedObject.PlacementData.ID);
+        
 
         int index = Database.objects.FindIndex(x => x.ID == SelectedObject.PlacementData.ID);
         RemoveStructure(SelectedObject);
         placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, PlacedGameObjects);
         Destroy(SelectedObject.transform.parent.gameObject);
+
+        foreach(var item in data.ReturnItemList)
+        {
+            var itemData = DataTableManager.ItemTable.Get(item.Key);
+            var returnItem = new DropItemInfo();
+            returnItem.id = itemData.ID;  // testItem.ID
+            returnItem.ItemName = itemData.ItemName;
+            returnItem.itemData = itemData;
+            inventory.AddItem(returnItem);
+        }
+
+        
         preview.StopShowingPreview();
     }
 

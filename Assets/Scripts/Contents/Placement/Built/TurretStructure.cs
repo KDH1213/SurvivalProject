@@ -1,5 +1,13 @@
+using System;
 using System.Linq;
 using UnityEngine;
+
+[Serializable]
+public enum TurretType
+{
+    Continuous,
+    Timing
+}
 
 public class TurretStructure : PlacementObject
 {
@@ -14,11 +22,13 @@ public class TurretStructure : PlacementObject
     private GameObject effect;
     [SerializeField]
     private TurretAttack atd;
+    [SerializeField]
+    private TurretType type;
 
     private void Update()
     {
 
-        if(!IsPlaced)
+        if(!IsPlaced || type == TurretType.Timing)
         {
             return;
         }

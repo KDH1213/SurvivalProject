@@ -86,7 +86,7 @@ public class StorageUI : MonoBehaviour
                 
                 slot.onDragExit.AddListener(OnEndDragStorage);
             }
-            //slot.onDoubleClickEvent.AddListener(OnEquip);
+            slot.onDoubleClickEvent.AddListener(OnClickMoveButton);
             
             itemSlots.Add(slot);
         }
