@@ -165,89 +165,137 @@ public class Inventory : MonoBehaviour, ISaveLoadData
        
         equipmentSocketView.Initialize();
 
-        //if (useSlotCount == 0)
-        //{
-        //    var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
-
-        //    if(equipmentItemList != null)
-        //    {
-        //        foreach (var equipmentItem in equipmentItemList)
-        //        {
-        //            if(equipmentItem != -1)
-        //            {
-        //                return;
-        //            }
-        //        }
-        //    }
-
-        //    for (int i = 0; i < 4; ++i)
-        //    {
-        //        var testItem = DataTableManager.ItemTable.Get(1111111 + i);
-
-        //        var test = new DropItemInfo();
-        //        test.amount = 1;
-        //        test.ItemName = testItem.ItemName;
-        //        test.itemData = testItem;
-        //        AddItem(test);
-        //    }
-
-        //    var Item = DataTableManager.ItemTable.Get(1201004);
-
-        //    var testInfo = new DropItemInfo();
-        //    testInfo.amount = 500;
-        //    testInfo.ItemName = Item.ItemName;
-        //    testInfo.itemData = Item;
-        //    testInfo.id = 1201004;
-        //    AddItem(testInfo);
-        //}
-
-        for (int i = 0; i < 3; ++i)
+        if (useSlotCount == 0)
         {
-            var Item = DataTableManager.ItemTable.Get(1111115 + i);
+            var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
+
+            if (equipmentItemList != null)
+            {
+                foreach (var equipmentItem in equipmentItemList)
+                {
+                    if (equipmentItem != -1)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            var Item = DataTableManager.ItemTable.Get(1201004);
 
             var testInfo = new DropItemInfo();
+            testInfo.amount = 500;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = Item.ID;
+            AddItem(testInfo);
+
+            Item = DataTableManager.ItemTable.Get(1200111);
+
+            testInfo = new DropItemInfo();
+            testInfo.amount = 500;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = Item.ID;
+            AddItem(testInfo);
+
+
+            Item = DataTableManager.ItemTable.Get(1200211);
+
+            testInfo = new DropItemInfo();
+            testInfo.amount = 500;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = Item.ID;
+            AddItem(testInfo);
+
+
+
+            Item = DataTableManager.ItemTable.Get(1200311);
+
+            testInfo = new DropItemInfo();
+            testInfo.amount = 500;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = Item.ID;
+            AddItem(testInfo);
+
+            Item = DataTableManager.ItemTable.Get(1200741);
+
+            testInfo = new DropItemInfo();
             testInfo.amount = 1;
             testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
-            testInfo.id = 1111115 + i;
+            testInfo.id = Item.ID;
             AddItem(testInfo);
-        }
 
-        for (int i = 0; i < 3; ++i)
-        {
-            var Item = DataTableManager.ItemTable.Get(1111131 + i);
+            Item = DataTableManager.ItemTable.Get(1200841);
 
-            var testInfo = new DropItemInfo();
+            testInfo = new DropItemInfo();
             testInfo.amount = 1;
             testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
-            testInfo.id = 1111131 + i;
+            testInfo.id = Item.ID;
             AddItem(testInfo);
-        }
 
-        for (int i = 0; i < 3; ++i)
-        {
-            var Item = DataTableManager.ItemTable.Get(1111119 + i);
+            Item = DataTableManager.ItemTable.Get(1200941);
 
-            var testInfo = new DropItemInfo();
+            testInfo = new DropItemInfo();
             testInfo.amount = 1;
             testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
-            testInfo.id = 1111119 + i;
+            testInfo.id = Item.ID;
             AddItem(testInfo);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                Item = DataTableManager.ItemTable.Get(1111115 + i);
+
+                testInfo = new DropItemInfo();
+                testInfo.amount = 1;
+                testInfo.ItemName = Item.ItemName;
+                testInfo.itemData = Item;
+                testInfo.id = 1111115 + i;
+                AddItem(testInfo);
+            }
+
+            for (int i = 0; i < 3; ++i)
+            {
+                Item = DataTableManager.ItemTable.Get(1111131 + i);
+
+                testInfo = new DropItemInfo();
+                testInfo.amount = 1;
+                testInfo.ItemName = Item.ItemName;
+                testInfo.itemData = Item;
+                testInfo.id = 1111131 + i;
+                AddItem(testInfo);
+            }
+
+            for (int i = 0; i < 3; ++i)
+            {
+                Item = DataTableManager.ItemTable.Get(1111119 + i);
+
+                testInfo = new DropItemInfo();
+                testInfo.amount = 1;
+                testInfo.ItemName = Item.ItemName;
+                testInfo.itemData = Item;
+                testInfo.id = 1111119 + i;
+                AddItem(testInfo);
+            }
+
+            for (int i = 0; i < 3; ++i)
+            {
+                Item = DataTableManager.ItemTable.Get(1111125 + i);
+
+                testInfo = new DropItemInfo();
+                testInfo.amount = 1;
+                testInfo.ItemName = Item.ItemName;
+                testInfo.itemData = Item;
+                testInfo.id = 1111125 + i;
+                AddItem(testInfo);
+            }
+
         }
 
-        for (int i = 0; i < 3; ++i)
-        {
-            var Item = DataTableManager.ItemTable.Get(1111125 + i);
-
-            var testInfo = new DropItemInfo();
-            testInfo.amount = 1;
-            testInfo.ItemName = Item.ItemName;
-            testInfo.itemData = Item;
-            testInfo.id = 1111125 + i;
-            AddItem(testInfo);
-        }
 
     }
 

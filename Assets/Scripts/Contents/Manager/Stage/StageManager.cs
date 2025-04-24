@@ -147,7 +147,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         if(pause)
         {
             onSaveEvent?.Invoke();
-            GameTimeManager.Instance.Save();
+            GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().Save();
             SaveLoadManager.Save();
         }      
     }
