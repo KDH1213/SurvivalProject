@@ -44,7 +44,12 @@ public class StorageUI : MonoBehaviour
 
     private void SetInventory(ItemInfo[] itemInfos, List<ItemSlot> itemSlots, Transform parent)
     {
-        itemSlots = new List<ItemSlot>();
+        foreach(var item in itemSlots)
+        {
+            Destroy(item.gameObject);
+        }
+        itemSlots.Clear();
+
         for (int i = 0; i < itemInfos.Length; i++) 
         {
             var slot = Instantiate(slotPrefab, parent);
@@ -272,7 +277,7 @@ public class StorageUI : MonoBehaviour
 
             if (totalAmount <= storageItemInfos[targetSlotIndex].itemData.MaxStack)
             {
-                var table = target.GetComponent<PlayerFSM>().PlayerInventory.InventroyItemTable;
+                var table = currentStructure.inventory.InventroyItemTable;
                 if (table.TryGetValue(storageItemInfos[sourceSlotIndex].itemData.ID, out var itemInfoList))
                 {
                     itemInfoList.Remove(storageItemInfos[sourceSlotIndex]);
@@ -289,7 +294,7 @@ public class StorageUI : MonoBehaviour
         }
         else
         {
-            (storageItemInfos[targetSlotIndex], storageItemInfos[sourceSlotIndex]) = (storageItemInfos[sourceSlotIndex], inventoryItemInfos[targetSlotIndex]);
+            (storageItemInfos[targetSlotIndex], storageItemInfos[sourceSlotIndex]) = (storageItemInfos[sourceSlotIndex], storageItemInfos[targetSlotIndex]);
             storageItemInfos[targetSlotIndex].index = targetSlotIndex;
             storageItemInfos[sourceSlotIndex].index = sourceSlotIndex;
             storageItemSlots[targetSlotIndex].OnSwapItemInfo(storageItemSlots[sourceSlotIndex]);

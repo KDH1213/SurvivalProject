@@ -161,7 +161,7 @@ public class StorageInventory : MonoBehaviour
         return useSlotCount == itemInfos.Length;
     }
 
-    /*public void Save()
+    public void Save()
     {
         var itemSlotList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
         itemSlotList.Clear();
@@ -175,9 +175,9 @@ public class StorageInventory : MonoBehaviour
             itemSlotList.Add(itemInfoSaveData);
         }
 
-    }*/
+    }
 
-    /*public void Load()
+    public void Load()
     {
         if (SaveLoadManager.Data.isRestart)
         {
@@ -228,5 +228,5 @@ public class StorageInventory : MonoBehaviour
             ++useSlotCount;
         }
 
-    }*/
+    }
 }

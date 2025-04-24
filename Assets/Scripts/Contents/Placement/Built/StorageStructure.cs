@@ -16,6 +16,8 @@ public class StorageStructure : PlacementObject
     {
         SetData();
     }
+
+    
     public override void SetData()
     {
         inventory = new StorageInventory();
