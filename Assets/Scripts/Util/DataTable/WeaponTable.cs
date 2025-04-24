@@ -9,7 +9,7 @@ public class WeaponData
     [field: SerializeField]
     public int WeaponType { get; set; }
     [field: SerializeField]
-    public string Prefab { get; set; }
+    public string PrefabName { get; set; }
     [field: SerializeField]
     public float AttackPower { get; set; }
 
@@ -27,15 +27,12 @@ public class WeaponData
     [field: SerializeField]
     public int AttackSFX { get; set; }
 
-
-    public Sprite ItemImage;
-    public string ItemName { get { return ItemID.ToString(); } }
-
+    public GameObject WeaponPrefab;
 }
 public class WeaponTable : DataTable
 {
     private Dictionary<int, WeaponData> weaponDataTable = new Dictionary<int, WeaponData>();
-    private readonly string assetIconPath = "UI/Icon/{0}";
+    private readonly string assetWeaponPath = "Prefabs/Weapons/{0}";
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
@@ -50,7 +47,7 @@ public class WeaponTable : DataTable
             if (!weaponDataTable.ContainsKey(item.ItemID))
             {
                 weaponDataTable.Add(item.ItemID, item);
-                // item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
+                item.WeaponPrefab = (GameObject)(Resources.Load(string.Format(assetWeaponPath, item.PrefabName), typeof(GameObject)));
             }
             else
             {

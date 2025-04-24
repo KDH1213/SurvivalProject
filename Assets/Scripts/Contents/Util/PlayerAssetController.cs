@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerAssetController : MonoBehaviour
 {
     [SerializeField]
+    private Transform rightHandTransform;
+
+    [SerializeField]
     private ArmorMeshData armorMeshData;
 
     [SerializeField]
@@ -19,6 +22,8 @@ public class PlayerAssetController : MonoBehaviour
     private List<SkinnedMeshRenderer> shoesMeshRendererList = new List<SkinnedMeshRenderer>();
 
     private List<List<SkinnedMeshRenderer>> skinnedMeshRendererLists = new List<List<SkinnedMeshRenderer>>();
+
+    private Dictionary<int, GameObject> weaponTable = new Dictionary<int, GameObject>();
 
     private void Awake()
     {
@@ -36,13 +41,14 @@ public class PlayerAssetController : MonoBehaviour
 
     public void OnEquipmentItem(ItemData itemData)
     {
-        if(itemData.ItemType == ItemType.Weapon)
+        if (itemData.ItemType == ItemType.Weapon)
         {
-            OnEquipmentWeapon();
+            var weaponData = DataTableManager.WeaponTable.Get(itemData.ID);
+            OnEquipmentWeapon(weaponData);
         }
-        else if(itemData.ItemType == ItemType.Armor)
+        else if (itemData.ItemType == ItemType.Armor)
         {
-           var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
+            var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
             OnEquipmentArmor(armorData);
         }
     }
@@ -51,6 +57,8 @@ public class PlayerAssetController : MonoBehaviour
     {
         if (itemData.ItemType == ItemType.Weapon)
         {
+            var weaponData = DataTableManager.WeaponTable.Get(itemData.ID);
+            OnUnEquipmentWeapon(weaponData);
         }
         else if (itemData.ItemType == ItemType.Armor)
         {
@@ -87,9 +95,27 @@ public class PlayerAssetController : MonoBehaviour
         }
     }
 
-    private void OnEquipmentWeapon()
+    private void OnEquipmentWeapon(WeaponData weaponData)
     {
+        GameObject weapon = null;
+        if(weaponTable.TryGetValue(weaponData.ItemID, out weapon))
+        {
+            weapon.SetActive(true);
+        }
+        else
+        {
+            weapon = Instantiate(weaponData.WeaponPrefab, rightHandTransform);
+            weapon.GetComponent<WeaponSocketController>().OnInitialized();
+            weaponTable.Add(weaponData.ItemID, weapon);
+        }
+    }
 
+    private void OnUnEquipmentWeapon(WeaponData weaponData)
+    {
+        if (weaponTable.TryGetValue(weaponData.ItemID, out var weapon))
+        {
+            weapon.SetActive(false);
+        }
     }
 
     private void OnUnEquipmentArmor(ArmorData armorData)
