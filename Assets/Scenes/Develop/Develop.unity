@@ -1921,7 +1921,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4930830580576066011, guid: f8f569ca41324f149b1597ed37744842, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 454160526144089284, guid: f8f569ca41324f149b1597ed37744842,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 940640498}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8418280006892654808, guid: f8f569ca41324f149b1597ed37744842,
         type: 3}
@@ -1964,6 +1968,12 @@ MonoBehaviour:
     type: 3}
   <IsStatic>k__BackingField: 1
   <IsMarker>k__BackingField: 1
+--- !u!4 &119348897 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 454160526144089284, guid: f8f569ca41324f149b1597ed37744842,
+    type: 3}
+  m_PrefabInstance: {fileID: 119348894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &120192404 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6946268725971305748, guid: 9be0e7e95ecfd33428a6f6e409da560a,
@@ -11211,6 +11221,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 342485658}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &664417801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2694859317469598286, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+    type: 3}
+  m_PrefabInstance: {fileID: 8872535100717136749}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &665756996 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 355882940159596893, guid: d1fde4dee2bf6c444a849a3715402630,
@@ -14362,6 +14378,102 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2022822253}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &940640497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 940640498}
+  - component: {fileID: 940640500}
+  - component: {fileID: 940640499}
+  m_Layer: 9
+  m_Name: ButtonTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &940640498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940640497}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 119348897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &940640499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940640497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2629bb015f2c5fb43b0baa2cf5294cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collsionEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 664417801}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  collsionExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 664417801}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &940640500
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940640497}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 50, y: 1, z: 50}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &951277395 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7521346679385775242, guid: 6a08c846b4fde9746b10e7b132c44c8f,
@@ -37155,6 +37267,11 @@ PrefabInstance:
       propertyPath: m_Padding.m_Right
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1589152876593804114, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1753522446462062234, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_fontSharedMaterials.Array.size
@@ -37199,6 +37316,11 @@ PrefabInstance:
     - target: {fileID: 1961285713107996627, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694859317469598286, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3044680487428306604, guid: e7bdb1fa455f36d4dad0ecf082f77622,
@@ -37533,6 +37655,11 @@ PrefabInstance:
     - target: {fileID: 7411532741290360531, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7721311411093945610, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
+      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7881402326595373707, guid: e7bdb1fa455f36d4dad0ecf082f77622,
