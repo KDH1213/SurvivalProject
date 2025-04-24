@@ -201,53 +201,53 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         //    AddItem(testInfo);
         //}
 
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    var Item = DataTableManager.ItemTable.Get(1111115 + i);
+        for (int i = 0; i < 3; ++i)
+        {
+            var Item = DataTableManager.ItemTable.Get(1111115 + i);
 
-        //    var testInfo = new DropItemInfo();
-        //    testInfo.amount = 1;
-        //    testInfo.ItemName = Item.ItemName;
-        //    testInfo.itemData = Item;
-        //    testInfo.id = 1111113 + i;
-        //    AddItem(testInfo);
-        //}
+            var testInfo = new DropItemInfo();
+            testInfo.amount = 1;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = 1111115 + i;
+            AddItem(testInfo);
+        }
 
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    var Item = DataTableManager.ItemTable.Get(1111131 + i);
+        for (int i = 0; i < 3; ++i)
+        {
+            var Item = DataTableManager.ItemTable.Get(1111131 + i);
 
-        //    var testInfo = new DropItemInfo();
-        //    testInfo.amount = 1;
-        //    testInfo.ItemName = Item.ItemName;
-        //    testInfo.itemData = Item;
-        //    testInfo.id = 1111131 + i;
-        //    AddItem(testInfo);
-        //}
+            var testInfo = new DropItemInfo();
+            testInfo.amount = 1;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = 1111131 + i;
+            AddItem(testInfo);
+        }
 
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    var Item = DataTableManager.ItemTable.Get(1111119 + i);
+        for (int i = 0; i < 3; ++i)
+        {
+            var Item = DataTableManager.ItemTable.Get(1111119 + i);
 
-        //    var testInfo = new DropItemInfo();
-        //    testInfo.amount = 1;
-        //    testInfo.ItemName = Item.ItemName;
-        //    testInfo.itemData = Item;
-        //    testInfo.id = 1111119 + i;
-        //    AddItem(testInfo);
-        //}
+            var testInfo = new DropItemInfo();
+            testInfo.amount = 1;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = 1111119 + i;
+            AddItem(testInfo);
+        }
 
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    var Item = DataTableManager.ItemTable.Get(1111125 + i);
+        for (int i = 0; i < 3; ++i)
+        {
+            var Item = DataTableManager.ItemTable.Get(1111125 + i);
 
-        //    var testInfo = new DropItemInfo();
-        //    testInfo.amount = 1;
-        //    testInfo.ItemName = Item.ItemName;
-        //    testInfo.itemData = Item;
-        //    testInfo.id = 1111125 + i;
-        //    AddItem(testInfo);
-        //}
+            var testInfo = new DropItemInfo();
+            testInfo.amount = 1;
+            testInfo.ItemName = Item.ItemName;
+            testInfo.itemData = Item;
+            testInfo.id = 1111125 + i;
+            AddItem(testInfo);
+        }
 
     }
 
