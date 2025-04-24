@@ -98,7 +98,6 @@ public class SceneLoader : Singleton<SceneLoader>
         {
             isChangeScene  = false;
         }
-        Addressables.Release(sceneOperation);
     }
 
     public void OnLoad()
