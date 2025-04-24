@@ -14,6 +14,7 @@ public class CharactorStats : MonoBehaviour
     public SerializedDictionary<StatType, StatValue> CurrentStatTable { get { return currentStatTable; } }
 
     public bool IsDead { get; protected set; } = false;
+    public bool CanHit { get; protected set; } = true;
 
     public UnityEvent hitEvent;
     public UnityEvent deathEvent;

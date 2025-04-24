@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerStats : CharactorStats, ISaveLoadData
 {
@@ -17,6 +19,10 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     [SerializeField]
     private TextMeshProUGUI hpText;
 
+    [SerializeField]
+    private float invincibilityTime = 3f;
+
+    private Coroutine resurrectionCoroutine;
 
     private float currentSpeed = 1f;
     private float currentAttackSpeed = 1f;
@@ -261,9 +267,19 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void OnResurrection()
     {
         IsDead = false;
+        CanHit = false;
+
+        resurrectionCoroutine = StartCoroutine(CoResurrection());
         var hpStat = currentStatTable[StatType.HP];
         hpStat.SetValue(hpStat.MaxValue);
         OnChangeHp();
+    }
+
+    private IEnumerator CoResurrection()
+    {
+        CanHit = false;
+        yield return new WaitForSeconds(invincibilityTime);
+        CanHit = true;
     }
 
     public void Save()
