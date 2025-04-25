@@ -29,6 +29,12 @@ public class StructureStats : CharactorStats, ISaveLoadData
         IsDead = true;
     }
 
+    public void OnRepair(float repair)
+    {
+        IsDead = false;
+        currentStatTable[StatType.HP].SetValue(repair);
+    }
+
     private void OnEnable()
     {
         currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);

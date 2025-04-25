@@ -131,6 +131,7 @@ public static class Tags
     public static readonly string GameController = "GameController";
     public static readonly string OverlapCollider = "OverlapCollider";
     public static readonly string StageManager = "StageManager";
+    public static readonly string PointStructure = "PointStructure";
 }
 
 public static class SceneName

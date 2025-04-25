@@ -156,7 +156,7 @@ public class LifeStat : LevelStat, ISaveLoadData
             }
 
             skillLevelTable.Add((LifeSkillType)i, list[i]);
-            currentSkillStatValue[i] = lifeStatData.LifeSkillStatTable[(LifeSkillType)i];
+            currentSkillStatValue[i] = lifeStatData.LifeSkillStatTable[(LifeSkillType)i] * list[i];
         }
     }
 

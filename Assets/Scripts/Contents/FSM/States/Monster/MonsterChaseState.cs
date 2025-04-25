@@ -4,6 +4,9 @@ public class MonsterChaseState : MonsterBaseState
 {
     private bool useReturn;
 
+    private Vector3 closestPoint;
+    private Collider targetCollider;
+
     protected override void Awake()
     {
         base.Awake();
@@ -17,6 +20,13 @@ public class MonsterChaseState : MonsterBaseState
         Agent.isStopped = false;
         Agent.speed = MonsterStats.Speed;
         MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+
+        if(MonsterFSM.Target != null)
+        {
+            targetCollider = MonsterFSM.Target.GetComponentInChildren<Collider>();
+            closestPoint = targetCollider.ClosestPoint(transform.position);
+            Agent.SetDestination(closestPoint);
+        }
     }
 
     public override void ExecuteUpdate()
@@ -44,7 +54,8 @@ public class MonsterChaseState : MonsterBaseState
     {
         if (MonsterFSM.Target != null)
         {
-            Agent.SetDestination(MonsterFSM.TargetTransform.position);
+            closestPoint = targetCollider.ClosestPoint(transform.position);
+            Agent.SetDestination(closestPoint);
         }
     }
 
@@ -56,14 +67,15 @@ public class MonsterChaseState : MonsterBaseState
 
     private void Chase()
     {
-        MonsterFSM.TargetDistance = Vector3.Distance(transform.position, MonsterFSM.TargetTransform.position);
+        closestPoint = targetCollider.ClosestPoint(transform.position);
+        float distance = (closestPoint - transform.position).ConvertVector2().magnitude;
 
-        if (MonsterFSM.TargetDistance <= MonsterFSM.Weapon.Range)
+        if (distance <= MonsterFSM.Weapon.Range)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
         
-        if (MonsterFSM.TargetDistance > MonsterFSM.MonsterData.ChaseRadius)
+        if (distance > MonsterFSM.MonsterData.ChaseRadius)
         {
             MonsterFSM.Target = null;
             //MonsterFSM.ChangeState(MonsterStateType.Idle);

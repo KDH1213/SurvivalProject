@@ -24,20 +24,25 @@ public class GameOverController : MonoBehaviour
 
         onPlayerResurrectionEvent.AddListener(player.GetComponent<PlayerFSM>().OnResurrection);
         uiGameOverView.SetResurrectionAction(OnResurrectionEvent);
-        // var strongpointStats = GameObject.FindWithTag(Tags.Strongpoint).GetComponent<Strongpoint>();
-        // strongpointStats.deathEvent.AddListener(OnDestroyStrongpoint);
+        var strongpointStats = GameObject.FindWithTag(Tags.PointStructure).GetComponentInChildren<CharactorStats>();
+
+        onResurrectionEventEvent.AddListener(strongpointStats.GetComponentInChildren<DestroyPlayerStrongpointEvent>().OnResurrection);
+        strongpointStats.deathEvent.AddListener(OnDestroyStrongpoint);
     }
 
 
 
     public void OnDeathPlayer()
     {
+        uiGameOverView.SetGameOverText("플레이어가 사망하였습니다.");
         uiGameOverView.gameObject.SetActive(true);
         isDeathPlayer = true;
+        // TODO :: 스트링 테이블 연동 예정
     }
 
     public void OnDestroyStrongpoint()
     {
+        uiGameOverView.SetGameOverText("거점이 파괴되었습니다.");
         uiGameOverView.gameObject.SetActive(true);
         isDestroyStrongpoint = true;
     }
@@ -46,13 +51,10 @@ public class GameOverController : MonoBehaviour
     {
         if(isDeathPlayer)
         {
-            // TODO :: 스트링 테이블 연동 예정
-            uiGameOverView.SetGameOverText("플레이어가 사망하였습니다.");
             onPlayerResurrectionEvent?.Invoke();
         }
         else if (isDestroyStrongpoint)
         {
-            uiGameOverView.SetGameOverText("거점이 파괴되었습니다.");
             onResurrectionEventEvent?.Invoke();
         }
     }

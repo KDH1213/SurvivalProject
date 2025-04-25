@@ -41,7 +41,7 @@ public class Weapon : AttackDefinition
         CharactorStats aStats = attacker.GetComponent<CharactorStats>();
         CharactorStats dStats = defender.GetComponent<CharactorStats>();
 
-        if(dStats.IsDead)
+        if(dStats.IsDead || !dStats.CanHit)
         {
             return;
         }

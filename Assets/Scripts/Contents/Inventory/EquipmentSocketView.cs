@@ -74,10 +74,10 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     private void Start()
     {
         var statTable = playerStats.CurrentStatTable;
-        playerStats.onChangDamageValue += (value) => attackPowerText.text = playerStats.AttackPower.ToString();
-        playerStats.onChangeAttackSpeedValue += (value) => attackSpeedText.text = playerStats.AttackSpeed.ToString();
-        playerStats.onChangeSpeedValue +=(value) => moveSpeedText.text = playerStats.Speed.ToString();
-        playerStats.onChangeDefenceValue +=(value) => defenseText.text = playerStats.Defense.ToString();
+        playerStats.onChangDamageValue += (value) => attackPowerText.text = value.ToString();
+        playerStats.onChangeAttackSpeedValue += (value) => attackSpeedText.text = value.ToString();
+        playerStats.onChangeSpeedValue +=(value) => moveSpeedText.text = value.ToString();
+        playerStats.onChangeDefenceValue +=(value) => defenseText.text = value.ToString();
 
         statTable[StatType.BasicAttackPower].OnActionChangeValue();
         statTable[StatType.AttackSpeed].OnActionChangeValue();

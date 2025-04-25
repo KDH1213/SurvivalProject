@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerStats : CharactorStats, ISaveLoadData
 {
@@ -17,12 +19,16 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     [SerializeField]
     private TextMeshProUGUI hpText;
 
+    [SerializeField]
+    private float invincibilityTime = 3f;
+
+    private Coroutine resurrectionCoroutine;
 
     private float currentSpeed = 1f;
     private float currentAttackSpeed = 1f;
     private float currentDamage = 1f;
     private float currentDefence = 0f;
-    private readonly string hpFormat = "{0} / /{1}";
+    private readonly string hpFormat = "{0} / {1}";
     private const string pointFormat = "F0";
 
     public UnityAction<float> onChangeAttackSpeedValue;
@@ -205,12 +211,15 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         {
             case LifeSkillType.Damage:
                 currentDamage = currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
+                onChangDamageValue?.Invoke(currentDamage);
                 break;
             case LifeSkillType.MoveSpeed:
                 currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
+                onChangeSpeedValue?.Invoke(currentSpeed);
                 break;
             case LifeSkillType.AttackSpeed:
                 currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
+                onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
                 break;
             case LifeSkillType.Hungur:
                 GetComponent<HungerStat>().OnSetHungerSkillValue(lifeStat.Hungur);
@@ -220,9 +229,11 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                 break;
             case LifeSkillType.Defence:
                 currentDefence = currentStatTable[StatType.Defense].Value + lifeStat.Defence;
+                onChangeDefenceValue?.Invoke(currentDefence);
                 break;
             case LifeSkillType.HP:
                 currentStatTable[StatType.HP].AddMaxValue(5f);
+                OnChangeHp();
                 break;
             case LifeSkillType.Fatigue:
                 GetComponent<FatigueStat>().OnSetFatigueSkillValue(lifeStat.Fatigue);
@@ -261,9 +272,19 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void OnResurrection()
     {
         IsDead = false;
+        CanHit = false;
+
+        resurrectionCoroutine = StartCoroutine(CoResurrection());
         var hpStat = currentStatTable[StatType.HP];
         hpStat.SetValue(hpStat.MaxValue);
         OnChangeHp();
+    }
+
+    private IEnumerator CoResurrection()
+    {
+        CanHit = false;
+        yield return new WaitForSeconds(invincibilityTime);
+        CanHit = true;
     }
 
     public void Save()
