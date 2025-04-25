@@ -20,6 +20,8 @@ public class StorageUI : MonoBehaviour
 
     [SerializeField]
     private StorageItemInfo itemInfoView;
+    [SerializeField]
+    private UIInventoryDivisionView uIInventoryDivisionView;
 
     private List<ItemSlot> inventoryItemSlots = new List<ItemSlot>();
     private List<ItemSlot> storageItemSlots = new List<ItemSlot>();
@@ -531,5 +533,38 @@ public class StorageUI : MonoBehaviour
         UpdateItemTable();
 
         SelectedSlotIndex = -1;
+    }
+
+    public void OnDivisionItem(int count)
+    {
+        ItemInfo[] itemInfos;
+        if (SelectedSlots == inventoryItemSlots)
+        {
+            itemInfos = inventoryItemInfos;
+        }
+        else
+        {
+            itemInfos = storageItemInfos;
+        }
+
+        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
+        {
+            return;
+        }
+
+        itemInfos[SelectedSlotIndex].Amount -= count;
+
+        int slotIndex = FindEmptySlotIndex(itemInfos);
+
+        itemInfos[slotIndex].Amount = count;
+        itemInfos[slotIndex].itemData = itemInfos[SelectedSlotIndex].itemData;
+
+        if (itemInfos[SelectedSlotIndex].Amount <= 0)
+        {
+            itemInfos[SelectedSlotIndex].itemData = null;
+        }
+
+        UpdateSlots(itemInfos, SelectedSlots);
+
     }
 }
