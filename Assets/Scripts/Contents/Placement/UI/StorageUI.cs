@@ -29,6 +29,9 @@ public class StorageUI : MonoBehaviour
     private ItemInfo[] inventoryItemInfos;
     private ItemInfo[] storageItemInfos;
 
+    [SerializeField]
+    private Button divisionButton;
+
     private StorageStructure currentStructure;
 
     public int SelectedSlotIndex { get; private set; } = -1;
@@ -66,7 +69,16 @@ public class StorageUI : MonoBehaviour
                 itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
 
                 uIInventoryDivisionView.OnSetItemInfoEvnet(itemInfos[SelectedSlotIndex]);
-                
+
+                if (itemInfos[SelectedSlotIndex].Amount > 1)
+                {
+                    divisionButton.interactable = true;
+                }
+                else
+                {
+                    divisionButton.interactable = false;
+                }
+
             });
 
             slot.OnDragEvent.AddListener((position) => { if (PrivewIcon != null) PrivewIcon.transform.position = position; });
@@ -165,6 +177,7 @@ public class StorageUI : MonoBehaviour
                 OnEndDragTargetToItemSlot(uiItemSlot);
             }
 
+            SelectedSlotIndex = -1;
             break;
         }
 
