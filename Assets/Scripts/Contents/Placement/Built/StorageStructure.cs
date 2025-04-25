@@ -10,7 +10,7 @@ public class StorageStructure : PlacementObject
 
     private void Start()
     {
-        SetData();
+        
     }
 
     
