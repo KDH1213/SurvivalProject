@@ -62,6 +62,14 @@ public class ProduceStructure : PlacementObject
         currentTime = Time.time + produceTime;
     }
 
+    public override void Upgrade(PlacementObject before)
+    {
+        var upgrade = before as ProduceStructure;
+
+        produceInfo.outPut = upgrade.produceInfo.outPut;
+        currentTime = upgrade.currentTime;
+    }
+
     public override void Save()
     {
         if (SaveLoadManager.Data == null)

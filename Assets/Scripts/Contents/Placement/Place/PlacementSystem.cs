@@ -312,6 +312,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Rotation = before.Rotation;
         placementObject.uiController = placementUI;
         placementObject.SetData();
+        placementObject.Upgrade(before);
         RemoveStructure(before);
 
         preview.SetCellIndicator(newObject, placeObjInfo.Size);

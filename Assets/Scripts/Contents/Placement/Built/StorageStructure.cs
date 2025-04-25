@@ -20,6 +20,13 @@ public class StorageStructure : PlacementObject
         inventory.SetItemInfos(maxStorage);
     }
 
+    public override void Upgrade(PlacementObject before)
+    {
+        var upgrade = before as StorageStructure;
+
+        inventory = upgrade.inventory;
+    }
+
     public override void Load()
     {
         int index = SaveLoadManager.Data.storagePlacementSaveInfo.FindIndex(x => x.position == Position && x.id == ID);

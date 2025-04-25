@@ -63,6 +63,10 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     {
     }
 
+    public virtual void Upgrade(PlacementObject before)
+    {
+
+    }
     public virtual void Interact(GameObject interactor)
     {
         
