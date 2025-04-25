@@ -16,8 +16,14 @@ public class StorageStructure : PlacementObject
     
     public override void SetData()
     {
-        inventory = new StorageInventory();
+        inventory = GetComponent<StorageInventory>();
         inventory.SetItemInfos(maxStorage);
+    }
+
+    public override void Load()
+    {
+        int index = SaveLoadManager.Data.storagePlacementSaveInfo.FindIndex(x => x.position == Position && x.id == ID);
+        inventory.Load(index);
     }
 
     public override void Save()
@@ -32,8 +38,9 @@ public class StorageStructure : PlacementObject
         saveInfo.position = Position;
         saveInfo.rotation = Rotation;
         saveInfo.id = ID;
-        inventory.Save(ID);
         SaveLoadManager.Data.storagePlacementSaveInfo.Add(saveInfo);
+        int index = SaveLoadManager.Data.storagePlacementSaveInfo.FindIndex(x => x.position == Position && x.id == ID);
+        inventory.Save(index);
     }
 
     public override void Interact(GameObject interactor)

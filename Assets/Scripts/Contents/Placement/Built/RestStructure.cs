@@ -10,8 +10,7 @@ public class RestStructure : PlacementObject
     private float recoverDuration;
     [SerializeField]
     private float recoverEndTime;
-    [SerializeField]
-    private float recoverPerTime;
+    private float recoverPerTime = 60;
     [SerializeField]
     private float recoverPerFatigue;
     [SerializeField]
@@ -19,8 +18,7 @@ public class RestStructure : PlacementObject
 
     private GameObject target;
     private bool isRest = false;
-    [SerializeField]
-    private int timeScale;
+    private int timeScale = 2;
 
     private void Update()
     {
@@ -44,7 +42,7 @@ public class RestStructure : PlacementObject
     [ContextMenu("setData")]
     public override void SetData()
     {
-        recoverEndTime = Time.time + recoverDuration;
+        //recoverEndTime = Time.time + recoverDuration;
         recoverCurTime = Time.time + recoverPerTime;
     }
 
