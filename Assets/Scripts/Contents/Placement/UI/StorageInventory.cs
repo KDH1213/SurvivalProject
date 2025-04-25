@@ -21,6 +21,7 @@ public class StorageInventory : MonoBehaviour
 
     public void SetItemInfos(int count)
     {
+        
         itemInfos = new ItemInfo[count];
         for (int i = 0; i < count; i++) 
         {

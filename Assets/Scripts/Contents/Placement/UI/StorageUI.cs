@@ -37,6 +37,7 @@ public class StorageUI : MonoBehaviour
     private bool isOnDrag = false;
     public void SetUI(GameObject target, StorageStructure structure)
     {
+        uIInventoryDivisionView.onDivisionEvent.AddListener(OnDivisionItem);
         this.target = target;
         currentStructure = structure;
         inventoryItemInfos = target.GetComponent<PlayerFSM>().PlayerInventory.ItemInfos;
@@ -63,6 +64,9 @@ public class StorageUI : MonoBehaviour
                 SelectedSlots = itemSlots;
                 slot.OnClickSlot();
                 itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex].itemData);
+
+                uIInventoryDivisionView.OnSetItemInfoEvnet(itemInfos[SelectedSlotIndex]);
+                
             });
 
             slot.OnDragEvent.AddListener((position) => { if (PrivewIcon != null) PrivewIcon.transform.position = position; });
@@ -565,6 +569,6 @@ public class StorageUI : MonoBehaviour
         }
 
         UpdateSlots(itemInfos, SelectedSlots);
-
+        SelectedSlotIndex = -1;
     }
 }
