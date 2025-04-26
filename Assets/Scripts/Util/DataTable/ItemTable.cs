@@ -127,6 +127,8 @@ public class ItemData
 public class ItemTable : DataTable
 {
     private Dictionary<int, ItemData> itemDataTable = new Dictionary<int, ItemData>();
+    public Dictionary<int, ItemData> ItemDataTable { get { return itemDataTable; } }
+
     private readonly string assetIconPath = "Sprites/UI/Icons/{0}";
     public override void Load(string filename)
     {
