@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 5029684717416027711}
   - component: {fileID: 1071315026367855003}
   - component: {fileID: -4250592314023095105}
+  - component: {fileID: 5061516474901038500}
   m_Layer: 8
   m_Name: Monster_Prefab_130061102
   m_TagString: Monster
@@ -133,6 +134,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value: {fileID: 4941924664271721792}
+    - Key: 7
+      Value: {fileID: 5061516474901038500}
     - Key: 4
       Value: {fileID: 754784202502819425}
     - Key: 2
@@ -148,29 +151,6 @@ MonoBehaviour:
   <Agent>k__BackingField: {fileID: 3247300220053953403}
   <Weapon>k__BackingField: {fileID: 11400000, guid: bcce40906cacfc842a6bdf8156297f15,
     type: 2}
-  <MonsterData>k__BackingField:
-    <MonsterID>k__BackingField: 0
-    <Name>k__BackingField: 0
-    <PrefabName>k__BackingField: 
-    <MonsterType>k__BackingField: 0
-    <AttackType>k__BackingField: 0
-    <HP>k__BackingField: 0
-    <AttackPower>k__BackingField: 0
-    <Defense>k__BackingField: 0
-    <MovementSpeed>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
-    <MaxChaseRadius>k__BackingField: 0
-    <ChaseRadius>k__BackingField: 0
-    <AttackRadius>k__BackingField: 0
-    <AttackCooldown>k__BackingField: 0
-    <ProjectileSpeed>k__BackingField: 0
-    <LifeTime>k__BackingField: 0
-    <DropLifeExp>k__BackingField: 0
-    <AttackEffect>k__BackingField: 0
-    <ProjectileEffect>k__BackingField: 0
-    <AttackSFX>k__BackingField: 0
-    <DropID>k__BackingField: 0
-    monsterPrefab: {fileID: 0}
   <AttackPoint>k__BackingField: {fileID: 4510328831007063315}
   onEndInteractEvent:
     m_PersistentCalls:
@@ -532,6 +512,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7565613759051502188}
+        m_TargetAssemblyTypeName: MonsterFSM, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &-4250592314023095105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,6 +545,31 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 21300000, guid: ee4645b471245254691f3ba1cec46374,
     type: 3}
   <IsStatic>k__BackingField: 0
+  <IsMarker>k__BackingField: 0
+--- !u!114 &5061516474901038500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7722941127125952148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e4c2495c424ce468b6192494991362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeFixedUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  exitStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &377386182231706403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -890,6 +907,21 @@ MonoBehaviour:
       - m_Target: {fileID: 5426340784154792447}
         m_TargetAssemblyTypeName: MonsterDeathState, Assembly-CSharp
         m_MethodName: OnEndAnimationEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  endHitAnimationEvnet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7565613759051502188}
+        m_TargetAssemblyTypeName: MonsterFSM, Assembly-CSharp
+        m_MethodName: OnEndHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

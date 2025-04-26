@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 3758884436814702382}
   - component: {fileID: 5553414894230001105}
   - component: {fileID: -4207536392910272337}
+  - component: {fileID: 2856885419933139794}
   m_Layer: 8
   m_Name: Monster_Prefab_130041102
   m_TagString: Monster
@@ -102,6 +103,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value: {fileID: 6426834501321629887}
+    - Key: 7
+      Value: {fileID: 2856885419933139794}
     - Key: 4
       Value: {fileID: 2987792643081866717}
     - Key: 2
@@ -478,6 +481,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4707311770374768796}
+        m_TargetAssemblyTypeName: MonsterFSM, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &-4207536392910272337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,6 +515,30 @@ MonoBehaviour:
     type: 2}
   <IsStatic>k__BackingField: 0
   <IsMarker>k__BackingField: 0
+--- !u!114 &2856885419933139794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808540635936083286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e4c2495c424ce468b6192494991362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  executeFixedUpdateStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  exitStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8115999696977314826
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,6 +776,21 @@ MonoBehaviour:
       - m_Target: {fileID: 2141268920263189426}
         m_TargetAssemblyTypeName: MonsterDeathState, Assembly-CSharp
         m_MethodName: OnEndAnimationEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  endHitAnimationEvnet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4707311770374768796}
+        m_TargetAssemblyTypeName: MonsterFSM, Assembly-CSharp
+        m_MethodName: OnEndHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

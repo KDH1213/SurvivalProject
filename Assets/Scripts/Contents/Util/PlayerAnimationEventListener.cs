@@ -9,6 +9,7 @@ public class PlayerAnimationEventListener : MonoBehaviour
     public UnityEvent endAttackAnimationEvent;
     public UnityEvent createAttackVFXEvnet;
     public UnityEvent endDeathAnimationEvent;
+    public UnityEvent endHitAnimationEvnet;
 
     public void OnStartAttack()
     {
@@ -28,5 +29,10 @@ public class PlayerAnimationEventListener : MonoBehaviour
     public void OnEndDeathAnimation()
     {
         endDeathAnimationEvent?.Invoke();
+    }
+
+    public void OnEndHitAnimation()
+    {
+        endHitAnimationEvnet?.Invoke();
     }
 }

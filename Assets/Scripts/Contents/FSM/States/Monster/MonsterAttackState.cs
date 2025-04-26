@@ -55,8 +55,9 @@ public class MonsterAttackState : MonsterBaseState
             return;
         }
 
+        MonsterFSM.SetIsAttack(false);
 
-        if(MonsterFSM.Target == null)
+        if (MonsterFSM.Target == null)
         {
             MonsterFSM.ChangeState(MonsterStateType.Chase);
             return;
@@ -84,6 +85,7 @@ public class MonsterAttackState : MonsterBaseState
     public void OnStartAttack()
     {
         MonsterFSM.Weapon.StartAttack(MonsterFSM.AttackPoint, gameObject);
+        MonsterFSM.SetIsAttack(true);
 
         var targetStats = MonsterFSM.Target.GetComponent<CharactorStats>();
         if (targetStats != null && targetStats.IsDead)

@@ -26,6 +26,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     [field: SerializeField]
     public Transform AttackPoint { get; private set; }
+    protected MonsterStats MonsterStats { get; private set; }
 
     public Vector3 FirstPosition { get; private set; }
 
@@ -68,6 +69,8 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         IsDead = false;
         CanRouting = false;
         FirstPosition = gameObject.transform.position;
+
+        MonsterStats = GetComponent<MonsterStats>();
     }
 
     private void OnEnable()
@@ -106,6 +109,20 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
         CanRouting = true;
         RemainingTime = RespawnTime;
         ChangeState(MonsterStateType.Death);
+    }
+
+    // TODO :: MonsterStats => damege Event에 연결
+    public void OnHit()
+    {
+        if(!MonsterStats.IsDead && !IsAttack)
+        {
+            ChangeState(MonsterStateType.Hit);
+        }
+    }
+
+    public void OnEndHit()
+    {
+        ChangeState(MonsterStateType.Chase);
     }
 
     public void Interact(GameObject interactor)

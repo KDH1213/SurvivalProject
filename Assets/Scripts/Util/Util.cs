@@ -72,4 +72,7 @@ public static class MonsterAnimationHashCode
     public static readonly int hashAttack = Animator.StringToHash("Attack");
     public static readonly int hashDeath = Animator.StringToHash("Death");
     public static readonly int hashIsDeath = Animator.StringToHash("IsDeath");
+    public static readonly int hashHit = Animator.StringToHash("Hit");
+    public static readonly int hashHitFromX = Animator.StringToHash("HitFromX");
+
 }

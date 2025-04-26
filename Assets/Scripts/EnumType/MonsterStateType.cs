@@ -8,4 +8,5 @@ public enum MonsterStateType
     Attack,
     Move,
     Death,
+    Hit,
 }
