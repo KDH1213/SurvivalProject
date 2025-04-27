@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CreateItemUI : MonoBehaviour
@@ -33,11 +34,20 @@ public class CreateItemUI : MonoBehaviour
     private CreateStructure currentObject;
     private GameObject target;
 
+    public UnityEvent<int, int> onCreateItemEvent;
+
     private void Awake()
     {
-        if(GameObject.FindWithTag("Player") != null)
+        var player = GameObject.FindWithTag(Tags.Player);
+        if (player != null)
         {
-            inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
+            inventory = player.GetComponent<PlayerFSM>().PlayerInventory;
+        }
+
+        var questSystem = GameObject.FindWithTag(Tags.QuestSystem);
+        if(questSystem != null)
+        {
+            onCreateItemEvent.AddListener(questSystem.GetComponent<QuestSystem>().OnCreateItem);
         }
     }
 
@@ -127,7 +137,7 @@ public class CreateItemUI : MonoBehaviour
         {
             ConsumItem(createData.NeedItemList);
             inventory.AddItem(createItem);
-            
+            onCreateItemEvent?.Invoke(createItem.id, createItem.amount);
         }
         else
         {

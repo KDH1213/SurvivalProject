@@ -42,7 +42,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private List<QuestProgressInfo> questProgressInfoList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentMonsterQuestList = new List<QuestProgressInfo>();
+    private List<QuestProgressInfo> currentItemCollectionQuestList = new List<QuestProgressInfo>();
+    private List<QuestProgressInfo> currentCreateItemQuestList = new List<QuestProgressInfo>();
+
+    private int currentCreatItemQuestCount = 0;
     private int currentMonsterQuestCount = 0;
+    private int currentItemCollectionQuestCount = 0;
     private int activeQuestCount = 0;
 
     private Transform playerTransform;
@@ -81,26 +86,38 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
         questView.SetQuestInfo(questData);
         currentMonsterQuestList.Clear();
+        currentCreateItemQuestList.Clear();
+
+        currentItemCollectionQuestCount = 0;
         currentMonsterQuestCount = 0;
+        currentCreatItemQuestCount = 0;
         activeQuestCount = 0;
 
         for (int i = 0; i < questCount; ++i)
         {
+            var questProgressInfo = questProgressInfoList[i];
+
+            if (questInfoList[i].questType != QuestType.Movement)
+            {
+                questProgressInfoList[i].SetInfo(i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
+                onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
+            }
+
             switch (questInfoList[i].questType)
             {
                 case QuestType.None:
                     break;
                 case QuestType.ItemCollection:
+                    ++currentItemCollectionQuestCount;
+                    currentItemCollectionQuestList.Add(questProgressInfo);
                     break;
                 case QuestType.ItemCrafting:
+                    currentCreateItemQuestList.Add(questProgressInfo);
+                    ++currentCreatItemQuestCount;
                     break;
                 case QuestType.MonsterHunting:
-                    questProgressInfoList[i].SetInfo(i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
-                    var questProgressInfo = questProgressInfoList[i];
                     currentMonsterQuestList.Add(questProgressInfo);
                     ++currentMonsterQuestCount;
-
-                    onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
                     break;
                 case QuestType.Building:
                     break;
@@ -113,7 +130,6 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                 default:
                     break;
             }
-
             ++activeQuestCount;
         }
     }
@@ -135,6 +151,61 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                 {
                     currentMonsterQuestList.Remove(currentMonsterQuestList[i]);
                     --currentMonsterQuestCount;
+                    --activeQuestCount;
+                    CheckQuestClear();
+                }
+                break;
+            }
+        }
+    }
+
+    public void OnAddItem(int itemID, int addItemCount)
+    {
+        if (currentItemCollectionQuestCount == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentItemCollectionQuestCount; ++i)
+        {
+            if (currentItemCollectionQuestList[i].targetID == itemID)
+            {
+                currentItemCollectionQuestList[i].currentCount += addItemCount;
+                onChangeValueEvent?.Invoke(currentItemCollectionQuestList[i].index, currentItemCollectionQuestList[i].currentCount, currentItemCollectionQuestList[i].maxCount);
+                if (currentItemCollectionQuestList[i].IsClear())
+                {
+                    currentItemCollectionQuestList.Remove(currentItemCollectionQuestList[i]);
+                    --currentItemCollectionQuestCount;
+                    --activeQuestCount;
+                    CheckQuestClear();
+                }
+                break;
+            }
+        }
+    }
+
+    public void OnCreateBuilding(int buildID, int buildCount)
+    {
+
+    }
+
+    public void OnCreateItem(int itemID, int createCount)
+    {
+        if (currentCreatItemQuestCount == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentCreatItemQuestCount; ++i)
+        {
+            if (currentCreateItemQuestList[i].targetID == itemID)
+            {
+                currentCreateItemQuestList[i].currentCount += createCount;
+                onChangeValueEvent?.Invoke(currentCreateItemQuestList[i].index, currentCreateItemQuestList[i].currentCount, currentCreateItemQuestList[i].maxCount);
+                if (currentCreateItemQuestList[i].IsClear())
+                {
+                    currentCreateItemQuestList.Remove(currentCreateItemQuestList[i]);
+                    --currentCreatItemQuestCount;
                     --activeQuestCount;
                     CheckQuestClear();
                 }

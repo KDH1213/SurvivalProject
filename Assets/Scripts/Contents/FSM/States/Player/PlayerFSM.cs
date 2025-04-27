@@ -34,7 +34,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public bool IsPlayerInRange { get; private set; }
 
     public UnityEvent<GameObject> onTargetInteractEvent;
-    public UnityEvent<DropItemInfo> onDropItemEvent;
+    // public UnityEvent<DropItemInfo> onDropItemEvent;
+    public UnityEvent<int, int> onDropItemEvent;
     public UnityAction<int> onActAction;
 
     protected override void Awake()
@@ -44,7 +45,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
             Load();
         }
 
-        var stageManager = GameObject.FindGameObjectWithTag("StageManager");
+        var stageManager = GameObject.FindWithTag("StageManager");
         if (stageManager != null)
         {
             stageManager.GetComponent<StageManager>().onSaveEvent += Save;
@@ -60,6 +61,12 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     private void Start()
     {
         onTargetInteractEvent.AddListener(((PlayerInteractState)StateTable[PlayerStateType.Interact]).OnSetTarget);
+
+        var QuestSystem = GameObject.FindWithTag(Tags.QuestSystem);
+        if (QuestSystem != null)
+        {
+            onDropItemEvent.AddListener(QuestSystem.GetComponent<QuestSystem>().OnAddItem);
+        }
     }
 
     private void Update()
@@ -137,7 +144,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public void OnDropItem(DropItemInfo dropItemInfo)
     {
         PlayerInventory.AddItem(dropItemInfo);
-        // onDropItemEvent?.Invoke(dropItemInfo);
+        onDropItemEvent?.Invoke(dropItemInfo.id, dropItemInfo.amount);
     }
 
     public void OnPlayAct(int id)
