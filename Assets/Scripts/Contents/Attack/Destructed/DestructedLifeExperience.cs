@@ -9,15 +9,12 @@ public class DestructedLifeExperience : MonoBehaviour, IDestructible
     [SerializeField]
     private float experience;
 
-    // TODO :: 데이터 테이블에서 사용할 ID
-    private int id;
-
     public void OnDestruction(GameObject attacker)
     {
         if(attacker.GetComponent<LifeStat>() == null)
         {
             return;
         }
-        attacker.GetComponent<LifeStat>().OnAddExperience(experience);
+        attacker.GetComponent<LifeStat>().OnAddExperience(this.gameObject, experience);
     }
 }

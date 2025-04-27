@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
 public enum Languages
 {
     Korea,
@@ -65,49 +60,12 @@ public static class MonsterTableIds
         "MonsterTable",
     };
 }
-public static class CoinDrawTableIds
-{
-    public static readonly string[] String =
-    {
-        "CoinDrawTable",
-    };
-}
 
-public static class CharactorTableIds
+public static class QuestTableIds
 {
     public static readonly string[] String =
     {
-        "CharactorTable",
-    };
-}
-public static class AttackTableIds
-{
-    public static readonly string[] String =
-    {
-        "AttackTable",
-    };
-}
-public static class CharactorSellTableIds
-{
-    public static readonly string[] String =
-    {
-        "CharactorSellTable",
-    };
-}
-
-public static class CombinationTableIds
-{
-    public static readonly string[] String =
-    {
-        "CombinationTable",
-    };
-}
-
-public static class ReinforcedTableIds
-{
-    public static readonly string[] String =
-    {
-        "ReinforcedTable",
+        "QuestTable",
     };
 }
 
@@ -132,6 +90,7 @@ public static class Tags
     public static readonly string OverlapCollider = "OverlapCollider";
     public static readonly string StageManager = "StageManager";
     public static readonly string PointStructure = "PointStructure";
+    public static readonly string QuestSystem = "QuestSystem";
 }
 
 public static class SceneName

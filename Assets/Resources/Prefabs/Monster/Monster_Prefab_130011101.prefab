@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 4147799120725005018}
   - component: {fileID: -6283113170522306531}
   - component: {fileID: 8217091800066366279}
+  - component: {fileID: -6933617105342910858}
   m_Layer: 8
   m_Name: Monster_Prefab_130011101
   m_TagString: Monster
@@ -535,6 +536,21 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   exitStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-6933617105342910858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272701081804789719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12c7e4a0d2c0af4d9e9f1a173fc1391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMonsterDeathEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &5571266641687488046

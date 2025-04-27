@@ -62,7 +62,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         }
     }
 
-    public void OnAddExperience(float experience)
+    public void OnAddExperience(GameObject target, float experience)
     {
         currentExperience += experience;
 

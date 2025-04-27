@@ -49,6 +49,12 @@ public static class DataTableManager
             tables.Add(id, table);
         }
 
+        foreach (var id in QuestTableIds.String)
+        {
+            var table = new QuestTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
 
         var tableConstruction = new ConstructionTable();
         string idConstruction = PlacementTableIds.ConstructionTable;
@@ -123,6 +129,13 @@ public static class DataTableManager
         get
         {
             return Get<GatherTable>(GatherTableIds.String[0]);
+        }
+    }
+    public static QuestTable QuestTable
+    {
+        get
+        {
+            return Get<QuestTable>(QuestTableIds.String[0]);
         }
     }
 
