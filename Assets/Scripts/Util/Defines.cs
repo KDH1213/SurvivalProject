@@ -91,6 +91,7 @@ public static class Tags
     public static readonly string StageManager = "StageManager";
     public static readonly string PointStructure = "PointStructure";
     public static readonly string QuestSystem = "QuestSystem";
+    public static readonly string PlacementSystem = "PlacementSystem";    
 }
 
 public static class SceneName

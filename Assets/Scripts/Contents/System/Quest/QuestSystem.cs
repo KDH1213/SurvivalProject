@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 
 public class QuestProgressInfo
@@ -56,6 +57,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     private Vector2 targetPosition;
     private float distance = 0f;
 
+    private PlacementSystem placementSystem;
+
     private void Awake()
     {
         if(currentQuestID == 0)
@@ -68,6 +71,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         StartQuest(currentQuestData);
         playerTransform = GameObject.FindWithTag(Tags.Player).transform;
 
+        var placementSystemObject = GameObject.FindWithTag(Tags.PlacementSystem);
+        if(placementSystemObject != null)
+        {
+            placementSystem =  placementSystemObject.GetComponent<PlacementSystem>();
+            placementSystem.onChangeBuildingCountEvnet.AddListener(OnCreateBuilding);
+        }
         onChangeValueEvent.AddListener(questView.OnSetTargetCount);
     }
 
@@ -104,6 +113,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                 questProgressInfoList[i].SetInfo(i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
                 onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
             }
+            ++activeQuestCount;
 
             switch (questInfoList[i].questType)
             {
@@ -122,8 +132,16 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     ++currentMonsterQuestCount;
                     break;
                 case QuestType.Building:
+                    currentBulidingQuestList.Add(questProgressInfo);
+                    ++currentBulidingQuestCount;
 
-
+                    if(questInfoList[i].includeMine)
+                    {
+                        if(placementSystem.PlacedGameObjectTable.TryGetValue(questProgressInfo.targetID, out var count))
+                        {
+                            OnCreateBuilding(questProgressInfo.targetID, count);
+                        }
+                    }
                     break;
                 case QuestType.Movement:
                     targetPosition = questData.GetTargetPosition().ConvertVector2();
@@ -134,7 +152,6 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                 default:
                     break;
             }
-            ++activeQuestCount;
         }
     }
 
@@ -190,7 +207,27 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     public void OnCreateBuilding(int buildID, int buildCount)
     {
+        if (currentBulidingQuestCount == 0)
+        {
+            return;
+        }
 
+        for (int i = 0; i < currentBulidingQuestCount; ++i)
+        {
+            if (currentBulidingQuestList[i].targetID == buildID)
+            {
+                currentBulidingQuestList[i].currentCount = buildCount;
+                onChangeValueEvent?.Invoke(currentBulidingQuestList[i].index, currentBulidingQuestList[i].currentCount, currentBulidingQuestList[i].maxCount);
+                if (currentBulidingQuestList[i].IsClear())
+                {
+                    currentBulidingQuestList.Remove(currentBulidingQuestList[i]);
+                    --currentBulidingQuestCount;
+                    --activeQuestCount;
+                    CheckQuestClear();
+                }
+                break;
+            }
+        }
     }
 
     public void OnCreateItem(int itemID, int createCount)
@@ -252,6 +289,10 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         }
     }
 
+    public void SetPlacementSystem(PlacementSystem placementSystem)
+    {
+        this.placementSystem = placementSystem;
+    }
     public void Load()
     {
     }

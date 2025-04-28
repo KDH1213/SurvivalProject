@@ -68,6 +68,14 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             stageManager.GetComponent<StageManager>().onSaveEvent += Save;
         }
 
+        var questSystemObject = GameObject.FindWithTag(Tags.QuestSystem);
+        if (questSystemObject != null)
+        {
+            var questSystem = questSystemObject.GetComponent<QuestSystem>();
+            onChangeBuildingCountEvnet.AddListener(questSystem.OnCreateBuilding);
+            questSystem.SetPlacementSystem(this);
+        }
+
         if (SaveLoadManager.Data != null)
         {
             SaveLoadManager.Load();
@@ -350,6 +358,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             PlacedGameObjectTable.Add(placementObject.ID, 1);
         }
 
+        onChangeBuildingCountEvnet?.Invoke(placementObject.ID, PlacedGameObjectTable[placementObject.ID]);
         gridData.AddObjectAt(placementObject.Position, placeObjInfo.Size,
             placementObject.ID,
             PlacedGameObjects.Count - 1, placementObject);
