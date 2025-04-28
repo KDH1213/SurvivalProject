@@ -8,11 +8,21 @@ public class UIQuestIcon : MonoBehaviour
     [field: SerializeField]
     public UnityEvent<UIQuestIcon> OnDisabledEvent { get; set; }
 
+    [SerializeField]
+    private RectTransform questAreaCircle;
+
+    [SerializeField]
+    private RectTransform questIcon;
+
+    [SerializeField]
+    private GameObject ingameQuestRangePrefab;
+
     private Vector2 ingamePosition;
     private RectTransform rectTransform;
     private RectTransform minimapRectTransform;
 
     private Transform targetTransform;
+    private GameObject ingameQuestRange;
 
     private Vector2 mapRatio;
     private Vector2 sizeDelta;
@@ -25,11 +35,6 @@ public class UIQuestIcon : MonoBehaviour
     private float questAreaRadius;
     private float maskRadius;
 
-    [SerializeField]
-    private RectTransform questAreaCircle;
-
-    [SerializeField]
-    private RectTransform questIcon;
 
     private void OnDisable()
     {
@@ -90,7 +95,17 @@ public class UIQuestIcon : MonoBehaviour
         
         if(UseQuestMarkRangeInGame)
         {
+            if(ingameQuestRange == null)
+            {
+                ingameQuestRange = Instantiate(ingameQuestRangePrefab);
+            }
+            else
+            {
+                ingameQuestRange.SetActive(true);
+            }
 
+            ingameQuestRange.transform.position = new Vector3(position.x, 0.1f, position.y);
+            ingameQuestRange.transform.localScale = new Vector3(questAreaRadius, questAreaRadius, questAreaRadius);
         }
     }
 
@@ -114,5 +129,10 @@ public class UIQuestIcon : MonoBehaviour
     public void OnQuestClear()
     {
         gameObject.SetActive(false);
+
+        if(ingameQuestRange != null)
+        {
+            ingameQuestRange.SetActive(false);
+        }
     }
 }
