@@ -52,7 +52,7 @@ public class GameTimeManager : MonoBehaviour, ISaveLoadData
         remove => service.OnSunset -= value;
     }
 
-    public event Action OnHourChange
+    public event Action<int> OnHourChange
     {
         add => service.OnHourChange += value;
         remove => service.OnHourChange -= value;

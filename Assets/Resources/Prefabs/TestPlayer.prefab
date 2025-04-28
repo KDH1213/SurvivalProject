@@ -11149,6 +11149,8 @@ GameObject:
   - component: {fileID: 936364590328128479}
   - component: {fileID: 1807447404484842026}
   - component: {fileID: 2449569301793440573}
+  - component: {fileID: 2168981727419170743}
+  - component: {fileID: 365111890991721901}
   m_Layer: 10
   m_Name: TestPlayer
   m_TagString: Player
@@ -11870,8 +11872,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStats: {fileID: 4433569904149242453}
   actInfoData: {fileID: 11400000, guid: 3d2bb809491a0ff4f8c2a4aa3df21cd6, type: 2}
-  speedDownPersent: 0.4
-  penaltyAttackSpeedPersent: 0.5
+  hungerSpeedDownPersent: 0.2
+  fatiguePenaltyAttackSpeedPersent: 0.5
+  coldTemperaturePenalty:
+    step1SpeedDownPersent: 0.2
+    step2SpeedDownPersent: 0.5
+    step1PenaltyAttackSpeedPersent: 0.2
+    step2PenaltyAttackSpeedPersent: 0.4
+  heatTemperaturePenalty:
+    step1SpeedDownPersent: 0.2
+    step2SpeedDownPersent: 0.5
+    step1PenaltyAttackSpeedPersent: 0.2
+    step2PenaltyAttackSpeedPersent: 0.4
 --- !u!114 &4888348775712051221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12091,6 +12103,64 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   exitStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2168981727419170743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c6951824fc104439bd6f414a79fefc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightHandTransform: {fileID: 799833278158794213}
+  armorMeshData: {fileID: 11400000, guid: bd971b18456c5304fa2556ba37841eaf, type: 2}
+  helmetMeshRendererList:
+  - {fileID: 4256095338999895401}
+  - {fileID: 1861195723042127035}
+  - {fileID: 8346186500661258499}
+  - {fileID: 4267796347855551282}
+  armorMeshRendererList:
+  - {fileID: 3062701075428485603}
+  - {fileID: 1965071050153278251}
+  - {fileID: 1876435535886599118}
+  - {fileID: 2724488886922923802}
+  pantsMeshRendererList:
+  - {fileID: 5957591542750887537}
+  - {fileID: 7139617661146995266}
+  - {fileID: 4731737650402228974}
+  - {fileID: 5176616875371958494}
+  shoesMeshRendererList:
+  - {fileID: 1967083061027966387}
+  - {fileID: 4076800262639608175}
+  - {fileID: 681560367551091271}
+  - {fileID: 6988798427859009133}
+--- !u!114 &365111890991721901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8081401019662844925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7c84943195a424eaf1f92ce3fd39a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coldPenaltyValueInfo:
+    step1PenaltyValue: -5
+    step2PenaltyValue: -10
+  heatPenaltyValueInfo:
+    step1PenaltyValue: 5
+    step2PenaltyValue: 10
+  onColdPenaltyEvenet:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeatPenaltyEvenet:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8107886998491019709

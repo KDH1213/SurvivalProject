@@ -11,7 +11,7 @@ public class TimeService
 
     public event Action OnSunrise = delegate { };
     public event Action OnSunset = delegate { };
-    public event Action OnHourChange = delegate { };
+    public event Action<int> OnHourChange = delegate { };
 
     readonly Observable<bool> isDayTime;
     readonly Observable<int> currentHour;
@@ -27,7 +27,7 @@ public class TimeService
         currentHour = new Observable<int>(currentTime.Hour);
 
         isDayTime.ValueChanged += day => (day ? OnSunrise : OnSunset)?.Invoke();
-        currentHour.ValueChanged += _ => OnHourChange?.Invoke();
+        currentHour.ValueChanged += _ => OnHourChange?.Invoke(currentHour);
     }
 
     public TimeService(TimeSettings settings, DateTime dataTime)
@@ -41,7 +41,7 @@ public class TimeService
         currentHour = new Observable<int>(currentTime.Hour);
 
         isDayTime.ValueChanged += day => (day ? OnSunrise : OnSunset)?.Invoke();
-        currentHour.ValueChanged += _ => OnHourChange?.Invoke();
+        currentHour.ValueChanged += _ => OnHourChange?.Invoke(currentHour);
     }
     public void UpdateTime(float deltaTime)
     {
