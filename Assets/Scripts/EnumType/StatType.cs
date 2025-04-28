@@ -12,6 +12,8 @@ public enum StatType
     Evasion,
     LifeExperience,
     CraftingExperience,
+    HeatResistance,
+    ColdResistance,
 
     End
 }

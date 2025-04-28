@@ -11144,8 +11144,6 @@ GameObject:
   - component: {fileID: 6015766806403488649}
   - component: {fileID: 4888348775712051221}
   - component: {fileID: 7720668712684393975}
-  - component: {fileID: 2602794882264074313}
-  - component: {fileID: 9038930653935902974}
   - component: {fileID: 5337073670899731825}
   - component: {fileID: 1478152083764109327}
   - component: {fileID: 936364590328128479}
@@ -11851,6 +11849,13 @@ MonoBehaviour:
   lifeStat: {fileID: 936364590328128479}
   HpBarSlider: {fileID: 0}
   hpText: {fileID: 0}
+  invincibilityTime: 3
+  onEquipmentItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onUnEquipmentItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6015766806403488649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11929,46 +11934,6 @@ MonoBehaviour:
   valueDownTime: 5
   hpDownTime: 5
   hungerSlider: {fileID: 0}
---- !u!114 &2602794882264074313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8081401019662844925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7f4af66fe5e384aa85f9cbce67a753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  survivalStatType: 4
-  maxValue: 10000
-  onStartPenaltyEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onEndPenaltyEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &9038930653935902974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8081401019662844925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7c84943195a424eaf1f92ce3fd39a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  survivalStatType: 3
-  maxValue: 10000
-  onStartPenaltyEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onEndPenaltyEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &5337073670899731825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12040,6 +12005,9 @@ MonoBehaviour:
   endDeathAnimationEvent:
     m_PersistentCalls:
       m_Calls: []
+  endHitAnimationEvnet:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &936364590328128479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12100,6 +12068,7 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 21300000, guid: 8a5d5b34dab14c2408bff40bdb0da75f,
     type: 3}
   <IsStatic>k__BackingField: 0
+  <IsMarker>k__BackingField: 0
 --- !u!114 &2449569301793440573
 MonoBehaviour:
   m_ObjectHideFlags: 0

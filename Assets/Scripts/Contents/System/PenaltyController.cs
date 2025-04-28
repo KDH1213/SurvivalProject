@@ -1,10 +1,17 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
+[System.Serializable]
+public struct TemperaturePenaltyInfo
+{
+    public float step1SpeedDownPersent;
+    public float step2SpeedDownPersent;
+    public float step1PenaltyAttackSpeedPersent;
+    public float step2PenaltyAttackSpeedPersent;
+}
+
 public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 {
-    //[field: SerializeField]
-    //public SurvivalStatData SurvivalStatData { get; private set; }
     private SerializedDictionary<SurvivalStatType, SurvivalStatBehaviour> penaltyTable = new SerializedDictionary<SurvivalStatType, SurvivalStatBehaviour>();
     public SerializedDictionary<SurvivalStatType, SurvivalStatBehaviour> PenaltyTable {  get { return penaltyTable; } }
     [SerializeField]
@@ -13,15 +20,21 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
     [SerializeField]
     private ActInfoData actInfoData;    
 
-    // TODO :: 패널티 수치 데이터 테이블 나오면 수정
     [SerializeField]
-    private float speedDownPersent = 0.2f;
+    private float hungerSpeedDownPersent = 0.2f;
     [SerializeField]
-    private float penaltyAttackSpeedPersent = 0.5f;
+    private float fatiguePenaltyAttackSpeedPersent = 0.5f;
+
+    [SerializeField]
+    private TemperaturePenaltyInfo coldTemperaturePenalty;
+    [SerializeField]
+    private TemperaturePenaltyInfo heatTemperaturePenalty;
+
+    private bool isOnHungerPenalty = false;
+    private bool isOnFatiguePenalty = false;
 
     private float currentSpeedPersent = 1f;
     private float currentAttackSpeedPersent = 1f;
-
 
     private void Awake()
     {
@@ -38,6 +51,9 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
             penalty.OnEndPenaltyEvent.AddListener(OnEndPanelty);
         }
 
+        var temperatureStat = GetComponent<TemperatureStat>();
+        temperatureStat.onColdPenaltyEvenet.AddListener(OnColdPanelty);
+        temperatureStat.onHeatPenaltyEvenet.AddListener(OnHeatPanelty);
     }
 
     public float CalculatePenaltySpeed()
@@ -82,16 +98,14 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         switch (survivalStatType)
         {
             case SurvivalStatType.Fatigue:
-                currentAttackSpeedPersent = penaltyAttackSpeedPersent;
+                currentAttackSpeedPersent -= fatiguePenaltyAttackSpeedPersent;
+                isOnFatiguePenalty = true;
                 break;
             case SurvivalStatType.Hunger:
-                currentSpeedPersent = speedDownPersent;
+                currentSpeedPersent -= hungerSpeedDownPersent;
+                isOnHungerPenalty = true;
                 break;
             case SurvivalStatType.Thirst:
-                break;
-            case SurvivalStatType.Temperature:
-                break;
-            case SurvivalStatType.Hygiene:
                 break;
             case SurvivalStatType.End:
             default:
@@ -104,20 +118,72 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         switch (survivalStatType)
         {
             case SurvivalStatType.Fatigue:
-                currentAttackSpeedPersent = 1f;
+                currentAttackSpeedPersent += fatiguePenaltyAttackSpeedPersent; 
+                isOnFatiguePenalty = false;
                 break;
             case SurvivalStatType.Hunger:
-                currentSpeedPersent = 1f;
+                currentSpeedPersent += hungerSpeedDownPersent;
+                isOnHungerPenalty = false;
                 break;
             case SurvivalStatType.Thirst:
-                break;
-            case SurvivalStatType.Temperature:
-                break;
-            case SurvivalStatType.Hygiene:
                 break;
             case SurvivalStatType.End:
             default:
                 break;
+        }
+    }
+
+    public void OnColdPanelty(int step)
+    {
+        if(step == 0)
+        {
+            currentSpeedPersent = 1f;
+            currentAttackSpeedPersent = 1f;
+        }
+        else if(step == 1)
+        {
+            currentSpeedPersent = coldTemperaturePenalty.step1SpeedDownPersent;
+            currentAttackSpeedPersent = coldTemperaturePenalty.step1SpeedDownPersent;
+        }
+        else
+        {
+            currentSpeedPersent = coldTemperaturePenalty.step2SpeedDownPersent;
+            currentAttackSpeedPersent = coldTemperaturePenalty.step2SpeedDownPersent;
+        }
+
+        CheckOtherPanelty();
+    }
+
+    public void OnHeatPanelty(int step)
+    {
+        if (step == 0)
+        {
+            currentSpeedPersent = 1f;
+            currentAttackSpeedPersent = 1f;
+        }
+        else if (step == 1)
+        {
+            currentSpeedPersent = heatTemperaturePenalty.step1SpeedDownPersent;
+            currentAttackSpeedPersent = heatTemperaturePenalty.step1SpeedDownPersent;
+        }
+        else
+        {
+            currentSpeedPersent = heatTemperaturePenalty.step2SpeedDownPersent;
+            currentAttackSpeedPersent = heatTemperaturePenalty.step2SpeedDownPersent;
+        }
+
+        CheckOtherPanelty();
+    }
+
+    private void CheckOtherPanelty()
+    {
+        if(isOnFatiguePenalty)
+        {
+            currentAttackSpeedPersent -= fatiguePenaltyAttackSpeedPersent;
+        }
+        if(isOnHungerPenalty)
+        {
+            currentSpeedPersent -= hungerSpeedDownPersent;
         }
     }
 
