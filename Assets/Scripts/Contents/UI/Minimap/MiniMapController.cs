@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class MiniMapController : MonoBehaviour
 {
     [SerializeField]
     private GameObject iconPrefab;
+
+    [SerializeField]
+    private GameObject questIconPrefab;
 
     [SerializeField]
     private GameObject mapPlane;
@@ -21,6 +25,9 @@ public class MiniMapController : MonoBehaviour
     private Transform targetTransform;
 
     [SerializeField]
+    private MiniMapQuestIconController miniMapQuestIconController;
+
+    [SerializeField]
     private Image mapImage;
 
     private RectTransform mapRectTransform;
@@ -32,6 +39,9 @@ public class MiniMapController : MonoBehaviour
 
     [SerializeField]
     private Vector2 mapRatio;
+
+    private List<UIQuestIcon> uIQuestIconList = new List<UIQuestIcon>();
+    private List<UIQuestIcon> activeUIQuestIconList = new List<UIQuestIcon>();
 
     private void Awake()
     {
@@ -72,6 +82,36 @@ public class MiniMapController : MonoBehaviour
         {
             SetMarker(miniMapIcon);
         }
+    }
+
+    public void AddQuestObject(QuestData questData, ref UnityAction onClearAction)
+    {
+        int count = uIQuestIconList.Count;
+        UIQuestIcon uIQuestIcon = null;
+
+        if (count == 0)
+        {
+            var createIcon = Instantiate(questIconPrefab, createPoint);
+
+            uIQuestIcon = createIcon.GetComponent<UIQuestIcon>();
+            onClearAction = uIQuestIcon.OnQuestClear;
+
+            uIQuestIcon.OnDisabledEvent.AddListener((icon) => 
+            {
+                uIQuestIconList.Add(icon); 
+                activeUIQuestIconList.Remove(icon); 
+            });
+        }
+        else
+        {
+            uIQuestIcon = uIQuestIconList[count - 1];
+            uIQuestIconList.Remove(uIQuestIcon);
+        }
+
+        activeUIQuestIconList.Add(uIQuestIcon);
+        uIQuestIcon.SetQuestInfo(questData.GetTargetPosition().ConvertVector2(), mapRatio, questData.UseQuestMarkRangeInGame == 1, questData.QuestAreaRadius);
+        uIQuestIcon.SetMinimapInfo(targetTransform, mapRectTransform, masktransform.rect);
+        uIQuestIcon.SetActiveMarker(true);
     }
 
     public void SetMarker(UIMiniMapIcon uIMiniMapIcon)
