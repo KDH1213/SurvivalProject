@@ -22,6 +22,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public PlacementObjectList Database { get; set; }
     public int SelectedObjectIndex { get; set; }
     public float gridCellCount;
+    public PlaceMode PlaceMode => placementMode.CurrentMode;
 
     public MaxBuildCount buildCount;
     

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum Mode
+public enum PlaceMode
 {
     None,
     Place,
@@ -13,7 +13,7 @@ public class PlacementMode : MonoBehaviour
     private GameObject gridVisualization;
     private PlacementUIController uiController;
 
-    public Mode CurrentMode { get; private set; }
+    public PlaceMode CurrentMode { get; private set; }
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class PlacementMode : MonoBehaviour
     }
     public void OnInPlacementMode()
     {
-        CurrentMode = Mode.Place;
+        CurrentMode = PlaceMode.Place;
         var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
         foreach (var go in goes)
         {
@@ -33,7 +33,7 @@ public class PlacementMode : MonoBehaviour
 
     public void OnOutPlacementMode()
     {
-        CurrentMode = Mode.None;
+        CurrentMode = PlaceMode.None;
         var goes = GameObject.FindGameObjectsWithTag("CellIndicator");
         foreach (var go in goes)
         {
@@ -44,7 +44,7 @@ public class PlacementMode : MonoBehaviour
     }
     public void OnInSelectMode()
     {
-        CurrentMode = Mode.Edit;
+        CurrentMode = PlaceMode.Edit;
         gridVisualization.SetActive(true);
         uiController.StopShowObjectList();
     }
