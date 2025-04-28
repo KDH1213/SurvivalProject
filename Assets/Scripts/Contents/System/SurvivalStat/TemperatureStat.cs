@@ -25,6 +25,15 @@ public class TemperatureStat : MonoBehaviour
     public UnityEvent<int> onColdPenaltyEvenet;
     public UnityEvent<int> onHeatPenaltyEvenet;
 
+    private void Awake()
+    {
+        var stageManagerObject = GameObject.FindWithTag(Tags.StageManager);
+        if(stageManagerObject != null)
+        {
+            stageManagerObject.GetComponent<StageManager>().onChangeTemperatureEvent.AddListener(OnChangeStageTemperature);
+        }
+    }
+
     private void Start()
     {
         var playerStats = GetComponent<PlayerStats>();

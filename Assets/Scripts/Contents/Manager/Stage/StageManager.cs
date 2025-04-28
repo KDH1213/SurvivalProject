@@ -29,8 +29,16 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     public UnityEvent OnInitializeEvent;
 
+    [SerializeField]
+    private StageTemperatureData stageTemperatureData;
+
+    public UnityEvent<int> onChangeTemperatureEvent;
+    private int stageTemperature = 0;
+
     private void Awake()
     {
+        stageTemperature = stageTemperatureData.StageDefalutTemperature;
+
         var sceneSwitchers = GetComponentsInChildren<SceneSwitcher>();
 
         foreach (var sceneSwitcher in sceneSwitchers)
@@ -58,6 +66,11 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         }
 
         OnInitializeEvent?.Invoke();
+    }
+
+    private void Start()
+    {
+        onChangeTemperatureEvent?.Invoke(stageTemperature);
     }
 
     public void OnStartRespawn(GameObject target)
