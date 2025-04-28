@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlacementSystem : MonoBehaviour, ISaveLoadData
 {
@@ -31,6 +32,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     public PlacementObject SelectedObject { get; set; }
     public List<PlacementObject> PlacedGameObjects { get; private set; } = new List<PlacementObject>();
+    public Dictionary<int, int> PlacedGameObjectTable { get; private set; } = new Dictionary<int, int>();
+
+    public UnityEvent<int, int> onChangeBuildingCountEvnet;
+
     private GridData gridData;
 
     private bool isInit = false;
@@ -198,6 +203,17 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             PlacedGameObjects.Add(placementObject);
         }
 
+        if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
+        {
+            ++PlacedGameObjectTable[placementObject.ID];
+        }
+        else
+        {
+            PlacedGameObjectTable.Add(placementObject.ID, 1);
+        }
+
+        onChangeBuildingCountEvnet?.Invoke(placementObject.ID, PlacedGameObjectTable[placementObject.ID]);
+
         gridData.AddObjectAt(gridPosition, objData.Size,
             objData.ID,
             PlacedGameObjects.Count - 1, placementObject);
@@ -287,6 +303,12 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         int id = gridData.RemoveObjectAt(obj);
         PlacedGameObjects.Remove(obj);
 
+        if (PlacedGameObjectTable.ContainsKey(id))
+        {
+            --PlacedGameObjectTable[id];
+            onChangeBuildingCountEvnet?.Invoke(id, PlacedGameObjectTable[id]);
+        }
+
         foreach (var item in PlacedGameObjects)
         {
             item.PlacementData.OrderPlaceObjectIndex(obj.PlacementData.PlaceObjectIndex);
@@ -319,6 +341,15 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         PlacedGameObjects.Add(placementObject);
 
+        if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
+        {
+            ++PlacedGameObjectTable[placementObject.ID];
+        }
+        else
+        {
+            PlacedGameObjectTable.Add(placementObject.ID, 1);
+        }
+
         gridData.AddObjectAt(placementObject.Position, placeObjInfo.Size,
             placementObject.ID,
             PlacedGameObjects.Count - 1, placementObject);
@@ -333,15 +364,16 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         {
             return;
         }
-        var data = DataTableManager.StructureTable.Get(SelectedObject.PlacementData.ID);
-        
 
-        int index = Database.objects.FindIndex(x => x.ID == SelectedObject.PlacementData.ID);
+        var placementID = SelectedObject.PlacementData.ID;
+        var data = DataTableManager.StructureTable.Get(placementID);
+        
+        int index = Database.objects.FindIndex(x => x.ID == placementID);
         RemoveStructure(SelectedObject);
-        placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, PlacedGameObjects);
+        placementUI.OnSetObjectListUi(Database, placementID, PlacedGameObjects);
         Destroy(SelectedObject.transform.parent.gameObject);
 
-        foreach(var item in data.ReturnItemList)
+        foreach (var item in data.ReturnItemList)
         {
             var itemData = DataTableManager.ItemTable.Get(item.Key);
             var returnItem = new DropItemInfo();
@@ -368,6 +400,16 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     {
         obj.IsPlaced = true;
         PlacedGameObjects.Add(obj);
+
+        if (PlacedGameObjectTable.ContainsKey(obj.ID))
+        {
+            ++PlacedGameObjectTable[obj.ID];
+        }
+        else
+        {
+            PlacedGameObjectTable.Add(obj.ID, 1);
+        }
+
         gridData.AddObjectAt(obj.Position, Database.objects[SelectedObjectIndex].Size,
             Database.objects[SelectedObjectIndex].ID,
             PlacedGameObjects.Count - 1, obj);
@@ -394,6 +436,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public void Load()
     {
         PlacedGameObjects.Clear();
+        PlacedGameObjectTable.Clear();
 
         LoadFarm();
         LoadStorage();
@@ -439,6 +482,15 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.SetData();
             placementObject.Load();
 
+            if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
+            {
+                ++PlacedGameObjectTable[placementObject.ID];
+            }
+            else
+            {
+                PlacedGameObjectTable.Add(placementObject.ID, 1);
+            }
+
             preview.SetCellIndicator(newObject, placeObjInfo.Size);
 
             PlacedGameObjects.Add(placementObject);
@@ -475,6 +527,15 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.SetData();
             placementObject.Load();
 
+            if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
+            {
+                ++PlacedGameObjectTable[placementObject.ID];
+            }
+            else
+            {
+                PlacedGameObjectTable.Add(placementObject.ID, 1);
+            }
+
             preview.SetCellIndicator(newObject, placeObjInfo.Size);
 
             PlacedGameObjects.Add(placementObject);
@@ -510,6 +571,15 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.uiController = placementUI;
             placementObject.SetData();
             placementObject.Load();
+
+            if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
+            {
+                ++PlacedGameObjectTable[placementObject.ID];
+            }
+            else
+            {
+                PlacedGameObjectTable.Add(placementObject.ID, 1);
+            }
 
             preview.SetCellIndicator(newObject, placeObjInfo.Size);
             PlacedGameObjects.Add(placementObject);

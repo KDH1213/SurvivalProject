@@ -44,10 +44,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     private List<QuestProgressInfo> currentMonsterQuestList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentItemCollectionQuestList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentCreateItemQuestList = new List<QuestProgressInfo>();
+    private List<QuestProgressInfo> currentBulidingQuestList = new List<QuestProgressInfo>();
 
     private int currentCreatItemQuestCount = 0;
     private int currentMonsterQuestCount = 0;
     private int currentItemCollectionQuestCount = 0;
+    private int currentBulidingQuestCount = 0;
     private int activeQuestCount = 0;
 
     private Transform playerTransform;
@@ -120,6 +122,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     ++currentMonsterQuestCount;
                     break;
                 case QuestType.Building:
+
+
                     break;
                 case QuestType.Movement:
                     targetPosition = questData.GetTargetPosition().ConvertVector2();
