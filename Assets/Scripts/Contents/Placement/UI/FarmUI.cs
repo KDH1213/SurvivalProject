@@ -60,7 +60,7 @@ public class FarmUI : MonoBehaviour
 
     public void onInteract()
     {
-        var testItem = DataTableManager.ItemTable.Get(1201001); 
+        var testItem = DataTableManager.ItemTable.Get(produceInfo.id); 
         var inventroy = target.GetComponent<PlayerFSM>().PlayerInventory;
 
         int totalOutPut = produceInfo.outPut;
@@ -68,7 +68,7 @@ public class FarmUI : MonoBehaviour
         int leftItems = totalOutPut % testItem.MaxStack;
 
         var test = new DropItemInfo();
-        test.id = 1201001;  // testItem.ID
+        test.id = produceInfo.id;  // testItem.ID
         test.ItemName = testItem.ItemName;
         test.itemData = testItem;
 

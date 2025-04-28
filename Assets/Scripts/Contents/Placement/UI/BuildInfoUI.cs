@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,12 +72,14 @@ public class BuildInfoUI : MonoBehaviour
                 if (inventory.GetTotalItem(item.Key) < item.Value)
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
-                        item.Value, inventory.GetTotalItem(item.Key));
+                        item.Value, inventory.GetTotalItem(item.Key) + 
+                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(item.Key)));
                 }
                 else
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage, 
-                        item.Value, inventory.GetTotalItem(item.Key));
+                        item.Value, inventory.GetTotalItem(item.Key) +
+                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(item.Key)));
                 }
 
                 needItems.Add(needItems[index]);
@@ -130,7 +133,8 @@ public class BuildInfoUI : MonoBehaviour
         {
             if (inventory == null)
                 break;
-            if (inventory.GetTotalItem(data.Key) < data.Value)
+            if (inventory.GetTotalItem(data.Key) < data.Value && 
+                system.Storages.Sum(storage => storage.inventory.GetTotalItem(data.Key)) == data.Value)
             {
                 return false;
             }

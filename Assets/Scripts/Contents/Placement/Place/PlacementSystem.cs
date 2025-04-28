@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlacementSystem : MonoBehaviour, ISaveLoadData
 {
@@ -33,6 +35,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     public PlacementObject SelectedObject { get; set; }
     public List<PlacementObject> PlacedGameObjects { get; private set; } = new List<PlacementObject>();
     private GridData gridData;
+    public List<StorageStructure> Storages { get; private set; } = new List<StorageStructure>();
 
     private bool isInit = false;
 
@@ -139,6 +142,47 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             !gridData.CheckCollideOther(grid, gridPosition, size);
     }
 
+    private void ConsumeItem(int key, int value)
+    {
+        int inventoryItems = inventory.GetTotalItem(key);
+        if(inventoryItems > value)
+        {
+            inventory.ConsumeItem(key, value);
+        }
+        else
+        {
+            inventory.ConsumeItem(key, inventoryItems);
+            int leftItems = value - inventoryItems;
+            var storageList = Storages
+                .OrderBy(structure => structure.inventory.GetTotalItem(key));
+
+            foreach(var structure in storageList)
+            {
+                var storageItems = structure.inventory.GetTotalItem(key);
+                if(storageItems == 0)
+                {
+                    continue;
+                }
+                if(storageItems <= leftItems)
+                {
+                    leftItems -= storageItems;
+                }
+                else
+                {
+                    structure.inventory.ConsumeItem(key, leftItems);
+                    leftItems = 0;
+                }
+                
+
+                if (leftItems <= 0)
+                {
+                    break;
+                }
+            }
+            
+        }
+        
+    }
     
 
     // 오브젝트 배치
@@ -169,7 +213,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             {
                 if (inventory == null)
                     break;
-                inventory.ConsumeItem(data.Key, data.Value);
+                ConsumeItem(data.Key, data.Value);
             }
             
         }
@@ -202,6 +246,10 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         gridData.AddObjectAt(gridPosition, objData.Size,
             objData.ID,
             PlacedGameObjects.Count - 1, placementObject);
+        if(placementObject is StorageStructure)
+        {
+            Storages.Add(placementObject as StorageStructure);
+        }
 
         int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
         if(left <= 0)
@@ -219,7 +267,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         {
             foreach (var data in objData.NeedItems)
             {
-                if (inventory.GetTotalItem(data.Key) < data.Value)
+                int leftResource = inventory.GetTotalItem(data.Key) + Storages.Sum(storage => storage.inventory.GetTotalItem(data.Key));
+                if (leftResource < data.Value)
                 {
                     invenValidity = false;
                 }
@@ -249,18 +298,23 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
         SelectedObject = obj;
 
-        if (placementMode.CurrentMode == Mode.Place)
+        if (placementMode.CurrentMode == PlaceMode.Place)
         {
             int index = Database.objects.FindIndex(data => data.ID == SelectedObject.ID);
             placementUI.OnOpenObjectInfo(Database.objects[index]);
         }
-        else if(placementMode.CurrentMode == Mode.Edit)
+        else if(placementMode.CurrentMode == PlaceMode.Edit)
         {
-            int id = RemoveStructure(obj);
-            StartPlacement(id, obj);
+            placementUI.OnShowEditUI(true);
         }
         
         return true;
+    }
+
+    public void OnMoveEditPlacement()
+    {
+        int id = RemoveStructure(SelectedObject);
+        StartPlacement(id, SelectedObject);
     }
 
     private void MoveStructure(Vector3Int gridPos)
@@ -330,7 +384,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     // 설치된 오브젝트 삭제    
     public void DestoryStructure()
     {
-        if(SelectedObject == null || !preview.IsPreview)
+        if(SelectedObject == null)
         {
             return;
         }
@@ -342,8 +396,13 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementUI.OnSetObjectListUi(Database, SelectedObject.PlacementData.ID, PlacedGameObjects);
         Destroy(SelectedObject.transform.parent.gameObject);
 
+        
         foreach(var item in data.ReturnItemList)
         {
+            if(inventory == null)
+            {
+                break;
+            }
             var itemData = DataTableManager.ItemTable.Get(item.Key);
             var returnItem = new DropItemInfo();
             returnItem.id = itemData.ID;  // testItem.ID
@@ -479,7 +538,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             preview.SetCellIndicator(newObject, placeObjInfo.Size);
 
             PlacedGameObjects.Add(placementObject);
-
+            Storages.Add(placementObject as StorageStructure);
             gridData.AddObjectAt(placement.position, placeObjInfo.Size,
                 placement.id,
                 PlacedGameObjects.Count - 1, placementObject);

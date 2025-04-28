@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -123,7 +124,36 @@ public class StorageInventory : MonoBehaviour
             CreateItem(dropItemInfo, slotIndex);
         }
     }
+    public void ConsumeItem(int id, int count)
+    {
+        if (inventoryItemTable.ContainsKey(id))
+        {
+            var itemList = inventoryItemTable[id].OrderBy(item => item.Amount).
+                ThenByDescending(item => item.index).ToList();
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                if (itemList[i].Amount >= count)
+                {
+                    itemList[i].Amount -= count;
+                    break;
+                }
+                else
+                {
+                    int leftCount = count - itemList[i].Amount;
+                    itemList[i].Amount -= count - leftCount;
+                    inventoryItemTable[id].Remove(itemList[i]);
+                    itemInfos[itemList[i].index].Empty();
+                    --useSlotCount;
+                    count = leftCount;
+                }
 
+            }
+        }
+        else
+        {
+            new KeyNotFoundException($"키를 찾을 수 없습니다. {id}");
+        }
+    }
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
     {
         var itemInfo = new ItemInfo();
