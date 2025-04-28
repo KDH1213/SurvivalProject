@@ -58,7 +58,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private PlacementSystem placementSystem;
     private MiniMapController miniMapController;
-    private UnityAction onClearAction;
+
+    private UnityAction onIconDisableAction;
 
     private void Awake()
     {
@@ -78,7 +79,9 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             placementSystem =  placementSystemObject.GetComponent<PlacementSystem>();
             placementSystem.onChangeBuildingCountEvnet.AddListener(OnCreateBuilding);
         }
+
         onChangeValueEvent.AddListener(questView.OnSetTargetCount);
+        questView.SetClickCompensationAction(OnCompensation);
 
         miniMapController = GameObject.FindWithTag("MiniMap").GetComponent<MiniMapController>();
     }
@@ -165,7 +168,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             }
         }
 
-        miniMapController.AddQuestObject(currentQuestData, ref onClearAction);
+        miniMapController.AddQuestObject(currentQuestData, ref onIconDisableAction);
     }
 
     public void OnDeathMonster(int monsterID)
@@ -270,15 +273,19 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private void CheckQuestClear()
     {
-        onClearAction?.Invoke();
+        onIconDisableAction?.Invoke();
+        questView.OnActiveButtonView();
+    }
 
+    private void OnCompensation()
+    {
         if (currentQuestData.questInfoList[0].questType == QuestType.Movement)
         {
             SetNextQuest();
             return;
         }
 
-        if(activeQuestCount == 0)
+        if (activeQuestCount == 0)
         {
             SetNextQuest();
         }

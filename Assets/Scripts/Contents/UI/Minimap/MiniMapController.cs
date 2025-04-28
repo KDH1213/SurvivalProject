@@ -120,9 +120,9 @@ public class MiniMapController : MonoBehaviour
         uIMiniMapIcon.SetActiveMarker(true);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if(!ReferenceEquals(targetTransform, null))
+        if (!ReferenceEquals(targetTransform, null))
         {
             var position = ConvertPosition(targetTransform.position);
             mapRectTransform.anchoredPosition = -position;

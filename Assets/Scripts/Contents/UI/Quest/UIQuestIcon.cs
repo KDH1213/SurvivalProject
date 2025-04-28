@@ -40,7 +40,7 @@ public class UIQuestIcon : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        sizeDelta = rectTransform.rect.size * 0.5f;
+        sizeDelta = questIcon.sizeDelta;
     }
 
     private void Update()
@@ -86,7 +86,6 @@ public class UIQuestIcon : MonoBehaviour
         {
             isRenderArea = true;
             questAreaCircle.sizeDelta = new Vector2(this.questAreaRadius, this.questAreaRadius) * mapRatio;
-            sizeDelta = questAreaCircle.sizeDelta;
         }
         
         if(UseQuestMarkRangeInGame)
