@@ -14,6 +14,8 @@ public class PlacementUIController : MonoBehaviour
 
     [SerializeField] // 배치 / 취소 버튼
     private GameObject placementUI;
+    [SerializeField] // 에디터 버튼 UI
+    private GameObject editUI;
     [SerializeField] // 삭제버튼
     private GameObject distroyButton;
     [SerializeField] // 건설물 목록 UI (항목별) 
@@ -42,6 +44,8 @@ public class PlacementUIController : MonoBehaviour
     private CreateItemUI createItemUI; // 아이템 제작 UI
     [SerializeField]
     private StorageUI storageUI; // 창고 UI
+    [SerializeField]
+    private StorageUI repairUI; // 수리 UI
 
     private void Awake()
     {
@@ -61,11 +65,23 @@ public class PlacementUIController : MonoBehaviour
             placementUI.transform.position = Camera.main.
                 WorldToScreenPoint(preview.PreviewObject.transform.GetChild(0).position);
         }
+        if(placementSystem.PlaceMode == PlaceMode.Edit && !preview.IsPreview && placementSystem.SelectedObject != null)
+        {
+            editUI.transform.position = Camera.main.
+                WorldToScreenPoint(placementSystem.SelectedObject.transform.GetChild(0).position);
+        }
+
     }
 
     public void OnShowPlaceUI(bool isActive)
     {
         placementUI.SetActive(isActive);
+    }
+
+    public void OnShowEditUI(bool isActive)
+    {
+        editUI.SetActive(isActive);
+        
     }
 
     // 배치 된 갯수에 따라 오브젝트 리스트  UI변경
