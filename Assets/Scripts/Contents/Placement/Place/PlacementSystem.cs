@@ -418,7 +418,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         Destroy(before.transform.parent.gameObject);
     }
 
-    // ��ġ�� ������Ʈ ����    
     public void DestoryStructure()
     {
         if(SelectedObject == null)
@@ -445,9 +444,9 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             returnItem.id = itemData.ID;  // testItem.ID
             returnItem.ItemName = itemData.ItemName;
             returnItem.itemData = itemData;
+            returnItem.amount = item.Value;
             inventory.AddItem(returnItem);
         }
-
         
         preview.StopShowingPreview();
     }
