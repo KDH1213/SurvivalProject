@@ -56,6 +56,13 @@ public static class DataTableManager
             tables.Add(id, table);
         }
 
+        foreach (var id in DropTableIds.String)
+        {
+            var table = new DropTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
         var tableConstruction = new ConstructionTable();
         string idConstruction = PlacementTableIds.ConstructionTable;
         tableConstruction.Load(idConstruction);
@@ -136,6 +143,13 @@ public static class DataTableManager
         get
         {
             return Get<QuestTable>(QuestTableIds.String[0]);
+        }
+    }
+    public static DropTable DropTable
+    {
+        get
+        {
+            return Get<DropTable>(DropTableIds.String[0]);
         }
     }
 

@@ -8,6 +8,29 @@ public struct DropItemInfo
     public int amount;
 
     public ItemData itemData;
+
+    public DropItemInfo(ItemData itemData, int id, int amount)
+    {
+        this.itemData = itemData;
+        this.id = id;
+        this.amount = amount;
+    }
+}
+
+public struct DropInfo
+{
+    public int itemID;
+    public int itemDropRate;
+    public int itemMinCount;
+    public int itemMaxCount;
+
+    public DropInfo(int itemID, int itemDropRate, int itemMinCount, int itemMaxCount)
+    {
+        this.itemID = itemID;
+        this.itemDropRate = itemDropRate;
+        this.itemMinCount = itemMinCount;
+        this.itemMaxCount = itemMaxCount;
+    }
 }
 
 [System.Serializable]
@@ -52,10 +75,74 @@ public class DropData
     public int Item4Maximum { get; set; }
 
     public List<DropItemInfo> DropItemInfoList = new List<DropItemInfo>();
+    private List<DropInfo> dropInfoList = new List<DropInfo>();
 
-    public List<DropItemInfo> GetDropItem()
+    public void Initialize()
+    {
+        dropInfoList.Clear();
+
+        if(Item1ID == 0)
+        {
+            return;
+        }
+
+        dropInfoList.Add(new DropInfo(Item1ID, Item1DropRate, Item1Minimum, Item1Maximum));
+
+        if (Item2ID == 0)
+        {
+            return;
+        }
+
+        dropInfoList.Add(new DropInfo(Item2ID, Item2DropRate, Item2Minimum, Item2Maximum));
+
+        if (Item3ID == 0)
+        {
+            return;
+        }
+
+        dropInfoList.Add(new DropInfo(Item3ID, Item3DropRate, Item3Minimum, Item3Maximum));
+        if (Item4ID == 0)
+        {
+            return;
+        }
+
+        dropInfoList.Add(new DropInfo(Item4ID, Item4DropRate, Item4Minimum, Item4Maximum));
+
+    }
+
+    public List<DropItemInfo> GetDropItemList()
     {
         var dropItemList = new List<DropItemInfo>();
+
+        for (int i = 0; i < dropInfoList.Count; ++i)
+        {
+            bool isGetItem = false;
+            if(dropInfoList[i].itemDropRate == 100)
+            {
+                isGetItem = true;
+            }
+            else
+            {
+                var randomValue = Random.value * 100f;
+                if(randomValue < dropInfoList[i].itemDropRate)
+                {
+                    isGetItem = true;
+                }
+            }
+
+            if(!isGetItem)
+            {
+                continue;
+            }
+
+            var getItemCount = Random.Range(dropInfoList[i].itemMinCount, dropInfoList[i].itemMaxCount);
+
+            if(getItemCount != 0)
+            {
+                dropItemList.Add(new DropItemInfo(DataTableManager.ItemTable.Get(dropInfoList[i].itemID), dropInfoList[i].itemID, getItemCount));
+            }
+        }
+
         return dropItemList;
     }
 }
@@ -79,6 +166,7 @@ public class DropTable : DataTable
             if (!dropDataTable.ContainsKey(dropData.DropID))
             {
                 dropDataTable.Add(dropData.DropID, dropData);
+                dropData.Initialize();
             }
             else
             {

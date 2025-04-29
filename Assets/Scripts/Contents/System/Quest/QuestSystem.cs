@@ -70,6 +70,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     private PlacementSystem placementSystem;
     private MiniMapController miniMapController;
 
+    private UnityEvent<DropItemInfo> onQuestCompensationEvent;
     private UnityAction onIconDisableAction;
 
     private void Awake()
@@ -84,7 +85,9 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
       
         playerTransform = GameObject.FindWithTag(Tags.Player).transform;
 
-        playerTransform.GetComponent<PlayerFSM>().PlayerInventory.onUseItemEvent.AddListener(OnUseItem);
+        var playerFsm = playerTransform.GetComponent<PlayerFSM>();
+        playerFsm.PlayerInventory.onUseItemEvent.AddListener(OnUseItem);
+        onQuestCompensationEvent.AddListener(playerFsm.OnDropItem);
 
         var placementSystemObject = GameObject.FindWithTag(Tags.PlacementSystem);
         if(placementSystemObject != null)
@@ -368,6 +371,13 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private void OnCompensation()
     {
+        //var dropItemList = DataTableManager.DropTable.Get(currentQuestData.DropID).GetDropItemList();
+
+        //foreach (var dropItem in dropItemList)
+        //{
+        //    onQuestCompensationEvent?.Invoke(dropItem);
+        //}
+
         if (currentQuestData.questInfoList[0].questType == QuestType.Movement)
         {
             SetNextQuest();
@@ -382,7 +392,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private void SetNextQuest()
     {
-        if(currentQuestData.NextQuestID == 0)
+
+        if (currentQuestData.NextQuestID == 0)
         {
             questView.CloseQuestView();
             return;

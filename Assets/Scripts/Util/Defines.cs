@@ -68,6 +68,14 @@ public static class QuestTableIds
         "QuestTable",
     };
 }
+public static class DropTableIds
+{
+    public static readonly string[] String =
+    {
+        "DropTable",
+    };
+}
+
 
 public static class PlacementTableIds
 {
