@@ -44,11 +44,14 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     private PlayerStats playerStats;
 
+
     public int SelectedSlotIndex { get; private set; } = -1;
 
     private int dragSeletedSlotIndex;
     private bool isOnDrag = false;
     private int useSlotCount = 0;
+
+    public UnityEvent<int> onUseItemEvent;
 
     private void OnEnable()
     {
@@ -358,6 +361,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     {
         itemInfos[SelectedSlotIndex].Amount -= 1;
         playerStats.OnUseItem(itemInfos[SelectedSlotIndex].itemData);
+        onUseItemEvent?.Invoke(itemInfos[SelectedSlotIndex].itemData.ID);
 
         if (itemInfos[SelectedSlotIndex].Amount == 0)
         {

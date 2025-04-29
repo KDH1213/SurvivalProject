@@ -41,15 +41,26 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     public UnityEvent<int, int, int> onChangeValueEvent;
 
     private List<QuestProgressInfo> questProgressInfoList = new List<QuestProgressInfo>();
+
     private List<QuestProgressInfo> currentMonsterQuestList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentItemCollectionQuestList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentCreateItemQuestList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentBulidingQuestList = new List<QuestProgressInfo>();
 
+    private List<QuestProgressInfo> currentUseItemQuestList = new List<QuestProgressInfo>();
+    private List<QuestProgressInfo> currentDestructMonsterStrongQuestList = new List<QuestProgressInfo>();
+    private List<QuestProgressInfo> currentRelicsCollectionQuestList = new List<QuestProgressInfo>();
+
+    // private Dictionary<QuestType, List<QuestProgressInfo>> questProgressInfoTable = new Dictionary<QuestType, List<QuestProgressInfo>>();
+
     private int currentCreatItemQuestCount = 0;
     private int currentMonsterQuestCount = 0;
     private int currentItemCollectionQuestCount = 0;
     private int currentBulidingQuestCount = 0;
+
+    private int currentUseItemQuestCount = 0;
+    private int currentDestructMonsterStrongQuestCount = 0;
+    private int currentRelicsCollectionQuestCount = 0;
     private int activeQuestCount = 0;
 
     private Transform playerTransform;
@@ -73,6 +84,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
       
         playerTransform = GameObject.FindWithTag(Tags.Player).transform;
 
+        playerTransform.GetComponent<PlayerFSM>().PlayerInventory.onUseItemEvent.AddListener(OnUseItem);
+
         var placementSystemObject = GameObject.FindWithTag(Tags.PlacementSystem);
         if(placementSystemObject != null)
         {
@@ -84,6 +97,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         questView.SetClickCompensationAction(OnCompensation);
 
         miniMapController = GameObject.FindWithTag("MiniMap").GetComponent<MiniMapController>();
+
+        var monsterSpawnSystem = GameObject.FindWithTag(Tags.MonsterSpawnSystem);
+        if(monsterSpawnSystem != null)
+        {
+            monsterSpawnSystem.GetComponent<MonsterSpawnSystem>().onDestorySpawnerEvent.AddListener(OnDestroyMonsterStrongpoint);
+        }
     }
 
     private void Start()
@@ -161,7 +180,25 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     targetPosition = questData.GetTargetPosition().ConvertVector2();
                     distance = questData.QuestAreaRadius;
                     enabled = true;
+                    break;
+                case QuestType.UseItem:
+                    currentUseItemQuestList.Add(questProgressInfo);
+                    ++currentUseItemQuestCount;
+                    break;
 
+                case QuestType.DestructMonsterStrong:
+                    currentDestructMonsterStrongQuestList.Add(questProgressInfo);
+                    ++currentDestructMonsterStrongQuestCount;
+
+                    if (questInfoList[i].includeMine)
+                    {
+                        var monsterSpawnSystem = GameObject.FindWithTag(Tags.MonsterSpawnSystem).GetComponent<MonsterSpawnSystem>();
+                        OnDestroyMonsterStrongpoint(monsterSpawnSystem.ActiveSpwanerCount, monsterSpawnSystem.TotalSpawnerCount);
+                    }
+                    break;
+                case QuestType.RelicsCollection:
+                    currentRelicsCollectionQuestList.Add(questProgressInfo);
+                    ++currentRelicsCollectionQuestCount;
                     break;
                 default:
                     break;
@@ -269,6 +306,58 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                 break;
             }
         }
+    }
+
+    public void OnUseItem(int itemID)
+    {
+        if(currentUseItemQuestCount == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentUseItemQuestCount; ++i)
+        {
+            if (currentUseItemQuestList[i].targetID == itemID)
+            {
+                currentUseItemQuestList[i].currentCount += 1;
+                onChangeValueEvent?.Invoke(currentUseItemQuestList[i].index, currentUseItemQuestList[i].currentCount, currentUseItemQuestList[i].maxCount);
+                if (currentUseItemQuestList[i].IsClear())
+                {
+                    currentUseItemQuestList.Remove(currentUseItemQuestList[i]);
+                    --currentUseItemQuestCount;
+                    --activeQuestCount;
+                    CheckQuestClear();
+                }
+                break;
+            }
+        }
+    }
+
+    public void OnDestroyMonsterStrongpoint(int destroyCount, int maxCount)
+    {
+        if(currentDestructMonsterStrongQuestCount == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentDestructMonsterStrongQuestCount; ++i)
+        {
+            currentDestructMonsterStrongQuestList[i].currentCount = destroyCount;
+            onChangeValueEvent?.Invoke(currentDestructMonsterStrongQuestList[i].index, currentDestructMonsterStrongQuestList[i].currentCount, currentDestructMonsterStrongQuestList[i].maxCount);
+            if (currentDestructMonsterStrongQuestList[i].IsClear())
+            {
+                currentDestructMonsterStrongQuestList.Remove(currentDestructMonsterStrongQuestList[i]);
+                --currentDestructMonsterStrongQuestCount;
+                --activeQuestCount;
+                CheckQuestClear();
+            }
+            break;
+        }
+    }
+
+    public void OnCollectionRelics(int collectionCount)
+    {
+
     }
 
     private void CheckQuestClear()

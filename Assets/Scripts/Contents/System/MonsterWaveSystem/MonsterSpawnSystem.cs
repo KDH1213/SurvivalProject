@@ -27,13 +27,15 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     private TextMeshProUGUI timerText;
 
     public UnityEvent<bool> onWaveActiveEvent;
+    public UnityEvent<int, int> onDestorySpawnerEvent;
 
     [SerializeField]
     private float nextWaveTime;
 
     private float waveTime = 0f;
 
-    private int activeSpawnerCount;
+    private int activeWaveSpawnerCount;
+
     private int currentWaveLevel = 0;
     public int CurrentWaveLevel { get  { return currentWaveLevel; } }
 
@@ -43,6 +45,9 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     private readonly string timerFormat = "남은 시간 : {0:F}";
     private bool isSave = false;
+
+    public int ActiveSpwanerCount { get { return monsterActiveSpawnerList.Count; } }
+    public int TotalSpawnerCount { get { return monsterSpawnerList.Count; } }
 
     private void Awake()
     {
@@ -57,11 +62,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             Load();
         }
 
-        var stageManager = GameObject.FindGameObjectWithTag("StageManager");
-        if (stageManager != null)
-        {
-            stageManager.GetComponent<StageManager>().onSaveEvent += Save;
-        }
+        stageManager.onSaveEvent += Save;
     }
 
     private void Start()
@@ -99,7 +100,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     {
         isActive = true;
         wavePanel.SetActive(false);
-        activeSpawnerCount = 0;
+        activeWaveSpawnerCount = 0;
 
         currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
         if (currentWaveLevel < 0)
@@ -114,7 +115,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             // spawner.SetMonsterWaveData(monsterWaveDatas[currentWaveLevel]);
             spawner.SetWaveIndex(currentWaveLevel);
             spawner.StartSpawn();
-            ++activeSpawnerCount; 
+            ++activeWaveSpawnerCount; 
         }
     }
 
@@ -122,7 +123,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     {
         isActive = true;
         wavePanel.SetActive(false);
-        activeSpawnerCount = 0;
+        activeWaveSpawnerCount = 0;
 
         currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
         if (currentWaveLevel < 0)
@@ -142,7 +143,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             monsterSpawnerList[i].RestartSpawn(spawnerSaveInfoList[i].spawnCount, spawnerSaveInfoList[i].currentSpawnTime);
             monsterSpawnerList[i].SetWaveIndex(currentWaveLevel);
             monsterSpawnerList[i].StartSpawn();
-            ++activeSpawnerCount;
+            ++activeWaveSpawnerCount;
         }
     }
 
@@ -156,9 +157,9 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     public void EndSpawn()
     {
-        --activeSpawnerCount;
+        --activeWaveSpawnerCount;
 
-        if(activeSpawnerCount == 0)
+        if(activeWaveSpawnerCount == 0)
         {
             isActive = false;
             wavePanel.SetActive(!isActive);
@@ -175,8 +176,9 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     public void OnDestroySpawner(MonsterSpawner monsterSpawner)
     {
         monsterActiveSpawnerList.Remove(monsterSpawner);
+        onDestorySpawnerEvent?.Invoke(monsterSpawnerList.Count - monsterActiveSpawnerList.Count, monsterSpawnerList.Count);
 
-        if(monsterActiveSpawnerList.Count == 0)
+        if (monsterActiveSpawnerList.Count == 0)
         {
             isActive = false;
             enabled = false;
