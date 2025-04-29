@@ -115,7 +115,6 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         DropItemInfo dropItemInfo = new DropItemInfo();
         dropItemInfo.amount = equipmentSockets[seleteSocket].Amount;
-        dropItemInfo.ItemName = equipmentSockets[seleteSocket].ItemData.ItemName;
         dropItemInfo.id = equipmentSockets[seleteSocket].ItemData.ID;
         dropItemInfo.itemData = equipmentSockets[seleteSocket].ItemData;
         inventory.AddItem(dropItemInfo);

@@ -19,7 +19,6 @@ public class DestructedDropItem : MonoBehaviour, IDestructible
         {
             var dropItemInfo = new DropItemInfo();
             dropItemInfo.itemData = DataTableManager.ItemTable.Get(ids[i]);
-            dropItemInfo.ItemName = dropItemInfo.itemData.ItemName;
             dropItemInfo.id = ids[i];
             dropItemInfo.amount = counts[i];
             dropItemInfoList.Add(dropItemInfo);

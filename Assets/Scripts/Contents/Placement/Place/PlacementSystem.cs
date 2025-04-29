@@ -442,7 +442,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             var itemData = DataTableManager.ItemTable.Get(item.Key);
             var returnItem = new DropItemInfo();
             returnItem.id = itemData.ID;  // testItem.ID
-            returnItem.ItemName = itemData.ItemName;
             returnItem.itemData = itemData;
             returnItem.amount = item.Value;
             inventory.AddItem(returnItem);

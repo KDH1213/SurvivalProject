@@ -130,7 +130,6 @@ public class CreateItemUI : MonoBehaviour
     {
         var createItem = new DropItemInfo();
         createItem.id = data.ID;  
-        createItem.ItemName = data.ItemName;
         createItem.itemData = data;
         createItem.amount = createData.ResultValue;
         if (inventory != null)

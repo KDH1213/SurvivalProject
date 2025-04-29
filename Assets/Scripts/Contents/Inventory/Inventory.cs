@@ -5,16 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public struct DropItemInfo
-{
-    // 임시 이름
-    public string ItemName;
-    public int id;
-    public int amount;
-    // 임시 코드
-    public ItemData itemData;
-}
-
 public class Inventory : MonoBehaviour, ISaveLoadData
 {
     private static int maxSlot = 20;
@@ -187,7 +177,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             var testInfo = new DropItemInfo();
             testInfo.amount = 500;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -196,7 +185,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             testInfo = new DropItemInfo();
             testInfo.amount = 500;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -206,7 +194,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             testInfo = new DropItemInfo();
             testInfo.amount = 500;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -217,7 +204,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             testInfo = new DropItemInfo();
             testInfo.amount = 500;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -226,7 +212,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             testInfo = new DropItemInfo();
             testInfo.amount = 1;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -235,7 +220,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             testInfo = new DropItemInfo();
             testInfo.amount = 1;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -244,7 +228,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
             testInfo = new DropItemInfo();
             testInfo.amount = 1;
-            testInfo.ItemName = Item.ItemName;
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
@@ -255,7 +238,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
                 testInfo = new DropItemInfo();
                 testInfo.amount = 1;
-                testInfo.ItemName = Item.ItemName;
                 testInfo.itemData = Item;
                 testInfo.id = 1111115 + i;
                 AddItem(testInfo);
@@ -267,7 +249,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
                 testInfo = new DropItemInfo();
                 testInfo.amount = 1;
-                testInfo.ItemName = Item.ItemName;
                 testInfo.itemData = Item;
                 testInfo.id = 1111131 + i;
                 AddItem(testInfo);
@@ -279,7 +260,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
                 testInfo = new DropItemInfo();
                 testInfo.amount = 1;
-                testInfo.ItemName = Item.ItemName;
                 testInfo.itemData = Item;
                 testInfo.id = 1111119 + i;
                 AddItem(testInfo);
@@ -291,7 +271,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
                 testInfo = new DropItemInfo();
                 testInfo.amount = 1;
-                testInfo.ItemName = Item.ItemName;
                 testInfo.itemData = Item;
                 testInfo.id = 1111125 + i;
                 AddItem(testInfo);
@@ -737,7 +716,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         unEquimentInfo.amount = amount;
         unEquimentInfo.id = itemData.ID;
         unEquimentInfo.itemData = itemData;
-        unEquimentInfo.ItemName = itemData.ItemName;
         ChangeItem(unEquimentInfo);
     }
 
