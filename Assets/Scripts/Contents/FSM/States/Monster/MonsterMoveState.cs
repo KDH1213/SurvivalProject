@@ -48,7 +48,7 @@ public class MonsterMoveState : MonsterBaseState
 
     private bool FindTarget()
     {
-        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.ChaseRadius, MonsterFSM.Weapon.attackTargets, MonsterFSM.Weapon.WeaponLayerMask);
+        int index = Physics.OverlapSphereNonAlloc(MonsterFSM.transform.position, MonsterFSM.MonsterData.ChaseRadius, MonsterFSM.Weapon.FindTargetColliders, MonsterFSM.Weapon.WeaponLayerMask);
         Transform target = null;
 
         float distance = float.MaxValue;
@@ -57,7 +57,7 @@ public class MonsterMoveState : MonsterBaseState
 
         for (int i = 0; i < index; ++i)
         {
-            target = MonsterFSM.Weapon.attackTargets[i].gameObject.transform;
+            target = MonsterFSM.Weapon.FindTargetColliders[i].gameObject.transform;
             positionCheck = target.position - position;
             positionCheck.y = 0f;
             if (distance > positionCheck.sqrMagnitude)

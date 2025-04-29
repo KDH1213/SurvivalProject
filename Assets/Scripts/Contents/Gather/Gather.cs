@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
+public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision, IExperience
 {
     [SerializeField]
     private GameObject diskObject;
@@ -31,6 +31,8 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
 
     public float RespawnTime => GatherData.RespawnTime;
     public float InteractTime => GatherData.InteractTime;
+
+    public float Experience => 100f;
 
     public UnityEvent<GameObject> onEndInteractEvent;
 

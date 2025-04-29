@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterAttackState : MonsterBaseState
 {
-    private float animationSpeed;
-    private GameObject attacker = null;
+    protected float animationSpeed;
+    protected GameObject attacker = null;
 
     protected override void Awake()
     {
@@ -48,7 +48,7 @@ public class MonsterAttackState : MonsterBaseState
         attacker = null;
     }
 
-    public void OnEndAttackAnimationMonster()
+    public virtual void OnEndAttackAnimationMonster()
     {
         if(MonsterFSM.CurrentStateType != stateType)
         {
@@ -71,7 +71,7 @@ public class MonsterAttackState : MonsterBaseState
         {           
             var targetDistance = MonsterFSM.Target.transform.position - MonsterFSM.transform.position;
             targetDistance.y = 0f;
-            if(targetDistance.sqrMagnitude > MonsterFSM.Weapon.Range * MonsterFSM.Weapon.Range)
+            if(targetDistance.sqrMagnitude > MonsterFSM.MonsterData.AttackRadius * MonsterFSM.MonsterData.AttackRadius)
             {
                 MonsterFSM.ChangeState(MonsterStateType.Chase);
             }
@@ -82,7 +82,7 @@ public class MonsterAttackState : MonsterBaseState
             
         }
     }
-    public void OnStartAttack()
+    public virtual void OnStartAttack()
     {
         MonsterFSM.Weapon.StartAttack(MonsterFSM.AttackPoint, gameObject);
         MonsterFSM.SetIsAttack(true);

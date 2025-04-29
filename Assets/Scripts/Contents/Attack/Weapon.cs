@@ -4,22 +4,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon.asset", menuName = "Attack/Weapon")]
 public class Weapon : AttackDefinition
 {
-    [SerializeField]
-    public GameObject weaponPrefab;
-
     [field: SerializeField]
     public Vector3 CreateOffset { get; private set; }
 
     [field: SerializeField]
     public Vector3 CreateSize { get; private set; }
 
-    [HideInInspector]
-    public Collider[] attackTargets =  new Collider[5];
+    [SerializeField]
+    public Collider[] FindTargetColliders = new Collider[5];
 
     [SerializeField]
     public LayerMask WeaponLayerMask;
 
-    [field: SerializeField]
+    [SerializeField]
     public Collider[] AttackTargets = new Collider[0];
 
     public void StartAttack(Transform attackPoint, GameObject owner)
@@ -70,7 +67,7 @@ public class Weapon : AttackDefinition
         // convert from world position to local position 
         boxPosition = owner.InverseTransformPoint(boxPosition);
 
-        Gizmos.DrawWireCube(boxPosition, CreateSize * 2f);
+        Gizmos.DrawWireCube(boxPosition, CreateSize);
 
         // restore previous Gizmos settings
         Gizmos.color = prevColor;

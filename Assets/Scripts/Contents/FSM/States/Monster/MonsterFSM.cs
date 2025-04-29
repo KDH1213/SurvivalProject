@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.Pool;
 
-public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespawn
+public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespawn, IExperience
 {
     [field: SerializeField]
     public int ID { get; private set; } = 0;
@@ -56,6 +56,8 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     public bool IsRespawn => IsDead;
 
     public float InteractTime => 0f;
+
+    public float Experience{ get { return MonsterData.DropLifeExp; } }
 
     protected override void Awake()
     {
