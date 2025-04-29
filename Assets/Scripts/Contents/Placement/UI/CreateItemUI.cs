@@ -18,7 +18,7 @@ public class CreateItemUI : MonoBehaviour
     [SerializeField]
     private Image itemImage;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItemList = new List<BuildInfoUINeedItem>();
+    private List<NeedItem> needItemList = new List<NeedItem>();
     [SerializeField]
     private TextMeshProUGUI itemName;
     [SerializeField]

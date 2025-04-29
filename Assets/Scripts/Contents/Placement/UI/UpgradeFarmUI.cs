@@ -26,7 +26,7 @@ public class UpgradeFarmUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI afterProduceTime;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
+    private List<NeedItem> needItems = new List<NeedItem>();
     public TestInventory inven;
     private Inventory inventory;
 

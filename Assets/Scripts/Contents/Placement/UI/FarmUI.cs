@@ -12,7 +12,7 @@ public class FarmUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI featureInfo;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItems;
+    private List<NeedItem> needItems;
     [SerializeField]
     private Button interactButton;
     private GameObject target;

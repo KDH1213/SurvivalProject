@@ -16,9 +16,9 @@ public class BuildInfoUI : MonoBehaviour
     private TextMeshProUGUI featureInfo;
     private PlacementObjectInfo placementObject;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItems;
+    private List<NeedItem> needItems;
     [SerializeField]
-    private BuildInfoUINeedItem needItemPrefeb;
+    private NeedItem needItemPrefeb;
     [SerializeField]
     private Button placeButton;
     public TestInventory inven;

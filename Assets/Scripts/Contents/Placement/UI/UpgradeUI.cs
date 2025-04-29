@@ -15,7 +15,7 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI afterName;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
+    private List<NeedItem> needItems = new List<NeedItem>();
     public TestInventory inven;
 
     [SerializeField]

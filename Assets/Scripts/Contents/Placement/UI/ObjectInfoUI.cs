@@ -12,9 +12,9 @@ public class ObjectInfoUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI objectInfo;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItems = new List<BuildInfoUINeedItem>();
+    private List<NeedItem> needItems = new List<NeedItem>();
     [SerializeField]
-    private BuildInfoUINeedItem needItemPrefeb;
+    private NeedItem needItemPrefeb;
     [SerializeField]
     private GameObject debuffContents;
     [SerializeField]

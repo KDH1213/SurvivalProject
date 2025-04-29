@@ -196,8 +196,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         
     }
     
-
-    // ������Ʈ ��ġ
     public void PlaceStructure()
     {
         Vector3 mousePosition = inputManager.LastPosition;

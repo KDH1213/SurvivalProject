@@ -45,7 +45,7 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private StorageUI storageUI; // 창고 UI
     [SerializeField]
-    private StorageUI repairUI; // 수리 UI
+    private RepairUI repairUI; // 수리 UI
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class PlacementUIController : MonoBehaviour
         if(placementSystem.PlaceMode == PlaceMode.Edit && !preview.IsPreview && placementSystem.SelectedObject != null)
         {
             editUI.transform.position = Camera.main.
-                WorldToScreenPoint(placementSystem.SelectedObject.transform.GetChild(0).position);
+                WorldToScreenPoint(placementSystem.SelectedObject.transform.position);
         }
 
     }

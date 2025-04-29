@@ -15,7 +15,7 @@ public class RepairUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI afterHp;
     [SerializeField]
-    private List<BuildInfoUINeedItem> needItems;
+    private List<NeedItem> needItems;
     [SerializeField]
     private List<NeedPenalty> needPenalties;
     public TestInventory inven;

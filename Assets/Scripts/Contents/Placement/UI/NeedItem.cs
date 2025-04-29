@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildInfoUINeedItem : MonoBehaviour
+public class NeedItem : MonoBehaviour
 {
     [SerializeField]
     private Image itemImage;
@@ -15,5 +15,9 @@ public class BuildInfoUINeedItem : MonoBehaviour
     {
         itemImage.sprite = image;
         needCountTxt.text = $"{hasCount} / {needCount}";
+        if(hasCount < 0)
+        {
+            needCountTxt.text = $"{needCount}";
+        }
     }
 }
