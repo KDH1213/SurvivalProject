@@ -19,6 +19,7 @@ public class DestoryCheckUI : MonoBehaviour
             var itemData = DataTableManager.ItemTable.Get(item.Key);
             needItems[index].gameObject.SetActive(true);
             needItems[index].SetNeedItem(itemData.ItemImage, item.Value, -1);
+            index++;
         }
     }
 }
