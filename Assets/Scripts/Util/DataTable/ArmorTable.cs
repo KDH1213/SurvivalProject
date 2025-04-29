@@ -30,8 +30,11 @@ public class ArmorData
     [field: SerializeField]
     public float moveSpeed { get; set; }
 
+    [field: SerializeField]
+    public int ColdResistance { get; set; }
 
-
+    [field: SerializeField]
+    public int HeatResistance { get; set; }
 
     public Sprite ItemImage;
     public string ItemName { get { return DataTableManager.StringTable.Get(itemNameID); } }

@@ -70,6 +70,8 @@ public class ItemData
 
             list.Add(new StatInfo(StatType.Defense, armorData.defance));
             list.Add(new StatInfo(StatType.MovementSpeed, armorData.moveSpeed));
+            list.Add(new StatInfo(StatType.ColdResistance, armorData.ColdResistance));
+            list.Add(new StatInfo(StatType.HeatResistance, armorData.HeatResistance));
         }
         return list;
     }
