@@ -61,7 +61,7 @@ public class PlacementObjectList
             table.Clear();
             table.Add(StatType.HP, new StatValue(StatType.HP, objInfo.DefaultHp));
 
-            foreach (var needItem in construction.NeedItemList)
+            foreach (var needItem in construction.NeedItems)
             {
                 objInfo.NeedItems.Add(needItem.Key, needItem.Value);
             }
