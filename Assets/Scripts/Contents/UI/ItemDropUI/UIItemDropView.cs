@@ -16,6 +16,13 @@ public class UIItemDropView : MonoBehaviour
     [SerializeField]
     private List<UIItemDropInfo> disableUIItemDropInfoList = new List<UIItemDropInfo>();
 
+    private float lastDisableTime;
+    [SerializeField]
+    private float lifeTime;
+
+    [SerializeField]
+    private float extraTime = 0.1f;
+
     private void Awake()
     {
         GameObject.FindWithTag(Tags.Player).GetComponent<PlayerFSM>().onDropItemEvent.AddListener(OnItemDrop);
@@ -36,8 +43,21 @@ public class UIItemDropView : MonoBehaviour
             uIItemDropInfo.diableAction += OnEndItemInfo;
         }
 
-        uIItemDropInfo.SetDropItemInfo(dropItemInfo.itemData.ItemImage, dropItemInfo.amount);
+        if(uIItemDropInfoQueue.Count == 0)
+        {
+            lastDisableTime = Time.time + lifeTime;
+        }
+        else
+        {
+            float time = Time.time + lifeTime - lastDisableTime;
+            if(time < extraTime)
+            {
+                lastDisableTime += extraTime;
+            }
+        }
+
         uIItemDropInfoQueue.Enqueue(uIItemDropInfo);
+        uIItemDropInfo.SetDropItemInfo(dropItemInfo.itemData.ItemImage, dropItemInfo.amount, lastDisableTime);
     }
 
     public void OnEndItemInfo()

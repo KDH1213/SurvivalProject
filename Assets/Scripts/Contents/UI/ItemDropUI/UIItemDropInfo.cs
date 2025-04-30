@@ -14,9 +14,6 @@ public class UIItemDropInfo : MonoBehaviour
 
     public UnityAction diableAction;
 
-    [SerializeField]
-    private float lifeTime = 0.5f;
-
     private float disableTime = 0f;
     private static readonly string amountFormat = " X {0}";
 
@@ -25,12 +22,12 @@ public class UIItemDropInfo : MonoBehaviour
         diableAction?.Invoke();
     }
 
-    public void SetDropItemInfo(Sprite icon, int amount)
+    public void SetDropItemInfo(Sprite icon, int amount, float disableTime)
     {
         itemIcon.sprite = icon;
         amountText.text = string.Format(amountFormat, amount.ToString());
 
-        disableTime = Time.time + lifeTime;
+        this.disableTime = disableTime;
 
         gameObject.SetActive(true);
     }
