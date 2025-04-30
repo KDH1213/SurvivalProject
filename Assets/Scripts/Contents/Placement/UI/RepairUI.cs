@@ -18,6 +18,8 @@ public class RepairUI : MonoBehaviour
     private List<NeedItem> needItems;
     [SerializeField]
     private List<NeedPenalty> needPenalties;
+    [SerializeField]
+    private Button repairButton;
     public TestInventory inven;
     private Inventory inventory;
 
@@ -32,7 +34,14 @@ public class RepairUI : MonoBehaviour
         structureName.text = objInfo.Name;
         beforeHp.text = selectedObject.Hp.ToString();
         afterHp.text = objInfo.DefaultHp.ToString();
-
+        foreach (NeedItem needItem in needItems)
+        {
+            needItem.gameObject.SetActive(false);
+        }
+        foreach (var needPenalty in needPenalties)
+        {
+            needPenalty.gameObject.SetActive(false);
+        }
         int index = 0;
         var itemTable = DataTableManager.ItemTable;
         if (inventory == null)
@@ -75,6 +84,5 @@ public class RepairUI : MonoBehaviour
                 index++;
             }
         }
-
     }
 }

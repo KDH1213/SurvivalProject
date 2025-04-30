@@ -22,7 +22,8 @@ public class ConstructionTable : DataTable
         public int PlusFatigue { get; set; }
         public float DropExp { get; set; }
 
-        public Dictionary<int, int> NeedItemList { get; set; } = new Dictionary<int, int>();
+        public Dictionary<int, int> NeedItems { get; set; } = new Dictionary<int, int>();
+        public Dictionary<SurvivalStatType, int> NeedPenalties { get; set; } = new Dictionary<SurvivalStatType, int>();
     }
 
     private Dictionary<int, Data> dictionoary = new Dictionary<int, Data>();
@@ -42,20 +43,24 @@ public class ConstructionTable : DataTable
             {
                 if (item.BuildCostItem1 != 0)
                 {
-                    item.NeedItemList.Add(item.BuildCostItem1, item.CostItemValue1);
+                    item.NeedItems.Add(item.BuildCostItem1, item.CostItemValue1);
+                    
                 }
                 if (item.BuildCostItem2 != 0)
                 {
-                    item.NeedItemList.Add(item.BuildCostItem2, item.CostItemValue2);
+                    item.NeedItems.Add(item.BuildCostItem2, item.CostItemValue2);
                 }
                 if (item.BuildCostItem3 != 0)
                 {
-                    item.NeedItemList.Add(item.BuildCostItem3, item.CostItemValue3);
+                    item.NeedItems.Add(item.BuildCostItem3, item.CostItemValue3);
                 }
                 if (item.BuildCostItem4 != 0)
                 {
-                    item.NeedItemList.Add(item.BuildCostItem4, item.CostItemValue4);
+                    item.NeedItems.Add(item.BuildCostItem4, item.CostItemValue4);
                 }
+                item.NeedPenalties.Add(SurvivalStatType.Hunger, item.MinusSatiation);
+                item.NeedPenalties.Add(SurvivalStatType.Hygiene, item.MinusHydration);
+                item.NeedPenalties.Add(SurvivalStatType.Fatigue, item.PlusFatigue);
                 dictionoary.Add(item.UpgradeID, item);
             }
             else

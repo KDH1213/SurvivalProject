@@ -11,7 +11,7 @@ public class PlacementObjectInfo
     public StructureKind Kind { get; set; }
     public int SubType { get; set; }
     public string Name { get; set; }
-    public float DefaultHp { get; set; }
+    public int DefaultHp { get; set; }
     public GameObject Prefeb { get; set; }
     public SerializedDictionary<int, int> NeedItems { get; set; } = new SerializedDictionary<int, int>();
     public Sprite Icon { get; set; }

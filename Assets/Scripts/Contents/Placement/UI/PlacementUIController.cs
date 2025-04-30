@@ -46,6 +46,8 @@ public class PlacementUIController : MonoBehaviour
     private StorageUI storageUI; // 창고 UI
     [SerializeField]
     private RepairUI repairUI; // 수리 UI
+    [SerializeField]
+    private DestoryCheckUI destoryCheckUI; // 수리 UI
 
     private void Awake()
     {
@@ -233,5 +235,26 @@ public class PlacementUIController : MonoBehaviour
     {
         storageUI.gameObject.SetActive(true);
         storageUI.SetUI(target, structure);
+    }
+
+    public void OnOpenDestoryCheckUI()
+    {
+        if(placementSystem.SelectedObject == null)
+        {
+            return;
+        }
+        destoryCheckUI.gameObject.SetActive(true);
+        destoryCheckUI.SetUI(placementSystem.SelectedObject.ID);
+    }
+
+    public void OnOpenRepairUI()
+    {
+        if (placementSystem.SelectedObject == null)
+        {
+            return;
+        }
+        int index = placementSystem.Database.objects.FindIndex(data => data.ID == placementSystem.SelectedObject.ID);
+        repairUI.gameObject.SetActive(true);
+        repairUI.SetUI(placementSystem.Database.objects[index], placementSystem.SelectedObject);
     }
 }

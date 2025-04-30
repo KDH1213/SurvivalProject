@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,21 +13,19 @@ public class FarmInfoUi : MonoBehaviour
     [SerializeField]
     private Image produceInfoImage;
     [SerializeField]
-    private Image currentProduceImage;
-    [SerializeField]
-    private TextMeshProUGUI objectLevel;
+    private Image fillImage;
     [SerializeField]
     private TextMeshProUGUI objectName;
     [SerializeField]
-    private TextMeshProUGUI produceTerm;
+    private TextMeshProUGUI objectSize;
+    [SerializeField]
+    private TextMeshProUGUI objectHp;
+    [SerializeField]
+    private TextMeshProUGUI objectDescription;
+    [SerializeField]
+    private TextMeshProUGUI objectInfo;
     [SerializeField]
     private TextMeshProUGUI produceOutPut;
-    [SerializeField]
-    private TextMeshProUGUI produceMax;
-    [SerializeField]
-    private TextMeshProUGUI currentTime;
-    [SerializeField]
-    private TextMeshProUGUI currentProduce;
     [SerializeField]
     private Button interact;
     public TestInventory inven;
@@ -45,29 +44,29 @@ public class FarmInfoUi : MonoBehaviour
     }
     private void Update()
     {
-        produceTerm.text = $"{currentObject.produceTime} 초";
-        currentTime.text = $"{(currentObject.currentTime - Time.time):N0} 초";
-        currentProduce.text = $"{currentObject.produceInfo.outPut} 개";
+        
     }
     public void SetUIInfo(PlacementObjectInfo objInfo, GameObject target, ProduceStructure selectedObject)
     {
         ResetInfo();
 
+        var data = DataTableManager.StructureTable.Get(selectedObject.ID);
+        var stringTable = DataTableManager.StringTable;
+        var itemData = DataTableManager.ItemTable.Get(selectedObject.produceInfo.id);
+
         objectName.text = objInfo.Name;
         objectImage.sprite = objInfo.Icon;
-        objectLevel.text = $"Level : {selectedObject.Rank}";
+        objectSize.text = $"{objInfo.Size.x} X {objInfo.Size.y}";
+        objectHp.text = $"HP : {selectedObject.Hp}";
+
+        objectDescription.text = stringTable.Get(data.DescriptID);
+        objectDescription.text = $"{data.ProductionCycle}초 마다 {itemData.ItemName} {data.AmountPerProduction}개 생성";
 
         currentObject = selectedObject;
 
-        Sprite sprite = DataTableManager.ItemTable.Get(selectedObject.produceInfo.id).ItemImage;
+        Sprite sprite = itemData.ItemImage;
         produceInfoImage.sprite = sprite;
-        produceTerm.text = $"{selectedObject.produceTime} 초";
-        produceOutPut.text = $"{selectedObject.produceInfo.outPutValue} 개";
-        produceMax.text = $"{selectedObject.produceInfo.maxOutPut} 개";
-
-        currentProduceImage.sprite = sprite;
-        currentTime.text = $"{selectedObject.currentTime - Time.time:N0} 초";
-        currentProduce.text = $"{selectedObject.produceInfo.outPut} 개";
+        produceOutPut.text = $"{selectedObject.produceInfo.outPutValue} / {data.MaxStorageCapacity}";
 
         this.target = target;
 
@@ -143,17 +142,10 @@ public class FarmInfoUi : MonoBehaviour
 
         objectName.text = null;
         objectImage.sprite = null;
-        objectLevel.text = null;
 
         currentObject = null;
 
         produceInfoImage.sprite = null;
-        produceTerm.text = null;
         produceOutPut.text = null;
-        produceMax.text = null;
-
-        currentProduceImage.sprite = null;
-        currentTime.text = null;
-        currentProduce.text = null;
     }
 }

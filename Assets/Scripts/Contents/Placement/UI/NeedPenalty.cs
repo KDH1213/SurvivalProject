@@ -9,9 +9,9 @@ public class NeedPenalty : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI needCountTxt;
 
-    public void SetNeedPenalty(Sprite image, int needCount)
+    public void SetNeedPenalty(SurvivalStatType type, int needCount)
     {
-        itemImage.sprite = image;
+        //itemImage.sprite = image;
         needCountTxt.text = $"{needCount} %";
     }
 }
