@@ -34,8 +34,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public bool IsPlayerInRange { get; private set; }
 
     public UnityEvent<GameObject> onTargetInteractEvent;
-    // public UnityEvent<DropItemInfo> onDropItemEvent;
-    public UnityEvent<int, int> onDropItemEvent;
+    public UnityEvent<DropItemInfo> onDropItemEvent;
+    // public UnityEvent<int, int> onDropItemEvent;
     public UnityAction<int> onActAction;
 
     protected override void Awake()
@@ -144,7 +144,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public void OnDropItem(DropItemInfo dropItemInfo)
     {
         PlayerInventory.AddItem(dropItemInfo);
-        onDropItemEvent?.Invoke(dropItemInfo.id, dropItemInfo.amount);
+        onDropItemEvent?.Invoke(dropItemInfo);
     }
 
     public void OnPlayAct(int id)

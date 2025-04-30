@@ -236,7 +236,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         }
     }
 
-    public void OnAddItem(int itemID, int addItemCount)
+    public void OnAddItem(DropItemInfo dropItemInfo)
     {
         if (currentItemCollectionQuestCount == 0)
         {
@@ -245,9 +245,9 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < currentItemCollectionQuestCount; ++i)
         {
-            if (currentItemCollectionQuestList[i].targetID == itemID)
+            if (currentItemCollectionQuestList[i].targetID == dropItemInfo.id)
             {
-                currentItemCollectionQuestList[i].currentCount += addItemCount;
+                currentItemCollectionQuestList[i].currentCount += dropItemInfo.amount;
                 onChangeValueEvent?.Invoke(currentItemCollectionQuestList[i].index, currentItemCollectionQuestList[i].currentCount, currentItemCollectionQuestList[i].maxCount);
                 if (currentItemCollectionQuestList[i].IsClear())
                 {
