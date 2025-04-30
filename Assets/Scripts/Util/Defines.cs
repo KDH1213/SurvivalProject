@@ -68,6 +68,14 @@ public static class QuestTableIds
         "QuestTable",
     };
 }
+public static class DropTableIds
+{
+    public static readonly string[] String =
+    {
+        "DropTable",
+    };
+}
+
 
 public static class PlacementTableIds
 {
@@ -91,7 +99,9 @@ public static class Tags
     public static readonly string StageManager = "StageManager";
     public static readonly string PointStructure = "PointStructure";
     public static readonly string QuestSystem = "QuestSystem";
-    public static readonly string PlacementSystem = "PlacementSystem";    
+    public static readonly string PlacementSystem = "PlacementSystem";
+    public static readonly string MiniMap = "MiniMap";
+    public static readonly string MonsterSpawnSystem = "MonsterSpawnSystem";
 }
 
 public static class SceneName

@@ -39,7 +39,7 @@ public class ItemInfoView : MonoBehaviour
 
     // private void OnSetItemInfo()
 
-    private readonly string armorFormat = "방어력 : {0}\n이동 속도 : {1}\n";
+    private readonly string armorFormat = "방어력 : {0}\n이동 속도 : {1}\n더위 저항 : {2}\n추위 저항 : {3}\n";
     private readonly string weaponFormat = "공격력 : {0}\n공격 속도 : {1}\n";
     private readonly string consumableFormat = "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
 
@@ -151,7 +151,7 @@ public class ItemInfoView : MonoBehaviour
     private void SetArmorInfo(ItemData itemData, bool isItemSlot)
     {
         var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
-        itemStatsText.text = string.Format(armorFormat, armorData.defance.ToString(), armorData.moveSpeed.ToString());
+        itemStatsText.text = string.Format(armorFormat, armorData.defance.ToString(), armorData.moveSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
 
         useButton.interactable = false;
 

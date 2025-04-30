@@ -35,6 +35,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public UnityAction<float> onChangeSpeedValue;
     public UnityAction<float> onChangDamageValue;
     public UnityAction<float> onChangeDefenceValue;
+    public UnityAction<float> onChangeColdResistanceValue;
+    public UnityAction<float> onChangeHeatResistanceValue;
     public UnityEvent<ItemData> onEquipmentItemEvent;
     public UnityEvent<ItemData> onUnEquipmentItemEvent;
 

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 {
@@ -26,6 +27,10 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     private TextMeshProUGUI moveSpeedText;
     [SerializeField]
     private TextMeshProUGUI defenseText;
+    [SerializeField]
+    private TextMeshProUGUI heatResistanceText;
+    [SerializeField]
+    private TextMeshProUGUI coldResistanceText;
 
     private int seleteSocket = -1;
     private bool isOnDrag = false;
@@ -78,11 +83,20 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         playerStats.onChangeAttackSpeedValue += (value) => attackSpeedText.text = value.ToString();
         playerStats.onChangeSpeedValue +=(value) => moveSpeedText.text = value.ToString();
         playerStats.onChangeDefenceValue +=(value) => defenseText.text = value.ToString();
+        // playerStats.onChangeColdResistanceValue +=(value) => coldResistanceText.text = value.ToString();
+        // playerStats.onChangeHeatResistanceValue +=(value) => heatResistanceText.text = value.ToString();
 
         statTable[StatType.BasicAttackPower].OnActionChangeValue();
         statTable[StatType.AttackSpeed].OnActionChangeValue();
         statTable[StatType.MovementSpeed].OnActionChangeValue();
         statTable[StatType.Defense].OnActionChangeValue();
+        var coldReistanceValue = statTable[StatType.ColdResistance];
+        coldReistanceValue.OnChangeValue += (value) => coldResistanceText.text = value.ToString();
+        coldResistanceText.text = coldReistanceValue.Value.ToString();
+
+        var heatReistanceValue = statTable[StatType.HeatResistance];
+        heatReistanceValue.OnChangeValue +=(value) => heatResistanceText.text = value.ToString();
+        heatResistanceText.text = heatReistanceValue.Value.ToString();
     }
 
     public void OnEquipment(ItemType itemType, ItemData itemData, int amount)
@@ -101,7 +115,6 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 
         DropItemInfo dropItemInfo = new DropItemInfo();
         dropItemInfo.amount = equipmentSockets[seleteSocket].Amount;
-        dropItemInfo.ItemName = equipmentSockets[seleteSocket].ItemData.ItemName;
         dropItemInfo.id = equipmentSockets[seleteSocket].ItemData.ID;
         dropItemInfo.itemData = equipmentSockets[seleteSocket].ItemData;
         inventory.AddItem(dropItemInfo);

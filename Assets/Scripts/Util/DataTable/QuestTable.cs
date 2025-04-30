@@ -11,6 +11,9 @@ public enum QuestType
     MonsterHunting,
     Building,
     Movement,
+    UseItem,
+    DestructMonsterStrong,
+    RelicsCollection,
 }
 
 public struct QuestDataInfo

@@ -19,7 +19,6 @@ public class DestructedDropItem : MonoBehaviour, IDestructible
         {
             var dropItemInfo = new DropItemInfo();
             dropItemInfo.itemData = DataTableManager.ItemTable.Get(ids[i]);
-            dropItemInfo.ItemName = dropItemInfo.itemData.ItemName;
             dropItemInfo.id = ids[i];
             dropItemInfo.amount = counts[i];
             dropItemInfoList.Add(dropItemInfo);
@@ -30,6 +29,13 @@ public class DestructedDropItem : MonoBehaviour, IDestructible
         var player = attacker.GetComponent<PlayerFSM>();
         if (player != null)
         {
+            //var dropItemList = DataTableManager.DropTable.Get(GetComponent<IDropable>().DropID).GetDropItemList();
+
+            //foreach (var dropItem in dropItemList)
+            //{
+            //    player.OnDropItem(dropItemInfoList[i]);
+            //}
+
             for (int i = 0; i < dropItemInfoList.Count; ++i)
             {
                 player.OnDropItem(dropItemInfoList[i]);

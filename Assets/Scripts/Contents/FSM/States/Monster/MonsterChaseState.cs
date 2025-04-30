@@ -70,7 +70,7 @@ public class MonsterChaseState : MonsterBaseState
         closestPoint = targetCollider.ClosestPoint(transform.position);
         float distance = (closestPoint - transform.position).ConvertVector2().magnitude;
 
-        if (distance <= MonsterFSM.Weapon.Range)
+        if (distance <= MonsterFSM.MonsterData.AttackRadius)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }

@@ -69,7 +69,6 @@ public class FarmUI : MonoBehaviour
 
         var test = new DropItemInfo();
         test.id = produceInfo.id;  // testItem.ID
-        test.ItemName = testItem.ItemName;
         test.itemData = testItem;
 
         for (int i = 0; i < slotCount; i++)

@@ -6,6 +6,9 @@ using UnityEngine;
 public class RangeWeapon : Weapon
 {
     [SerializeField]
+    public GameObject weaponPrefab;
+
+    [SerializeField]
     private Vector3 createOffset;
 
     public override void Execute(GameObject attacker, GameObject defender)
