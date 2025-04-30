@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class MonsterAttackPattern : ScriptableObject
+public abstract class MonsterAttackPattern : MonoBehaviour
 {
     public abstract void Enter();
     public abstract void ExecuteUpdate();

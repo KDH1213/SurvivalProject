@@ -54,6 +54,9 @@ public class MonsterData
     [field: SerializeField]
     public int DropID { get; set; }
 
+    [field: SerializeField]
+    public float RespawnTime { get; set; }
+
     public GameObject monsterPrefab;
 }
 public class MonsterTable : DataTable

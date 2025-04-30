@@ -49,7 +49,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public Vector3 RespawnPosition { get { return FirstPosition; } private set { FirstPosition = value; } }
 
-    public float RespawnTime { get; private set; } = 10f;
+    public float RespawnTime => MonsterData.RespawnTime;
 
     public float RemainingTime { get; private set; }
 
@@ -142,6 +142,11 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public void LoadData(MonsterSaveInfo monsterSaveInfo)
     {
+        if (MonsterData == null)
+        {
+            MonsterData = DataTableManager.MonsterTable.Get(ID);
+        }
+
         IsDead = monsterSaveInfo.isRespawn;
         RemainingTime = monsterSaveInfo.remainingTime;
         transform.position = monsterSaveInfo.position;

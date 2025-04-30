@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EliteMonsterAttackState : MonsterAttackState
 {
-    // private List<MonsterAttackPattern> monsterAttackPatternList = new List<MonsterAttackPattern>();
+    private List<MonsterAttackPattern> monsterAttackPatternList = new List<MonsterAttackPattern>();
     private int currentAttackIndex = 0;
 
     protected override void Awake()
