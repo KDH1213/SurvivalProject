@@ -33,6 +33,8 @@ public class StructureTable : DataTable
         public int ReturnedItem4 { get; set; }
         public int ReturnedItemCount4 { get; set; }
         public int NextUpgradeID { get; set; }
+        public int StageSpecifier { get; set; } 
+        public int FatigueReductionPerMinute { get; set; }
 
         public Dictionary<int, int> ReturnItemList { get; set; } = new Dictionary<int, int>();
 

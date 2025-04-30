@@ -89,7 +89,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     private void Update()
     {
-        // ��ġ�� �׸� �̵�
         if (inputManager.IsPointerOverUi)
         {
             return;
@@ -109,7 +108,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     }
 
-    // ��ġ����
     public void StartPlacement(int ID)
     {
         preview.RePlaceObject();
@@ -123,8 +121,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         preview.StartShowingPlacementPreview(Database.objects[SelectedObjectIndex].Prefeb,
             Database.objects[SelectedObjectIndex].Size);
     }
-
-    // ��ġ ���� overload
     public void StartPlacement(int ID, PlacementObject obj)
     {
         //StopPlacement();
@@ -138,7 +134,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             Database.objects[SelectedObjectIndex].Size, obj);
     }
 
-    // ��ġ ���߱�
     private void StopPlacement()
     {
         SelectedObjectIndex = -1;
@@ -146,7 +141,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         preview.StopShowingPreview();
     }
 
-    // ��ġ �������� �˻�
     public bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
         Vector2Int size = Database.objects[selectedObjectIndex].Size;
@@ -195,7 +189,17 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         }
         
     }
-    
+    private void ConsumePenalty(PlacementObject placementObject)
+    {
+        if (GameObject.FindWithTag(Tags.Player) != null)
+        {
+            var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
+            target.OnPlayAct(placementObject);
+
+            PlacedGameObjects.Add(placementObject);
+        }
+
+    }
     public void PlaceStructure()
     {
         Vector3 mousePosition = inputManager.LastPosition;
@@ -244,14 +248,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.uiController = placementUI;
         placementObject.SetData();
         placementObject.CreateActInfo();
-
-        if (GameObject.FindWithTag(Tags.Player) != null)
-        {
-            var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
-            target.OnPlayAct(placementObject);
-
-            PlacedGameObjects.Add(placementObject);
-        }
+        ConsumePenalty(placementObject);
 
         if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
         {
@@ -309,7 +306,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         //StopPlacement();
     }
 
-    // ��ġ�� ������Ʈ ����
     public bool SelectStructure(PlacementObject obj)
     {
         if(preview.IsPreview)
@@ -394,6 +390,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Rotation = before.Rotation;
         placementObject.uiController = placementUI;
         placementObject.SetData();
+        placementObject.CreateActInfo();
+        ConsumePenalty(placementObject);
         placementObject.Upgrade(before);
         RemoveStructure(before);
 

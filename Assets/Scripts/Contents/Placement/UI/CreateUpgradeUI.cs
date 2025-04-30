@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
-public class UpgradeUI : MonoBehaviour
+public class CreateUpgradeUI : MonoBehaviour
 {
     [SerializeField]
     private Image beforeImage;
@@ -20,18 +20,21 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI afterHp;
     [SerializeField]
-    private List<ChnageText> changeTextList = new List<ChnageText>();
+    private UnlockItemSlot slotPrefab;
+    [SerializeField]
+    private GameObject unlockContents;
+    private List<UnlockItemSlot> unlockItemList = new List<UnlockItemSlot>();
     [SerializeField]
     private List<NeedItem> needItems = new List<NeedItem>();
     [SerializeField]
     private List<NeedPenalty> needPenalties = new List<NeedPenalty>();
     public TestInventory inven;
 
+    private readonly string hpFormat = "HP : {0}";
+
     [SerializeField]
     private Button upgradeButton;
     private Inventory inventory;
-
-    private readonly string hpFormat = "HP : {0}";
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
@@ -54,8 +57,28 @@ public class UpgradeUI : MonoBehaviour
         afterName.text = $"{nextLevelInfo.Name}";
         afterHp.text = string.Format(hpFormat, nextLevelInfo.DefaultHp);
 
+
+
+        var unlockItems = DataTableManager.ItemCreateTable.GetAll();
         var structureData = DataTableManager.StructureTable.Get(nextLevelInfo.ID);
         var data = DataTableManager.ConstructionTable.Get(structureData.PlaceBuildingID);
+        var unlockList = unlockItems.Where(
+            item => item.Value.RecipeCategory == structureData.BuildingSubType && item.Value.Rank == structureData.Rank)
+            .ToList();
+        var itemTable = DataTableManager.ItemTable;
+
+
+        foreach (var item in unlockItemList)
+        {
+            Destroy(item.gameObject);
+        }
+        unlockItemList.Clear();
+        foreach (var unlock in unlockList)
+        {
+            var item = Instantiate(slotPrefab, unlockContents.transform);
+            item.SetItem(itemTable.Get(unlock.Value.ResultID).ItemImage);
+            unlockItemList.Add(item);
+        }
 
         foreach (var item in needItems)
         {
@@ -65,12 +88,7 @@ public class UpgradeUI : MonoBehaviour
         {
             penalty.gameObject.SetActive(false);
         }
-        foreach (var text in changeTextList)
-        {
-            text.gameObject.SetActive(false);
-        }
 
-        var itemTable = DataTableManager.ItemTable;
         foreach (var item in objInfo.NeedItems)
         {
             needItems[index].gameObject.SetActive(true);
@@ -87,7 +105,6 @@ public class UpgradeUI : MonoBehaviour
             needItems.Add(needItems[index]);
             index++;
         }
-
         foreach (var item in data.NeedPenalties)
         {
             needPenalties[penaltyIndex].gameObject.SetActive(true);
@@ -95,8 +112,6 @@ public class UpgradeUI : MonoBehaviour
 
             penaltyIndex++;
         }
-
-        SetTextChange(objInfo, nextLevelInfo);
 
         SetButtonDisable(objInfo.NeedItems);
         upgradeButton.onClick.AddListener(
@@ -142,47 +157,6 @@ public class UpgradeUI : MonoBehaviour
 
     }
 
-    private void SetTextChange(PlacementObjectInfo beforeInfo, PlacementObjectInfo afterInfo)
-    {
-        var beforeData = DataTableManager.StructureTable.Get(beforeInfo.ID);
-        var afterData = DataTableManager.StructureTable.Get(afterInfo.ID);
-
-        var kind = beforeInfo.Kind;
-        switch (kind)
-        {
-            case StructureKind.Other:
-                break;
-            case StructureKind.Farm:
-                changeTextList[0].gameObject.SetActive(true);
-                changeTextList[1].gameObject.SetActive(true);
-                changeTextList[2].gameObject.SetActive(true);
-                changeTextList[0].SetText("생산 주기", $"{beforeData.ProductionCycle}"
-                    , $"{afterData.ProductionCycle}");
-                changeTextList[1].SetText("1회 생산량", $"{beforeData.AmountPerProduction}"
-                    , $"{afterData.AmountPerProduction}");
-                changeTextList[2].SetText("최대 생산량", $"{beforeData.MaxStorageCapacity}"
-                    , $"{afterData.MaxStorageCapacity}");
-                break;
-            case StructureKind.Turret:
-                var beforeTurret = beforeInfo.Prefeb.transform.GetChild(0).GetComponent<TurretStructure>();
-                var afterTurret = afterInfo.Prefeb.transform.GetChild(0).GetComponent<TurretStructure>();
-                changeTextList[0].gameObject.SetActive(true);
-                changeTextList[1].gameObject.SetActive(true);
-                changeTextList[0].SetText("공격력", $"{beforeTurret.damage}", $"{afterTurret.damage}");
-                changeTextList[1].SetText("공격 속도", $"{beforeTurret.attackTerm}", $"{afterTurret.attackTerm}");
-                break;
-            case StructureKind.Storage:
-                changeTextList[0].gameObject.SetActive(true);
-                changeTextList[0].SetText("인벤토리 칸 수", $"{beforeData.BoxInventorySlot}"
-                    , $"{afterData.BoxInventorySlot}");
-                break;
-            case StructureKind.Rest:
-                changeTextList[0].gameObject.SetActive(true);
-                changeTextList[0].SetText("분당 체력 회복량", $"{beforeData.FatigueReductionPerMinute}"
-                    , $"{afterData.FatigueReductionPerMinute}");
-                break;
-        }
-    }
     private bool CanUpgrade(Dictionary<int, int> needItems)
     {
         foreach (var data in needItems)
