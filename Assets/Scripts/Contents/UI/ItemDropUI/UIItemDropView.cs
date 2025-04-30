@@ -16,6 +16,8 @@ public class UIItemDropView : MonoBehaviour
     [SerializeField]
     private List<UIItemDropInfo> disableUIItemDropInfoList = new List<UIItemDropInfo>();
 
+    private List<UIItemDropInfo> activeUIList = new List<UIItemDropInfo>();
+
     private float lastDisableTime;
     [SerializeField]
     private float lifeTime;
@@ -30,34 +32,53 @@ public class UIItemDropView : MonoBehaviour
 
     public void OnItemDrop(DropItemInfo dropItemInfo)
     {
-        int count = disableUIItemDropInfoList.Count;
-        UIItemDropInfo uIItemDropInfo = null;
-        if (count != 0)
-        {
-            uIItemDropInfo = disableUIItemDropInfoList[count - 1];
-            disableUIItemDropInfoList.Remove(uIItemDropInfo);
-        }
-        else
-        {
-            uIItemDropInfo = Instantiate(itemDropInfoPrefab, createPoint);
-            uIItemDropInfo.diableAction += OnEndItemInfo;
-        }
+        bool isFind = false;
 
-        if(uIItemDropInfoQueue.Count == 0)
+        if (uIItemDropInfoQueue.Count == 0)
         {
             lastDisableTime = Time.time + lifeTime;
         }
         else
         {
             float time = Time.time + lifeTime - lastDisableTime;
-            if(time < extraTime)
+            if (time < extraTime)
             {
+                foreach (var activeUI in activeUIList)
+                {
+                    if (activeUI.ItemID == dropItemInfo.id)
+                    {
+                        activeUI.AddDropItemCount(dropItemInfo.amount);
+                        isFind = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                activeUIList.Clear();
                 lastDisableTime += extraTime;
             }
         }
 
-        uIItemDropInfoQueue.Enqueue(uIItemDropInfo);
-        uIItemDropInfo.SetDropItemInfo(dropItemInfo.itemData.ItemImage, dropItemInfo.amount, lastDisableTime);
+        if (!isFind)
+        {
+            UIItemDropInfo uIItemDropInfo = null;
+            int count = disableUIItemDropInfoList.Count;
+            if (count != 0)
+            {
+                uIItemDropInfo = disableUIItemDropInfoList[count - 1];
+                disableUIItemDropInfoList.Remove(uIItemDropInfo);
+            }
+            else
+            {
+                uIItemDropInfo = Instantiate(itemDropInfoPrefab, createPoint);
+                uIItemDropInfo.diableAction += OnEndItemInfo;
+            }
+
+            uIItemDropInfoQueue.Enqueue(uIItemDropInfo);
+            uIItemDropInfo.SetDropItemInfo(dropItemInfo.itemData.ItemImage, dropItemInfo.id, dropItemInfo.amount, lastDisableTime);
+            activeUIList.Add(uIItemDropInfo);
+        }
     }
 
     public void OnEndItemInfo()
