@@ -5,6 +5,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+
+public class SkillInfo
+{
+    public int Value { get; private set; }
+    public int MaxValue { get; private set; }
+
+    public System.Action<int, int> onChangeValueAction;
+
+    public void AddValue()
+    {
+        ++Value;
+        onChangeValueAction?.Invoke(Value, MaxValue);
+    }
+}
+
+
 public class LifeStat : LevelStat, ISaveLoadData
 {
     [SerializeField]
@@ -15,10 +31,12 @@ public class LifeStat : LevelStat, ISaveLoadData
 
     [SerializedDictionary, SerializeField]
     private SerializedDictionary<LifeSkillType, int> skillLevelTable = new SerializedDictionary<LifeSkillType, int>();
+    public SerializedDictionary<LifeSkillType, int> SkillLevelTable => skillLevelTable;
 
     public UnityEvent onLevelUpEvent;
     public UnityEvent<int> OnChangeSkillPointEvent;
     public UnityEvent<LifeSkillType> OnChangeSkillLevelEvent;
+    public UnityEvent<LifeSkillType, int, int> OnChangeSkillLevelCountEvent;
 
     private List<float> currentSkillStatValueList = new List<float>();
 
@@ -136,6 +154,31 @@ public class LifeStat : LevelStat, ISaveLoadData
 
         OnChangeSkillPointEvent?.Invoke(skillPoint);
     }
+
+    public void OnSkillLevelUp(LifeSkillType lifeSkillType)
+    {
+        if(skillPoint == 0)
+        {
+            return;
+        }
+
+        if (skillLevelTable.ContainsKey(lifeSkillType))
+        {
+            ++skillLevelTable[lifeSkillType];
+            currentSkillStatValueList[(int)lifeSkillType] = lifeStatData.LifeSkillStatTable[lifeSkillType] * skillLevelTable[lifeSkillType];
+        }
+        else
+        {
+            skillLevelTable.Add(lifeSkillType, 1);
+            currentSkillStatValueList[(int)lifeSkillType] = lifeStatData.LifeSkillStatTable[lifeSkillType];
+        }
+
+        --skillPoint;
+        OnChangeSkillPointEvent?.Invoke(skillPoint);
+        OnChangeSkillLevelEvent?.Invoke(lifeSkillType);
+        OnChangeSkillLevelCountEvent?.Invoke(lifeSkillType, skillLevelTable[lifeSkillType], 100);
+    }
+
     public void Load()
     {
         if (SaveLoadManager.Data == null)

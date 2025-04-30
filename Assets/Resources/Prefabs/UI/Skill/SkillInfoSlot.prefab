@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4669284746255595971}
   - component: {fileID: 8440938541952958570}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NameText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.9
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -364,8 +364,9 @@ GameObject:
   - component: {fileID: 2615496217468857524}
   - component: {fileID: 6653411375163112953}
   - component: {fileID: 4464459958345029611}
+  - component: {fileID: 6156226774831058650}
   m_Layer: 5
-  m_Name: SkillInfoPanel
+  m_Name: SkillInfoSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -457,6 +458,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6156226774831058650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4774730370680811783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc22c3c1c0f6c6f42a753cde59160968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillIcon: {fileID: 2036363355751189031}
+  skillNameText: {fileID: 4669284746255595971}
+  skillDescriptionText: {fileID: 3966597069249644288}
+  skillPointText: {fileID: 265368637119246198}
+  onLifeSkillUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  <SkillUpButton>k__BackingField: {fileID: 2870872535805209108}
 --- !u!1 &5340039949930413902
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +731,7 @@ GameObject:
   - component: {fileID: 3966597069249644288}
   - component: {fileID: 6534299320462199430}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: DescText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -791,7 +812,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -865,7 +886,7 @@ GameObject:
   - component: {fileID: 2437989098852738679}
   - component: {fileID: 265368637119246198}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SkillPointText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -945,7 +966,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
