@@ -128,4 +128,15 @@ public static class TypeName
         "피로 덜 느낌",
     };
 
+    public static readonly string[] LifeSkillTypeNameFormat =
+    {
+        "공격력 증가 : {0}",
+        "이동속도 증가 : {0}",
+        "공격속도 증가 : {0}",
+        "배고픔 주기 감소 : {0}",
+        "갈증 주기 감소 : {0}",
+        "방어력 증가 : {0}",
+        "체력 증가 : {0}",
+        "피로 덜 느낌 : {0}",
+    };
 }

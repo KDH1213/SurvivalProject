@@ -24,9 +24,18 @@ public class UISkillView : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI skillDescriptionText;
 
+    [SerializeField]
+    private List<TextMeshProUGUI> normalTextList = new List<TextMeshProUGUI>();
+
+    private List<float> valueList;
+
     public UnityEvent<LifeSkillType> onSkillLevelUpEvent;
 
     private LifeSkillType currentLifeSkillType = LifeSkillType.End;
+
+    private string normalText;
+    private string lifeText;
+    private string craftingText;
 
     private void OnDisable()
     {
@@ -37,6 +46,8 @@ public class UISkillView : MonoBehaviour
     {
         var lifeStat = GameObject.FindWithTag(Tags.Player).GetComponent<LifeStat>();
         onSkillLevelUpEvent.AddListener(lifeStat.OnSkillLevelUp);
+        lifeStat.OnChangeSkillLevelCountEvent.AddListener(OnChangeSkillLevel);
+        valueList = lifeStat.SkillStatValueList;
 
         for (int i = 0; i < (int)LifeSkillType.End; ++i)
         {
@@ -52,7 +63,14 @@ public class UISkillView : MonoBehaviour
             });
 
             createSkillSlot.onClickAction += OnSetDescription;
+
+            if (lifeStat.SkillLevelTable.TryGetValue((LifeSkillType)i, out var value))
+            {
+                OnChangeSkillLevel((LifeSkillType)i, value, 100);
+            }
         }
+
+       
 
         //for (int i = 0; i < (int)LifeSkillType.End; ++i)
         //{
@@ -81,6 +99,12 @@ public class UISkillView : MonoBehaviour
         skillDescriptionText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType]; // DataTableManager.StringTable.Get(descriptionID);
     }
 
+    public void OnChangeSkillLevel(LifeSkillType lifeSkillType, int value, int maxLevel)
+    {
+        int index = (int)lifeSkillType;
+        normalTextList[index].gameObject.SetActive(true);
+        normalTextList[index].text = string.Format(TypeName.LifeSkillTypeNameFormat[index], (valueList[index]).ToString());
+    }
     //public void OnChangeSkillLevel(LifeSkillType lifeSkillType, int currentLevel, int maxLevel)
     //{
 

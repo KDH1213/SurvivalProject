@@ -39,6 +39,7 @@ public class LifeStat : LevelStat, ISaveLoadData
     public UnityEvent<LifeSkillType, int, int> OnChangeSkillLevelCountEvent;
 
     private List<float> currentSkillStatValueList = new List<float>();
+    public List<float> SkillStatValueList => currentSkillStatValueList;
 
     private int skillPoint = 0;
 
