@@ -70,7 +70,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     private PlacementSystem placementSystem;
     private MiniMapController miniMapController;
 
-    private UnityEvent<DropItemInfo> onQuestCompensationEvent;
+    private UnityEvent<DropItemInfo> onQuestCompensationEvent = new();
     private UnityAction onIconDisableAction;
 
     private void Awake()

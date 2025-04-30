@@ -33,7 +33,7 @@ public class DestructedDropItem : MonoBehaviour, IDestructible
 
             //foreach (var dropItem in dropItemList)
             //{
-            //    player.OnDropItem(dropItemInfoList[i]);
+            //    player.OnDropItem(dropItem);
             //}
 
             for (int i = 0; i < dropItemInfoList.Count; ++i)
