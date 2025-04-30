@@ -1204,7 +1204,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5011235602151756597}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4854481788131261070}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7301788541018954282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2029,6 +2041,7 @@ GameObject:
   - component: {fileID: 2360527160288737568}
   - component: {fileID: 2335436979452515270}
   - component: {fileID: 1284428115467681139}
+  - component: {fileID: 2292171273855414402}
   m_Layer: 5
   m_Name: SkillPanel
   m_TagString: Untagged
@@ -2096,6 +2109,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2292171273855414402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854481788131261070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855e358a13d299f4d8909e3a72aeaf8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noramlContentPoint: {fileID: 1362378081703755524}
+  lifeContentPoint: {fileID: 2052458162744484235}
+  craftingContentPoint: {fileID: 5703563871966797632}
+  uISkillSlotPrefab: {fileID: 6156226774831058650, guid: b684f1819a604174689839498f01bbb4,
+    type: 3}
+  skillNameText: {fileID: 3464385980348332916}
+  skillDescriptionText: {fileID: 8589621380036306670}
+  onSkillLevelUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4921203181553373405
 GameObject:
   m_ObjectHideFlags: 0

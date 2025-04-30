@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,8 +18,20 @@ public class UISkillView : MonoBehaviour
     [SerializeField]
     private UISkillSlot uISkillSlotPrefab;
 
+    [SerializeField]
+    private TextMeshProUGUI skillNameText;
+
+    [SerializeField]
+    private TextMeshProUGUI skillDescriptionText;
+
     public UnityEvent<LifeSkillType> onSkillLevelUpEvent;
 
+    private LifeSkillType currentLifeSkillType = LifeSkillType.End;
+
+    private void OnDisable()
+    {
+        currentLifeSkillType = LifeSkillType.End;
+    }
 
     private void Awake()
     {
@@ -37,6 +50,8 @@ public class UISkillView : MonoBehaviour
                     createSkillSlot.OnChangeSkillLevel(currentLevel, maxLevel);
                 }
             });
+
+            createSkillSlot.onClickAction += OnSetDescription;
         }
 
         //for (int i = 0; i < (int)LifeSkillType.End; ++i)
@@ -53,6 +68,17 @@ public class UISkillView : MonoBehaviour
     public void OnSkillLevelUp(LifeSkillType lifeSkillType)
     {
         onSkillLevelUpEvent?.Invoke(lifeSkillType);
+    }
+
+    public void OnSetDescription(LifeSkillType lifeSkillType)
+    {
+        if(currentLifeSkillType == lifeSkillType)
+        {
+            return;
+        }
+
+        skillNameText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType];// DataTableManager.StringTable.Get(nameID);
+        skillDescriptionText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType]; // DataTableManager.StringTable.Get(descriptionID);
     }
 
     //public void OnChangeSkillLevel(LifeSkillType lifeSkillType, int currentLevel, int maxLevel)
