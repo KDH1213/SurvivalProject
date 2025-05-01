@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,7 +18,9 @@ public class UIQuestView : MonoBehaviour
     private TextMeshProUGUI questDescText;
 
     [SerializeField]
-    private TextMeshProUGUI targetText;
+    private TextMeshProUGUI[] questDescTexts;
+    [SerializeField]
+    private TextMeshProUGUI[] targetTexts;
 
     [SerializeField]
     private Button questClearButton;
@@ -36,21 +39,34 @@ public class UIQuestView : MonoBehaviour
     public void SetQuestInfo(QuestData questData)
     {
         questNameText.text = DataTableManager.StringTable.Get(questData.NameID);
-        questDescText.text = DataTableManager.StringTable.Get(questData.DescriptID);
 
         var questInfoList = questData.questInfoList;
         var questInfoCount = questInfoList.Count;
 
         if(questInfoList[0].questType == QuestType.Movement)
         {
-            targetText.text = string.Format(moveTextFormat, questData.QuestAreaX, questData.QuestAreaZ);
+            targetTexts[0].text = string.Format(moveTextFormat, questData.QuestAreaX, questData.QuestAreaZ);
+            questDescTexts[0].text = DataTableManager.StringTable.Get(questInfoList[0].descriptID);
         }
+
+        for(int i = 0; i < questInfoCount; ++i)
+        {
+            targetTexts[i].gameObject.SetActive(true);
+            questDescTexts[i].gameObject.SetActive(true);
+            questDescTexts[i].text = DataTableManager.StringTable.Get(questInfoList[i].descriptID);
+        }
+        for (int i = questInfoCount; i < targetTexts.Length; ++i)
+        {
+            questDescTexts[i].gameObject.SetActive(false);
+            targetTexts[i].gameObject.SetActive(false);
+        }
+        
         OpenQuestView();
     }
 
     public void OnSetTargetCount(int index, int currentCount, int maxCount)
     {
-        targetText.text = string.Format(targetCountFormat, currentCount, maxCount);
+        targetTexts[index].text = string.Format(targetCountFormat, currentCount, maxCount);
     }
 
     public void OnActiveButtonView()

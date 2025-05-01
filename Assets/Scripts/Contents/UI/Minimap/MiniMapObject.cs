@@ -12,6 +12,9 @@ public class MiniMapObject : MonoBehaviour, IMiniMap
     public UnityEvent<GameObject> OnDisabledEvent { get; set; }
 
     [field: SerializeField]
+    public Color IconColor { get; private set; } = Color.white;
+
+    [field: SerializeField]
     public Sprite Icon { get; private set; }
 
     [field: SerializeField]

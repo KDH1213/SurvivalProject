@@ -60,7 +60,9 @@ public class MiniMapController : MonoBehaviour
     public void AddObject(MiniMapObject createObject)
     {
         var createIcon = Instantiate(iconPrefab, createPoint);
-        createIcon.GetComponent<Image>().sprite = createObject.Icon;
+        var image = createIcon.GetComponent<Image>();
+        image.sprite = createObject.Icon;
+        image.color = createObject.IconColor;
 
         var miniMapIcon = createIcon.GetComponent<UIMiniMapIcon>();
         miniMapIcon.SetOwner(createObject.transform);

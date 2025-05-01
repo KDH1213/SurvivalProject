@@ -20,13 +20,15 @@ public struct QuestDataInfo
 {
     public QuestType questType;
     public int questTargetID;
+    public int descriptID;
     public int clearCount;
     public bool includeMine;
 
-    public QuestDataInfo(QuestType questType, int questTargetID, int clearCount, bool includeMine)
+    public QuestDataInfo(QuestType questType, int questTargetID, int descriptID, int clearCount, bool includeMine)
     {
         this.questType = questType;
         this.questTargetID = questTargetID;
+        this.descriptID = descriptID;
         this.clearCount = clearCount;
         this.includeMine = includeMine;
     }
@@ -40,8 +42,7 @@ public class QuestData
     public int QuestID { get; set; }
     [field: SerializeField]
     public int NameID { get; set; }
-    [field: SerializeField]
-    public int DescriptID { get; set; }
+  
     [field: SerializeField]
     public int QuestNumber { get; set; }
     [field: SerializeField]
@@ -67,6 +68,9 @@ public class QuestData
     public int QuestType1 { get; set; }
 
     [field: SerializeField]
+    public int DescriptID1 { get; set; }
+
+    [field: SerializeField]
     public int TargetID1 { get; set; }
 
     [field: SerializeField]
@@ -77,6 +81,9 @@ public class QuestData
 
     [field: SerializeField]
     public int QuestType2 { get; set; }
+
+    [field: SerializeField]
+    public int DescriptID2 { get; set; }
 
     [field: SerializeField]
     public int TargetID2 { get; set; }
@@ -91,6 +98,9 @@ public class QuestData
     public int QuestType3 { get; set; }
 
     [field: SerializeField]
+    public int DescriptID3 { get; set; }
+
+    [field: SerializeField]
     public int TargetID3 { get; set; }
 
     [field: SerializeField]
@@ -102,6 +112,9 @@ public class QuestData
 
     [field: SerializeField]
     public int QuestType4 { get; set; }
+
+    [field: SerializeField]
+    public int DescriptID4 { get; set; }
 
     [field: SerializeField]
     public int TargetID4 { get; set; }
@@ -128,25 +141,25 @@ public class QuestData
         {
             return;
         }
-        questInfoList.Add(new QuestDataInfo((QuestType)QuestType1, TargetID1, ClearCount1, IncludeMine1 != 0));
+        questInfoList.Add(new QuestDataInfo((QuestType)QuestType1, TargetID1, DescriptID1, ClearCount1, IncludeMine1 != 0));
 
         if (QuestType2 == 0)
         {
             return;
         }
-        questInfoList.Add(new QuestDataInfo((QuestType)QuestType2, TargetID2, ClearCount2, IncludeMine2 != 0));
+        questInfoList.Add(new QuestDataInfo((QuestType)QuestType2, TargetID2, DescriptID2, ClearCount2, IncludeMine2 != 0));
 
         if (QuestType3 == 0)
         {
             return;
         }
-        questInfoList.Add(new QuestDataInfo((QuestType)QuestType3, TargetID3, ClearCount3, IncludeMine3 != 0));
+        questInfoList.Add(new QuestDataInfo((QuestType)QuestType3, TargetID3, DescriptID3, ClearCount3, IncludeMine3 != 0));
 
         if (QuestType4 == 0)
         {
             return;
         }
-        questInfoList.Add(new QuestDataInfo((QuestType)QuestType4, TargetID4, ClearCount4, IncludeMine4 != 0));
+        questInfoList.Add(new QuestDataInfo((QuestType)QuestType4, TargetID4, DescriptID4, ClearCount4, IncludeMine4 != 0));
     }
 }
 public class QuestTable : DataTable

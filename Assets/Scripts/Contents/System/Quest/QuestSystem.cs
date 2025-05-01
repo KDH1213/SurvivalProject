@@ -28,7 +28,7 @@ public class QuestProgressInfo
 
     public bool IsClear()
     {
-        return (currentCount == maxCount);
+        return (currentCount >= maxCount);
     }
 }
 
@@ -41,7 +41,7 @@ public struct QuestProgressSaveInfo
 
 public class QuestSystem : MonoBehaviour, ISaveLoadData
 {
-    private int currentQuestID = 1000;
+    private int currentQuestID = 240011;
     private QuestData currentQuestData;
 
     [SerializeField]
