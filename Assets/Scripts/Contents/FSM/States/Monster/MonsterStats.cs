@@ -12,7 +12,7 @@ public class MonsterStats : CharactorStats
     {
         if (currentStatTable.Count == 0)
         {
-            originalData.CopyStat(ref currentStatTable);
+            CreateStat();
         }
         deathEvent.AddListener(() => 
         { 
@@ -99,11 +99,24 @@ public class MonsterStats : CharactorStats
         }
     }
 
+    private void CreateStat()
+    {
+        currentStatTable.Clear();
+        var monsterData = DataTableManager.MonsterTable.Get(GetComponent<MonsterFSM>().ID);
+
+        currentStatTable.Add(StatType.HP, new StatValue(StatType.HP, monsterData.HP, monsterData.HP));
+        currentStatTable.Add(StatType.BasicAttackPower, new StatValue(StatType.BasicAttackPower, monsterData.AttackPower, monsterData.AttackPower));
+        currentStatTable.Add(StatType.Defense, new StatValue(StatType.Defense, monsterData.Defense, monsterData.Defense));
+        currentStatTable.Add(StatType.MovementSpeed, new StatValue(StatType.MovementSpeed, monsterData.MovementSpeed, monsterData.MovementSpeed));
+        currentStatTable.Add(StatType.AttackSpeed, new StatValue(StatType.AttackSpeed, monsterData.AttackSpeed, monsterData.AttackSpeed));
+        currentStatTable.Add(StatType.AttackRange, new StatValue(StatType.AttackRange, monsterData.AttackRadius, monsterData.AttackRadius));
+    }
+
     public void LoadStats(float hp)
     {
         if (currentStatTable.Count == 0)
         {
-            originalData.CopyStat(ref currentStatTable);
+            CreateStat();
         }
 
         currentStatTable[StatType.HP].SetValue(hp);

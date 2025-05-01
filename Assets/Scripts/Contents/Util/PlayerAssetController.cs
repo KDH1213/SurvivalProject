@@ -25,9 +25,14 @@ public class PlayerAssetController : MonoBehaviour
 
     private Dictionary<int, GameObject> weaponTable = new Dictionary<int, GameObject>();
 
+    private GameObject currentEquipmentWeapon = null;
+
     private void Awake()
     {
         Initialized();
+        var player = GetComponent<PlayerFSM>();
+        player.onDisableWeaponEvent.AddListener(OnDisableWeapon);
+        player.onEnableWeaponEvent.AddListener(OnEnableWeapon);
     }
 
     private void Initialized()
@@ -37,6 +42,22 @@ public class PlayerAssetController : MonoBehaviour
         skinnedMeshRendererLists.Add(armorMeshRendererList);
         skinnedMeshRendererLists.Add(pantsMeshRendererList);
         skinnedMeshRendererLists.Add(shoesMeshRendererList);
+    }
+
+    public void OnDisableWeapon()
+    {
+        if (currentEquipmentWeapon != null)
+        {
+            currentEquipmentWeapon.SetActive(false);
+        }
+    }
+
+    public void OnEnableWeapon()
+    {
+        if (currentEquipmentWeapon != null)
+        {
+            currentEquipmentWeapon.SetActive(true);
+        }
     }
 
     public void OnEquipmentItem(ItemData itemData)
@@ -84,7 +105,7 @@ public class PlayerAssetController : MonoBehaviour
 
         int index = (int)armorData.ArmorType - 1;
 
-        if(skinnedMeshRendererLists.Count == 0)
+        if (skinnedMeshRendererLists.Count == 0)
         {
             Initialized();
         }
@@ -98,7 +119,7 @@ public class PlayerAssetController : MonoBehaviour
     private void OnEquipmentWeapon(WeaponData weaponData)
     {
         GameObject weapon = null;
-        if(weaponTable.TryGetValue(weaponData.ItemID, out weapon))
+        if (weaponTable.TryGetValue(weaponData.ItemID, out weapon))
         {
             weapon.SetActive(true);
         }
@@ -108,12 +129,15 @@ public class PlayerAssetController : MonoBehaviour
             weapon.GetComponent<WeaponSocketController>().OnInitialized();
             weaponTable.Add(weaponData.ItemID, weapon);
         }
+
+        currentEquipmentWeapon = weapon;
     }
 
     private void OnUnEquipmentWeapon(WeaponData weaponData)
     {
         if (weaponTable.TryGetValue(weaponData.ItemID, out var weapon))
         {
+            currentEquipmentWeapon = null;
             weapon.SetActive(false);
         }
     }

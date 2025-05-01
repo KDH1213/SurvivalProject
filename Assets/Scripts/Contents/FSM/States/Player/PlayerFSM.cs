@@ -37,6 +37,8 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     public UnityEvent<DropItemInfo> onDropItemEvent;
     // public UnityEvent<int, int> onDropItemEvent;
     public UnityAction<int> onActAction;
+    public UnityEvent onDisableWeaponEvent;
+    public UnityEvent onEnableWeaponEvent;
 
     protected override void Awake()
     {

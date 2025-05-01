@@ -96,6 +96,8 @@ public class PlayerInteractState : PlayerBaseState
         playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsPickingUp, false);
         playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsAxing, false);
 
+        PlayerFSM.onEnableWeaponEvent?.Invoke();
+
         if (interactSilder != null)
         {
             interactSilder.gameObject.SetActive(false);
@@ -123,6 +125,8 @@ public class PlayerInteractState : PlayerBaseState
         var targetPosition = target.transform.position;
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);
+
+        PlayerFSM.onDisableWeaponEvent?.Invoke();
 
         switch (targetInteractable.InteractType)
         {
