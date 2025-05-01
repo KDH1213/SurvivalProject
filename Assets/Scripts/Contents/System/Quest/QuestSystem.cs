@@ -6,13 +6,15 @@ using UnityEngine.Events;
 [System.Serializable]
 public class QuestProgressInfo
 {
+    public QuestType questType;
     public int index;
     public int targetID;
     public int currentCount;
     public int maxCount;
 
-    public void SetInfo(int index, int targetId, int currentCount, int maxCount)
+    public void SetInfo(QuestType questType, int index, int targetId, int currentCount, int maxCount)
     {
+        this.questType = questType;
         this.index = index;
         this.targetID = targetId;
         this.currentCount = currentCount;
@@ -30,6 +32,13 @@ public class QuestProgressInfo
     }
 }
 
+[System.Serializable]
+public struct QuestProgressSaveInfo
+{
+    public int questID;
+    public List<QuestProgressInfo> questProgressInfoList;
+}
+
 public class QuestSystem : MonoBehaviour, ISaveLoadData
 {
     private int currentQuestID = 1000;
@@ -41,6 +50,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     public UnityEvent<int, int, int> onChangeValueEvent;
 
     private List<QuestProgressInfo> questProgressInfoList = new List<QuestProgressInfo>();
+    private List<QuestProgressInfo> tempQuestClearList = new List<QuestProgressInfo>();
 
     private List<QuestProgressInfo> currentMonsterQuestList = new List<QuestProgressInfo>();
     private List<QuestProgressInfo> currentItemCollectionQuestList = new List<QuestProgressInfo>();
@@ -73,6 +83,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     private UnityEvent<DropItemInfo> onQuestCompensationEvent = new();
     private UnityAction onIconDisableAction;
 
+    private bool isLoad = false;
+
     private void Awake()
     {
         if(currentQuestID == 0)
@@ -80,9 +92,15 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        var stageManager = GameObject.FindWithTag("StageManager");
+        if (stageManager != null)
+        {
+            stageManager.GetComponent<StageManager>().onSaveEvent += Save;
+        }
+
+
         Initialized();
-        currentQuestData = DataTableManager.QuestTable.Get(currentQuestID);
-      
+        // currentQuestData = DataTableManager.QuestTable.Get(currentQuestID);      
         playerTransform = GameObject.FindWithTag(Tags.Player).transform;
 
         var playerFsm = playerTransform.GetComponent<PlayerFSM>();
@@ -110,8 +128,13 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private void Start()
     {
-        if(currentQuestData != null)
+        if (SaveLoadManager.Data != null)
         {
+            Load();
+        }
+        if (currentQuestID != 0 && !isLoad)
+        {
+            currentQuestData = DataTableManager.QuestTable.Get(currentQuestID);
             StartQuest(currentQuestData);
         }
     }
@@ -144,12 +167,13 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         {
             var questProgressInfo = questProgressInfoList[i];
 
+            ++activeQuestCount;
+
             if (questInfoList[i].questType != QuestType.Movement)
             {
-                questProgressInfoList[i].SetInfo(i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
+                questProgressInfoList[i].SetInfo(questInfoList[i].questType, i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
                 onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
             }
-            ++activeQuestCount;
 
             switch (questInfoList[i].questType)
             {
@@ -358,6 +382,28 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         }
     }
 
+    private void OnCheckQuestClear(ref List<QuestProgressInfo> questProgressInfoList, ref int questCount)
+    {
+        for (int i = 0; i < questProgressInfoList.Count; ++i)
+        {
+            if (questProgressInfoList[i].IsClear())
+            {
+                tempQuestClearList.Add(questProgressInfoList[i]);
+                --questCount;
+                --activeQuestCount;
+                CheckQuestClear();
+            }
+        }
+
+        foreach (var questClear in tempQuestClearList)
+        {
+            questProgressInfoList.Remove(questClear);
+        }
+
+        tempQuestClearList.Clear();
+    }
+
+
     public void OnCollectionRelics(int collectionCount)
     {
 
@@ -365,8 +411,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private void CheckQuestClear()
     {
-        onIconDisableAction?.Invoke();
-        questView.OnActiveButtonView();
+        if(activeQuestCount == 0)
+        {
+            tempQuestClearList.Clear();
+            onIconDisableAction?.Invoke();
+            questView.OnActiveButtonView();
+        }
     }
 
     private void OnCompensation()
@@ -399,7 +449,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        currentQuestData = DataTableManager.QuestTable.Get(currentQuestData.NextQuestID);
+        currentQuestID = currentQuestData.NextQuestID;
+        currentQuestData = DataTableManager.QuestTable.Get(currentQuestID);
         StartQuest(currentQuestData);
     }
 
@@ -417,9 +468,114 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
     }
     public void Load()
     {
+        if(SaveLoadManager.Data == null)
+        {
+            return;
+        }
+
+        var questProgressSaveInfo = SaveLoadManager.Data.quesetProgressSaveInfo;
+        currentQuestID = questProgressSaveInfo.questID;
+
+        if(questProgressSaveInfo.questProgressInfoList.Count == 0 || currentQuestID == 0)
+        {
+            return;
+        }
+
+        currentQuestData = DataTableManager.QuestTable.Get(currentQuestID);
+
+        questView.SetQuestInfo(currentQuestData);
+        currentMonsterQuestList.Clear();
+        currentCreateItemQuestList.Clear();
+
+        currentItemCollectionQuestCount = 0;
+        currentMonsterQuestCount = 0;
+        currentCreatItemQuestCount = 0;
+        activeQuestCount = 0;
+
+        var questSaveProgressInfoList = questProgressSaveInfo.questProgressInfoList;
+        int count = questSaveProgressInfoList.Count;
+
+        for (int i = 0; i < count; ++i)
+        {
+            var questProgressInfo = questSaveProgressInfoList[i];
+
+            ++activeQuestCount;
+            if (questSaveProgressInfoList[i].questType != QuestType.Movement)
+            {
+                questProgressInfoList[i].SetInfo(questSaveProgressInfoList[i].questType, i, questSaveProgressInfoList[i].targetID, questSaveProgressInfoList[i].currentCount, questSaveProgressInfoList[i].maxCount);
+                onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
+            }
+
+            if(!questProgressInfoList[i].IsClear())
+            {
+                switch (questSaveProgressInfoList[i].questType)
+                {
+                    case QuestType.None:
+                        break;
+                    case QuestType.ItemCollection:
+                        ++currentItemCollectionQuestCount;
+                        currentItemCollectionQuestList.Add(questProgressInfo);
+                        break;
+                    case QuestType.ItemCrafting:
+                        currentCreateItemQuestList.Add(questProgressInfo);
+                        ++currentCreatItemQuestCount;
+                        break;
+                    case QuestType.MonsterHunting:
+                        currentMonsterQuestList.Add(questProgressInfo);
+                        ++currentMonsterQuestCount;
+                        break;
+                    case QuestType.Building:
+                        currentBulidingQuestList.Add(questProgressInfo);
+                        ++currentBulidingQuestCount;
+                        break;
+                    case QuestType.Movement:
+                        targetPosition = currentQuestData.GetTargetPosition().ConvertVector2();
+                        distance = currentQuestData.QuestAreaRadius;
+                        enabled = true;
+                        break;
+                    case QuestType.UseItem:
+                        currentUseItemQuestList.Add(questProgressInfo);
+                        ++currentUseItemQuestCount;
+                        break;
+
+                    case QuestType.DestructMonsterStrong:
+                        currentDestructMonsterStrongQuestList.Add(questProgressInfo);
+                        ++currentDestructMonsterStrongQuestCount;
+                        break;
+                    case QuestType.RelicsCollection:
+                        currentRelicsCollectionQuestList.Add(questProgressInfo);
+                        ++currentRelicsCollectionQuestCount;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                --activeQuestCount;
+            }
+
+            
+        }
+
+        CheckQuestClear();
+        miniMapController.AddQuestObject(currentQuestData, ref onIconDisableAction);
+        isLoad = true;
     }
 
     public void Save()
     {
+        var quesetProgressSaveInfo = new QuestProgressSaveInfo();
+        quesetProgressSaveInfo.questProgressInfoList = new List<QuestProgressInfo>();
+        quesetProgressSaveInfo.questID = currentQuestID;
+
+        int questCount = DataTableManager.QuestTable.Get(quesetProgressSaveInfo.questID).questInfoList.Count;
+
+        for (int i = 0; i < questCount; ++i)
+        {
+            quesetProgressSaveInfo.questProgressInfoList.Add(questProgressInfoList[i]);
+        }
+
+        SaveLoadManager.Data.quesetProgressSaveInfo = quesetProgressSaveInfo;   
     }
 }

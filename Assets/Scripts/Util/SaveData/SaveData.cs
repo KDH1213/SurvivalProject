@@ -29,6 +29,7 @@ public class SaveDataV1 : SaveData
     public LevelStatInfo levelStatInfo = new LevelStatInfo();
     public PlayerSaveInfo playerSaveInfo = new PlayerSaveInfo();
     public System.DateTime gameTime = new System.DateTime();
+    public QuestProgressSaveInfo quesetProgressSaveInfo = new QuestProgressSaveInfo();
 
     public bool isRestart = false;
     public SaveDataV1()
@@ -40,6 +41,8 @@ public class SaveDataV1 : SaveData
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;
         playerSaveInfo.hp = 100f;
+        quesetProgressSaveInfo.questID = 1000;
+        quesetProgressSaveInfo.questProgressInfoList = new List<QuestProgressInfo>();
     }
 
     public override SaveData VersionUp()
