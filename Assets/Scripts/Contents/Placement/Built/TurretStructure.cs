@@ -12,11 +12,11 @@ public enum TurretType
 public class TurretStructure : PlacementObject
 {
     [SerializeField]
-    private float damage;
+    public float damage;
     [SerializeField]
     private float attackRange;
     [SerializeField]
-    private float attackTerm;
+    public float attackTerm;
     [SerializeField]
     private float currentTime;
     private GameObject effect;

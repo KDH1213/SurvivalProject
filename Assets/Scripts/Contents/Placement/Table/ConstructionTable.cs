@@ -44,7 +44,6 @@ public class ConstructionTable : DataTable
                 if (item.BuildCostItem1 != 0)
                 {
                     item.NeedItems.Add(item.BuildCostItem1, item.CostItemValue1);
-                    
                 }
                 if (item.BuildCostItem2 != 0)
                 {

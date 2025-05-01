@@ -39,7 +39,7 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private FarmInfoUi farmUI; // 농장 UI
     [SerializeField]
-    private UpgradeFarmUI upgradeFarmUI; // 농장 업그레이드 UI
+    private CreateUpgradeUI createUpgradeUI; // 농장 업그레이드 UI
     [SerializeField]
     private CreateItemUI createItemUI; // 아이템 제작 UI
     [SerializeField]
@@ -184,7 +184,7 @@ public class PlacementUIController : MonoBehaviour
     public void OnOpenBuildInfo(PlacementObjectInfo placementInfo)
     {
         buildInfo.gameObject.SetActive(true);
-        buildInfo.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+        buildInfo.SetUIInfo(placementInfo);
     }
 
     public void OnOpenObjectInfo(PlacementObjectInfo placementInfo)
@@ -201,10 +201,10 @@ public class PlacementUIController : MonoBehaviour
 
     public void OnOpenUpgradeInfo(PlacementObjectInfo placementInfo)
     {
-        if(placementInfo.Kind == StructureKind.Farm)
+        if(placementInfo.Kind == StructureKind.Create)
         {
-            upgradeFarmUI.gameObject.SetActive(true);
-            upgradeFarmUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
+            createUpgradeUI.gameObject.SetActive(true);
+            createUpgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
         }
         else
         {

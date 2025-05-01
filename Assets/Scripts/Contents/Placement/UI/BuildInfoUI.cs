@@ -32,7 +32,7 @@ public class BuildInfoUI : MonoBehaviour
     public TestInventory inven;
     private Inventory inventory;
 
-    public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
+    public void SetUIInfo(PlacementObjectInfo objInfo)
     {
         if (GameObject.FindWithTag("Player") != null)
         {
@@ -41,8 +41,9 @@ public class BuildInfoUI : MonoBehaviour
 
         var stringTable = DataTableManager.StringTable;
         var itemTable = DataTableManager.ItemTable;
-        var data = DataTableManager.ConstructionTable.Get(selectedObject.ID);
-        var structureData = DataTableManager.StructureTable.Get(selectedObject.ID);
+        
+        var structureData = DataTableManager.StructureTable.Get(objInfo.ID);
+        var data = DataTableManager.ConstructionTable.Get(structureData.PlaceBuildingID);
 
         int index = 0;
         int penaltyIndex = 0;
@@ -55,6 +56,7 @@ public class BuildInfoUI : MonoBehaviour
         size.text = $"{objInfo.Size.x} X {objInfo.Size.y}";
         hp.text = objInfo.DefaultHp.ToString();
         featureInfo.text = stringTable.Get(structureData.DescriptID);
+        SetStructureDescript(objInfo);
 
         foreach (var item in needItems)
         {
@@ -167,21 +169,31 @@ public class BuildInfoUI : MonoBehaviour
         return true;
     }
 
-    private void SetStructureDescript(StructureKind kind)
+    private void SetStructureDescript(PlacementObjectInfo info)
     {
+        var kind = info.Kind;
+        var data = DataTableManager.StructureTable.Get(info.ID);
+        var itemData = DataTableManager.ItemTable.Get(data.ItemToProduce);
         switch (kind)
         {
             case StructureKind.Other:
+                structureDescript.text = "기타 건물";
                 break;
             case StructureKind.Farm:
+                structureDescript.text = $"{data.ProductionCycle}초마다 {itemData.ItemName} {data.AmountPerProduction}개 생성\r\n";
                 break;
             case StructureKind.Turret:
+                var turret = info.Prefeb.transform.GetChild(0).GetComponent<TurretStructure>();
+                structureDescript.text = $"공격력 : {turret.damage}\t 공격속도 : {turret.attackTerm}";
                 break;
             case StructureKind.Create:
+                structureDescript.text = $"피로도 감소";
                 break;
             case StructureKind.Storage:
+                structureDescript.text = $"아이템 보관";
                 break;
             case StructureKind.Rest:
+                structureDescript.text = $"피로도 감소";
                 break;
         }
     }
