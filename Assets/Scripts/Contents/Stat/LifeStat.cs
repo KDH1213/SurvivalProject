@@ -42,6 +42,7 @@ public class LifeStat : LevelStat, ISaveLoadData
     public List<float> SkillStatValueList => currentSkillStatValueList;
 
     private int skillPoint = 0;
+    public int SkillPoint => skillPoint;
 
     public float Damage { get { return currentSkillStatValueList[0]; } }
     public float MoveSpeed { get { return currentSkillStatValueList[1]; } }
@@ -124,6 +125,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         --skillPoint;
         OnChangeSkillPointEvent?.Invoke(skillPoint);
         OnChangeSkillLevelEvent?.Invoke(type);
+        OnChangeSkillLevelCountEvent?.Invoke(type, skillLevelTable[type], 100);
     }
 
     protected override void LevelUp()
@@ -149,8 +151,11 @@ public class LifeStat : LevelStat, ISaveLoadData
 
         for (int i = 0; i < (int)LifeSkillType.End; ++i)
         {
+            var lifeType = (LifeSkillType)i;
             currentSkillStatValueList[i] = 0f;
-            OnChangeSkillLevelEvent?.Invoke((LifeSkillType)i);
+            OnChangeSkillLevelEvent?.Invoke(lifeType);
+            skillLevelTable[lifeType] = 0;
+            OnChangeSkillLevelCountEvent?.Invoke(lifeType, 0, 100);
         }
 
         OnChangeSkillPointEvent?.Invoke(skillPoint);

@@ -25,17 +25,22 @@ public class UISkillView : MonoBehaviour
     private TextMeshProUGUI skillDescriptionText;
 
     [SerializeField]
+    private TextMeshProUGUI skillPointText;
+
+    [SerializeField]
     private List<TextMeshProUGUI> normalTextList = new List<TextMeshProUGUI>();
 
     private List<float> valueList;
 
     public UnityEvent<LifeSkillType> onSkillLevelUpEvent;
+    public UnityEvent onResetSkillEvent;
 
     private LifeSkillType currentLifeSkillType = LifeSkillType.End;
 
     private string normalText;
     private string lifeText;
     private string craftingText;
+    private readonly string skillPointFormat = "스킬 포인트 : {0}";
 
     private void OnDisable()
     {
@@ -47,6 +52,10 @@ public class UISkillView : MonoBehaviour
         var lifeStat = GameObject.FindWithTag(Tags.Player).GetComponent<LifeStat>();
         onSkillLevelUpEvent.AddListener(lifeStat.OnSkillLevelUp);
         lifeStat.OnChangeSkillLevelCountEvent.AddListener(OnChangeSkillLevel);
+        lifeStat.OnChangeSkillPointEvent.AddListener(OnChangeSkillPoint);
+        onResetSkillEvent.AddListener(lifeStat.OnResetSkill);
+        OnChangeSkillPoint(lifeStat.SkillPoint);
+
         valueList = lifeStat.SkillStatValueList;
 
         for (int i = 0; i < (int)LifeSkillType.End; ++i)
@@ -86,6 +95,21 @@ public class UISkillView : MonoBehaviour
     public void OnSkillLevelUp(LifeSkillType lifeSkillType)
     {
         onSkillLevelUpEvent?.Invoke(lifeSkillType);
+    }
+
+    public void OnChangeSkillPoint(int skillPoint)
+    {
+        skillPointText.text = string.Format(skillPointFormat, skillPoint.ToString());
+    }
+
+    public void OnResetSkill()
+    {
+        onResetSkillEvent?.Invoke();
+
+        foreach (var normalText in normalTextList)
+        {
+            normalText.gameObject.SetActive(false);
+        }
     }
 
     public void OnSetDescription(LifeSkillType lifeSkillType)
