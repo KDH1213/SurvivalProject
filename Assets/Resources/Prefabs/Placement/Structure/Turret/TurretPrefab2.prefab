@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8209850253811340032}
+  - component: {fileID: 3607447053637348297}
   m_Layer: 7
   m_Name: TurretPrefab2
   m_TagString: Untagged
@@ -32,6 +33,28 @@ Transform:
   - {fileID: 3704165579943332991}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &3607447053637348297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4068534895186398122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 21300000, guid: 61cc60506de36448e8f3406ead224bf1,
+    type: 3}
+  <IsStatic>k__BackingField: 1
+  <IsMarker>k__BackingField: 0
 --- !u!1001 &9096418791743654147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,7 +143,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5391256493186917012, guid: bc4fb959c82cb364bb833e24961f108b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -219,6 +243,7 @@ MonoBehaviour:
   attackTerm: 2
   currentTime: 0
   atd: {fileID: 11400000, guid: 5f24ff4ca4e76434a94346ec6cccaf9b, type: 2}
+  type: 0
 --- !u!208 &606063974881384783
 NavMeshObstacle:
   m_ObjectHideFlags: 0

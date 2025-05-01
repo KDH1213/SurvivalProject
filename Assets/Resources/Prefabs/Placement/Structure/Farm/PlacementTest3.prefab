@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7984378954497410923}
+  - component: {fileID: 4031636104505979598}
   m_Layer: 7
   m_Name: PlacementTest3
   m_TagString: Untagged
@@ -32,6 +33,28 @@ Transform:
   - {fileID: 1983524051618363643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &4031636104505979598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526262504115535182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf7f9f98dd9c92499c4628979fbb0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnActiveEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnDisabledEvent>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <Icon>k__BackingField: {fileID: 21300000, guid: 91f046062dd204ed69446d424b1a5af2,
+    type: 3}
+  <IsStatic>k__BackingField: 1
+  <IsMarker>k__BackingField: 0
 --- !u!1001 &7868511806290646192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200,7 +223,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8160184067119205307, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
+    - {fileID: 8160184067119205304, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
+    - {fileID: 8160184067119205305, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
+    - {fileID: 8160184067119205310, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
+    - {fileID: 8160184067119205311, guid: 6c65ae9ed485954449beada8232f95d5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
