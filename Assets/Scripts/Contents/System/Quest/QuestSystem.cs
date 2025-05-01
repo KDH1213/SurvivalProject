@@ -145,6 +145,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         if((currentPosition - targetPosition).magnitude < distance)
         {
             enabled = false;
+            --activeQuestCount;
             CheckQuestClear();
         }
     }
@@ -173,6 +174,10 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             {
                 questProgressInfoList[i].SetInfo(questInfoList[i].questType, i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
                 onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
+            }
+            else
+            {
+                questProgressInfoList[i].SetInfo(questInfoList[i].questType, i, questInfoList[i].questTargetID, -1, questInfoList[i].clearCount);
             }
 
             switch (questInfoList[i].questType)
@@ -505,6 +510,10 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                 questProgressInfoList[i].SetInfo(questSaveProgressInfoList[i].questType, i, questSaveProgressInfoList[i].targetID, questSaveProgressInfoList[i].currentCount, questSaveProgressInfoList[i].maxCount);
                 onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
             }
+            else
+            {
+                questProgressInfoList[i].SetInfo(questSaveProgressInfoList[i].questType, i, questSaveProgressInfoList[i].targetID, -1, questSaveProgressInfoList[i].maxCount);
+            }
 
             if(!questProgressInfoList[i].IsClear())
             {
@@ -554,8 +563,6 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             {
                 --activeQuestCount;
             }
-
-            
         }
 
         CheckQuestClear();

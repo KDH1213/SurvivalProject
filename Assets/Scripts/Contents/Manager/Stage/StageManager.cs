@@ -70,8 +70,8 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     private void Start()
     {
-        GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().OnHourChange += OnChangeTemperature;
-        onChangeTemperatureEvent?.Invoke(stageTemperature);
+        // GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().OnHourChange += OnChangeTemperature;
+        // onChangeTemperatureEvent?.Invoke(stageTemperature);
     }
 
     public void OnStartRespawn(GameObject target)
