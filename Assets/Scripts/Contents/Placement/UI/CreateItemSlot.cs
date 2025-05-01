@@ -17,15 +17,18 @@ public class CreateItemSlot : MonoBehaviour
     private Image slotImage;
     [SerializeField]
     private Image disableImage;
+    [SerializeField]
+    private Image backGround;
 
     
     public int index;
     public CreateItemInfo ItemInfo { get; private set; }
 
-    private void SetButtonDisable()
+    public void SetButtonDisable()
     {
         GetComponent<Button>().enabled = false;
         disableImage.gameObject.SetActive(true);
+        backGround.color = new Color(34, 42, 51, 255);
         slotImage.gameObject.SetActive(false);
     }
 

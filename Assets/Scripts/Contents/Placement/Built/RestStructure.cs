@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class RestStructure : PlacementObject
     private float recoverTemperature;
 
     private GameObject target;
-    private bool isRest = false;
+    public bool isRest = false;
     private int timeScale = 2;
 
     private void Update()
@@ -48,8 +49,15 @@ public class RestStructure : PlacementObject
 
     public override void Interact(GameObject interactor)
     {
-        isRest = true;
-        Time.timeScale *= timeScale;
+        uiController.OnOpenRestUI(target, this);
+        
         target = interactor;
+    }
+
+    public void SetRest(float endTime)
+    {
+
+        recoverEndTime = endTime;
+        isRest = true;
     }
 }

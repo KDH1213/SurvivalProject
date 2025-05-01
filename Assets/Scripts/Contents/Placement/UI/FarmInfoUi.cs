@@ -44,7 +44,11 @@ public class FarmInfoUi : MonoBehaviour
     }
     private void Update()
     {
-        
+        if(currentObject != null)
+        {
+            produceOutPut.text = $"{currentObject.produceInfo.outPut} / {currentObject.produceInfo.maxOutPut}";
+            fillImage.fillAmount = 1 - (currentObject.currentTime - Time.time) / currentObject.produceTime;
+        }
     }
     public void SetUIInfo(PlacementObjectInfo objInfo, GameObject target, ProduceStructure selectedObject)
     {
@@ -66,7 +70,7 @@ public class FarmInfoUi : MonoBehaviour
 
         Sprite sprite = itemData.ItemImage;
         produceInfoImage.sprite = sprite;
-        produceOutPut.text = $"{selectedObject.produceInfo.outPutValue} / {data.MaxStorageCapacity}";
+        produceOutPut.text = $"{selectedObject.produceInfo.outPut} / {data.MaxStorageCapacity}";
 
         this.target = target;
 
