@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,6 @@ public class FatigueStat : SurvivalStatBehaviour
     [Range(0f, 1f)]
     private float startPenaltyPersent = 0.7f;
 
-
     private float fatigueSkillValue = 1f;
 
     [SerializeField]
@@ -18,6 +18,12 @@ public class FatigueStat : SurvivalStatBehaviour
 
     [SerializeField]
     private Slider fatigueSlider;
+
+    [SerializeField]
+    private TextMeshProUGUI fatigusPersentText;
+
+    private readonly string persentFormat = "{0}%";
+
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Fatigue;
@@ -83,7 +89,9 @@ public class FatigueStat : SurvivalStatBehaviour
 
     public void OnChangeValue()
     {
-        fatigueSlider.value = value / maxValue;
+        var persent = value / maxValue;
+        fatigueSlider.value = persent;
+        fatigusPersentText.text = string.Format(persentFormat, ((int)(persent * 100f)).ToString());
     }
 
     public void OnSetFatigueSkillValue(float fatigue)

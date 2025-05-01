@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -19,6 +20,12 @@ public class HungerStat : SurvivalStatBehaviour
 
     [SerializeField]
     private Slider hungerSlider;
+
+
+    [SerializeField]
+    private TextMeshProUGUI hungerPersentText;
+
+    private readonly string persentFormat = "{0}%";
 
     private bool isHpDown;
     private float currentTime = 0f;
@@ -147,6 +154,8 @@ public class HungerStat : SurvivalStatBehaviour
 
     public void OnChangeValue()
     {
-        hungerSlider.value = value / maxValue;
+        var persent = value / maxValue;
+        hungerSlider.value = persent;
+        hungerPersentText.text = string.Format(persentFormat, ((int)(persent * 100f)).ToString());
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,11 @@ public class ThirstStat : SurvivalStatBehaviour
 
     [SerializeField]
     private Slider thirstSlider;
+
+    [SerializeField]
+    private TextMeshProUGUI thirstPersentText;
+
+    private readonly string persentFormat = "{0}%";
 
     private float currentTime = 0f;
 
@@ -93,5 +99,8 @@ public class ThirstStat : SurvivalStatBehaviour
     public void OnChangeValue()
     {
         thirstSlider.value = value / maxValue;
+        var persent = value / maxValue;
+        thirstSlider.value = persent;
+        thirstPersentText.text = string.Format(persentFormat, ((int)(persent * 100f)).ToString());
     }
 }
