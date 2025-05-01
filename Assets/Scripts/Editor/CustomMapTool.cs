@@ -276,7 +276,8 @@ public class CustomMapTool : EditorWindow
                     {
                         if(hitInfo.collider != null)
                         {
-                            DestroyImmediate(hitInfo.collider.gameObject);
+                            Undo.DestroyObjectImmediate(hitInfo.collider.gameObject);
+                            // DestroyImmediate(hitInfo.collider.gameObject, true);
                         }
                     }
 
