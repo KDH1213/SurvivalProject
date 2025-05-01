@@ -41,6 +41,7 @@ public class SaveDataV1 : SaveData
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;
         playerSaveInfo.hp = 100f;
+        playerSaveInfo.position = Vector3.right * 5f;
         quesetProgressSaveInfo.questID = 240011;
         quesetProgressSaveInfo.questProgressInfoList = new List<QuestProgressInfo>();
     }
