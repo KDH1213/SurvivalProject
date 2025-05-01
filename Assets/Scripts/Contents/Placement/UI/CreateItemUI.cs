@@ -70,14 +70,22 @@ public class CreateItemUI : MonoBehaviour
         createList.Clear();
         foreach (var itemData in data)
         {
-            if(itemData.Value.Rank > structure.Rank || DataTableManager.ItemTable.Get(itemData.Key) == null)
+            if(DataTableManager.ItemTable.Get(itemData.Key) == null)
             {
                 continue;
             }
+            
             CreateItemSlot item = Instantiate(createItemPrefab, createListContents.transform);
             item.index = index;
             item.SetItemSlot(itemData.Key);
-            item.GetComponent<Button>().onClick.AddListener(() => UpdateInfo(item.index));
+            if (itemData.Value.Rank > structure.Rank)
+            {
+                item.SetButtonDisable();
+            }
+            else
+            {
+                item.GetComponent<Button>().onClick.AddListener(() => UpdateInfo(item.index));
+            }
             createList.Add(item);
             index++;
         }

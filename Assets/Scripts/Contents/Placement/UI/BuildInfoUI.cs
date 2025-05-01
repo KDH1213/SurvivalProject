@@ -32,6 +32,11 @@ public class BuildInfoUI : MonoBehaviour
     public TestInventory inven;
     private Inventory inventory;
 
+    private void Update()
+    {
+        
+    }
+
     public void SetUIInfo(PlacementObjectInfo objInfo)
     {
         if (GameObject.FindWithTag("Player") != null)

@@ -47,7 +47,9 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private RepairUI repairUI; // ¼ö¸® UI
     [SerializeField]
-    private DestoryCheckUI destoryCheckUI; // ¼ö¸® UI
+    private DestoryCheckUI destoryCheckUI; // ÆÄ±« UI
+    [SerializeField]
+    private RestUI restUI; // ÈÞ½Ä UI
 
     private void Awake()
     {
@@ -245,6 +247,18 @@ public class PlacementUIController : MonoBehaviour
         }
         destoryCheckUI.gameObject.SetActive(true);
         destoryCheckUI.SetUI(placementSystem.SelectedObject.ID);
+    }
+
+    public void OnOpenRestUI(GameObject target, RestStructure restStructure)
+    {
+        if (placementSystem == null)
+        {
+            placementSystem = GetComponent<PlacementSystem>();
+        }
+        restUI.gameObject.SetActive(true);
+        int index = placementSystem.Database.objects.FindIndex(x => x.ID == restStructure.ID);
+        PlacementObjectInfo data = placementSystem.Database.objects[index];
+        restUI.SetUI(data, target, restStructure);
     }
 
     public void OnOpenRepairUI()
