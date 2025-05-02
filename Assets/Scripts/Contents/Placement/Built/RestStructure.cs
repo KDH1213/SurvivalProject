@@ -56,8 +56,8 @@ public class RestStructure : PlacementObject
 
     public void SetRest(float endTime)
     {
-        recoverEndTime = endTime;
-        Time.timeScale *= timeScale;
-        isRest = true;
+        // recoverEndTime = endTime;
+        // Time.timeScale *= timeScale;
+        // isRest = true;
     }
 }
