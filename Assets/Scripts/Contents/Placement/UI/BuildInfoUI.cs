@@ -165,8 +165,8 @@ public class BuildInfoUI : MonoBehaviour
         {
             if (inventory == null)
                 break;
-            if (inventory.GetTotalItem(data.Key) < data.Value && 
-                system.Storages.Sum(storage => storage.inventory.GetTotalItem(data.Key)) == data.Value)
+            if (inventory.GetTotalItem(data.Key) < data.Value && (system.Storages.Count == 0 ||
+                system.Storages.Sum(storage => storage.inventory.GetTotalItem(data.Key)) == data.Value))
             {
                 return false;
             }

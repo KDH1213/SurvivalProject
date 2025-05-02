@@ -205,7 +205,12 @@ public class PlacementUIController : MonoBehaviour
 
     public void OnOpenUpgradeInfo(PlacementObjectInfo placementInfo)
     {
-        if(placementInfo.Kind == StructureKind.Create)
+        if (placementInfo.NextStructureID == 0)
+        {
+            return;
+        }
+
+        if (placementInfo.Kind == StructureKind.Create)
         {
             createUpgradeUI.gameObject.SetActive(true);
             createUpgradeUI.SetUIInfo(placementInfo, placementSystem.SelectedObject);
