@@ -10326,6 +10326,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -650
       objectReference: {fileID: 0}
+    - target: {fileID: 1384641027168477779, guid: 37211cd18d4663f449c0c983cf488f37,
+        type: 3}
+      propertyPath: m_Content
+      value: 
+      objectReference: {fileID: 1629993877}
     - target: {fileID: 1429658631880631505, guid: 37211cd18d4663f449c0c983cf488f37,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -12978,7 +12983,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4947939412220298219, guid: dccf6cc19b00449e4b835921f5d40ff9, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8186859348848065741, guid: dccf6cc19b00449e4b835921f5d40ff9, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7514868354821446486, guid: dccf6cc19b00449e4b835921f5d40ff9,
         type: 3}
@@ -14876,7 +14882,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 367459458}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2070009277}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &367459458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15727,7 +15745,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 407693784}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 429136597}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &407693784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50449,6 +50479,12 @@ Transform:
   - {fileID: 579018}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1629993877 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7751748044703872512, guid: 37211cd18d4663f449c0c983cf488f37,
+    type: 3}
+  m_PrefabInstance: {fileID: 273784010}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1630772291
 GameObject:
   m_ObjectHideFlags: 0
@@ -70972,7 +71008,7 @@ PrefabInstance:
     - target: {fileID: 4846580141976681660, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 99.666664
+      value: 114.18518
       objectReference: {fileID: 0}
     - target: {fileID: 4846580141976681660, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
@@ -71070,7 +71106,7 @@ PrefabInstance:
     - target: {fileID: 6298670799717471133, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 99.666664
+      value: 114.18518
       objectReference: {fileID: 0}
     - target: {fileID: 6298670799717471133, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
@@ -71180,7 +71216,7 @@ PrefabInstance:
     - target: {fileID: 7411532741290360531, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 99.666664
+      value: 114.18518
       objectReference: {fileID: 0}
     - target: {fileID: 7411532741290360531, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}

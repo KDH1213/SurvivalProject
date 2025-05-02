@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class RepairUI : MonoBehaviour
 {
     [SerializeField]
+    private PlacementSystem system;
+    [SerializeField]
     private Image structureImage;
     [SerializeField]
     private TextMeshProUGUI structureName;
@@ -22,6 +24,9 @@ public class RepairUI : MonoBehaviour
     private Button repairButton;
     public TestInventory inven;
     private Inventory inventory;
+
+    private Dictionary<int, int> consumeItem = new();
+    private Dictionary<SurvivalStatType, int> consumePenalty = new();
 
     private float hpPercent;
 
@@ -46,6 +51,7 @@ public class RepairUI : MonoBehaviour
             needPenalty.gameObject.SetActive(false);
         }
         int index = 0;
+        int penaltyIndex = 0;
         var itemTable = DataTableManager.ItemTable;
         var structureData = DataTableManager.StructureTable.Get(selectedObject.ID);
         var data = DataTableManager.ConstructionTable.Get(structureData.PlaceBuildingID);
@@ -71,6 +77,7 @@ public class RepairUI : MonoBehaviour
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
                         Mathf.FloorToInt(item.Value * percent), inven.inventory[item.Key]);
+                    consumeItem.Add(item.Key, Mathf.FloorToInt(item.Value * percent));
                 }
                 else
                 {
@@ -90,22 +97,32 @@ public class RepairUI : MonoBehaviour
                 if (inventory.GetTotalItem(item.Key) < item.Value)
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
-                        item.Value, inventory.GetTotalItem(item.Key));
+                        Mathf.FloorToInt(item.Value * percent), inventory.GetTotalItem(item.Key));
                 }
                 else
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
-                        item.Value, inventory.GetTotalItem(item.Key));
+                        Mathf.FloorToInt(item.Value * percent), inventory.GetTotalItem(item.Key));
                 }
-
+                consumeItem.Add(item.Key, Mathf.FloorToInt(item.Value * percent));
                 needItems.Add(needItems[index]);
                 index++;
             }
         }
+
+        foreach (var item in data.NeedPenalties)
+        {
+            needPenalties[penaltyIndex].gameObject.SetActive(true);
+            needPenalties[penaltyIndex].SetNeedPenalty(item.Key, Mathf.FloorToInt(item.Value * percent));
+            consumePenalty.Add(item.Key, Mathf.FloorToInt(item.Value * percent));
+            penaltyIndex++;
+        }
+
+        repairButton.onClick.AddListener(() => Repair(consumeItem, consumePenalty));
     }
 
-    public void Repair(PlacementObject selectedObject)
+    public void Repair(Dictionary<int, int> needItems, Dictionary<SurvivalStatType, int> needPenalties)
     {
-        
+        system.Repair(needItems, needPenalties);
     }
 }

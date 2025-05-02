@@ -196,7 +196,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
             target.OnPlayAct(placementObject);
 
-            PlacedGameObjects.Add(placementObject);
+            
         }
 
     }
@@ -249,7 +249,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.SetData();
         placementObject.CreateActInfo();
         ConsumePenalty(placementObject);
-
+        
         if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
         {
             ++PlacedGameObjectTable[placementObject.ID];
@@ -260,7 +260,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         }
 
         onChangeBuildingCountEvnet?.Invoke(placementObject.ID, PlacedGameObjectTable[placementObject.ID]);
-
+        
         gridData.AddObjectAt(gridPosition, objData.Size,
             objData.ID,
             PlacedGameObjects.Count - 1, placementObject);
@@ -302,6 +302,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         Vector3Int nextPos = gridData.SearchSide(gridPosition, Database.objects[SelectedObjectIndex].Size);
         preview.UpdatePosition(grid.CellToWorld(nextPos),
             CheckPlacementValidity(nextPos, SelectedObjectIndex));
+        PlacedGameObjects.Add(placementObject);
         inputManager.LastPosition = grid.CellToWorld(nextPos);
         //StopPlacement();
     }
@@ -355,7 +356,9 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         {
             obj.transform.parent.gameObject.SetActive(false);
         }
+
         
+
         int id = gridData.RemoveObjectAt(obj);
         PlacedGameObjects.Remove(obj);
 
@@ -561,6 +564,21 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
                 PlacedGameObjects.Count - 1, placementObject);
 
         }
+    }
+
+    public void Repair(Dictionary<int, int> needItems, Dictionary<SurvivalStatType, int> needPenalties)
+    {
+        foreach (var needItem in needItems)
+        {
+            ConsumeItem(needItem.Key, needItem.Value);
+        }
+        if(GameObject.FindWithTag(Tags.Player) == null)
+        {
+            return;
+        }
+        var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
+        target.OnPlayAct(needPenalties);
+
     }
 
     private void LoadStorage()

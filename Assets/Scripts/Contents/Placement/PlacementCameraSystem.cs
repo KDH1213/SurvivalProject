@@ -129,7 +129,7 @@ public class PlacementCameraSystem : MonoBehaviour
     // todo : 배치 시스템 화면 드래그 시 작업
     public void OnDragMouse(InputAction.CallbackContext value)
     {
-        if(inputManager == null || inputManager.IsPointerOverUi)
+        if(inputManager == null || inputManager.IsPointerOverUi || inputManager.IsTouch)
         {
             return;
         }
@@ -145,14 +145,14 @@ public class PlacementCameraSystem : MonoBehaviour
                 Vector3 pos = placementCamera.transform.position;
                 IsDrag = true;
                 Vector2 dir = (startClickPos - MousePos).normalized;
-                if (Mathf.Abs(dir.x) < 0.2f)
+/*                if (Mathf.Abs(dir.x) < 0.7f)
                 {
                     dir.x = 0;
                 }
-                if (Mathf.Abs(dir.y) < 0.2f)
+                if (Mathf.Abs(dir.y) < 0.7f)
                 {
                     dir.y = 0;
-                }
+                }*/
 
                 placementCamera.transform.position += new Vector3(dir.x, 0, dir.y) * moveSpeed * Time.deltaTime;
                 placementCamera.transform.position = new Vector3(

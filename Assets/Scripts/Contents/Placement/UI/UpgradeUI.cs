@@ -46,11 +46,10 @@ public class UpgradeUI : MonoBehaviour
         beforeName.text = $"{objInfo.Name}";
         beforeHp.text = string.Format(hpFormat, objInfo.DefaultHp);
 
+        
+
         int nextIndex = system.Database.objects.FindIndex(data => data.ID == objInfo.NextStructureID);
-        if(nextIndex == 0)
-        {
-            return;
-        }
+        
         PlacementObjectInfo nextLevelInfo = system.Database.objects[nextIndex];
         afterImage.sprite = nextLevelInfo.Icon;
         afterName.text = $"{nextLevelInfo.Name}";

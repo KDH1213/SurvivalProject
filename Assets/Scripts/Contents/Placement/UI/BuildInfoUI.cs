@@ -192,7 +192,7 @@ public class BuildInfoUI : MonoBehaviour
                 structureDescript.text = $"공격력 : {turret.damage}\t 공격속도 : {turret.attackTerm}";
                 break;
             case StructureKind.Create:
-                structureDescript.text = $"피로도 감소";
+                structureDescript.text = $"제작 건물";
                 break;
             case StructureKind.Storage:
                 structureDescript.text = $"아이템 보관";

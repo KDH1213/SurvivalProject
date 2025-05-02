@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.InputSystem.Interactions;
 
 public class PlacementInput : MonoBehaviour
@@ -24,6 +23,7 @@ public class PlacementInput : MonoBehaviour
     public bool IsPointerOverUi { get; set;}
     public bool IsPointerOverMap { get; private set; }
     public bool IsObjectHoldPress { get; private set; }
+    public bool IsTouch { get; private set; }
 
     private void Update()
     {
@@ -47,6 +47,7 @@ public class PlacementInput : MonoBehaviour
         }
         if (value.performed)
         {
+            IsTouch = true;
             GameObject hit = GetClickHit()?.gameObject;
             if (hit == null)
             {
@@ -78,6 +79,7 @@ public class PlacementInput : MonoBehaviour
         {
             
             IsObjectHoldPress = false;
+            IsTouch = false;
             Debug.Log("Äµ½½!");
         }
     }

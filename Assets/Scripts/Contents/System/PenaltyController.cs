@@ -1,4 +1,5 @@
 using AYellowpaper.SerializedCollections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -81,6 +82,14 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         foreach (var act in actInfoList)
         {
             penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
+        }
+    }
+
+    public void OnPlayAct(Dictionary<SurvivalStatType, int> penalties)
+    {
+        foreach (var act in penalties)
+        {
+            penaltyTable[act.Key].AddPenaltyValue(act.Value);
         }
     }
 
