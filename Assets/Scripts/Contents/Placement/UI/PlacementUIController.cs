@@ -50,6 +50,8 @@ public class PlacementUIController : MonoBehaviour
     private DestoryCheckUI destoryCheckUI; // ÆÄ±« UI
     [SerializeField]
     private RestUI restUI; // ÈÞ½Ä UI
+    [SerializeField]
+    private TurretUI turretUI; // ÈÞ½Ä UI
 
     private void Awake()
     {
@@ -270,5 +272,11 @@ public class PlacementUIController : MonoBehaviour
         int index = placementSystem.Database.objects.FindIndex(data => data.ID == placementSystem.SelectedObject.ID);
         repairUI.gameObject.SetActive(true);
         repairUI.SetUI(placementSystem.Database.objects[index], placementSystem.SelectedObject);
+    }
+
+    public void OnOpenTurretUI(TurretStructure structure)
+    {
+        turretUI.gameObject.SetActive(true);
+        turretUI.SetUI(structure);
     }
 }

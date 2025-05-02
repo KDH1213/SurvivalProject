@@ -25,6 +25,8 @@ public class TurretStructure : PlacementObject
     [SerializeField]
     private TurretType type;
 
+    private PriorityQueue<GameObject, float> monsters;
+
     private void Update()
     {
 
@@ -56,8 +58,23 @@ public class TurretStructure : PlacementObject
         table.Add(StatType.AttackRange, new StatValue(StatType.AttackRange, attackRange));
     }
 
+    public override void Interact(GameObject interactor)
+    {
+        uiController.OnOpenTurretUI(this);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        monsters.Enqueue(collision.gameObject, Time.time + attackTerm);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        monsters.re(collision.gameObject);
+    }*/
 }
