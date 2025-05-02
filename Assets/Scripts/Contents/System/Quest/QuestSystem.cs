@@ -237,7 +237,10 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             }
         }
 
-        miniMapController.AddQuestObject(currentQuestData, ref onIconDisableAction);
+        if(currentQuestData.UseMinimapIcon == 1)
+        {
+            miniMapController.AddQuestObject(currentQuestData, ref onIconDisableAction);
+        }
     }
 
     public void OnDeathMonster(int monsterID)
@@ -566,7 +569,11 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         }
 
         CheckQuestClear();
-        miniMapController.AddQuestObject(currentQuestData, ref onIconDisableAction);
+
+        if (currentQuestData.UseMinimapIcon == 1)
+        {
+            miniMapController.AddQuestObject(currentQuestData, ref onIconDisableAction);
+        }
         isLoad = true;
     }
 

@@ -181,34 +181,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             testInfo.id = Item.ID;
             AddItem(testInfo);
 
-            Item = DataTableManager.ItemTable.Get(1200111);
-
-            testInfo = new DropItemInfo();
-            testInfo.amount = 500;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
-
-
-            Item = DataTableManager.ItemTable.Get(1200211);
-
-            testInfo = new DropItemInfo();
-            testInfo.amount = 500;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
-
-
-
-            Item = DataTableManager.ItemTable.Get(1200311);
-
-            testInfo = new DropItemInfo();
-            testInfo.amount = 500;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
-
-            Item = DataTableManager.ItemTable.Get(1200741);
+            Item = DataTableManager.ItemTable.Get(1111119);
 
             testInfo = new DropItemInfo();
             testInfo.amount = 1;
@@ -216,7 +189,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             testInfo.id = Item.ID;
             AddItem(testInfo);
 
-            Item = DataTableManager.ItemTable.Get(1200841);
+
+            Item = DataTableManager.ItemTable.Get(1111125);
 
             testInfo = new DropItemInfo();
             testInfo.amount = 1;
@@ -224,7 +198,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             testInfo.id = Item.ID;
             AddItem(testInfo);
 
-            Item = DataTableManager.ItemTable.Get(1200941);
+
+
+            Item = DataTableManager.ItemTable.Get(1111131);
 
             testInfo = new DropItemInfo();
             testInfo.amount = 1;
@@ -232,49 +208,73 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             testInfo.id = Item.ID;
             AddItem(testInfo);
 
-            for (int i = 0; i < 3; ++i)
-            {
-                Item = DataTableManager.ItemTable.Get(1111115 + i);
+            Item = DataTableManager.ItemTable.Get(1111137);
 
-                testInfo = new DropItemInfo();
-                testInfo.amount = 1;
-                testInfo.itemData = Item;
-                testInfo.id = 1111115 + i;
-                AddItem(testInfo);
-            }
+            testInfo = new DropItemInfo();
+            testInfo.amount = 1;
+            testInfo.itemData = Item;
+            testInfo.id = Item.ID;
+            AddItem(testInfo);
 
-            for (int i = 0; i < 3; ++i)
-            {
-                Item = DataTableManager.ItemTable.Get(1111131 + i);
+            //Item = DataTableManager.ItemTable.Get(1200841);
 
-                testInfo = new DropItemInfo();
-                testInfo.amount = 1;
-                testInfo.itemData = Item;
-                testInfo.id = 1111131 + i;
-                AddItem(testInfo);
-            }
+            //testInfo = new DropItemInfo();
+            //testInfo.amount = 1;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
 
-            for (int i = 0; i < 3; ++i)
-            {
-                Item = DataTableManager.ItemTable.Get(1111119 + i);
+            //Item = DataTableManager.ItemTable.Get(1200941);
 
-                testInfo = new DropItemInfo();
-                testInfo.amount = 1;
-                testInfo.itemData = Item;
-                testInfo.id = 1111119 + i;
-                AddItem(testInfo);
-            }
+            //testInfo = new DropItemInfo();
+            //testInfo.amount = 1;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
 
-            for (int i = 0; i < 3; ++i)
-            {
-                Item = DataTableManager.ItemTable.Get(1111125 + i);
+            //for (int i = 0; i < 3; ++i)
+            //{
+            //    Item = DataTableManager.ItemTable.Get(1111115 + i);
 
-                testInfo = new DropItemInfo();
-                testInfo.amount = 1;
-                testInfo.itemData = Item;
-                testInfo.id = 1111125 + i;
-                AddItem(testInfo);
-            }
+            //    testInfo = new DropItemInfo();
+            //    testInfo.amount = 1;
+            //    testInfo.itemData = Item;
+            //    testInfo.id = 1111115 + i;
+            //    AddItem(testInfo);
+            //}
+
+            //for (int i = 0; i < 3; ++i)
+            //{
+            //    Item = DataTableManager.ItemTable.Get(1111131 + i);
+
+            //    testInfo = new DropItemInfo();
+            //    testInfo.amount = 1;
+            //    testInfo.itemData = Item;
+            //    testInfo.id = 1111131 + i;
+            //    AddItem(testInfo);
+            //}
+
+            //for (int i = 0; i < 3; ++i)
+            //{
+            //    Item = DataTableManager.ItemTable.Get(1111119 + i);
+
+            //    testInfo = new DropItemInfo();
+            //    testInfo.amount = 1;
+            //    testInfo.itemData = Item;
+            //    testInfo.id = 1111119 + i;
+            //    AddItem(testInfo);
+            //}
+
+            //for (int i = 0; i < 3; ++i)
+            //{
+            //    Item = DataTableManager.ItemTable.Get(1111125 + i);
+
+            //    testInfo = new DropItemInfo();
+            //    testInfo.amount = 1;
+            //    testInfo.itemData = Item;
+            //    testInfo.id = 1111125 + i;
+            //    AddItem(testInfo);
+            //}
 
         }
 
