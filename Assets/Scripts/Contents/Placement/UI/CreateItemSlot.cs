@@ -28,8 +28,9 @@ public class CreateItemSlot : MonoBehaviour
     {
         GetComponent<Button>().enabled = false;
         disableImage.gameObject.SetActive(true);
+        disableImage.color = Color.black;
         backGround.color = new Color(34, 42, 51, 255);
-        slotImage.gameObject.SetActive(false);
+        //slotImage.gameObject.SetActive(false);
     }
 
     public void SetItemSlot(int id)
