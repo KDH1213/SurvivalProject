@@ -12,9 +12,9 @@ public class MonsterReturnState : MonsterBaseState
 
     public override void Enter()
     {
-        MonsterFSM.Agent.isStopped = false;
-        MonsterFSM.Agent.speed = MonsterStats.Speed;
-        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+        Agent.isStopped = false;
+        Agent.speed = MonsterStats.Speed;
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
     }
 
     public override void ExecuteUpdate()
@@ -25,23 +25,23 @@ public class MonsterReturnState : MonsterBaseState
             return;
         }
 
-        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
     }
 
     public override void ExecuteFixedUpdate()
     {
-        MonsterFSM.Agent.SetDestination(MonsterFSM.FirstPosition);
+        Agent.SetDestination(MonsterFSM.FirstPosition);
     }
 
     public override void Exit()
     {
-        MonsterFSM.Agent.isStopped = true;
+        Agent.isStopped = true;
     }
 
     private bool HasReachedDestination()
     {
-        return !MonsterFSM.Agent.pathPending &&
-               MonsterFSM.Agent.remainingDistance <= MonsterFSM.Agent.stoppingDistance &&
-               !MonsterFSM.Agent.hasPath;
+        return !Agent.pathPending &&
+               Agent.remainingDistance <= Agent.stoppingDistance &&
+               !Agent.hasPath;
     }
 }

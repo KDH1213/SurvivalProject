@@ -15,10 +15,10 @@ public class MonsterMoveState : MonsterBaseState
 
     public override void Enter()
     {
-        MonsterFSM.Agent.isStopped = false;
-        MonsterFSM.Agent.speed = MonsterStats.Speed;
-        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
-        MonsterFSM.Agent.SetDestination(movePosition);
+        Agent.isStopped = false;
+        Agent.speed = MonsterStats.Speed;
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
+        Agent.SetDestination(movePosition);
     }
 
     public override void ExecuteUpdate()
@@ -69,7 +69,6 @@ public class MonsterMoveState : MonsterBaseState
         if (target != null)
         {
             MonsterFSM.Target = target.gameObject;
-            monsterFSM.TargetTransform = target;
             MonsterFSM.ChangeState(MonsterStateType.Chase);
             return true;
         }

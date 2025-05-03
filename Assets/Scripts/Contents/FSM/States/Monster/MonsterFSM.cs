@@ -11,18 +11,13 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     public int ID { get; private set; } = 0;
     [field: SerializeField]
     public Animator Animator { get; private set; }
-    [field: SerializeField]
-    public NavMeshAgent Agent { get; private set; } // 정리 필요
+
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
 
     public MonsterData MonsterData { get; private set; } = null;
 
-    [HideInInspector]
     public GameObject Target { get; set; }
-
-    [HideInInspector]
-    public Transform TargetTransform { get; set; }
 
     [field: SerializeField]
     public Transform AttackPoint { get; private set; }
@@ -30,15 +25,15 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public Vector3 FirstPosition { get; private set; }
 
-    public bool CanAttack { get; private set; }
+    public bool CanAttack
+    {
+        get {  return lastAttackTime < Time.time; }
+    }
 
-    public bool IsAttack { get; private set; }
-
-    public float TargetDistance { get; set; }
+    public bool IsCanAttackCancellation { get; private set; }
 
 
     public bool IsDead { get; private set; }
-    public bool CanRouting { get; private set; }
 
     public bool IsInteractable => IsDead;
     public IObjectPool<MonsterFSM> MonsterPool { get; private set; } = null;
@@ -61,6 +56,8 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public int DropID => MonsterData.DropID;
 
+    private float lastAttackTime = 0f;
+
     protected override void Awake()
     {
         if(MonsterData == null)
@@ -68,10 +65,8 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
             MonsterData = DataTableManager.MonsterTable.Get(ID);
         }
 
-        CanAttack = true;
-        IsAttack = false;
+        IsCanAttackCancellation = true;
         IsDead = false;
-        CanRouting = false;
         FirstPosition = gameObject.transform.position;
 
         MonsterStats = GetComponent<MonsterStats>();
@@ -96,21 +91,20 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     {
         StateTable[currentStateType].ExecuteFixedUpdate();
     }
-    public void SetCanAttack(bool value)
+    public void OnEndAttack()
     {
-        CanAttack = value;
+        lastAttackTime = Time.time + MonsterData.AttackCooldown;
     }
 
-    public void SetIsAttack(bool value)
+    public void SetIsCanAttackCancellation(bool value)
     {
-        IsAttack = value;
+        IsCanAttackCancellation = value;
     }
 
     // TODO :: TestMonster -> DestructedEvent �̺�Ʈ�� ����
     public void OnDeath()
     {
         IsDead = true;
-        CanRouting = true;
         RemainingTime = RespawnTime;
         ChangeState(MonsterStateType.Death);
     }
@@ -118,7 +112,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     // TODO :: MonsterStats => damege Event에 연결
     public void OnHit()
     {
-        if(!MonsterStats.IsDead && !IsAttack)
+        if(!MonsterStats.IsDead && IsCanAttackCancellation)
         {
             ChangeState(MonsterStateType.Hit);
         }

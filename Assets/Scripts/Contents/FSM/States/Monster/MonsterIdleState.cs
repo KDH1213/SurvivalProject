@@ -15,7 +15,6 @@ public class MonsterIdleState : MonsterBaseState
     public override void Enter()
     {
         MonsterFSM.Target = null;
-        MonsterFSM.TargetTransform = null;
 
         Agent.isStopped = true;
         Agent.speed = 0f;
@@ -60,7 +59,6 @@ public class MonsterIdleState : MonsterBaseState
         if(target != null)
         {
             MonsterFSM.Target = target.gameObject;
-            monsterFSM.TargetTransform = target;
             MonsterFSM.ChangeState(MonsterStateType.Chase);
         }
     }

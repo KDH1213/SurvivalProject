@@ -14,9 +14,9 @@ public class MonsterHitState : MonsterBaseState
 
     public override void Enter()
     {
-        MonsterFSM.Agent.isStopped = true;
-        MonsterFSM.Agent.velocity = Vector3.zero;
-        MonsterFSM.Agent.speed = 0f;
+        Agent.isStopped = true;
+        Agent.velocity = Vector3.zero;
+        Agent.speed = 0f;
         MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashHit);
 
         int random = Random.Range(0, 1);

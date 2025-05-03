@@ -32,7 +32,7 @@ public class MonsterAttackState : MonsterBaseState
         Agent.destination = transform.position;
         Agent.velocity = Vector3.zero;
 
-        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
         MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashAttack);
     }
 
@@ -46,6 +46,8 @@ public class MonsterAttackState : MonsterBaseState
         Agent.speed = MonsterStats.Speed;
         MonsterFSM.Animator.speed = 1f;
         attacker = null;
+
+        MonsterFSM.OnEndAttack();
     }
 
     public virtual void OnEndAttackAnimationMonster()
@@ -55,37 +57,19 @@ public class MonsterAttackState : MonsterBaseState
             return;
         }
 
-        MonsterFSM.SetIsAttack(false);
+        MonsterFSM.SetIsCanAttackCancellation(true);
 
-        if (MonsterFSM.Target == null)
-        {
-            MonsterFSM.ChangeState(MonsterStateType.Chase);
-            return;
-        }
-        else if (attacker != null && attacker.activeSelf && attacker != MonsterFSM.Target)
+        if (attacker != null && attacker.activeSelf && attacker != MonsterFSM.Target)
         {
             MonsterFSM.Target = attacker;
-            MonsterFSM.ChangeState(MonsterStateType.Chase);
         }
-        else
-        {           
-            var targetDistance = MonsterFSM.Target.transform.position - MonsterFSM.transform.position;
-            targetDistance.y = 0f;
-            if(targetDistance.sqrMagnitude > MonsterFSM.MonsterData.AttackRadius * MonsterFSM.MonsterData.AttackRadius)
-            {
-                MonsterFSM.ChangeState(MonsterStateType.Chase);
-            }
-            else
-            {
-                MonsterFSM.ChangeState(MonsterStateType.Attack);
-            }
-            
-        }
+
+        MonsterFSM.ChangeState(MonsterStateType.Chase);
     }
     public virtual void OnStartAttack()
     {
         MonsterFSM.Weapon.StartAttack(MonsterFSM.AttackPoint, gameObject);
-        MonsterFSM.SetIsAttack(true);
+        MonsterFSM.SetIsCanAttackCancellation(false);
 
         if (MonsterFSM.Target != null)
         {
@@ -93,11 +77,8 @@ public class MonsterAttackState : MonsterBaseState
             if (targetStats != null && targetStats.IsDead)
             {
                 MonsterFSM.Target = null;
-                MonsterFSM.TargetTransform = null;
             }
         }
-
-       
     }
 
     public void OnSetAttacker(GameObject attacker)

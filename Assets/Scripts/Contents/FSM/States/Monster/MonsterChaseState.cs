@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterChaseState : MonsterBaseState
@@ -6,6 +7,8 @@ public class MonsterChaseState : MonsterBaseState
 
     private Vector3 closestPoint;
     private Collider targetCollider;
+
+    private int target = 0;
 
     protected override void Awake()
     {
@@ -19,13 +22,23 @@ public class MonsterChaseState : MonsterBaseState
 
         Agent.isStopped = false;
         Agent.speed = MonsterStats.Speed;
-        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.velocity.sqrMagnitude);
 
         if(MonsterFSM.Target != null)
         {
-            targetCollider = MonsterFSM.Target.GetComponentInChildren<Collider>();
-            closestPoint = targetCollider.ClosestPoint(transform.position);
-            Agent.SetDestination(closestPoint);
+            if(MonsterFSM.Target.CompareTag(Tags.Player))
+            {
+                target = 0;
+                Agent.SetDestination(MonsterFSM.Target.transform.position);
+            }
+            else
+            {
+                target = 1;
+
+                targetCollider = MonsterFSM.Target.GetComponentInChildren<Collider>();
+                closestPoint = targetCollider.ClosestPoint(transform.position);
+                Agent.SetDestination(closestPoint);
+            }
         }
     }
 
@@ -36,52 +49,79 @@ public class MonsterChaseState : MonsterBaseState
             MonsterFSM.ChangeState(MonsterStateType.Return);
             return;
         }
+        MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.velocity.sqrMagnitude);
 
         if (MonsterFSM.Target != null)
         {
-            MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, MonsterFSM.Agent.speed);
-            Chase();
+            if (target == 0)
+            {
+                OnChasePlayer();
+            }
+            else
+            {
+                OnChaseBuilding();
+            }
         }
         else
         {
             MonsterFSM.ChangeState(MonsterStateType.Idle);
         }
-
-        
     }
 
     public override void ExecuteFixedUpdate()
     {
         if (MonsterFSM.Target != null)
         {
-            closestPoint = targetCollider.ClosestPoint(transform.position);
-            Agent.SetDestination(closestPoint);
+            if(target == 0)
+            {
+                Agent.SetDestination(MonsterFSM.Target.transform.position);
+            }
+            else
+            {
+                closestPoint = targetCollider.ClosestPoint(transform.position);
+                Agent.SetDestination(closestPoint);
+            }            
         }
     }
 
     public override void Exit()
     {
         useReturn = false;
-        MonsterFSM.Agent.isStopped = true;
+        Agent.isStopped = true;
     }
 
-    private void Chase()
+    private void OnChasePlayer()
+    {
+        var targetDistance = (MonsterFSM.Target.transform.position - MonsterFSM.transform.position).ConvertVector2();
+        var distance = targetDistance.sqrMagnitude;
+
+        if (distance < MonsterFSM.MonsterData.AttackRadius * MonsterFSM.MonsterData.AttackRadius)
+        {
+            if(MonsterFSM.CanAttack)
+            {
+                MonsterFSM.ChangeState(MonsterStateType.Attack);
+            }
+        }
+        else if (distance > MonsterFSM.MonsterData.ChaseRadius * MonsterFSM.MonsterData.ChaseRadius)
+        {
+            MonsterFSM.Target = null;
+            useReturn = true;
+        }
+    }
+
+    private void OnChaseBuilding()
     {
         closestPoint = targetCollider.ClosestPoint(transform.position);
-        float distance = (closestPoint - transform.position).ConvertVector2().magnitude;
+        float distance = (closestPoint - transform.position).ConvertVector2().sqrMagnitude;
 
-        if (distance <= MonsterFSM.MonsterData.AttackRadius)
+        if (distance < MonsterFSM.MonsterData.AttackRadius * MonsterFSM.MonsterData.AttackRadius)
         {
             MonsterFSM.ChangeState(MonsterStateType.Attack);
         }
-        
-        if (distance > MonsterFSM.MonsterData.ChaseRadius)
+        else if (distance > MonsterFSM.MonsterData.ChaseRadius * MonsterFSM.MonsterData.ChaseRadius)
         {
             MonsterFSM.Target = null;
-            //MonsterFSM.ChangeState(MonsterStateType.Idle);
             useReturn = true;
-
-            return;
         }
     }
 }
