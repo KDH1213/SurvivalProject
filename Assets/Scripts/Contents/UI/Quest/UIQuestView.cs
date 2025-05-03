@@ -68,6 +68,7 @@ public class UIQuestView : MonoBehaviour
 
     public void OnActiveButtonView()
     {
+        questClearButton.gameObject.SetActive(true);
         buttonView.SetActive(true);
     }
 
