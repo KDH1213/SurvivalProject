@@ -35,7 +35,7 @@ public class HungerStat : SurvivalStatBehaviour
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Hunger;
-        value = maxValue;
+        value = MaxValue;
         totalValueDownTime = valueDownTime;
         Load();
 
@@ -72,7 +72,7 @@ public class HungerStat : SurvivalStatBehaviour
         if (currentTime >= totalValueDownTime)
         {
             currentTime -= totalValueDownTime;
-            value -= maxValue * 0.01f;
+            value -= MaxValue * 0.01f;
             this.value = Mathf.Max(value, 0f);
            OnChangeValue();
         }
@@ -89,14 +89,14 @@ public class HungerStat : SurvivalStatBehaviour
 
     protected override bool IsActivationCheckPenalty()
     {
-        return value < maxValue * startPenaltyPersent;
+        return value < MaxValue * startPenaltyPersent;
     }
 
     public override void AddPenaltyValue(float value)
     {
         this.value += value;
 
-        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        this.value = Mathf.Clamp(this.value, 0f, MaxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
@@ -118,7 +118,7 @@ public class HungerStat : SurvivalStatBehaviour
     {
         this.value -= value;
 
-        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        this.value = Mathf.Clamp(this.value, 0f, MaxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
@@ -154,7 +154,7 @@ public class HungerStat : SurvivalStatBehaviour
 
     public void OnChangeValue()
     {
-        var persent = value / maxValue;
+        var persent = value / MaxValue;
         hungerSlider.value = persent;
         hungerPersentText.text = string.Format(persentFormat, ((int)(persent * 100f)).ToString());
     }

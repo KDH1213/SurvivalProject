@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
 
 public class PlayerStats : CharactorStats, ISaveLoadData
 {
@@ -22,7 +21,13 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     [SerializeField]
     private float invincibilityTime = 3f;
 
+    [SerializeField]
+    private float takeDamageinvincibilityTime = 0.1f; 
+
     private Coroutine resurrectionCoroutine;
+    private Coroutine takeDamageInvincibilityCoroutine;
+
+    private WaitForSeconds takeDamageInvincibilityWaitForSeconds;
 
     private float currentSpeed = 1f;
     private float currentAttackSpeed = 1f;
@@ -53,6 +58,9 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         var playerAssetController = GetComponent<PlayerAssetController>();
         onEquipmentItemEvent.AddListener(playerAssetController.OnEquipmentItem);
         onUnEquipmentItemEvent.AddListener(playerAssetController.OnUnEquipmentItem);
+
+        damegedEvent.AddListener(OnTakeDamage);
+        takeDamageInvincibilityWaitForSeconds = new WaitForSeconds(takeDamageinvincibilityTime);
 
         if (SaveLoadManager.Data != null)
         {
@@ -138,6 +146,14 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         var value = currentStatTable[StatType.HP];
         HpBarSlider.value = value.Value / value.MaxValue;
         hpText.text = string.Format(hpFormat, value.Value.ToString(pointFormat), value.MaxValue.ToString(pointFormat));
+    }
+
+    public void OnTakeDamage()
+    {
+        if(!IsDead && takeDamageInvincibilityCoroutine == null)
+        {
+            takeDamageInvincibilityCoroutine = StartCoroutine(CoTakeDamageInvincibility());
+        }
     }
 
     public void OnEquipmentItem(ItemData itemData)
@@ -287,6 +303,14 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         CanHit = false;
         yield return new WaitForSeconds(invincibilityTime);
         CanHit = true;
+    }
+
+    private IEnumerator CoTakeDamageInvincibility()
+    {
+        CanHit = false;
+        yield return takeDamageInvincibilityWaitForSeconds;
+        CanHit = true;
+        takeDamageInvincibilityCoroutine = null;
     }
 
     public void Save()

@@ -42,7 +42,7 @@ public class FatigueStat : SurvivalStatBehaviour
         }
 
 
-        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        this.value = Mathf.Clamp(this.value, 0f, MaxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
@@ -54,7 +54,7 @@ public class FatigueStat : SurvivalStatBehaviour
     public override void SubPenaltyValue(float value)
     {
         this.value -= value;
-        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        this.value = Mathf.Clamp(this.value, 0f, MaxValue);
         OnChangeValue();
 
         if (isOnDebuff && !IsActivationCheckPenalty())
@@ -65,7 +65,7 @@ public class FatigueStat : SurvivalStatBehaviour
 
     protected override bool IsActivationCheckPenalty()
     {
-        return value > maxValue * startPenaltyPersent;
+        return value > MaxValue * startPenaltyPersent;
     }
 
     public override void OnStartPenalty()
@@ -89,7 +89,7 @@ public class FatigueStat : SurvivalStatBehaviour
 
     public void OnChangeValue()
     {
-        var persent = value / maxValue;
+        var persent = value / MaxValue;
         fatigueSlider.value = persent;
         fatigusPersentText.text = string.Format(persentFormat, ((int)(persent * 100f)).ToString());
     }

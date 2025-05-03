@@ -24,12 +24,4 @@ public static class VectorExtension
     {
         return new Vector3(vec.x, y, vec.y);
     }
-
-  
-    ////사용 예시
-    //Vector3 vec = new Vector3(1, 2, 3);
-
-    //Vector2 v = vec.ToVector2(); // (1, 2)
-
-    //Vector3 v2 = v.ToVector3XZ(); // (1, 0, 2)
 }

@@ -29,7 +29,7 @@ public class ThirstStat : SurvivalStatBehaviour
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Thirst;
-        value = maxValue;
+        value = MaxValue;
         totalValueDownTime = valueDownTime;
         Load();
         OnChangeValue();
@@ -42,7 +42,7 @@ public class ThirstStat : SurvivalStatBehaviour
         if (currentTime >= totalValueDownTime)
         {
             currentTime -= totalValueDownTime;
-            value -= maxValue * 0.01f;
+            value -= MaxValue * 0.01f;
             this.value = Mathf.Max(value, 0f);
             OnChangeValue();
 
@@ -55,13 +55,13 @@ public class ThirstStat : SurvivalStatBehaviour
 
     protected override bool IsActivationCheckPenalty()
     {
-        return value < startPenaltyPersent * maxValue;
+        return value < startPenaltyPersent * MaxValue;
     }
 
     public override void AddPenaltyValue(float value)
     {
         this.value += value;
-        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        this.value = Mathf.Clamp(this.value, 0f, MaxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
@@ -73,7 +73,7 @@ public class ThirstStat : SurvivalStatBehaviour
     public override void SubPenaltyValue(float value)
     {
         this.value -= value;
-        this.value = Mathf.Clamp(this.value, 0f, maxValue);
+        this.value = Mathf.Clamp(this.value, 0f, MaxValue);
         OnChangeValue();
 
         if (!isOnDebuff && IsActivationCheckPenalty())
@@ -98,8 +98,8 @@ public class ThirstStat : SurvivalStatBehaviour
 
     public void OnChangeValue()
     {
-        thirstSlider.value = value / maxValue;
-        var persent = value / maxValue;
+        thirstSlider.value = value / MaxValue;
+        var persent = value / MaxValue;
         thirstSlider.value = persent;
         thirstPersentText.text = string.Format(persentFormat, ((int)(persent * 100f)).ToString());
     }
