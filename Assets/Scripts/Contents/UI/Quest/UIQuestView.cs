@@ -15,9 +15,6 @@ public class UIQuestView : MonoBehaviour
     private TextMeshProUGUI questNameText;
 
     [SerializeField]
-    private TextMeshProUGUI questDescText;
-
-    [SerializeField]
     private TextMeshProUGUI[] questDescTexts;
     [SerializeField]
     private TextMeshProUGUI[] targetTexts;

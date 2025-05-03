@@ -166,14 +166,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < questCount; ++i)
         {
-            var questProgressInfo = questProgressInfoList[i];
-
             ++activeQuestCount;
 
             if (questInfoList[i].questType != QuestType.Movement)
             {
                 questProgressInfoList[i].SetInfo(questInfoList[i].questType, i, questInfoList[i].questTargetID, 0, questInfoList[i].clearCount);
-                onChangeValueEvent?.Invoke(i, questProgressInfo.currentCount, questProgressInfo.maxCount);
+                onChangeValueEvent?.Invoke(i, questProgressInfoList[i].currentCount, questProgressInfoList[i].maxCount);
             }
             else
             {
@@ -186,25 +184,25 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     break;
                 case QuestType.ItemCollection:
                     ++currentItemCollectionQuestCount;
-                    currentItemCollectionQuestList.Add(questProgressInfo);
+                    currentItemCollectionQuestList.Add(questProgressInfoList[i]);
                     break;
                 case QuestType.ItemCrafting:
-                    currentCreateItemQuestList.Add(questProgressInfo);
+                    currentCreateItemQuestList.Add(questProgressInfoList[i]);
                     ++currentCreatItemQuestCount;
                     break;
                 case QuestType.MonsterHunting:
-                    currentMonsterQuestList.Add(questProgressInfo);
+                    currentMonsterQuestList.Add(questProgressInfoList[i]);
                     ++currentMonsterQuestCount;
                     break;
                 case QuestType.Building:
-                    currentBulidingQuestList.Add(questProgressInfo);
+                    currentBulidingQuestList.Add(questProgressInfoList[i]);
                     ++currentBulidingQuestCount;
 
                     if(questInfoList[i].includeMine)
                     {
-                        if(placementSystem.PlacedGameObjectTable.TryGetValue(questProgressInfo.targetID, out var count))
+                        if(placementSystem.PlacedGameObjectTable.TryGetValue(questProgressInfoList[i].targetID, out var count))
                         {
-                            OnCreateBuilding(questProgressInfo.targetID, count);
+                            OnCreateBuilding(questProgressInfoList[i].targetID, count);
                         }
                     }
                     break;
@@ -214,12 +212,12 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     enabled = true;
                     break;
                 case QuestType.UseItem:
-                    currentUseItemQuestList.Add(questProgressInfo);
+                    currentUseItemQuestList.Add(questProgressInfoList[i]);
                     ++currentUseItemQuestCount;
                     break;
 
                 case QuestType.DestructMonsterStrong:
-                    currentDestructMonsterStrongQuestList.Add(questProgressInfo);
+                    currentDestructMonsterStrongQuestList.Add(questProgressInfoList[i]);
                     ++currentDestructMonsterStrongQuestCount;
 
                     if (questInfoList[i].includeMine)
@@ -229,7 +227,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     }
                     break;
                 case QuestType.RelicsCollection:
-                    currentRelicsCollectionQuestList.Add(questProgressInfo);
+                    currentRelicsCollectionQuestList.Add(questProgressInfoList[i]);
                     ++currentRelicsCollectionQuestCount;
                     break;
                 default:
@@ -526,18 +524,18 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                         break;
                     case QuestType.ItemCollection:
                         ++currentItemCollectionQuestCount;
-                        currentItemCollectionQuestList.Add(questProgressInfo);
+                        currentItemCollectionQuestList.Add(questProgressInfoList[i]);
                         break;
                     case QuestType.ItemCrafting:
-                        currentCreateItemQuestList.Add(questProgressInfo);
+                        currentCreateItemQuestList.Add(questProgressInfoList[i]);
                         ++currentCreatItemQuestCount;
                         break;
                     case QuestType.MonsterHunting:
-                        currentMonsterQuestList.Add(questProgressInfo);
+                        currentMonsterQuestList.Add(questProgressInfoList[i]);
                         ++currentMonsterQuestCount;
                         break;
                     case QuestType.Building:
-                        currentBulidingQuestList.Add(questProgressInfo);
+                        currentBulidingQuestList.Add(questProgressInfoList[i]);
                         ++currentBulidingQuestCount;
                         break;
                     case QuestType.Movement:
@@ -546,16 +544,16 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                         enabled = true;
                         break;
                     case QuestType.UseItem:
-                        currentUseItemQuestList.Add(questProgressInfo);
+                        currentUseItemQuestList.Add(questProgressInfoList[i]);
                         ++currentUseItemQuestCount;
                         break;
 
                     case QuestType.DestructMonsterStrong:
-                        currentDestructMonsterStrongQuestList.Add(questProgressInfo);
+                        currentDestructMonsterStrongQuestList.Add(questProgressInfoList[i]);
                         ++currentDestructMonsterStrongQuestCount;
                         break;
                     case QuestType.RelicsCollection:
-                        currentRelicsCollectionQuestList.Add(questProgressInfo);
+                        currentRelicsCollectionQuestList.Add(questProgressInfoList[i]);
                         ++currentRelicsCollectionQuestCount;
                         break;
                     default:
