@@ -20,23 +20,23 @@ public class SkillInfo
     }
 }
 
-
 public class LifeStat : LevelStat, ISaveLoadData
 {
     [SerializeField]
     private LifeStatData lifeStatData;
-
-    [SerializeField]
-    private Slider experienceSlider;
 
     [SerializedDictionary, SerializeField]
     private SerializedDictionary<LifeSkillType, int> skillLevelTable = new SerializedDictionary<LifeSkillType, int>();
     public SerializedDictionary<LifeSkillType, int> SkillLevelTable => skillLevelTable;
 
     public UnityEvent onLevelUpEvent;
+    public UnityEvent<int> onChangeLevelEvent;
+
     public UnityEvent<int> OnChangeSkillPointEvent;
     public UnityEvent<LifeSkillType> OnChangeSkillLevelEvent;
     public UnityEvent<LifeSkillType, int, int> OnChangeSkillLevelCountEvent;
+
+    public UnityEvent<float, float> onChangeExperienceEvent;
 
     private List<float> currentSkillStatValueList = new List<float>();
     public List<float> SkillStatValueList => currentSkillStatValueList;
@@ -68,11 +68,13 @@ public class LifeStat : LevelStat, ISaveLoadData
             return;
         }
         Load();
-        OnChangeExperienceSlider();
     }
 
     private void Start()
     {
+        onChangeExperienceEvent?.Invoke(currentExperience, levelUpExperience);
+        onChangeLevelEvent?.Invoke(currentLevel);
+
         for (int i = 0; i < (int)LifeSkillType.End; ++i)
         {
             if (currentSkillStatValueList[i] != 0f)
@@ -95,15 +97,7 @@ public class LifeStat : LevelStat, ISaveLoadData
             }
         }
 
-        OnChangeExperienceSlider();
-    }
-
-    private void OnChangeExperienceSlider()
-    {
-        if (experienceSlider != null)
-        {
-            experienceSlider.value = currentExperience / levelUpExperience;
-        }
+        onChangeExperienceEvent?.Invoke(currentExperience, levelUpExperience);
 
     }
 
@@ -142,6 +136,8 @@ public class LifeStat : LevelStat, ISaveLoadData
 
         OnChangeSkillPointEvent?.Invoke(skillPoint);
         onLevelUpEvent?.Invoke();
+        onChangeLevelEvent?.Invoke(currentLevel);
+
         // SkilUp(Random.Range(0, (int)LifeSkillType.End - 1));
     }
 

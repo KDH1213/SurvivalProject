@@ -13,12 +13,6 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     private LifeStat lifeStat;
 
     [SerializeField]
-    private Slider HpBarSlider;
-
-    [SerializeField]
-    private TextMeshProUGUI hpText;
-
-    [SerializeField]
     private float invincibilityTime = 3f;
 
     [SerializeField]
@@ -33,8 +27,6 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     private float currentAttackSpeed = 1f;
     private float currentDamage = 1f;
     private float currentDefence = 0f;
-    private readonly string hpFormat = "{0} / {1}";
-    private const string pointFormat = "F0";
 
     public UnityAction<float> onChangeAttackSpeedValue;
     public UnityAction<float> onChangeSpeedValue;
@@ -44,6 +36,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public UnityAction<float> onChangeHeatResistanceValue;
     public UnityEvent<ItemData> onEquipmentItemEvent;
     public UnityEvent<ItemData> onUnEquipmentItemEvent;
+
+    public UnityEvent<StatValue> onChangeHpEvent;
 
     public UnityEvent<int> onUseItemEvent;
 
@@ -84,13 +78,12 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         currentDamage = currentStatTable[StatType.BasicAttackPower].Value;
         currentDefence = currentStatTable[StatType.Defense].Value;
 
-        OnChangeHp();
-
         lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeLifeStat);
     }
 
     public void Start()
     {
+        onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
         onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
         onChangeSpeedValue?.Invoke(currentSpeed);
         onChangDamageValue?.Invoke(currentDamage);
@@ -142,12 +135,6 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         {
             statValue.AddValue(addValue);
         }
-    }
-    public void OnChangeHp() //*HP ����
-    {
-        var value = currentStatTable[StatType.HP];
-        HpBarSlider.value = value.Value / value.MaxValue;
-        hpText.text = string.Format(hpFormat, value.Value.ToString(pointFormat), value.MaxValue.ToString(pointFormat));
     }
 
     public void OnTakeDamage()
@@ -209,7 +196,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                     break;
                 case ItemUseEffectType.Hp:
                     currentStatTable[StatType.HP].AddValue(itemUseEffectInfoList[i].value);
-                    OnChangeHp();
+                    onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
                     break;
                 case ItemUseEffectType.Fatigue:
                     survivalStats.PenaltyTable[SurvivalStatType.Fatigue].SubPenaltyValue(itemUseEffectInfoList[i].value);
@@ -254,7 +241,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                 break;
             case LifeSkillType.HP:
                 currentStatTable[StatType.HP].AddMaxValue(5f);
-                OnChangeHp();
+                onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
                 break;
             case LifeSkillType.Fatigue:
                 GetComponent<FatigueStat>().OnSetFatigueSkillValue(lifeStat.Fatigue);
@@ -298,7 +285,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         resurrectionCoroutine = StartCoroutine(CoResurrection());
         var hpStat = currentStatTable[StatType.HP];
         hpStat.SetValue(hpStat.MaxValue);
-        OnChangeHp();
+        onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
     }
 
     private IEnumerator CoResurrection()
