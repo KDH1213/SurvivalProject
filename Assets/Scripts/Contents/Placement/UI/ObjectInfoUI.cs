@@ -1,75 +1,76 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ObjectInfoUI : MonoBehaviour
 {
     [SerializeField]
-    private PlacementUIController uiController;
-    [SerializeField]
     private Image objectImage;
     [SerializeField]
-    private TextMeshProUGUI objectInfo;
+    private TextMeshProUGUI objectName;
     [SerializeField]
-    private List<NeedItem> needItems = new List<NeedItem>();
+    private TextMeshProUGUI objectSize;
     [SerializeField]
-    private NeedItem needItemPrefeb;
+    private TextMeshProUGUI objectHp;
     [SerializeField]
-    private GameObject debuffContents;
+    private TextMeshProUGUI objectInfo1;
+    [SerializeField]
+    private TextMeshProUGUI objectInfo2;
     [SerializeField]
     private Button upgrade;
-    public TestInventory inven;
 
-    private Inventory inventory;
-
-    private void Awake()
-    {
-        if (GameObject.FindWithTag("Player") != null)
-        {
-            inventory = GameObject.FindWithTag("Player").GetComponent<PlayerFSM>().PlayerInventory;
-        }
-    }
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
         upgrade.onClick.RemoveAllListeners();
 
-        int index = 0;
+        var data = DataTableManager.StructureTable.Get(selectedObject.ID);
+        var stringTable = DataTableManager.StringTable;
+
+        objectName.text = objInfo.Name;
         objectImage.sprite = objInfo.Icon;
-        objectInfo.text = $"Name : {objInfo.Name}\nLevel : {selectedObject.Rank}\nFeature : {objInfo.Feature}";
-        foreach (var item in needItems)
-        {
-            item.gameObject.SetActive(false);
-        }
+        objectSize.text = $"{objInfo.Size.x} X {objInfo.Size.y}";
+        objectHp.text = $"HP : {selectedObject.Hp}";
 
-        if (inventory != null)
-        {
-            foreach (var itemData in objInfo.NeedItems)
-            {
-                var item = DataTableManager.ItemTable.Get(itemData.Key);
-                needItems[index].gameObject.SetActive(true);
-                needItems[index].SetNeedItem(item.ItemImage, itemData.Value, inventory.GetTotalItem(itemData.Key));
-                index++;
-            }
-        }
-        else
-        {
-            foreach (var itemData in objInfo.NeedItems)
-            {
-                var item = DataTableManager.ItemTable.Get(itemData.Key);
-                needItems[index].gameObject.SetActive(true);
-                needItems[index].SetNeedItem(item.ItemImage, itemData.Value, inven.inventory[itemData.Key]);
-                index++;
-            }
-
-        }
+        objectInfo1.text = stringTable.Get(data.DescriptID);
+        SetStructureDescript(objInfo);
 
         upgrade.onClick.AddListener(() => gameObject.SetActive(false));
-        upgrade.onClick.AddListener(() => uiController.OnOpenUpgradeInfo(objInfo));
+        upgrade.onClick.AddListener(() => selectedObject.uiController.OnOpenUpgradeInfo(objInfo));
     }
 
     public void OnCloseWindow()
     {
         gameObject.SetActive(false);
+    }
+
+    private void SetStructureDescript(PlacementObjectInfo info)
+    {
+        var kind = info.Kind;
+        var data = DataTableManager.StructureTable.Get(info.ID);
+        var itemData = DataTableManager.ItemTable.Get(data.ItemToProduce);
+        switch (kind)
+        {
+            case StructureKind.Other:
+                objectInfo2.text = "기타 건물";
+                break;
+            case StructureKind.Farm:
+                objectInfo2.text = $"{data.ProductionCycle}초마다 {itemData.ItemName} {data.AmountPerProduction}개 생성\r\n";
+                break;
+            case StructureKind.Turret:
+                var turret = info.Prefeb.transform.GetChild(0).GetComponent<TurretStructure>();
+                objectInfo2.text = $"공격력 : {turret.damage}\t 공격속도 : {turret.attackTerm}";
+                break;
+            case StructureKind.Create:
+                objectInfo2.text = $"제작 건물";
+                break;
+            case StructureKind.Storage:
+                objectInfo2.text = $"아이템 보관";
+                break;
+            case StructureKind.Rest:
+                objectInfo2.text = $"피로도 감소";
+                break;
+        }
     }
 }

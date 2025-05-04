@@ -58,7 +58,7 @@ public class ConstructionTable : DataTable
                     item.NeedItems.Add(item.BuildCostItem4, item.CostItemValue4);
                 }
                 item.NeedPenalties.Add(SurvivalStatType.Hunger, item.MinusSatiation);
-                item.NeedPenalties.Add(SurvivalStatType.Hygiene, item.MinusHydration);
+                item.NeedPenalties.Add(SurvivalStatType.Thirst, item.MinusHydration);
                 item.NeedPenalties.Add(SurvivalStatType.Fatigue, item.PlusFatigue);
                 dictionoary.Add(item.UpgradeID, item);
             }

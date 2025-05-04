@@ -37,6 +37,9 @@ public class RepairUI : MonoBehaviour
             inventory = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerFSM>().PlayerInventory;
         }
 
+        consumeItem.Clear();
+        consumePenalty.Clear();
+
         structureImage.sprite = objInfo.Icon;
         structureName.text = objInfo.Name;
         hpPercent = selectedObject.Hp / objInfo.DefaultHp;

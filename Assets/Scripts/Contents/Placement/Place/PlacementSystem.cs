@@ -568,13 +568,14 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     public void Repair(Dictionary<int, int> needItems, Dictionary<SurvivalStatType, int> needPenalties)
     {
+        if (GameObject.FindWithTag(Tags.Player) == null)
+        {
+            return;
+        }
+
         foreach (var needItem in needItems)
         {
             ConsumeItem(needItem.Key, needItem.Value);
-        }
-        if(GameObject.FindWithTag(Tags.Player) == null)
-        {
-            return;
         }
         var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
         target.OnPlayAct(needPenalties);
