@@ -40,7 +40,7 @@ public class QuickSlotSocket : EquipmentSocket
         onUseItemEvent?.Invoke(ItemData);
         onAmountEvent?.Invoke(Amount);
 
-        if(Amount == 0)
+        if(Amount <= 0)
         {
             OnEmpty();
             quickSlotButtonView.OnSetItemInfo();

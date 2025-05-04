@@ -45,6 +45,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public UnityEvent<ItemData> onEquipmentItemEvent;
     public UnityEvent<ItemData> onUnEquipmentItemEvent;
 
+    public UnityEvent<int> onUseItemEvent;
+
 
     protected override void Awake()
     {
@@ -197,6 +199,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         var itemUseEffectInfoList = itemData.ItemUseEffectInfoList;
 
         int count = itemUseEffectInfoList.Count;
+        onUseItemEvent?.Invoke(itemData.ID);
 
         for (int i = 0; i < count; ++i)
         {

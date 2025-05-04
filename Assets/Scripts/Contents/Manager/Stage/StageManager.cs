@@ -182,6 +182,8 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Data.ResetStageInfo();
         sceneSwitcher.SwitchScene(SceneName.Develop);
         SaveLoadManager.Data.playerSaveInfo.hp = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>().GetStat(StatType.HP).MaxValue;
+        SaveLoadManager.Data.quesetProgressSaveInfo.questID = 240011;
+        SaveLoadManager.Data.quesetProgressSaveInfo.questProgressInfoList.Clear();
         SaveLoadManager.Save();
     }
 

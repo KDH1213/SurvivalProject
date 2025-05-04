@@ -104,7 +104,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         playerTransform = GameObject.FindWithTag(Tags.Player).transform;
 
         var playerFsm = playerTransform.GetComponent<PlayerFSM>();
-        playerFsm.PlayerInventory.onUseItemEvent.AddListener(OnUseItem);
+        playerTransform.GetComponent<PlayerStats>().onUseItemEvent.AddListener(OnUseItem);
         onQuestCompensationEvent.AddListener(playerFsm.OnDropItem);
 
         var placementSystemObject = GameObject.FindWithTag(Tags.PlacementSystem);
