@@ -17,26 +17,22 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void ExecuteUpdate()
     {
-        MoveAndRotate(playerFSM.MoveValue);
-    }
-
-    public override void Exit()
-    {
-    }
-
-    private void MoveAndRotate(Vector2 direction)
-    {
-        if (direction.sqrMagnitude < 0.01f)
+        var moveDirection = playerFSM.MoveValue;
+        if (moveDirection.sqrMagnitude < 0.01f)
         {
             playerFSM.ChangeState(PlayerStateType.Idle);
             return;
         }
 
-        Vector3 dir = new Vector3(direction.x, 0, direction.y) * PlayerStats.Speed;
+        Vector3 dir = new Vector3(moveDirection.x, 0, moveDirection.y).normalized * PlayerStats.Speed;
 
         transform.rotation = Quaternion.LookRotation(dir);
-
         PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, PlayerStats.Speed);
         PlayerFSM.CharacterController.Move(dir * Time.deltaTime);
+    }
+
+    public override void Exit()
+    {
+        PlayerFSM.Animator.SetFloat(PlayerAnimationHashCode.hashSpeed, 0f);
     }
 }

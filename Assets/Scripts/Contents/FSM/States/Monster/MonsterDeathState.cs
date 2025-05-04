@@ -21,6 +21,10 @@ public class MonsterDeathState : MonsterBaseState
         MonsterFSM.OnEndInteractEvent?.Invoke(gameObject);
 
         MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashDeath);
+        Agent.isStopped = true;
+        Agent.speed = 0f;
+        Agent.destination = transform.position;
+        Agent.velocity = Vector3.zero;
         // MonsterFSM.Animator.SetBool(MonsterAnimationHashCode.hashIsDeath, true);
 
         ownerCollider.enabled = false;

@@ -106,6 +106,7 @@ public class MonsterChaseState : MonsterBaseState
         {
             MonsterFSM.Target = null;
             useReturn = true;
+            MonsterFSM.ChangeState(MonsterStateType.Idle);
         }
     }
 
