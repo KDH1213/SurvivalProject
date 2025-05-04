@@ -5,15 +5,11 @@ using UnityEngine.Events;
 
 public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 {
-    //[SerializeField]
-    //private MonsterManager monsterManager;
-
     [SerializeField]
     private List<MonsterSpawner> monsterSpawnerList;
     private List<MonsterSpawner> monsterActiveSpawnerList = new List<MonsterSpawner>();
 
     public HashSet<MonsterFSM> createMonsterTable {  get; private set; } = new HashSet<MonsterFSM>();
-    // private List<WaveData> waveDataList = new List<WaveData>();
 
     [SerializeField]
     private StageManager stageManager;
@@ -48,6 +44,9 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     public int ActiveSpwanerCount { get { return monsterActiveSpawnerList.Count; } }
     public int TotalSpawnerCount { get { return monsterSpawnerList.Count; } }
+
+    [SerializeField]
+    private UIDestorySpawnerEffect destorySpawnerEffect;
 
     private void Awake()
     {
@@ -184,6 +183,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             enabled = false;
             wavePanel.SetActive(false);
         }
+
+        destorySpawnerEffect.OnStrartEffect(monsterSpawnerList.Count - monsterActiveSpawnerList.Count, monsterSpawnerList.Count);
     }
 
     public void Save()
