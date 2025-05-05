@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class StorageInventory : MonoBehaviour
 {
@@ -197,6 +196,7 @@ public class StorageInventory : MonoBehaviour
             itemInfoSaveData.amount = itemInfo.Amount;
             itemInfoSaveData.itemID = itemInfo.itemData == null ? -1 : itemInfo.itemData.ID;
             itemInfoSaveData.index = itemInfo.index;
+            itemInfoSaveData.durability = itemInfo.Durability;
             itemSlotList.Add(itemInfoSaveData);
         }
 
@@ -225,6 +225,7 @@ public class StorageInventory : MonoBehaviour
 
             itemInfos[i].Amount = itemSlotInfoList[i].amount;
             itemInfos[i].index = itemSlotInfoList[i].index;
+            itemInfos[i].Durability = itemSlotInfoList[i].durability;
             itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
 
 

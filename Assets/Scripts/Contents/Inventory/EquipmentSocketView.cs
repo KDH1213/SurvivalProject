@@ -210,47 +210,71 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
         var equipmentItemInfoSaveDataList = SaveLoadManager.Data.equipmentItemInfoSaveDataList;
 
-        for (int i = 0; i < equipmentItemList.Count; ++i)
+        if(equipmentItemInfoSaveDataList.Count == 0)
         {
-            SetInitializeEvent(i);
-            if (equipmentItemList[i] == -1)
+            for (int i = 0; i < equipmentItemList.Count; ++i)
             {
-                equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0, 0);
-                continue;
-            }
+                SetInitializeEvent(i);
+                if (equipmentItemList[i] == -1)
+                {
+                    equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0, 0);
+                    continue;
+                }
 
-            // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
-            var itemData = DataTableManager.ItemTable.Get(equipmentItemList[i]);
-            if((EquipmentType)i == EquipmentType.Consumable)
-            {
-                equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, SaveLoadManager.Data.equipmentConsumableCount, 0);
-            }
-            else
-            {
-                // TODO
-                equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, 1, itemData.Durability);
+                // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
+                var itemData = DataTableManager.ItemTable.Get(equipmentItemList[i]);
+                if ((EquipmentType)i == EquipmentType.Consumable)
+                {
+                    equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, SaveLoadManager.Data.equipmentConsumableCount, 0);
+                }
+                else
+                {
+                    equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, 1, itemData.Durability);
+                }
             }
         }
+        else
+        {
+            for (int i = 0; i < equipmentItemInfoSaveDataList.Count; ++i)
+            {
+                SetInitializeEvent(i);
+                if (equipmentItemInfoSaveDataList[i].id == -1)
+                {
+                    equipmentSockets[i].InitializeSocket((EquipmentType)i, null, 0, 0);
+                    continue;
+                }
+
+                // 해당 부분 SaveLoad에 따라 ItemData 값 다르게 세팅
+                var itemData = DataTableManager.ItemTable.Get(equipmentItemInfoSaveDataList[i].id);
+                if ((EquipmentType)i == EquipmentType.Consumable)
+                {
+                    equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, SaveLoadManager.Data.equipmentConsumableCount, 0);
+                }
+                else
+                {
+                    equipmentSockets[i].InitializeSocket((EquipmentType)i, itemData, 1, equipmentItemInfoSaveDataList[i].durability);
+                }
+            }
+        }
+
+        
     }
 
     public void Save()
     {
-        var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
-        var equipmentItemInfoSaveDataList = SaveLoadManager.Data.equipmentItemInfoSaveDataList;
-
         SaveLoadManager.Data.equipmentItemIDList.Clear();
-        equipmentItemInfoSaveDataList.Clear();
+        SaveLoadManager.Data.equipmentItemInfoSaveDataList.Clear();
         for (int i = 0; i < equipmentSockets.Length; ++i)
         {
             if(equipmentSockets[i].ItemData == null)
             {
                 SaveLoadManager.Data.equipmentItemIDList.Add(-1);
-                equipmentItemInfoSaveDataList.Add(new EquipmentItemInfoSaveData(-1, 0));
+                SaveLoadManager.Data.equipmentItemInfoSaveDataList.Add(new EquipmentItemInfoSaveData(-1, 0));
             }
             else
             {
                 SaveLoadManager.Data.equipmentItemIDList.Add(equipmentSockets[i].ItemData.ID);
-                equipmentItemInfoSaveDataList.Add(new EquipmentItemInfoSaveData(equipmentSockets[i].ItemData.ID, equipmentSockets[i].ItemInfo.Durability));
+                SaveLoadManager.Data.equipmentItemInfoSaveDataList.Add(new EquipmentItemInfoSaveData(equipmentSockets[i].ItemData.ID, equipmentSockets[i].ItemInfo.Durability));
             }
         }
 

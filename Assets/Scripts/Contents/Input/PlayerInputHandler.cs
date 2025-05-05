@@ -75,7 +75,6 @@ public class PlayerInputHandler : MonoBehaviour
             return;
         }
 
-        Debug.Log("Test1");
         onInputAttackEvent?.Invoke(context.ReadValueAsButton());
     }
 

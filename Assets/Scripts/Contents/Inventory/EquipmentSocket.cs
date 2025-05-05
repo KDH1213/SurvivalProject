@@ -70,8 +70,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             itemIcon.sprite = itemData.ItemImage;
             itemIcon.color = new Color(1, 1, 1, 1);
             durabilitySlider.gameObject.SetActive(true);
+            durabilitySlider.value = (float)Durability / ItemData.Durability;
 
-            if(EquipmentType.Consumable == equipmentType)
+            if (EquipmentType.Consumable == equipmentType)
             {
                 durabilitySlider.gameObject.SetActive(false);
                 amountText.text = amount.ToString();
