@@ -50,7 +50,7 @@ public class UIDestorySpawnerEffect : MonoBehaviour
         }
         else
         {
-            spawnerCountText.text = string.Format(spawnerTextFormat, count, maxCount);
+            spawnerCountText.text = string.Format(spawnerTextFormat, maxCount - count, maxCount);
         }
     }
 

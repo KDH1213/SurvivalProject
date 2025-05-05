@@ -575,7 +575,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             itemSlotInfos[index].Empty();
             --useSlotCount;
 
-
             UpdateSlot(index);
         }
     }
