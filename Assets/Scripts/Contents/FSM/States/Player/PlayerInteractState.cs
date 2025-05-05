@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -25,6 +26,9 @@ public class PlayerInteractState : PlayerBaseState
 
     private Vector3 closestPoint;
 
+    private List<ItemSlotInfo> gatherItemSlotInfoList;
+    private EquipmentSocket weaponEquipmentSocket;
+
     protected override void Awake()
     {
         base.Awake();
@@ -34,6 +38,32 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
+        if (targetInteractable.InteractType == InteractType.Tree)
+        {
+            gatherItemSlotInfoList = playerFSM.PlayerInventory.GatherItemSlotInfoList[0];
+            
+            var count = gatherItemSlotInfoList.Count;
+            var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
+
+            if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
+            {
+                playerFSM.ChangeState(PlayerStateType.Idle);
+                return;
+            }
+        }
+        else if (targetInteractable.InteractType == InteractType.Stone)
+        {
+            gatherItemSlotInfoList = playerFSM.PlayerInventory.GatherItemSlotInfoList[1];
+            var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
+            var count = gatherItemSlotInfoList.Count;
+
+            if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
+            {
+                playerFSM.ChangeState(PlayerStateType.Idle);
+                return;
+            }
+        }
+
         Collider collider = target.GetComponentInChildren<Collider>();
         closestPoint = collider.ClosestPoint(transform.position);
         float distance = (closestPoint - transform.position).ConvertVector2().magnitude;
@@ -162,6 +192,38 @@ public class PlayerInteractState : PlayerBaseState
     {
         if(target != null)
         {
+            if(targetInteractable.InteractType == InteractType.Stone
+                || targetInteractable.InteractType == InteractType.Tree)
+            {
+                var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
+
+                if(weaponData != null &&
+                    (targetInteractable.InteractType == InteractType.Stone && weaponData.GatherType == 2) 
+                   || (targetInteractable.InteractType == InteractType.Tree && weaponData.GatherType == 1))
+                {
+                    weaponEquipmentSocket.OnUseDurability();
+                }
+                else
+                {
+                    if (gatherItemSlotInfoList.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var itemSlotInfo = gatherItemSlotInfoList[0];
+                    int count = gatherItemSlotInfoList.Count;
+                    for (int i = 1; i < count; ++i)
+                    {
+                        if (itemSlotInfo.index > gatherItemSlotInfoList[i].index)
+                        {
+                            itemSlotInfo = gatherItemSlotInfoList[i];
+                        }
+                    }
+
+                    itemSlotInfo.OnUseDurability();
+                }           
+            }
+
             targetInteractable.Interact(this.gameObject);
 
             if (targetInteractable.InteractType <= InteractType.Box)
@@ -176,6 +238,11 @@ public class PlayerInteractState : PlayerBaseState
             target = null;                    
         }
 
+    }
+
+    public void OnSetWeaponEquipmentSocket(EquipmentSocket weaponEquipmentSocket)
+    {
+        this.weaponEquipmentSocket = weaponEquipmentSocket;
     }
 
     public void OnSetTarget(GameObject target)

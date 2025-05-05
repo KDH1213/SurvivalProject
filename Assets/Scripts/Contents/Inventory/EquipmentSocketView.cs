@@ -9,6 +9,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
 {
     [SerializeField]
     private EquipmentSocket[] equipmentSockets;
+
     [SerializeField]
     private Inventory inventory;
 
@@ -16,7 +17,6 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     private PlayerStats playerStats;
     [SerializeField]
     private ItemInfoView itemInfoView;
-
 
     [SerializeField]
     private TextMeshProUGUI attackPowerText;
@@ -52,6 +52,8 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         }
         playerStats.onAttackEvent.AddListener(equipmentSockets[(int)EquipmentType.Weapon].OnUseDurability);
         equipmentSockets[(int)EquipmentType.Weapon].onBreakItemEvent.AddListener(OnBreakItem);
+
+        playerStats.GetComponent<PlayerInteractState>().OnSetWeaponEquipmentSocket(equipmentSockets[(int)EquipmentType.Weapon]);
     }
 
 
@@ -150,7 +152,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             playerStats.OnUnEquipmentItem(equipmentSockets[(int)equipmentType].ItemData);
         }
 
-        inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData, amount); 
+        inventory.OnChangeEquimentItem(equipmentSockets[(int)equipmentType].ItemData, amount, durability); 
         itemInfoView.OnSetEquipmentItemInfo(null);
         // equipmentSockets[seleteSocket].
     }

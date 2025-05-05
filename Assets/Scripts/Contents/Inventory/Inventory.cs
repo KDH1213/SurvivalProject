@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     [SerializeField]
     private EquipmentSocketView equipmentSocketView;
+    public EquipmentSocketView EquipmentSocketView => equipmentSocketView;
+
     [SerializeField]
     private ItemSlot slotPrefab;
 
@@ -26,14 +29,15 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private ItemSlot[] itemSlots = new ItemSlot[maxSlot];
 
-    private ItemSlotInfo[] itemInfos = new ItemSlotInfo[maxSlot];
+    private ItemSlotInfo[] itemSlotInfos = new ItemSlotInfo[maxSlot];
     private Dictionary<int, List<ItemSlotInfo>> inventoryItemTable = new Dictionary<int, List<ItemSlotInfo>>();
 
     public Dictionary<int, List<ItemSlotInfo>> InventroyItemTable => inventoryItemTable;
-    public ItemSlotInfo[] ItemInfos => itemInfos;
+    public List<List<ItemSlotInfo>> GatherItemSlotInfoList { get; private set; } = new List<List<ItemSlotInfo>>();
+
+    public ItemSlotInfo[] ItemInfos => itemSlotInfos;
 
     private PlayerStats playerStats;
-
 
     public int SelectedSlotIndex { get; private set; } = -1;
 
@@ -66,13 +70,16 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void Initialize()
     {
+        GatherItemSlotInfoList.Add(new List<ItemSlotInfo>());
+        GatherItemSlotInfoList.Add(new List<ItemSlotInfo>());
+
         itemInfoView.onDisableDivisionButtonFunc += IsFullInventory;
         itemInfoView.UIInventoryDivisionView.onDivisionEvent.AddListener(OnDivisionItem);
 
         for (int i = 0; i < maxSlot; ++i)
         {
-            itemInfos[i] = new ItemSlotInfo();
-            itemInfos[i].index = i;
+            itemSlotInfos[i] = new ItemSlotInfo();
+            itemSlotInfos[i].index = i;
 
             var slot = Instantiate(slotPrefab, slotParent);
             slot.SlotIndex = i;
@@ -80,7 +87,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             {
                 SelectedSlotIndex = slot.SlotIndex;
                 slot.OnClickSlot();
-                itemInfoView.OnSetItemSlotInfo(itemInfos[SelectedSlotIndex]);
+                itemInfoView.OnSetItemSlotInfo(itemSlotInfos[SelectedSlotIndex]);
             });
 
             slot.OnDragEvent.AddListener((position) => { if (PrivewIcon != null) PrivewIcon.transform.position = position; });
@@ -97,63 +104,20 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 }
             });
 
+            itemSlotInfos[i].onUseDurabilityAction += OnUseDurability;
+
             slot.onDoubleClickEvent.AddListener(OnEquip);
             slot.onDragExit.AddListener(OnEndDrag);
             itemSlots[i] = slot;
         }
 
-        UpdateSlots(itemInfos);
+        UpdateSlots(itemSlotInfos);
 
         if (SaveLoadManager.Data != null)
         {
             Load();
         }
 
-        //if (useSlotCount == 0)
-        //{
-        //
-        // var Item = DataTableManager.ItemTable.Get(1201002);
-        // 
-        // var testInfo = new DropItemInfo();
-        // testInfo.amount = 100;
-        // testInfo.ItemName = Item.ItemName;
-        // testInfo.itemData = Item;
-        // testInfo.id = 1201002;
-        // AddItem(testInfo);
-
-        //    for (int i = 0; i < 3; ++i)
-        //    {
-        //        var testItem = DataTableManager.ItemTable.Get(1201001 + i);
-
-        //        var test = new DropItemInfo();
-        //        test.amount = 1;
-        //        test.ItemName = testItem.ItemName;
-        //        test.itemData = testItem;
-        //        AddItem(test);
-        //    }
-
-        //    for (int i = 0; i < 2; ++i)
-        //    {
-        //        var testItem = DataTableManager.ItemTable.Get(1202001 + i);
-
-        //        var test = new DropItemInfo();
-        //        test.amount = 1;
-        //        test.ItemName = testItem.ItemName;
-        //        test.itemData = testItem;
-        //        AddItem(test);
-        //    }
-        //    for (int i = 0; i < 2; ++i)
-        //    {
-        //        var testItem = DataTableManager.ItemTable.Get(1203005 + i);
-
-        //        var test = new DropItemInfo();
-        //        test.amount = 1;
-        //        test.ItemName = testItem.ItemName;
-        //        test.itemData = testItem;
-        //        AddItem(test);
-        //    }
-        //}
-       
         equipmentSocketView.Initialize();
 
         if (useSlotCount == 0)
@@ -197,7 +161,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             AddItem(testInfo);
 
 
-
             Item = DataTableManager.ItemTable.Get(1111131);
 
             testInfo = new DropItemInfo();
@@ -213,70 +176,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             testInfo.itemData = Item;
             testInfo.id = Item.ID;
             AddItem(testInfo);
-
-            //Item = DataTableManager.ItemTable.Get(1200841);
-
-            //testInfo = new DropItemInfo();
-            //testInfo.amount = 1;
-            //testInfo.itemData = Item;
-            //testInfo.id = Item.ID;
-            //AddItem(testInfo);
-
-            //Item = DataTableManager.ItemTable.Get(1200941);
-
-            //testInfo = new DropItemInfo();
-            //testInfo.amount = 1;
-            //testInfo.itemData = Item;
-            //testInfo.id = Item.ID;
-            //AddItem(testInfo);
-
-            //for (int i = 0; i < 3; ++i)
-            //{
-            //    Item = DataTableManager.ItemTable.Get(1111115 + i);
-
-            //    testInfo = new DropItemInfo();
-            //    testInfo.amount = 1;
-            //    testInfo.itemData = Item;
-            //    testInfo.id = 1111115 + i;
-            //    AddItem(testInfo);
-            //}
-
-            //for (int i = 0; i < 3; ++i)
-            //{
-            //    Item = DataTableManager.ItemTable.Get(1111131 + i);
-
-            //    testInfo = new DropItemInfo();
-            //    testInfo.amount = 1;
-            //    testInfo.itemData = Item;
-            //    testInfo.id = 1111131 + i;
-            //    AddItem(testInfo);
-            //}
-
-            //for (int i = 0; i < 3; ++i)
-            //{
-            //    Item = DataTableManager.ItemTable.Get(1111119 + i);
-
-            //    testInfo = new DropItemInfo();
-            //    testInfo.amount = 1;
-            //    testInfo.itemData = Item;
-            //    testInfo.id = 1111119 + i;
-            //    AddItem(testInfo);
-            //}
-
-            //for (int i = 0; i < 3; ++i)
-            //{
-            //    Item = DataTableManager.ItemTable.Get(1111125 + i);
-
-            //    testInfo = new DropItemInfo();
-            //    testInfo.amount = 1;
-            //    testInfo.itemData = Item;
-            //    testInfo.id = 1111125 + i;
-            //    AddItem(testInfo);
-            //}
-
         }
-
-
     }
 
     private void UpdateSlots(ItemSlotInfo[] items)
@@ -291,13 +191,13 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     {
         for (int i = 0; i < maxSlot; ++i)
         {
-            itemSlots[i].SetItemData(itemInfos[i]);
+            itemSlots[i].SetItemData(itemSlotInfos[i]);
         }
     }
 
     public void OnUseItem()
     {
-        if(SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Consumable)
+        if(SelectedSlotIndex == -1 || itemSlotInfos[SelectedSlotIndex].itemData == null || itemSlotInfos[SelectedSlotIndex].itemData.ItemType != ItemType.Consumable)
         {
             return;
         }
@@ -307,29 +207,30 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnEquip()
     {
-        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null || itemInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Material)
+        if (SelectedSlotIndex == -1 || itemSlotInfos[SelectedSlotIndex].itemData == null || itemSlotInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Material)
         {
             return;
         }
 
-        var equipItemData = itemInfos[SelectedSlotIndex].itemData;
-        int amount = itemInfos[SelectedSlotIndex].Amount;
-        int durability = itemInfos[SelectedSlotIndex].Durability;
+        var equipItemData = itemSlotInfos[SelectedSlotIndex].itemData;
+        int amount = itemSlotInfos[SelectedSlotIndex].Amount;
+        int durability = itemSlotInfos[SelectedSlotIndex].Durability;
         EquipItem();
         equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData, amount, durability);
     }
 
     private void EquipItem()
     {
-        itemInfos[SelectedSlotIndex].Amount = 0;
+        itemSlotInfos[SelectedSlotIndex].Amount = 0;
 
-        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
+        if (inventoryItemTable.TryGetValue(itemSlotInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
         {
-            itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
+            itemInfoList.Remove(itemSlotInfos[SelectedSlotIndex]);
         }
 
+        OnCheckEraseGatherItem(itemSlotInfos[SelectedSlotIndex]);
         itemInfoView.OnSetItemSlotInfo(null);
-        itemInfos[SelectedSlotIndex].Empty();
+        itemSlotInfos[SelectedSlotIndex].Empty();
         --useSlotCount;
 
         UpdateSlot(SelectedSlotIndex);
@@ -337,18 +238,18 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     private void UseItem()
     {
-        itemInfos[SelectedSlotIndex].Amount -= 1;
-        playerStats.OnUseItem(itemInfos[SelectedSlotIndex].itemData);
+        itemSlotInfos[SelectedSlotIndex].Amount -= 1;
+        playerStats.OnUseItem(itemSlotInfos[SelectedSlotIndex].itemData);
 
-        if (itemInfos[SelectedSlotIndex].Amount == 0)
+        if (itemSlotInfos[SelectedSlotIndex].Amount == 0)
         {
-            if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
+            if (inventoryItemTable.TryGetValue(itemSlotInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
             {
-                itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
+                itemInfoList.Remove(itemSlotInfos[SelectedSlotIndex]);
             }
 
             itemInfoView.OnSetItemSlotInfo(null);
-            itemInfos[SelectedSlotIndex].Empty();
+            itemSlotInfos[SelectedSlotIndex].Empty();
             --useSlotCount;
         }
 
@@ -374,7 +275,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                     int leftCount = count - itemList[i].Amount;
                     itemList[i].Amount -= count - leftCount;
                     inventoryItemTable[id].Remove(itemList[i]);
-                    itemInfos[itemList[i].index].Empty();
+                    itemSlotInfos[itemList[i].index].Empty();
                     --useSlotCount;
                     count = leftCount;
                     UpdateSlot(itemList[i].index);
@@ -408,45 +309,47 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnEraseItem()
     {
-        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
+        if (SelectedSlotIndex == -1 || itemSlotInfos[SelectedSlotIndex].itemData == null)
         {
             return;
         }
 
-        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
+        if (inventoryItemTable.TryGetValue(itemSlotInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
         {
-            itemInfoList.Remove(itemInfos[SelectedSlotIndex]);
-            itemInfos[SelectedSlotIndex].Empty();
+            itemInfoList.Remove(itemSlotInfos[SelectedSlotIndex]);
+            itemSlotInfos[SelectedSlotIndex].Empty();
             itemInfoView.OnSetItemSlotInfo(null);
             --useSlotCount;
         }
+
+        OnCheckEraseGatherItem(itemSlotInfos[SelectedSlotIndex]);
 
         UpdateSlot(SelectedSlotIndex);
     }
 
     public void OnDivisionItem(int count)
     {
-        if (SelectedSlotIndex == -1 || itemInfos[SelectedSlotIndex].itemData == null)
+        if (SelectedSlotIndex == -1 || itemSlotInfos[SelectedSlotIndex].itemData == null)
         {
             return;
         }
 
-        if (inventoryItemTable.TryGetValue(itemInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
+        if (inventoryItemTable.TryGetValue(itemSlotInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
         {
-            itemInfos[SelectedSlotIndex].Amount -= count;
+            itemSlotInfos[SelectedSlotIndex].Amount -= count;
 
             int slotIndex = FindEmptySlotIndex();
 
-            itemInfos[slotIndex].Amount = count;
-            itemInfos[slotIndex].itemData = itemInfos[SelectedSlotIndex].itemData;
+            itemSlotInfos[slotIndex].Amount = count;
+            itemSlotInfos[slotIndex].itemData = itemSlotInfos[SelectedSlotIndex].itemData;
 
-            inventoryItemTable[itemInfos[SelectedSlotIndex].itemData.ID].Add(itemInfos[slotIndex]);
+            inventoryItemTable[itemSlotInfos[SelectedSlotIndex].itemData.ID].Add(itemSlotInfos[slotIndex]);
 
             ++useSlotCount;
 
-            if (itemInfos[SelectedSlotIndex].Amount <= 0)
+            if (itemSlotInfos[SelectedSlotIndex].Amount <= 0)
             {
-                itemInfos[SelectedSlotIndex].itemData = null;
+                itemSlotInfos[SelectedSlotIndex].itemData = null;
             }
 
             itemSlots[slotIndex].OnUpdateSlot();
@@ -536,7 +439,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             PrivewIcon.SetActive(false);
         }
 
-        if (dragSeletedSlotIndex < 0 || dragSeletedSlotIndex >= itemInfos.Length || itemInfos[dragSeletedSlotIndex] == null)
+        if (dragSeletedSlotIndex < 0 || dragSeletedSlotIndex >= itemSlotInfos.Length || itemSlotInfos[dragSeletedSlotIndex] == null)
         {
             isOnDrag = false;
             dragSeletedSlotIndex = -1;
@@ -580,38 +483,38 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         int targetSlotIndex = dragSeletedSlotIndex;
         int sourceSlotIndex = itemSlot.SlotIndex;
 
-        if (sourceSlotIndex < 0 || sourceSlotIndex >= itemInfos.Length || targetSlotIndex == sourceSlotIndex)
+        if (sourceSlotIndex < 0 || sourceSlotIndex >= itemSlotInfos.Length || targetSlotIndex == sourceSlotIndex)
         {
             return;
         }
 
         // string id로 변경
-        if (itemInfos[sourceSlotIndex].itemData != null && itemInfos[sourceSlotIndex].itemData.ID == itemInfos[targetSlotIndex].itemData.ID)
+        if (itemSlotInfos[sourceSlotIndex].itemData != null && itemSlotInfos[sourceSlotIndex].itemData.ID == itemSlotInfos[targetSlotIndex].itemData.ID)
         {
             // 같은 아이템일 경우 합치기
-            int totalAmount = itemInfos[targetSlotIndex].Amount + itemInfos[sourceSlotIndex].Amount;
+            int totalAmount = itemSlotInfos[targetSlotIndex].Amount + itemSlotInfos[sourceSlotIndex].Amount;
 
-            if (totalAmount <= itemInfos[targetSlotIndex].itemData.MaxStack)
+            if (totalAmount <= itemSlotInfos[targetSlotIndex].itemData.MaxStack)
             {
-                if (inventoryItemTable.TryGetValue(itemInfos[sourceSlotIndex].itemData.ID, out var itemInfoList))
+                if (inventoryItemTable.TryGetValue(itemSlotInfos[sourceSlotIndex].itemData.ID, out var itemInfoList))
                 {
-                    itemInfoList.Remove(itemInfos[sourceSlotIndex]);
+                    itemInfoList.Remove(itemSlotInfos[sourceSlotIndex]);
                 }
 
-                itemInfos[sourceSlotIndex].Amount = totalAmount;
-                itemInfos[targetSlotIndex].Empty();
+                itemSlotInfos[sourceSlotIndex].Amount = totalAmount;
+                itemSlotInfos[targetSlotIndex].Empty();
             }
             else
             {
-                itemInfos[sourceSlotIndex].Amount = itemInfos[sourceSlotIndex].itemData.MaxStack;
-                itemInfos[targetSlotIndex].Amount = totalAmount - itemInfos[sourceSlotIndex].itemData.MaxStack;
+                itemSlotInfos[sourceSlotIndex].Amount = itemSlotInfos[sourceSlotIndex].itemData.MaxStack;
+                itemSlotInfos[targetSlotIndex].Amount = totalAmount - itemSlotInfos[sourceSlotIndex].itemData.MaxStack;
             }
         }
         else
         {
-            (itemInfos[targetSlotIndex], itemInfos[sourceSlotIndex]) = (itemInfos[sourceSlotIndex], itemInfos[targetSlotIndex]);
-            itemInfos[targetSlotIndex].index = targetSlotIndex;
-            itemInfos[sourceSlotIndex].index = sourceSlotIndex;
+            (itemSlotInfos[targetSlotIndex], itemSlotInfos[sourceSlotIndex]) = (itemSlotInfos[sourceSlotIndex], itemSlotInfos[targetSlotIndex]);
+            itemSlotInfos[targetSlotIndex].index = targetSlotIndex;
+            itemSlotInfos[sourceSlotIndex].index = sourceSlotIndex;
             itemSlots[targetSlotIndex].OnSwapItemInfo(itemSlots[sourceSlotIndex]);
             // itemInfos[targetSlotIndex].OnSwapItemInfo(itemInfos[sourceSlotIndex]);
         }
@@ -626,7 +529,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     {
         // itemInfos[dragSeletedSlotIndex].itemData
         // if ()
-        if ((int)ItemData.ConvertEquipmentType(itemInfos[dragSeletedSlotIndex].itemData.ID, itemInfos[dragSeletedSlotIndex].itemData.ItemType) != (int)equipmentSocket.EquipmentType)
+        if ((int)ItemData.ConvertEquipmentType(itemSlotInfos[dragSeletedSlotIndex].itemData.ID, itemSlotInfos[dragSeletedSlotIndex].itemData.ItemType) != (int)equipmentSocket.EquipmentType)
         {
             return;
         }
@@ -638,24 +541,43 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnSetEquipmentItem(ItemData itemData, int amount)
     {
-        itemInfos[dragSeletedSlotIndex].itemData = itemData;
-        itemInfos[dragSeletedSlotIndex].Amount = amount;
+        itemSlotInfos[dragSeletedSlotIndex].itemData = itemData;
+        itemSlotInfos[dragSeletedSlotIndex].Amount = amount;
 
         if (inventoryItemTable.ContainsKey(itemData.ID))
         {
-            inventoryItemTable[itemData.ID].Add(itemInfos[dragSeletedSlotIndex]);
+            inventoryItemTable[itemData.ID].Add(itemSlotInfos[dragSeletedSlotIndex]);
         }
         else
         {
             var itemInfoList = new List<ItemSlotInfo>();
-            itemInfoList.Add(itemInfos[dragSeletedSlotIndex]);
+            itemInfoList.Add(itemSlotInfos[dragSeletedSlotIndex]);
             inventoryItemTable.Add(itemData.ID, itemInfoList);
         }
 
-        itemSlots[dragSeletedSlotIndex].SetItemData(itemInfos[dragSeletedSlotIndex]);
+        itemSlots[dragSeletedSlotIndex].SetItemData(itemSlotInfos[dragSeletedSlotIndex]);
         ++useSlotCount;
         dragSeletedSlotIndex = -1;
         isOnDrag = false;
+    }
+
+    public void OnUseDurability(int index)
+    {
+        if(itemSlotInfos[index].Durability <= 0)
+        {
+            if (inventoryItemTable.TryGetValue(itemSlotInfos[index].itemData.ID, out var itemInfoList))
+            {
+                itemInfoList.Remove(itemSlotInfos[index]);
+            }
+
+            OnCheckEraseGatherItem(itemSlotInfos[index]);
+            itemInfoView.OnSetItemSlotInfo(null);
+            itemSlotInfos[index].Empty();
+            --useSlotCount;
+
+
+            UpdateSlot(index);
+        }
     }
 
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
@@ -665,23 +587,58 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             return;
         }
 
-        itemInfos[slotIndex].Amount = dropItemInfo.amount;
-        itemInfos[slotIndex].itemData = dropItemInfo.itemData;
-        itemInfos[slotIndex].Durability = dropItemInfo.durability;
+        itemSlotInfos[slotIndex].Amount = dropItemInfo.amount;
+        itemSlotInfos[slotIndex].itemData = dropItemInfo.itemData;
+        itemSlotInfos[slotIndex].Durability = dropItemInfo.durability;
 
         if (inventoryItemTable.ContainsKey(dropItemInfo.id))
         {
-            inventoryItemTable[dropItemInfo.id].Add(itemInfos[slotIndex]);
+            inventoryItemTable[dropItemInfo.id].Add(itemSlotInfos[slotIndex]);
         }
         else
         {
             var itemInfoList = new List<ItemSlotInfo>();
-            itemInfoList.Add(itemInfos[slotIndex]);
+            itemInfoList.Add(itemSlotInfos[slotIndex]);
             inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
         }
 
+        OnCheckAddGatherItem(itemSlotInfos[slotIndex]);
+
+
         itemSlots[slotIndex].OnUpdateSlot(); 
         ++useSlotCount;
+    }
+
+    private void OnCheckEraseGatherItem(ItemSlotInfo itemSlotInfo)
+    {
+        if (itemSlotInfo.itemData.ItemType == ItemType.Weapon)
+        {
+            var weaponData = DataTableManager.WeaponTable.Get(itemSlotInfo.itemData.ID);
+
+            if (weaponData.GatherType != 0)
+            {
+                int index = weaponData.GatherType - 1;
+
+                if (GatherItemSlotInfoList[index] != null)
+                {
+                    GatherItemSlotInfoList[index].Remove(itemSlotInfo);
+                }
+            }
+        }
+    }
+
+    private void OnCheckAddGatherItem(ItemSlotInfo itemSlotInfo)
+    {
+        if (itemSlotInfo.itemData.ItemType == ItemType.Weapon)
+        {
+            var weaponData = DataTableManager.WeaponTable.Get(itemSlotInfo.itemData.ID);
+
+            if (weaponData.GatherType != 0)
+            {
+                int index = weaponData.GatherType - 1;
+                GatherItemSlotInfoList[index].Add(itemSlotInfo);
+            }
+        }
     }
 
     public bool IsFullInventory()
@@ -709,12 +666,13 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         return IsFullInventory() && canAdd;
     }
 
-    public void OnChangeEquimentItem(ItemData itemData, int amount)
+    public void OnChangeEquimentItem(ItemData itemData, int amount, int durability)
     {
         var unEquimentInfo = new DropItemInfo();
         unEquimentInfo.amount = amount;
         unEquimentInfo.id = itemData.ID;
         unEquimentInfo.itemData = itemData;
+        unEquimentInfo.durability = durability;
         ChangeItem(unEquimentInfo);
     }
 
@@ -723,7 +681,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         var itemSlotList = SaveLoadManager.Data.ItemSlotInfoSaveDataList;
         itemSlotList.Clear();
 
-        foreach (var itemInfo in itemInfos)
+        foreach (var itemInfo in itemSlotInfos)
         {
             var itemInfoSaveData = new ItemInfoSaveData();
             itemInfoSaveData.amount = itemInfo.Amount;
@@ -752,28 +710,29 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 continue;
             }
 
-            itemInfos[i].Amount = itemSlotInfoList[i].amount;
-            itemInfos[i].index = itemSlotInfoList[i].index;
-            itemInfos[i].Durability = itemSlotInfoList[i].durability;
-            itemInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
+            itemSlotInfos[i].Amount = itemSlotInfoList[i].amount;
+            itemSlotInfos[i].index = itemSlotInfoList[i].index;
+            itemSlotInfos[i].Durability = itemSlotInfoList[i].durability;
+            itemSlotInfos[i].itemData = DataTableManager.ItemTable.Get(itemSlotInfoList[i].itemID);
 
 
-            if (itemInfos[i].itemData == null)
+            if (itemSlotInfos[i].itemData == null)
             {
                 continue;
             }
 
-            if (inventoryItemTable.ContainsKey(itemInfos[i].itemData.ID))
+            if (inventoryItemTable.ContainsKey(itemSlotInfos[i].itemData.ID))
             {
-                inventoryItemTable[itemInfos[i].itemData.ID].Add(itemInfos[i]);
+                inventoryItemTable[itemSlotInfos[i].itemData.ID].Add(itemSlotInfos[i]);
             }
             else
             {
                 var itemInfoList = new List<ItemSlotInfo>();
-                itemInfoList.Add(itemInfos[i]);
-                inventoryItemTable.Add(itemInfos[i].itemData.ID, itemInfoList);
+                itemInfoList.Add(itemSlotInfos[i]);
+                inventoryItemTable.Add(itemSlotInfos[i].itemData.ID, itemInfoList);
             }
 
+            OnCheckAddGatherItem(itemSlotInfos[i]);
             ++useSlotCount;
         }
 

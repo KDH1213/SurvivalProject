@@ -21,7 +21,7 @@ public class WeaponData
     [field: SerializeField]
     public int Durability { get; set; }
     [field: SerializeField]
-    public float GatherType { get; set; }
+    public int GatherType { get; set; }
     [field: SerializeField]
     public int AttackEffect { get; set; }
     [field: SerializeField]

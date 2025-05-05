@@ -4,7 +4,9 @@ public class ItemSlotInfo
     public ItemData itemData;
     public int index;
     public int Amount { get; set; }
-    public int Durability { get; set; } 
+    public int Durability { get; set; }
+
+    public System.Action<int> onUseDurabilityAction;
 
     public void Empty()
     {
@@ -18,6 +20,12 @@ public class ItemSlotInfo
         (this.Amount, itemInfo.Amount) = (itemInfo.Amount, this.Amount);
         (this.Durability, itemInfo.Durability) = (itemInfo.Durability, this.Durability);
     }
+
+    public void OnUseDurability()
+    {
+        Durability -= 1;
+        onUseDurabilityAction?.Invoke(index);
+    }
 }
 
 [System.Serializable]
@@ -26,6 +34,7 @@ public class ItemInfo
     public ItemData itemData;
     public int Amount { get; set; }
     public int Durability { get; set; }
+
 }
 
 public struct ItemInfoSaveData
