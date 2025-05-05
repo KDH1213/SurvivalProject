@@ -26,8 +26,8 @@ public class StorageUI : MonoBehaviour
     private List<ItemSlot> inventoryItemSlots = new List<ItemSlot>();
     private List<ItemSlot> storageItemSlots = new List<ItemSlot>();
 
-    private ItemInfo[] inventoryItemInfos;
-    private ItemInfo[] storageItemInfos;
+    private ItemSlotInfo[] inventoryItemInfos;
+    private ItemSlotInfo[] storageItemInfos;
 
     [SerializeField]
     private Button divisionButton;
@@ -49,7 +49,7 @@ public class StorageUI : MonoBehaviour
         SetInventory(storageItemInfos, storageItemSlots, storageSlotParent);
     }
 
-    private void SetInventory(ItemInfo[] itemInfos, List<ItemSlot> itemSlots, Transform parent)
+    private void SetInventory(ItemSlotInfo[] itemInfos, List<ItemSlot> itemSlots, Transform parent)
     {
         foreach(var item in itemSlots)
         {
@@ -126,7 +126,7 @@ public class StorageUI : MonoBehaviour
         
     }
 
-    private void UpdateSlots(ItemInfo[] items, List<ItemSlot> itemSlots)
+    private void UpdateSlots(ItemSlotInfo[] items, List<ItemSlot> itemSlots)
     {
         for (int i = 0; i < items.Length; ++i)
         {
@@ -335,7 +335,7 @@ public class StorageUI : MonoBehaviour
         dragSeletedSlotIndex = -1;
     }
 
-    private void OnEndDragTargetToOtherSlot(ItemInfo[] sourceInfo, ItemInfo[] targetInfo, 
+    private void OnEndDragTargetToOtherSlot(ItemSlotInfo[] sourceInfo, ItemSlotInfo[] targetInfo, 
         List<ItemSlot> sourceSlots, List<ItemSlot> targetSlots, ItemSlot itemSlot)
     {
         int sourceSlotIndex = dragSeletedSlotIndex;
@@ -408,7 +408,7 @@ public class StorageUI : MonoBehaviour
             }
             else
             {
-                var itemInfoList = new List<ItemInfo>();
+                var itemInfoList = new List<ItemSlotInfo>();
                 itemInfoList.Add(item);
                 inventoryItemTable.Add(item.itemData.ID, itemInfoList);
             }
@@ -427,7 +427,7 @@ public class StorageUI : MonoBehaviour
             }
             else
             {
-                var itemInfoList = new List<ItemInfo>();
+                var itemInfoList = new List<ItemSlotInfo>();
                 itemInfoList.Add(item);
                 storageItemTable.Add(item.itemData.ID, itemInfoList);
             }
@@ -439,8 +439,8 @@ public class StorageUI : MonoBehaviour
         int sourceSlotIndex = SelectedSlotIndex;
         int targetSlotIndex;
 
-        ItemInfo[] sourceInfo;
-        ItemInfo[] targetInfo;
+        ItemSlotInfo[] sourceInfo;
+        ItemSlotInfo[] targetInfo;
         List<ItemSlot> sourceSlots;
         List<ItemSlot> targetSlots;
 
@@ -513,7 +513,7 @@ public class StorageUI : MonoBehaviour
         UpdateItemTable();
     }
 
-    private int FindEmptySlotIndex(ItemInfo[] itemInfos)
+    private int FindEmptySlotIndex(ItemSlotInfo[] itemInfos)
     {
         foreach (var info in itemInfos)
         {
@@ -528,7 +528,7 @@ public class StorageUI : MonoBehaviour
 
     public void OnEraseItem()
     {
-        ItemInfo[] itemInfos;
+        ItemSlotInfo[] itemInfos;
         if (SelectedSlots == inventoryItemSlots)
         {
             itemInfos = inventoryItemInfos;
@@ -554,7 +554,7 @@ public class StorageUI : MonoBehaviour
 
     public void OnDivisionItem(int count)
     {
-        ItemInfo[] itemInfos;
+        ItemSlotInfo[] itemInfos;
         if (SelectedSlots == inventoryItemSlots)
         {
             itemInfos = inventoryItemInfos;

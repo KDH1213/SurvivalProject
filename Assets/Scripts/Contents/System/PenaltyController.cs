@@ -74,6 +74,11 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         {
             penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
         }
+
+        if((ActType)id == ActType.Attack)
+        {
+            playerStats.onAttackEvent?.Invoke();
+        }
     }
 
     public void OnPlayAct(PlacementObject placementObj)

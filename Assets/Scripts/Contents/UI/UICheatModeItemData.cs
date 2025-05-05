@@ -36,6 +36,7 @@ public class UICheatModeItemData : MonoBehaviour
                 DropItemInfo dropItemInfo = new DropItemInfo();
                 dropItemInfo.id = itemData.ID;
                 dropItemInfo.itemData = itemData;
+                dropItemInfo.durability = itemData.Durability;
                 dropItemInfo.amount = count;
 
                 onCreateAction?.Invoke(dropItemInfo);

@@ -26,11 +26,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private ItemSlot[] itemSlots = new ItemSlot[maxSlot];
 
-    private ItemInfo[] itemInfos = new ItemInfo[maxSlot];
-    private Dictionary<int, List<ItemInfo>> inventoryItemTable = new Dictionary<int, List<ItemInfo>>();
+    private ItemSlotInfo[] itemInfos = new ItemSlotInfo[maxSlot];
+    private Dictionary<int, List<ItemSlotInfo>> inventoryItemTable = new Dictionary<int, List<ItemSlotInfo>>();
 
-    public Dictionary<int, List<ItemInfo>> InventroyItemTable => inventoryItemTable;
-    public ItemInfo[] ItemInfos => itemInfos;
+    public Dictionary<int, List<ItemSlotInfo>> InventroyItemTable => inventoryItemTable;
+    public ItemSlotInfo[] ItemInfos => itemInfos;
 
     private PlayerStats playerStats;
 
@@ -71,7 +71,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
         for (int i = 0; i < maxSlot; ++i)
         {
-            itemInfos[i] = new ItemInfo();
+            itemInfos[i] = new ItemSlotInfo();
             itemInfos[i].index = i;
 
             var slot = Instantiate(slotPrefab, slotParent);
@@ -279,7 +279,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     }
 
-    private void UpdateSlots(ItemInfo[] items)
+    private void UpdateSlots(ItemSlotInfo[] items)
     {
         for (int i = 0; i < maxSlot; ++i)
         {
@@ -314,8 +314,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
         var equipItemData = itemInfos[SelectedSlotIndex].itemData;
         int amount = itemInfos[SelectedSlotIndex].Amount;
+        int durability = itemInfos[SelectedSlotIndex].Durability;
         EquipItem();
-        equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData, amount);
+        equipmentSocketView.OnEquipment(equipItemData.ItemType, equipItemData, amount, durability);
     }
 
     private void EquipItem()
@@ -646,7 +647,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         }
         else
         {
-            var itemInfoList = new List<ItemInfo>();
+            var itemInfoList = new List<ItemSlotInfo>();
             itemInfoList.Add(itemInfos[dragSeletedSlotIndex]);
             inventoryItemTable.Add(itemData.ID, itemInfoList);
         }
@@ -666,6 +667,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
         itemInfos[slotIndex].Amount = dropItemInfo.amount;
         itemInfos[slotIndex].itemData = dropItemInfo.itemData;
+        itemInfos[slotIndex].Durability = dropItemInfo.durability;
 
         if (inventoryItemTable.ContainsKey(dropItemInfo.id))
         {
@@ -673,7 +675,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         }
         else
         {
-            var itemInfoList = new List<ItemInfo>();
+            var itemInfoList = new List<ItemSlotInfo>();
             itemInfoList.Add(itemInfos[slotIndex]);
             inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
         }
@@ -776,7 +778,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             }
             else
             {
-                var itemInfoList = new List<ItemInfo>();
+                var itemInfoList = new List<ItemSlotInfo>();
                 itemInfoList.Add(itemInfos[i]);
                 inventoryItemTable.Add(itemInfos[i].itemData.ID, itemInfoList);
             }

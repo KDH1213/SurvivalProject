@@ -11,18 +11,18 @@ public class QuickSlotSocket : EquipmentSocket
     public UnityEvent<int> onAmountEvent;
     public UnityEvent<ItemData> onUseItemEvent;
 
-    public override void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount)
+    public override void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount, int durability)
     {
-        base.InitializeSocket(equipmentType, itemData, amount);
+        base.InitializeSocket(equipmentType, itemData, amount, durability);
 
         var player = GameObject.FindWithTag(Tags.Player);
         onUseItemEvent.AddListener(player.GetComponent<PlayerStats>().OnUseItem);
         onAmountEvent.AddListener(quickSlotButtonView.OnSetAmount);
     }
 
-    public override void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount)
+    public override void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount, int durability)
     {
-        base.OnEquipment(equipmentType, itemData, amount);
+        base.OnEquipment(equipmentType, itemData, amount, durability);
 
         quickSlotButtonView.OnSetItemInfo();
         onAmountEvent?.Invoke(amount);

@@ -33,7 +33,7 @@ public class ItemInfoView : MonoBehaviour
     private UIInventoryDivisionView uIInventoryDivisionView;
     public UIInventoryDivisionView UIInventoryDivisionView { get {  return uIInventoryDivisionView; } }
 
-    public UnityEvent<ItemInfo> onSetItemInfoEvent;
+    public UnityEvent<ItemSlotInfo> onSetItemInfoEvent;
 
     public System.Func<bool> onDisableDivisionButtonFunc;
 
@@ -54,7 +54,7 @@ public class ItemInfoView : MonoBehaviour
         eraseView.gameObject.SetActive(false);
     }
 
-    private void OnSetItemInfo(ItemInfo itemInfo, bool isItemSlot)
+    private void OnSetItemInfo(ItemSlotInfo itemInfo, bool isItemSlot)
     {
         if (itemInfo == null || itemInfo.itemData == null)
         {
@@ -123,7 +123,7 @@ public class ItemInfoView : MonoBehaviour
         }
     }
 
-    public void OnSetItemSlotInfo(ItemInfo itemInfo)
+    public void OnSetItemSlotInfo(ItemSlotInfo itemInfo)
     {
         OnSetItemInfo(itemInfo, true);
         onSetItemInfoEvent?.Invoke(itemInfo);

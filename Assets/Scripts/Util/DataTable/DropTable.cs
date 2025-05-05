@@ -6,14 +6,24 @@ public struct DropItemInfo
 {
     public int id;
     public int amount;
+    public int durability;
 
     public ItemData itemData;
 
-    public DropItemInfo(ItemData itemData, int id, int amount)
+    public DropItemInfo(ItemData itemData, int id, int amount, int durability)
     {
         this.itemData = itemData;
         this.id = id;
         this.amount = amount;
+        this.durability = durability;
+    }
+
+    public DropItemInfo(ItemInfo itemInfo)
+    {
+        this.itemData = itemInfo.itemData;
+        this.id = itemInfo.itemData == null ? 0 : itemInfo.itemData.ID;
+        this.amount = itemInfo.Amount;
+        this.durability = itemInfo.Durability;
     }
 }
 
@@ -139,7 +149,8 @@ public class DropData
 
             if(getItemCount != 0)
             {
-                dropItemList.Add(new DropItemInfo(DataTableManager.ItemTable.Get(dropInfoList[i].itemID), dropInfoList[i].itemID, getItemCount));
+                var itemData = DataTableManager.ItemTable.Get(dropInfoList[i].itemID);
+                dropItemList.Add(new DropItemInfo(itemData, dropInfoList[i].itemID, getItemCount, itemData.Durability));
             }
         }
 

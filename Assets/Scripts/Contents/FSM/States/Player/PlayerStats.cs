@@ -38,6 +38,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public UnityEvent<StatValue> onChangeHpEvent;
 
     public UnityEvent<int> onUseItemEvent;
+    public UnityEvent onAttackEvent;
 
 
     protected override void Awake()

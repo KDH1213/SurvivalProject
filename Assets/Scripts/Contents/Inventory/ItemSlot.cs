@@ -33,12 +33,12 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public UnityEvent<Vector2> OnDragEvent;
     public UnityEvent<PointerEventData> onDragExit;
 
-    public ItemInfo ItemInfo {  get; private set; }
+    public ItemSlotInfo ItemInfo {  get; private set; }
     public ItemData ItemData => ItemInfo.itemData;
 
     private string amountFormat = "{0}";
 
-    public void SetItemData(ItemInfo itemInfo)
+    public void SetItemData(ItemSlotInfo itemInfo)
     {
         this.ItemInfo = itemInfo;
         OnUpdateSlot();
@@ -60,6 +60,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             else
             {
                 durabilitySlider.gameObject.SetActive(true);
+                durabilitySlider.value = (float)ItemInfo.Durability / ItemData.Durability;
                 textGameObject.SetActive(false);
             }
             

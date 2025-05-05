@@ -53,6 +53,23 @@ public class ItemData
     private List<ItemUseEffectInfo> itemUseEffectInfoList;
     public List<ItemUseEffectInfo> ItemUseEffectInfoList { get { return itemUseEffectInfoList; } }
 
+    public int Durability
+    {
+        get
+        {
+            if (ItemType == ItemType.Weapon)
+            {
+                return DataTableManager.WeaponTable.Get(ID).Durability;
+            }
+            else if (ItemType == ItemType.Armor)
+            {
+                return 100; // DataTableManager.ArmorTable.Get(ID).Durability;
+            }
+            else
+                return 0;
+        }
+    }
+
     public List<StatInfo> GetItemInfoList()
     {
         var list = new List<StatInfo>();

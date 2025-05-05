@@ -5,11 +5,11 @@ using UnityEngine.UIElements;
 
 public class StorageInventory : MonoBehaviour
 {
-    private ItemInfo[] itemInfos;
-    private Dictionary<int, List<ItemInfo>> inventoryItemTable = new Dictionary<int, List<ItemInfo>>();
+    private ItemSlotInfo[] itemInfos;
+    private Dictionary<int, List<ItemSlotInfo>> inventoryItemTable = new Dictionary<int, List<ItemSlotInfo>>();
 
-    public Dictionary<int, List<ItemInfo>> InventroyItemTable => inventoryItemTable;
-    public ItemInfo[] ItemInfos => itemInfos;
+    public Dictionary<int, List<ItemSlotInfo>> InventroyItemTable => inventoryItemTable;
+    public ItemSlotInfo[] ItemInfos => itemInfos;
     private int useSlotCount = 0;
     public void Initialize()
     {
@@ -23,10 +23,10 @@ public class StorageInventory : MonoBehaviour
     public void SetItemInfos(int count)
     {
         
-        itemInfos = new ItemInfo[count];
+        itemInfos = new ItemSlotInfo[count];
         for (int i = 0; i < count; i++) 
         {
-            itemInfos[i] = new ItemInfo();
+            itemInfos[i] = new ItemSlotInfo();
             itemInfos[i].index = i;
         }
     }
@@ -156,7 +156,7 @@ public class StorageInventory : MonoBehaviour
     }
     private void CreateItem(DropItemInfo dropItemInfo, int slotIndex)
     {
-        var itemInfo = new ItemInfo();
+        var itemInfo = new ItemSlotInfo();
         itemInfo.index = slotIndex;
         itemInfo.Amount = dropItemInfo.amount;
         // TODO :: 임시 코드
@@ -168,7 +168,7 @@ public class StorageInventory : MonoBehaviour
         }
         else
         {
-            var itemInfoList = new List<ItemInfo>();
+            var itemInfoList = new List<ItemSlotInfo>();
             itemInfoList.Add(itemInfo);
             inventoryItemTable.Add(dropItemInfo.id, itemInfoList);
         }
@@ -239,7 +239,7 @@ public class StorageInventory : MonoBehaviour
             }
             else
             {
-                var itemInfoList = new List<ItemInfo>();
+                var itemInfoList = new List<ItemSlotInfo>();
                 itemInfoList.Add(itemInfos[i]);
                 inventoryItemTable.Add(itemInfos[i].itemData.ID, itemInfoList);
             }

@@ -22,8 +22,10 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     [SerializeField]
     protected TextMeshProUGUI amountText;
 
-    public ItemData ItemData { get; protected set; }
-    public int Amount { get; protected set; }
+    public ItemInfo ItemInfo { get; protected set; } = new ItemInfo();
+    public ItemData ItemData { get => ItemInfo.itemData; protected set { ItemInfo.itemData = value; } }
+    public int Amount { get => ItemInfo.Amount; protected set { ItemInfo.Amount = value; } }
+    public int Durability { get => ItemInfo.Durability; protected set { ItemInfo.Durability = value; } }
 
     private float prevClickTime;
     private float clickTime;
@@ -32,34 +34,36 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public UnityEvent onEquipEvent;
     public UnityEvent onUnEquipEvent;
     public UnityEvent<EquipmentType> onClickEvent;
-    public UnityEvent<EquipmentType, int> onChangeEquipEvent;
+    public UnityEvent<EquipmentType, int, int> onChangeEquipEvent;
 
     public UnityEvent onDragEnter;
     public UnityEvent<Vector2> onDragEvent;
     public UnityEvent<PointerEventData> onDragExit;
+    public UnityEvent<int> onBreakItemEvent;
 
-    public virtual void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount)
+    public virtual void InitializeSocket(EquipmentType equipmentType, ItemData itemData, int amount, int durability)
     {
         this.equipmentType = equipmentType;
-        OnEquipment(equipmentType, itemData, amount);
+        OnEquipment(equipmentType, itemData, amount, durability);
     }
 
-    public virtual void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount)
+    public virtual void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount, int durability)
     {
         if(ItemData != null)
         {
-            ChangeEquipment(itemData, amount);
+            ChangeEquipment(itemData, amount, durability);
         }
         else
         {
-            Equiment(itemData, amount);
+            Equiment(itemData, amount, durability);
         }
     }
 
-    protected void Equiment(ItemData itemData, int amount)
+    protected void Equiment(ItemData itemData, int amount, int durability)
     {
-        this.ItemData = itemData;
-        this.Amount = amount;
+        ItemInfo.itemData = itemData;
+        ItemInfo.Amount = amount;
+        ItemInfo.Durability = durability; 
 
         if (ItemData != null)
         {
@@ -81,15 +85,31 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             amountText.gameObject.SetActive(false);
         }
     }
-    protected void ChangeEquipment(ItemData itemData, int amount)
+    protected void ChangeEquipment(ItemData itemData, int amount, int durability)
     {
-        onChangeEquipEvent?.Invoke(equipmentType, Amount);
-        Equiment(itemData, amount);
+        onChangeEquipEvent?.Invoke(equipmentType, Amount,Durability);
+        Equiment(itemData, amount, durability);
     }
 
     public void OnUnEquipment()
     {
         OnEmpty();
+    }
+
+    public void OnUseDurability()
+    {
+        if(ItemData == null)
+        {
+            return;
+        }
+
+        --Durability;
+        durabilitySlider.value = (float)Durability / ItemData.Durability;
+
+        if (Durability <= 0)
+        {
+            onBreakItemEvent?.Invoke((int)equipmentType);
+        }
     }
 
     protected void OnEmpty()

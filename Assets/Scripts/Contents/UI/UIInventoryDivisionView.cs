@@ -30,7 +30,7 @@ public class UIInventoryDivisionView : MonoBehaviour
 
     public UnityEvent<int> onDivisionEvent;
 
-    private ItemInfo seleteItemInfo;
+    private ItemSlotInfo seleteItemInfo;
 
     private int currentDivisionCount = 0;
     private int maxDivisionCount = 0;
@@ -64,7 +64,7 @@ public class UIInventoryDivisionView : MonoBehaviour
         OnCheckButtonInteractable(currentDivisionCount);
     }
 
-    public void OnSetItemInfoEvnet(ItemInfo itemInfo)
+    public void OnSetItemInfoEvnet(ItemSlotInfo itemInfo)
     {
         seleteItemInfo = itemInfo;
     }
