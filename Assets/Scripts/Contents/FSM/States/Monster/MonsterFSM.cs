@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.Pool;
 
@@ -21,10 +20,11 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     [field: SerializeField]
     public Transform AttackPoint { get; private set; }
-    protected MonsterStats MonsterStats { get; private set; }
+    public MonsterStats MonsterStats { get; private set; }
+    
 
     public Vector3 FirstPosition { get; private set; }
-
+    
     public bool CanAttack
     {
         get {  return lastAttackTime < Time.time; }

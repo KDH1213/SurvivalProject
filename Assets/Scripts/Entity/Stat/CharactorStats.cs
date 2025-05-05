@@ -18,6 +18,8 @@ public class CharactorStats : MonoBehaviour
     public UnityEvent deathEvent;
     public UnityEvent damegedEvent;
 
+    public UnityEvent<float> onChangeHpEvnet;
+
     protected virtual void Awake()
     {
         originalData.CopyStat(ref currentStatTable);

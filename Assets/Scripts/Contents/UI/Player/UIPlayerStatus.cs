@@ -30,6 +30,7 @@ public class UIPlayerStatus : MonoBehaviour
 
         playerLifeStats.onChangeLevelEvent.AddListener(OnChangeLevel);
         playerLifeStats.onChangeExperienceEvent.AddListener(OnChangeExperienceSlider);
+        playerStats.onChangeHpEvent.AddListener(OnChangeHp);
     }
 
     public void OnChangeExperienceSlider(float currentValue, float maxValue)

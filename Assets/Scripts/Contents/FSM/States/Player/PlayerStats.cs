@@ -82,6 +82,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     public void Start()
     {
         onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
+
         onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
         onChangeSpeedValue?.Invoke(currentSpeed);
         onChangDamageValue?.Invoke(currentDamage);
@@ -137,7 +138,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
 
     public void OnTakeDamage()
     {
-        if(!IsDead && takeDamageInvincibilityCoroutine == null)
+        onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
+        if (!IsDead && takeDamageInvincibilityCoroutine == null)
         {
             takeDamageInvincibilityCoroutine = StartCoroutine(CoTakeDamageInvincibility());
         }
