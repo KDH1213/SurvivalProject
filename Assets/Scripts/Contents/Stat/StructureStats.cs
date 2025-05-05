@@ -13,6 +13,21 @@ public class StructureStats : CharactorStats, ISaveLoadData
     {
     }
 
+    private void Start()
+    {
+        //if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        //{
+        //    var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+        //    var hpBar = hpBarObjectPool.GetHpBar();
+        //    hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.down * 2f);
+        //    hpBar.SetTarget(this);
+
+        //    deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+        //}
+
+        OnChangeHp();
+    }
+
     public void OnChangeHp() //*HP °»½Å
     {
         HpBarSlider.value = HP / currentStatTable[StatType.HP].MaxValue;

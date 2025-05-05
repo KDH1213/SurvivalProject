@@ -41,9 +41,16 @@ public class UITargetFollower : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position + targetOffset);
-            // screenPos.y = 0f;
+            Vector3 targetPos = target.position;
+
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPos + targetOffset);
+            screenPos.z = 0f;
             transform.position = screenPos;
+            // rectTransform.anchoredPosition += new Vector2(0, 10f);
+
+            //Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position + targetOffset);
+            //// screenPos.y = 0f;
+            //transform.position = screenPos;
 
             // CalculateTargetAnchorPosition(); 
             // rectTransform.anchoredPosition = resultTargetAnchor;
