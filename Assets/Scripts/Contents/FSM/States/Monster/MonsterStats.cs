@@ -14,7 +14,11 @@ public class MonsterStats : CharactorStats
         {
             CreateStat();
         }
+    }
 
+
+    private void Start()
+    {
         if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
         {
             var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
@@ -25,10 +29,6 @@ public class MonsterStats : CharactorStats
             deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
         }
 
-    }
-
-    private void Start()
-    {
         OnChangeHp();
     }
 
