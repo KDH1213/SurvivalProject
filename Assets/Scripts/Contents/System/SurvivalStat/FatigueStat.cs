@@ -22,6 +22,9 @@ public class FatigueStat : SurvivalStatBehaviour
     [SerializeField]
     private TextMeshProUGUI fatigusPersentText;
 
+    [SerializeField]
+    private Sprite debuffIcon;
+
     private readonly string persentFormat = "{0}%";
 
     protected override void Awake()
@@ -29,6 +32,15 @@ public class FatigueStat : SurvivalStatBehaviour
         survivalStatType = SurvivalStatType.Fatigue;
         Load();
         OnChangeValue();
+
+        var uIDebuffIcon = GameObject.FindWithTag(Tags.UIDebuffIcon);
+        if (uIDebuffIcon != null)
+        {
+            var debuff = uIDebuffIcon.GetComponent<UIDebuffIconView>().CreateDebuffIcon(debuffIcon, "피로도 디버프", "공격속도, 이동속도 감소");
+            onStartPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(true); });
+            onEndPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(false); });
+            debuff.gameObject.SetActive(false);
+        }
     }
     public override void AddPenaltyValue(float value)
     {

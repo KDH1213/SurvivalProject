@@ -25,12 +25,52 @@ public class TemperatureStat : MonoBehaviour
     public UnityEvent<int> onColdPenaltyEvenet;
     public UnityEvent<int> onHeatPenaltyEvenet;
 
+
+    [SerializeField]
+    private Sprite coldDebuffIcon;
+
+    [SerializeField]
+    private Sprite heatDebuffIcon;
+
     private void Awake()
     {
         var stageManagerObject = GameObject.FindWithTag(Tags.StageManager);
         if(stageManagerObject != null)
         {
             stageManagerObject.GetComponent<StageManager>().onChangeTemperatureEvent.AddListener(OnChangeStageTemperature);
+        }
+
+        var uIDebuffIcon = GameObject.FindWithTag(Tags.UIDebuffIcon);
+        if (uIDebuffIcon != null)
+        {
+            var uIDebuffIconView = uIDebuffIcon.GetComponent<UIDebuffIconView>();
+            var debuff = uIDebuffIconView.CreateDebuffIcon(coldDebuffIcon, "느려짐", "이동속도 감소");
+            onColdPenaltyEvenet.AddListener((level) => 
+            {
+                if (level == 0)
+                {
+                    debuff.gameObject.SetActive(false);
+                }
+                else
+                {
+                    debuff.gameObject.SetActive(true);
+                }
+            });
+            debuff.gameObject.SetActive(false);
+
+            var newdebuff = uIDebuffIconView.GetComponent<UIDebuffIconView>().CreateDebuffIcon(heatDebuffIcon, "체력 감소", "체력 떨어짐");
+            onHeatPenaltyEvenet.AddListener((level) =>
+            {
+                if (level == 0)
+                {
+                    newdebuff.gameObject.SetActive(false);
+                }
+                else
+                {
+                    newdebuff.gameObject.SetActive(true);
+                }
+            });
+            newdebuff.gameObject.SetActive(false);
         }
     }
 

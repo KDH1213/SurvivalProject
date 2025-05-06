@@ -11853,15 +11853,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onChangeHpEvnet:
+    m_PersistentCalls:
+      m_Calls: []
   survivalStats: {fileID: 6015766806403488649}
   lifeStat: {fileID: 936364590328128479}
-  HpBarSlider: {fileID: 0}
-  hpText: {fileID: 0}
   invincibilityTime: 3
+  takeDamageinvincibilityTime: 0.1
   onEquipmentItemEvent:
     m_PersistentCalls:
       m_Calls: []
   onUnEquipmentItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeHpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onUseItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onAttackEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &6015766806403488649
@@ -11903,7 +11914,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   survivalStatType: 0
-  maxValue: 10000
   onStartPenaltyEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -11913,6 +11923,8 @@ MonoBehaviour:
   startPenaltyPersent: 0.7
   extraValue: 1.5
   fatigueSlider: {fileID: 0}
+  fatigusPersentText: {fileID: 0}
+  debuffIcon: {fileID: 21300000, guid: 081da6affc10f054b87d68e712583544, type: 3}
 --- !u!114 &7720668712684393975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11926,11 +11938,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   survivalStatType: 1
-  maxValue: 10000
   onStartPenaltyEvent:
     m_PersistentCalls:
       m_Calls: []
   onEndPenaltyEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onExtraPenaltyEvent:
     m_PersistentCalls:
       m_Calls: []
   onHpPenaltyEvnet:
@@ -11952,6 +11966,9 @@ MonoBehaviour:
   valueDownTime: 5
   hpDownTime: 5
   hungerSlider: {fileID: 0}
+  hungerPersentText: {fileID: 0}
+  debuffIcon: {fileID: 21300000, guid: da59c08de9e4d416087c298588b1f5ac, type: 3}
+  extraDebuffIcon: {fileID: 21300000, guid: 7d634054f4723422096f9ad50896c3bd, type: 3}
 --- !u!114 &5337073670899731825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11965,7 +11982,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   survivalStatType: 2
-  maxValue: 10000
   onStartPenaltyEvent:
     m_PersistentCalls:
       m_Calls:
@@ -11999,6 +12015,8 @@ MonoBehaviour:
   startPenaltyPersent: 0.5
   valueDownTime: 5
   thirstSlider: {fileID: 0}
+  thirstPersentText: {fileID: 0}
+  debuffIcon: {fileID: 21300000, guid: ef9ad26a8852dcb489f7be2983736b32, type: 3}
 --- !u!114 &1478152083764109327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12041,10 +12059,12 @@ MonoBehaviour:
   currentLevel: 1
   maxLevel: 100
   lifeStatData: {fileID: 11400000, guid: 22409b408e1246645a292b3a9d8caf23, type: 2}
-  experienceSlider: {fileID: 0}
   skillLevelTable:
     _serializedList: []
   onLevelUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeLevelEvent:
     m_PersistentCalls:
       m_Calls: []
   OnChangeSkillPointEvent:
@@ -12068,6 +12088,9 @@ MonoBehaviour:
   OnChangeSkillLevelCountEvent:
     m_PersistentCalls:
       m_Calls: []
+  onChangeExperienceEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1807447404484842026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12086,7 +12109,8 @@ MonoBehaviour:
   <OnDisabledEvent>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
-  <Icon>k__BackingField: {fileID: 21300000, guid: 8a5d5b34dab14c2408bff40bdb0da75f,
+  <IconColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 877cc0261747248d9ad4008f21d0d3ae,
     type: 3}
   <IsStatic>k__BackingField: 0
   <IsMarker>k__BackingField: 0
@@ -12172,6 +12196,8 @@ MonoBehaviour:
   onHeatPenaltyEvenet:
     m_PersistentCalls:
       m_Calls: []
+  coldDebuffIcon: {fileID: 21300000, guid: 6ef06eaeb36ca471abd864f0a692538f, type: 3}
+  heatDebuffIcon: {fileID: 21300000, guid: 153ae19bf1d5f4801894b58937993a4f, type: 3}
 --- !u!1 &8107886998491019709
 GameObject:
   m_ObjectHideFlags: 0

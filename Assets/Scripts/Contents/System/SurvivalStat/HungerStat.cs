@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +5,8 @@ using UnityEngine.UI;
 
 public class HungerStat : SurvivalStatBehaviour
 {
+    public UnityEvent<bool> onExtraPenaltyEvent;
+
     public UnityEvent onHpPenaltyEvnet;
 
     [SerializeField]
@@ -21,9 +21,14 @@ public class HungerStat : SurvivalStatBehaviour
     [SerializeField]
     private Slider hungerSlider;
 
-
     [SerializeField]
     private TextMeshProUGUI hungerPersentText;
+
+    [SerializeField]
+    private Sprite debuffIcon; 
+    [SerializeField]
+    private Sprite extraDebuffIcon;
+
 
     private readonly string persentFormat = "{0}%";
 
@@ -31,6 +36,8 @@ public class HungerStat : SurvivalStatBehaviour
     private float currentTime = 0f;
     private float hungerSkillValue = 0f;
     private float totalValueDownTime = 0f;
+    private bool isOnExtraPenalty = false;
+
 
     protected override void Awake()
     {
@@ -40,7 +47,34 @@ public class HungerStat : SurvivalStatBehaviour
         Load();
 
         OnChangeValue();
+
+        var uIDebuffIcon = GameObject.FindWithTag(Tags.UIDebuffIcon);
+        if(uIDebuffIcon != null)
+        {
+            var debuff = uIDebuffIcon.GetComponent<UIDebuffIconView>().CreateDebuffIcon(debuffIcon, "느려짐", "이동속도 감소");
+            onStartPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(true); });
+            onEndPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(false); });
+            debuff.gameObject.SetActive(false);
+
+            var newdebuff = uIDebuffIcon.GetComponent<UIDebuffIconView>().CreateDebuffIcon(extraDebuffIcon, "체력 감소", "체력 떨어짐");
+            onExtraPenaltyEvent.AddListener((active) => { newdebuff.gameObject.SetActive(active); });
+            newdebuff.gameObject.SetActive(false);
+        }
     }
+
+    //private void Start()
+    //{
+    //    var uIDebuffIcon = GameObject.Find(Tags.UIDebuffIcon);
+    //    if (uIDebuffIcon != null)
+    //    {
+    //        var debuff = uIDebuffIcon.GetComponent<UIDebuffIconView>().CreateDebuffIcon(debuffIcon, "느려짐", "이동속도 감소");
+    //        onStartPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(true); });
+    //        onEndPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(false); });
+
+    //        debuff = uIDebuffIcon.GetComponent<UIDebuffIconView>().CreateDebuffIcon(extraDebuffIcon, "체력 감소", "체력 떨어짐");
+    //        onExtraPenaltyEvent.AddListener((active) => { debuff.gameObject.SetActive(active); });
+    //    }
+    //}
 
     private void Update()
     {
@@ -74,6 +108,12 @@ public class HungerStat : SurvivalStatBehaviour
             currentTime -= totalValueDownTime;
             value -= MaxValue * 0.01f;
             this.value = Mathf.Max(value, 0f);
+
+            if(value == 0f)
+            {
+                isOnExtraPenalty = true;
+                onExtraPenaltyEvent?.Invoke(isOnExtraPenalty);
+            }
            OnChangeValue();
         }
     }
@@ -106,8 +146,15 @@ public class HungerStat : SurvivalStatBehaviour
         else if (isOnDebuff)
         {
             isOnDebuff = IsActivationCheckPenalty();
+            
+            if (value > 0f)
+            {
+                isOnExtraPenalty = false;
+                onExtraPenaltyEvent?.Invoke(isOnExtraPenalty);
+            }
 
-            if(!isOnDebuff)
+
+            if (!isOnDebuff)
             {
                 OnStopPenalty();
             }
@@ -128,6 +175,12 @@ public class HungerStat : SurvivalStatBehaviour
         else if (isOnDebuff)
         {
             isOnDebuff = IsActivationCheckPenalty();
+
+            if (value > 0f)
+            {
+                isOnExtraPenalty = false;
+                onExtraPenaltyEvent?.Invoke(isOnExtraPenalty);
+            }
 
             if (!isOnDebuff)
             {

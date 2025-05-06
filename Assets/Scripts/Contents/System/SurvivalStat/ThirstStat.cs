@@ -26,6 +26,10 @@ public class ThirstStat : SurvivalStatBehaviour
     private float thirstSkillValue = 0f;
     private float totalValueDownTime = 0f;
 
+
+    [SerializeField]
+    private Sprite debuffIcon;
+
     protected override void Awake()
     {
         survivalStatType = SurvivalStatType.Thirst;
@@ -33,6 +37,15 @@ public class ThirstStat : SurvivalStatBehaviour
         totalValueDownTime = valueDownTime;
         Load();
         OnChangeValue();
+
+        var uIDebuffIcon = GameObject.FindWithTag(Tags.UIDebuffIcon);
+        if (uIDebuffIcon != null)
+        {
+            var debuff = uIDebuffIcon.GetComponent<UIDebuffIconView>().CreateDebuffIcon(debuffIcon, "갈증 디버프", "피로도 1.5배 증가");
+            onStartPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(true); });
+            onEndPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(false); });
+            debuff.gameObject.SetActive(false);
+        }
     }
 
     private void Update()

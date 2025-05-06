@@ -33,6 +33,8 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 
     private bool isOnHungerPenalty = false;
     private bool isOnFatiguePenalty = false;
+    private bool isOnColdTemperaturePenalty = false;
+    private bool isOnHeatTemperaturePenalty = false;
 
     private float currentSpeedPersent = 1f;
     private float currentAttackSpeedPersent = 1f;
