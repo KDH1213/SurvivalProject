@@ -21,6 +21,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     private GameObject wavePanel;
     [SerializeField]
     private TextMeshProUGUI timerText;
+    [SerializeField]
+    private TextMeshProUGUI levelText;
 
     public UnityEvent<bool> onWaveActiveEvent;
     public UnityEvent<int, int> onDestorySpawnerEvent;
@@ -39,6 +41,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     private Coroutine coSpawn;
 
+    private readonly string levelFormat = "공격 레벨 {0}/{1}";
     private readonly string timerFormat = "남은 시간 : {0:F}";
     private bool isSave = false;
 
@@ -70,7 +73,9 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
         isActive = false;
         wavePanel.SetActive(true);
 
-        if(waveTime == 0f)
+        levelText.text = string.Format(levelFormat, (currentWaveLevel + 1).ToString(), monsterWaveDatas.Count.ToString());
+
+        if (waveTime == 0f)
         {
             waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
         }
@@ -165,6 +170,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             ++currentWaveLevel;
             currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
             waveTime = Time.time + monsterWaveDatas[currentWaveLevel].StartSpawnTime;
+
+            levelText.text = string.Format(levelFormat, (currentWaveLevel + 1).ToString(), monsterWaveDatas.Count.ToString());
 
             isSave = false;
 

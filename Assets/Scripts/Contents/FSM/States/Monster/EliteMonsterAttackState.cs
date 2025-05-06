@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EliteMonsterAttackState : MonsterAttackState
 {
+    [SerializeField]
     private List<MonsterAttackPattern> monsterAttackPatternList = new List<MonsterAttackPattern>();
     private int currentAttackIndex = 0;
 
@@ -30,8 +31,8 @@ public class EliteMonsterAttackState : MonsterAttackState
         transform.LookAt(targetPosition);
 
 
-        currentAttackIndex = Random.Range(0, 4);
-        // monsterAttackPatternList[currentAttackIndex].Enter();
+        currentAttackIndex = Random.Range(0, monsterAttackPatternList.Count);
+        monsterAttackPatternList[currentAttackIndex].Enter();
 
         MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, 0f);
         MonsterFSM.Animator.SetInteger(MonsterAnimationHashCode.hashAttackIndex, currentAttackIndex);
@@ -43,12 +44,12 @@ public class EliteMonsterAttackState : MonsterAttackState
 
     public override void ExecuteUpdate()
     {
-        // monsterAttackPatternList[currentAttackIndex].ExecuteUpdate();
+        monsterAttackPatternList[currentAttackIndex].ExecuteUpdate();
     }
 
     public override void ExecuteFixedUpdate()
     {
-        // monsterAttackPatternList[currentAttackIndex].ExecuteFixedUpdate();
+        monsterAttackPatternList[currentAttackIndex].ExecuteFixedUpdate();
     }
 
     public override void Exit()
@@ -57,5 +58,8 @@ public class EliteMonsterAttackState : MonsterAttackState
         Agent.speed = MonsterStats.Speed;
         MonsterFSM.Animator.speed = 1f;
         attacker = null;
+
+        MonsterFSM.OnEndAttack();
+        monsterAttackPatternList[currentAttackIndex].Exit();
     }
 }
