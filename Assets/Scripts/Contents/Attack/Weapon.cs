@@ -17,7 +17,7 @@ public class Weapon : AttackDefinition
     public LayerMask WeaponLayerMask;
 
     [SerializeField]
-    public Collider[] AttackTargets = new Collider[0];
+    public Collider[] AttackTargets = new Collider[1];
 
     public void StartAttack(Transform attackPoint, GameObject owner)
     {

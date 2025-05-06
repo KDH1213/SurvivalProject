@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EliteBoarMonsterAttackState : MonsterAttackState
 {
+    [SerializeField]
     private List<MonsterAttackPattern> monsterAttackPatternList = new List<MonsterAttackPattern>();
     private int currentAttackIndex = 0;
 
@@ -29,18 +30,20 @@ public class EliteBoarMonsterAttackState : MonsterAttackState
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);
 
-        if((targetPosition - transform.position).sqrMagnitude > 25f)
+        if((targetPosition - transform.position).sqrMagnitude > MonsterFSM.MonsterData.AttackRadius * MonsterFSM.MonsterData.AttackRadius)
         {
             currentAttackIndex = 2;
         }
         else
         {
-            currentAttackIndex = Random.Range(0, 1);
+            currentAttackIndex = Random.Range(0, 2);
         }
 
         MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, 0f);
         MonsterFSM.Animator.SetInteger(MonsterAnimationHashCode.hashAttackIndex, currentAttackIndex);
         MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashAttack);
+
+        monsterAttackPatternList[currentAttackIndex].Enter();
     }
 
     public override void ExecuteUpdate()
@@ -59,5 +62,8 @@ public class EliteBoarMonsterAttackState : MonsterAttackState
         Agent.speed = MonsterStats.Speed;
         MonsterFSM.Animator.speed = 1f;
         attacker = null;
+
+        MonsterFSM.OnEndAttack();
+        monsterAttackPatternList[currentAttackIndex].Exit();
     }
 }
