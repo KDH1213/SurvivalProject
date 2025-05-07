@@ -26,6 +26,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
 
     public UnityEvent<bool> onWaveActiveEvent;
     public UnityEvent<int, int> onDestorySpawnerEvent;
+    public UnityEvent onStartWaveEvent;
 
     [SerializeField]
     private float nextWaveTime;
@@ -112,6 +113,7 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        onStartWaveEvent?.Invoke();
         onWaveActiveEvent?.Invoke(isActive);
 
         foreach (var spawner in monsterActiveSpawnerList)
