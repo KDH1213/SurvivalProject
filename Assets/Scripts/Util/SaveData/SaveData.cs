@@ -76,4 +76,17 @@ public class SaveDataV1 : SaveData
 
         // monsterWaveSaveInfo;
     }
+
+    public void NextStageInitiailze()
+    {
+        placementSaveInfoList.Clear();
+        farmPlacementSaveInfos.Clear();
+        storagePlacementSaveInfo.Clear();
+        gatherSaveInfoTable.Clear();
+        monsterSaveInfoList.Clear();
+        waveMonsterSaveInfos.Clear();
+        spawnerSaveInfoList.Clear();
+        monsterWaveSaveInfo = null;
+        playerSaveInfo.position = Vector3.left * 3f;
+    }
 }

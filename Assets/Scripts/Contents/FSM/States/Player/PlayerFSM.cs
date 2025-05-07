@@ -11,8 +11,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     [field: SerializeField]
     public Weapon Weapon { get; private set; }
     [field: SerializeField]
-    public Data PlayerData { get; private set; }
-    [field: SerializeField]
     public Inventory PlayerInventory { get; private set; }
     [field: SerializeField]
     public Transform AttackPoint {  get; private set; }
