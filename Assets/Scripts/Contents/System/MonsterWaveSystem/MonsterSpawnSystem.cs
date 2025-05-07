@@ -200,6 +200,12 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
     {
         var monsterWaveSaveInfo = SaveLoadManager.Data.monsterWaveSaveInfo;
 
+        if(monsterWaveSaveInfo == null)
+        {
+            monsterWaveSaveInfo = new MonsterWaveSaveInfo();
+            SaveLoadManager.Data.monsterWaveSaveInfo = monsterWaveSaveInfo;
+        }
+
         monsterWaveSaveInfo.activeSpawners = new bool[monsterSpawnerList.Count];
         monsterWaveSaveInfo.waveTime = waveTime - Time.time;
         monsterWaveSaveInfo.waveLevel = currentWaveLevel;

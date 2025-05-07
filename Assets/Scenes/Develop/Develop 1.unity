@@ -8472,14 +8472,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PointStructure
       objectReference: {fileID: 0}
+    - target: {fileID: 8917425791441709734, guid: f8f569ca41324f149b1597ed37744842,
+        type: 3}
+      propertyPath: baseUIController
+      value: 
+      objectReference: {fileID: 273784014}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2350298242560651198, guid: f8f569ca41324f149b1597ed37744842,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 700487451}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8f569ca41324f149b1597ed37744842, type: 3}
 --- !u!1001 &119429075
 PrefabInstance:
@@ -12535,6 +12536,7 @@ MonoBehaviour:
         m_CallState: 2
   stageTemperatureData: {fileID: 11400000, guid: dc4311945ecdc5d49acf3d5465a6f38f,
     type: 2}
+  startQuestID: 240011
   onChangeTemperatureEvent:
     m_PersistentCalls:
       m_Calls:
@@ -44049,6 +44051,9 @@ MonoBehaviour:
   onDestorySpawnerEvent:
     m_PersistentCalls:
       m_Calls: []
+  onStartWaveEvent:
+    m_PersistentCalls:
+      m_Calls: []
   nextWaveTime: 10
   destorySpawnerEffect: {fileID: 1266729528}
 --- !u!1 &682067841
@@ -45102,31 +45107,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698799240}
   m_CullTransparentMesh: 1
---- !u!1 &700487442 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2350298242560651198, guid: f8f569ca41324f149b1597ed37744842,
+--- !u!114 &700487451 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8917425791441709734, guid: f8f569ca41324f149b1597ed37744842,
     type: 3}
   m_PrefabInstance: {fileID: 119348894}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &700487451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 700487442}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5cc5c770035d864eb05a201e6876338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeUI:
-    m_PersistentCalls:
-      m_Calls: []
-  baseUIController: {fileID: 273784014}
-  maxHp: 900000
-  returnCount: 0
-  maxRelics: 5
 --- !u!1 &700978511
 GameObject:
   m_ObjectHideFlags: 0
@@ -107784,6 +107776,8 @@ MonoBehaviour:
   onSceneSwitchEvent:
     m_PersistentCalls:
       m_Calls: []
+  nextStageName: 
+  currentStageName: 
 --- !u!1001 &1885933886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122825,7 +122819,7 @@ PrefabInstance:
     - target: {fileID: 1453028581937109822, guid: 81e4798015011f4459436bdcbb4f0ccc,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 359
+      value: 450.44617
       objectReference: {fileID: 0}
     - target: {fileID: 1453028581937109822, guid: 81e4798015011f4459436bdcbb4f0ccc,
         type: 3}
@@ -122835,7 +122829,7 @@ PrefabInstance:
     - target: {fileID: 1453028581937109822, guid: 81e4798015011f4459436bdcbb4f0ccc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 179.5
+      value: 225.22308
       objectReference: {fileID: 0}
     - target: {fileID: 1453028581937109822, guid: 81e4798015011f4459436bdcbb4f0ccc,
         type: 3}
@@ -124078,7 +124072,9 @@ MonoBehaviour:
   m_Follow: {fileID: 315731004}
   m_ShowDebugText: 0
   m_Loop: 0
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 1388988211}
+  - {fileID: 7355456130801431905}
   m_Instructions:
   - m_VirtualCamera: {fileID: 1388988211}
     m_Hold: 0
@@ -124665,7 +124661,7 @@ PrefabInstance:
     - target: {fileID: 4846580141976681660, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 128.57692
       objectReference: {fileID: 0}
     - target: {fileID: 4846580141976681660, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
@@ -124715,7 +124711,7 @@ PrefabInstance:
     - target: {fileID: 6298670799717471133, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 128.57692
       objectReference: {fileID: 0}
     - target: {fileID: 6298670799717471133, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
@@ -124780,7 +124776,7 @@ PrefabInstance:
     - target: {fileID: 7411532741290360531, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 128.57692
       objectReference: {fileID: 0}
     - target: {fileID: 7411532741290360531, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
@@ -124920,7 +124916,7 @@ PrefabInstance:
     - target: {fileID: 8679916650490869613, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 128.57692
       objectReference: {fileID: 0}
     - target: {fileID: 8679916650490869613, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
