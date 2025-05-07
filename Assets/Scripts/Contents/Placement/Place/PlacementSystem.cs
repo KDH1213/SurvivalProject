@@ -246,6 +246,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Position = gridPosition;
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
         placementObject.uiController = placementUI;
+
+        var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+        table.Clear();
+        table.Add(StatType.HP, new StatValue(StatType.HP, objData.DefaultHp));
+
         placementObject.SetData();
         placementObject.CreateActInfo();
         ConsumePenalty(placementObject);
@@ -543,6 +548,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
+
+            var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
             placementObject.SetData();
             placementObject.Load();
 
@@ -568,7 +578,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     public void Repair(Dictionary<int, int> needItems, Dictionary<SurvivalStatType, int> needPenalties)
     {
-        if (GameObject.FindWithTag(Tags.Player) == null)
+        if (GameObject.FindWithTag(Tags.Player) == null || SelectedObject == null)
         {
             return;
         }
@@ -579,6 +589,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         }
         var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
         target.OnPlayAct(needPenalties);
+        var structureData = DataTableManager.StructureTable.Get(SelectedObject.ID);
+        var table = SelectedObject.GetComponent<StructureStats>().CurrentStatTable;
+        table.Clear();
+        table.Add(StatType.HP, new StatValue(StatType.HP, structureData.BuildingHealth));
+        SelectedObject.Hp = structureData.BuildingHealth;
 
     }
 
@@ -604,6 +619,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
+
+            var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
             placementObject.SetData();
             placementObject.Load();
 
@@ -649,6 +669,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
+
+            var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
             placementObject.SetData();
             placementObject.Load();
 
