@@ -33,6 +33,8 @@ public class SaveDataV1 : SaveData
     public QuestProgressSaveInfo quesetProgressSaveInfo = new QuestProgressSaveInfo();
 
     public bool isRestart = false;
+
+    public string startStage = SceneName.Develop;
     public SaveDataV1()
     {
         Version = 1;
