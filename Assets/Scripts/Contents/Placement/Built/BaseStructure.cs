@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BaseStructure : PlacementObject
 {
@@ -8,8 +9,18 @@ public class BaseStructure : PlacementObject
     private PlacementUIController baseUIController;
 
     public float maxHp;
-    public int returnCount;
-    public int maxRelics;
+    [SerializeField]
+    private int returnCount;
+    public int ReturnCount => returnCount;
+    [SerializeField]
+    private int maxRelics;
+    public int MaxRelics => maxRelics;
+
+    public UnityEvent onMaxCollectRelicsEvent;
+
+
+    public bool IsMaxCollectRelics => returnCount >= maxRelics;
+
     private void OnEnable()
     {
         SetData();
@@ -21,6 +32,16 @@ public class BaseStructure : PlacementObject
         var table = GetComponent<StructureStats>().CurrentStatTable;
         table.Clear();
         table.Add(StatType.HP, new StatValue(StatType.HP, maxHp));
+    }
+
+    public void OnReturnRelicsCount(int count)
+    {
+        returnCount += count;
+
+        if(returnCount >= maxRelics)
+        {
+            onMaxCollectRelicsEvent?.Invoke();
+        }
     }
 
     public override void Save()

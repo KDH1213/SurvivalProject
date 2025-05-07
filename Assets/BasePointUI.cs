@@ -22,13 +22,21 @@ public class BasePointUI : MonoBehaviour
     private GameObject target;
     private Inventory inventory;
     private BaseStructure currentStructure;
+
     public void SetUI(GameObject target, BaseStructure selectedObject)
     {
         this.target = target;
         inventory = target.GetComponent<PlayerFSM>().PlayerInventory;
         currentStructure = selectedObject;
 
-        SetUIInfo(selectedObject);
+        if(currentStructure.IsMaxCollectRelics)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            SetUIInfo(selectedObject);
+        }
     }
 
     public void OnReturnRelics()
@@ -39,7 +47,7 @@ public class BasePointUI : MonoBehaviour
             inventory.ConsumeItem(relic.Key, inventory.GetTotalItem(relic.Key));
         }
 
-        currentStructure.returnCount += totalRelics;
+        currentStructure.OnReturnRelicsCount(totalRelics);
         totalRelics = 0;
 
         SetUIInfo(currentStructure);
@@ -49,7 +57,7 @@ public class BasePointUI : MonoBehaviour
     {
         hp.text = selectedObject.Hp.ToString();
         hpFill.fillAmount = selectedObject.Hp / selectedObject.maxHp;
-        returnCount.text = $"{selectedObject.returnCount.ToString()} / {selectedObject.maxRelics}";
+        returnCount.text = $"{selectedObject.ReturnCount.ToString()} / {selectedObject.MaxRelics}";
 
 
         var relics = inventory.InventroyItemTable.Where(item => item.Value[0].itemData.ItemType == ItemType.Relics);
