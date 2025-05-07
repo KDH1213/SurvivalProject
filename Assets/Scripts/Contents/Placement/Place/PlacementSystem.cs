@@ -18,6 +18,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private Inventory inventory;
     [SerializeField]
+    private BaseStructure baseStructure;
+    [SerializeField]
     private Grid grid;
 
     //[SerializeField]
@@ -85,6 +87,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
             Load();
         }
+
+        placementUI.SetObjectList(Database);
     }
 
     private void Update()
@@ -496,12 +500,13 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Data.farmPlacementSaveInfos.Clear();
         SaveLoadManager.Data.storagePlacementSaveInfo.Clear();
         SaveLoadManager.Data.placementSaveInfoList.Clear();
+        SaveLoadManager.Data.basePointerSaveInfo = null;
 
         foreach (var placedGameObject in PlacedGameObjects)
         {
             placedGameObject.Save();
         }
-
+        baseStructure.Save();
     }
 
     public void Load()

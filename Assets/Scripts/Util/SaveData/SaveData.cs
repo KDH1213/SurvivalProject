@@ -19,6 +19,7 @@ public class SaveDataV1 : SaveData
     public List<WaveMonsterSaveInfo> waveMonsterSaveInfos = new List<WaveMonsterSaveInfo>();
     public List<SpawnerSaveInfo> spawnerSaveInfoList = new List<SpawnerSaveInfo>();
     public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
+    public BasePointerSaveInfo basePointerSaveInfo = new BasePointerSaveInfo();
 
     public List<int> equipmentItemIDList = new List<int>();
     public List<EquipmentItemInfoSaveData> equipmentItemInfoSaveDataList = new List<EquipmentItemInfoSaveData>();
