@@ -274,12 +274,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             Storages.Add(placementObject as StorageStructure);
         }
 
-        int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
-        if(left <= 0)
-        {
-            StopPlacement();
-            return;
-        }
 
         bool invenValidity = true;
         if (inventory == null)
@@ -303,11 +297,19 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        PlacedGameObjects.Add(placementObject);
+        int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
+        if (left <= 0)
+        {
+            StopPlacement();
+            return;
+        }
+
 
         Vector3Int nextPos = gridData.SearchSide(gridPosition, Database.objects[SelectedObjectIndex].Size);
         preview.UpdatePosition(grid.CellToWorld(nextPos),
             CheckPlacementValidity(nextPos, SelectedObjectIndex));
-        PlacedGameObjects.Add(placementObject);
+        
         inputManager.LastPosition = grid.CellToWorld(nextPos);
         //StopPlacement();
     }

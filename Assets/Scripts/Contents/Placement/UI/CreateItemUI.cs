@@ -157,6 +157,7 @@ public class CreateItemUI : MonoBehaviour
         createItem.id = data.ID;  
         createItem.itemData = data;
         createItem.amount = createData.ResultValue;
+        createItem.durability = data.Durability;
         if (inventory != null)
         {
             ConsumItem(createData.NeedItemList);
