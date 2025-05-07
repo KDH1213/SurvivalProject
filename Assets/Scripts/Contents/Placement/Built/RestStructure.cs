@@ -60,4 +60,10 @@ public class RestStructure : PlacementObject
         // Time.timeScale *= timeScale;
         // isRest = true;
     }
+
+    public override void Load()
+    {
+        var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
+        Hp = data.hp;
+    }
 }

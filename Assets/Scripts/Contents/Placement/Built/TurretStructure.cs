@@ -63,6 +63,11 @@ public class TurretStructure : PlacementObject
         uiController.OnOpenTurretUI(this);
     }
 
+    public override void Load()
+    {
+        var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
+        Hp = data.hp;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, attackRange);

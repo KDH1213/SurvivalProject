@@ -92,6 +92,7 @@ public class ProduceStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.farmPlacementSaveInfos.Find(x => x.position == Position && x.id == ID);
         produceInfo.outPut = data.outPut;
+        Hp = data.hp;
         currentTime = Time.time + data.createTime;
     }
 

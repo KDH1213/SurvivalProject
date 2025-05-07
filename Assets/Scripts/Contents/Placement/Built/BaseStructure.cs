@@ -10,6 +10,12 @@ public class BaseStructure : PlacementObject
 
     }
 
+    public override void Load()
+    {
+        var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
+        Hp = data.hp;
+    }
+
     public override void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
         base.OnAttack(attacker, damageInfo);
