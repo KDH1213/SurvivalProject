@@ -177,8 +177,12 @@ GameObject:
   - component: {fileID: 5061516474901038500}
   - component: {fileID: 4448153820193993199}
   - component: {fileID: 7060360216707951663}
+  - component: {fileID: 5195318935747272004}
+  - component: {fileID: 2542303598435489696}
+  - component: {fileID: 3220971446093898009}
+  - component: {fileID: 2246311149328996484}
   m_Layer: 8
-  m_Name: Monster_Prefab_Bear
+  m_Name: EliteBearMonster_Prefab_130061102
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,7 +238,6 @@ MonoBehaviour:
       Value: {fileID: 5426340784154792447}
   <ID>k__BackingField: 130061102
   <Animator>k__BackingField: {fileID: 4357684762330487568}
-  <Agent>k__BackingField: {fileID: 3247300220053953403}
   <Weapon>k__BackingField: {fileID: 11400000, guid: bcce40906cacfc842a6bdf8156297f15,
     type: 2}
   <AttackPoint>k__BackingField: {fileID: 4510328831007063315}
@@ -408,6 +411,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onChangeHpEvnet:
+    m_PersistentCalls:
+      m_Calls: []
   HpBarSlider: {fileID: 3102182936047874844}
 --- !u!114 &7002818060320636604
 MonoBehaviour:
@@ -603,6 +609,7 @@ MonoBehaviour:
   <OnDisabledEvent>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
+  <IconColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <Icon>k__BackingField: {fileID: 21300000, guid: ee4645b471245254691f3ba1cec46374,
     type: 3}
   <IsStatic>k__BackingField: 0
@@ -670,6 +677,59 @@ MonoBehaviour:
   exitStateEvent:
     m_PersistentCalls:
       m_Calls: []
+  monsterAttackPatternList:
+  - {fileID: 5195318935747272004}
+  - {fileID: 2542303598435489696}
+  - {fileID: 3220971446093898009}
+  - {fileID: 2246311149328996484}
+--- !u!114 &5195318935747272004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7722941127125952148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99ffa2419bf8ad40a442e3291d0c671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2542303598435489696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7722941127125952148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1df9e401a54bd94aa7184491e820e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3220971446093898009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7722941127125952148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ec1537c937c4904dad9c4de768cfc4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2246311149328996484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7722941127125952148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31be0ec6ef3ae8b458e3ab3f137400c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &377386182231706403
 PrefabInstance:
   m_ObjectHideFlags: 0
