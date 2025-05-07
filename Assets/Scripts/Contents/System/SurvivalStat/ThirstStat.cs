@@ -47,7 +47,6 @@ public class ThirstStat : SurvivalStatBehaviour
             onEndPenaltyEvent.AddListener((_) => { debuff.gameObject.SetActive(false); });
             debuff.gameObject.SetActive(false);
         }
-        value = 5000;
     }
 
     private void Update()
