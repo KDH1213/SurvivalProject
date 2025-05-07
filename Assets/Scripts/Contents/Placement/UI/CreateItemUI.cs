@@ -24,6 +24,8 @@ public class CreateItemUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI itemDescript;
     [SerializeField]
+    private TextMeshProUGUI itemPerform;
+    [SerializeField]
     private Button createButton;
 
     private int selectIndex;
@@ -85,11 +87,13 @@ public class CreateItemUI : MonoBehaviour
             else
             {
                 item.GetComponent<Button>().onClick.AddListener(() => UpdateInfo(item.index));
+                item.GetComponent<Button>().onClick.AddListener(() => SetFormat(item.index));
             }
             createList.Add(item);
             index++;
         }
         currentObject.closeUI.AddListener(() => gameObject.SetActive(false));
+
     }
 
     private void UpdateInfo(int index)
@@ -205,6 +209,33 @@ public class CreateItemUI : MonoBehaviour
             if (inventory == null)
                 break;
             inventory.ConsumeItem(data.Key, data.Value);
+        }
+    }
+
+    private void SetFormat(int index)
+    {
+        var info = createList[index].ItemInfo.data;
+        switch (info.ItemType)
+        {
+            case ItemType.None:
+                break;
+            case ItemType.Material:
+                break;
+            case ItemType.Consumable:
+                itemPerform.text = string.Format(consumableFormat, info.Value1.ToString(),
+                    info.Value2.ToString(), info.Value3.ToString(), info.Value4.ToString());
+                break;
+            case ItemType.Relics:
+                break;
+            case ItemType.Weapon:
+                var weaponData = DataTableManager.WeaponTable.Get(info.ID);
+                itemPerform.text = string.Format(weaponFormat, weaponData.AttackPower.ToString(), weaponData.AttackSpeed.ToString());
+                break;
+            case ItemType.Armor:
+                var armorData = DataTableManager.ArmorTable.Get(info.ID);
+                itemPerform.text = string.Format(armorFormat, armorData.defance.ToString(),
+                    armorData.moveSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
+                break;
         }
     }
 }
