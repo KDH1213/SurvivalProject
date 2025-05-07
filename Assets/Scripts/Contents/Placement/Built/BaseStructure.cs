@@ -31,7 +31,11 @@ public class BaseStructure : PlacementObject
     {
         var table = GetComponent<StructureStats>().CurrentStatTable;
         table.Clear();
-        table.Add(StatType.HP, new StatValue(StatType.HP, maxHp));
+
+        var hpStat = new StatValue(StatType.HP, Hp, maxHp);
+        table.Add(StatType.HP, hpStat);
+
+        hpStat.OnChangeValue += (hp) => Hp = hp;
     }
 
     public void OnReturnRelicsCount(int count)
@@ -52,7 +56,9 @@ public class BaseStructure : PlacementObject
         }
 
         var saveInfo = new BasePointerSaveInfo();
-        saveInfo.hp = Hp;
+
+        
+        saveInfo.hp = GetComponent<StructureStats>().HP;
         saveInfo.id = ID;
         saveInfo.returnCount = returnCount;
         SaveLoadManager.Data.basePointerSaveInfo = saveInfo;
@@ -65,7 +71,9 @@ public class BaseStructure : PlacementObject
         returnCount = data.returnCount;
         var table = GetComponent<StructureStats>().CurrentStatTable;
         table.Clear();
-        table.Add(StatType.HP, new StatValue(StatType.HP, Hp));
+        var hpStat = new StatValue(StatType.HP, Hp, maxHp);
+        table.Add(StatType.HP, hpStat);
+        hpStat.OnChangeValue += (hp) => Hp = hp;
     }
 
     public override void Interact(GameObject interactor)
@@ -74,7 +82,7 @@ public class BaseStructure : PlacementObject
     }
     public override void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
-        base.OnAttack(attacker, damageInfo);
-        // 거점 파괴 이후 처리
+        return;
     }
+
 }

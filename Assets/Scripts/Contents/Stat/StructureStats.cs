@@ -28,6 +28,7 @@ public class StructureStats : CharactorStats, ISaveLoadData
     public void OnDestoryStructure()
     {
         IsDead = true;
+        deathEvent?.Invoke();
     }
 
     public void OnRepair(float repair)
