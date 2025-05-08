@@ -1598,6 +1598,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d19ef64bd45191e4e8d3b80f23382a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &23844175 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6436094924677814399, guid: 70c08347409d3aa4192ae5f03989de4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 23844170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2d8980baf27664da9c1f56ba90acd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &26204301
 GameObject:
   m_ObjectHideFlags: 0
@@ -7725,6 +7737,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 23844175}
+        m_TargetAssemblyTypeName: UIGameClearMessageView, Assembly-CSharp
+        m_MethodName: OnStrartEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 652421696}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &634710550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8247,6 +8283,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1332435960806409439, guid: 7f59eba9df4b15d4e91b33107071cf62,
     type: 3}
   m_PrefabInstance: {fileID: 650051116}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &652421696 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7404858017855525056, guid: 70c08347409d3aa4192ae5f03989de4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 23844170}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &655252231 stripped
 GameObject:
@@ -12598,6 +12640,16 @@ PrefabInstance:
       propertyPath: collsionEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2694859316970235702}
+    - target: {fileID: 651171459339661560, guid: f8f569ca41324f149b1597ed37744842,
+        type: 3}
+      propertyPath: collsionExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 651171459339661560, guid: f8f569ca41324f149b1597ed37744842,
+        type: 3}
+      propertyPath: collsionEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 4698986758135803160, guid: f8f569ca41324f149b1597ed37744842,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -28834,7 +28886,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 23844170}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 652421696}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89612679adab23845b6ee6a0d65ecfa3, type: 3}

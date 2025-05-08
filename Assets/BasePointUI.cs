@@ -50,6 +50,11 @@ public class BasePointUI : MonoBehaviour
         currentStructure.OnReturnRelicsCount(totalRelics);
         totalRelics = 0;
 
+        if (currentStructure.IsMaxCollectRelics)
+        {
+            gameObject.SetActive(false);
+        }
+
         SetUIInfo(currentStructure);
     }
 
