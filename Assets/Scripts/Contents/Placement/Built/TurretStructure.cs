@@ -15,17 +15,15 @@ public class TurretStructure : PlacementObject
     public float damage;
     [SerializeField]
     private float attackRange;
-    [SerializeField]
     public float attackTerm;
-    [SerializeField]
-    private float currentTime;
+    public float currentTime;
     private GameObject effect;
     [SerializeField]
     private TurretAttack atd;
     [SerializeField]
     private TurretType type;
-
-    private PriorityQueue<GameObject, float> monsters;
+    [SerializeField]
+    private TurretAttackVerdict verdict;
 
     private void Update()
     {
@@ -56,6 +54,8 @@ public class TurretStructure : PlacementObject
         table.Add(StatType.BasicAttackPower, new StatValue(StatType.BasicAttackPower, damage));
         table.Add(StatType.AttackSpeed, new StatValue(StatType.AttackSpeed, attackTerm));
         table.Add(StatType.AttackRange, new StatValue(StatType.AttackRange, attackRange));
+
+        verdict.SetInfo(atd, attackTerm, type, this);
     }
 
     public override void Interact(GameObject interactor)
@@ -67,10 +67,6 @@ public class TurretStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
         Hp = data.hp;
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     /*private void OnCollisionEnter(Collision collision)
