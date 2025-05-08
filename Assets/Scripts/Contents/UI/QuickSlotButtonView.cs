@@ -19,6 +19,9 @@ public class QuickSlotButtonView : MonoBehaviour
     [SerializeField]
     private QuickSlotSocket equipmentSocket;
 
+    [SerializeField]
+    private GameObject amountView;
+
     public UnityEvent onUseItemEvnet;
 
     public void Awake()
@@ -29,7 +32,7 @@ public class QuickSlotButtonView : MonoBehaviour
     private void Empty()
     {
         itemImage.sprite = null;
-        amountText.gameObject.SetActive(false);
+        amountView.gameObject.SetActive(false);
     }
 
     public void OnSetItemInfo()
@@ -42,7 +45,7 @@ public class QuickSlotButtonView : MonoBehaviour
         {
             itemImage.sprite = equipmentSocket.ItemData.ItemImage;
             amountText.text = equipmentSocket.Amount.ToString();
-            amountText.gameObject.SetActive(true);
+            amountView.gameObject.SetActive(true);
         }
     }
 

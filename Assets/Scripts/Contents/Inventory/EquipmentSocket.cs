@@ -20,6 +20,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     private Slider durabilitySlider;
 
     [SerializeField]
+    protected GameObject amountView;
+
+    [SerializeField]
     protected TextMeshProUGUI amountText;
 
     public ItemInfo ItemInfo { get; protected set; } = new ItemInfo();
@@ -76,14 +79,14 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             {
                 durabilitySlider.gameObject.SetActive(false);
                 amountText.text = amount.ToString();
-                amountText.gameObject.SetActive(true);
+                amountView.gameObject.SetActive(true);
             }
         }
         else
         {
             itemIcon.color = new Color(1, 1, 1, 0);
             durabilitySlider.gameObject.SetActive(false);
-            amountText.gameObject.SetActive(false);
+            amountView.gameObject.SetActive(false);
         }
     }
     protected void ChangeEquipment(ItemData itemData, int amount, int durability)
@@ -120,7 +123,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
         itemIcon.color = new Color(1, 1, 1, 0);
         durabilitySlider.gameObject.SetActive(false);
-        amountText.gameObject.SetActive(false);
+        amountView.gameObject.SetActive(false);
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
