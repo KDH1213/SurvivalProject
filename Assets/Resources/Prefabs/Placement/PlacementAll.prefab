@@ -4553,7 +4553,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8762778676515712688}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1639597354519922154}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1546911947414445036
 GameObject:
   m_ObjectHideFlags: 0
@@ -5056,7 +5068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fbea17be4193746b814872f375a866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  system: {fileID: 0}
+  system: {fileID: 5978757758294878559}
   structureImage: {fileID: 578062829227989461}
   structureName: {fileID: 2567863064583082159}
   beforeHp: {fileID: 5051011718808992860}
@@ -20050,6 +20062,7 @@ MonoBehaviour:
   destoryCheckUI: {fileID: 6421247183995758797}
   restUI: {fileID: 0}
   turretUI: {fileID: 0}
+  basePointUI: {fileID: 0}
 --- !u!114 &8156522565728635116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20081,6 +20094,7 @@ MonoBehaviour:
   preview: {fileID: 5670436484455298930}
   inven: {fileID: 4479558057721803755}
   inventory: {fileID: 0}
+  baseStructure: {fileID: 0}
   grid: {fileID: 409532498968421021}
   gridCellCount: 20
   buildCount: {fileID: 11400000, guid: 703bcd7e77a7f964292a302864aaee86, type: 2}

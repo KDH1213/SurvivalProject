@@ -3,32 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 public class RestStructure : PlacementObject
 {
     [SerializeField]
-    private float recoverCurTime;
+    private DateTime recoverCurTime;
     [SerializeField]
     private float recoverDuration;
     [SerializeField]
-    private float recoverEndTime;
+    private DateTime recoverEndTime;
     private float recoverPerTime = 60;
     [SerializeField]
-    private float recoverPerFatigue;
+    private float recoverPerFatigue = 100;
     [SerializeField]
     private float recoverTemperature;
+    [SerializeField]
+    private GameTimeManager timeManager;
+    private TimeService service;
 
     private GameObject target;
     public bool isRest = false;
     private int timeScale = 2;
 
+    public UnityEvent endRest;
+    
     private Vector3 startTargetRestPosition;
 
     private void Awake()
     {
         var charactorStats = GetComponent<CharactorStats>();
-
-        if(charactorStats != null)
+        
+        if (charactorStats != null)
         {
             charactorStats.deathEvent.AddListener(OnEndRest);
         }
@@ -40,14 +47,14 @@ public class RestStructure : PlacementObject
         {
             return;
         }
-        if (Time.time > recoverEndTime)
+        if (service.CurrentTime > recoverEndTime)
         {
             Time.timeScale = 1;
-            OnEndRest();
+            endRest.Invoke();
         }
-        else if (Time.time > recoverCurTime)
+        else if (service.CurrentTime > recoverCurTime)
         {
-            recoverCurTime = Time.time + recoverPerTime;
+            recoverCurTime = service.GetCalculateTime(recoverPerTime);
             target.GetComponent<FatigueStat>().SubPenaltyValue(recoverPerFatigue);
         }
 
@@ -56,8 +63,9 @@ public class RestStructure : PlacementObject
     [ContextMenu("setData")]
     public override void SetData()
     {
+        
         //recoverEndTime = Time.time + recoverDuration;
-        recoverCurTime = Time.time + recoverPerTime;
+       
     }
 
     public override void Interact(GameObject interactor)
@@ -69,12 +77,16 @@ public class RestStructure : PlacementObject
 
     public void SetRest(float endTime)
     {
-        recoverEndTime = Time.time + endTime;
+        timeManager = GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>();
+        service = timeManager.TimeService;
+        recoverEndTime = service.GetCalculateTime(endTime / 5);
+        recoverCurTime = service.GetCalculateTime(recoverPerTime / 5);
 
         Time.timeScale = 8;
         isRest = true;
 
         startTargetRestPosition = target.transform.position;
+
         target.SetActive(false);
     }
 

@@ -50,6 +50,11 @@ public class TimeService
         currentHour.Value = currentTime.Hour;
     }
 
+    public DateTime GetCalculateTime(float deltaTime)
+    {
+        return currentTime.AddSeconds(deltaTime * settings.timeMultiplier);
+    }
+
     public float CalculateSunAngle()
     {
         bool isDay = IsDayTime();
