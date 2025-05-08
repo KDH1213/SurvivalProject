@@ -4628,9 +4628,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 802432684146116587, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
+      propertyPath: amountView
+      value: 
+      objectReference: {fileID: 8371787992919341930}
+    - target: {fileID: 802432684146116587, guid: e7bdb1fa455f36d4dad0ecf082f77622,
+        type: 3}
       propertyPath: equipmentSocket
       value: 
-      objectReference: {fileID: 1940233086560376217}
+      objectReference: {fileID: 2662384061823206246}
     - target: {fileID: 3963974705388044386, guid: e7bdb1fa455f36d4dad0ecf082f77622,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Target
@@ -5573,6 +5578,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -640
       objectReference: {fileID: 0}
+    - target: {fileID: 2932302769452881117, guid: b7b4c864dcec2b94b99c859d9c239ad8,
+        type: 3}
+      propertyPath: quickSlotButtonView
+      value: 
+      objectReference: {fileID: 251597226310136016}
     - target: {fileID: 3224489648750555996, guid: b7b4c864dcec2b94b99c859d9c239ad8,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6433,9 +6443,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7b4c864dcec2b94b99c859d9c239ad8, type: 3}
---- !u!114 &1940233086560376217 stripped
+--- !u!114 &2662384061823206246 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1634250662267339298, guid: b7b4c864dcec2b94b99c859d9c239ad8,
+  m_CorrespondingSourceObject: {fileID: 2932302769452881117, guid: b7b4c864dcec2b94b99c859d9c239ad8,
     type: 3}
   m_PrefabInstance: {fileID: 883569639882250171}
   m_PrefabAsset: {fileID: 0}
@@ -6460,6 +6470,12 @@ MonoBehaviour:
 --- !u!224 &6617311147230654789 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6311364463474386686, guid: b7b4c864dcec2b94b99c859d9c239ad8,
+    type: 3}
+  m_PrefabInstance: {fileID: 883569639882250171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8371787992919341930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8677734122104696017, guid: b7b4c864dcec2b94b99c859d9c239ad8,
     type: 3}
   m_PrefabInstance: {fileID: 883569639882250171}
   m_PrefabAsset: {fileID: 0}
@@ -6568,9 +6584,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5370324638384431057, guid: efcca33792638a74da5f8a75b10231a0,
         type: 3}
+      propertyPath: onSeleteEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370324638384431057, guid: efcca33792638a74da5f8a75b10231a0,
+        type: 3}
       propertyPath: onChangeSkillPoint.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3076401061004576500}
+    - target: {fileID: 5370324638384431057, guid: efcca33792638a74da5f8a75b10231a0,
+        type: 3}
+      propertyPath: onDisableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5751057204512336647, guid: efcca33792638a74da5f8a75b10231a0,
         type: 3}
       propertyPath: m_Pivot.x

@@ -171,6 +171,7 @@ public class PlayerInteractState : PlayerBaseState
             case InteractType.Rock:
             case InteractType.Branch:
             case InteractType.Bush:
+            case InteractType.Relics:
                 playerFSM.Animator.SetBool(PlayerAnimationHashCode.hashIsPickingUp, true);
                 break;
             case InteractType.Monster:
@@ -226,7 +227,7 @@ public class PlayerInteractState : PlayerBaseState
 
             targetInteractable.Interact(this.gameObject);
 
-            if (targetInteractable.InteractType <= InteractType.Box)
+            if (targetInteractable.InteractType <= InteractType.Box || targetInteractable.InteractType == InteractType.Relics)
             {
                 var IDestructible = target.GetComponent<IDestructible>();
                 if (IDestructible != null)
