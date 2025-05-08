@@ -31,8 +31,8 @@ public class RestUI : MonoBehaviour
 
     private RestStructure currentStructure;
 
-    private readonly string reduceFormat = "�Ƿε� {0}% ����";
-    private readonly string timeFormat = "{0}�� �޽�";
+    private readonly string reduceFormat = "피로도 {0}% 감소";
+    private readonly string timeFormat = "{0}분 휴식";
 
     private void Update()
     {
