@@ -30,6 +30,7 @@ public class EliteMonsterAttackState : MonsterAttackState
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);
 
+        MonsterFSM.SetIsCanAttackCancellation(false);
 
         currentAttackIndex = Random.Range(0, monsterAttackPatternList.Count);
         monsterAttackPatternList[currentAttackIndex].Enter();
@@ -54,6 +55,8 @@ public class EliteMonsterAttackState : MonsterAttackState
 
     public override void Exit()
     {
+
+        MonsterFSM.SetIsCanAttackCancellation(true);
         Agent.isStopped = false;
         Agent.speed = MonsterStats.Speed;
         MonsterFSM.Animator.speed = 1f;

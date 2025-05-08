@@ -31,7 +31,6 @@ public class MonsterAttackState : MonsterBaseState
         Agent.speed = 0f;
         Agent.destination = transform.position;
         Agent.velocity = Vector3.zero;
-
         MonsterFSM.Animator.SetFloat(MonsterAnimationHashCode.hashMove, Agent.speed);
         MonsterFSM.Animator.SetTrigger(MonsterAnimationHashCode.hashAttack);
     }
