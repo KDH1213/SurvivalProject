@@ -36,6 +36,11 @@ public class ObjectInfoUI : MonoBehaviour
         objectInfo1.text = stringTable.Get(data.DescriptID);
         SetStructureDescript(objInfo);
 
+        if (objInfo.NextStructureID == 0)
+        {
+            upgrade.interactable = false;
+        }
+
         upgrade.onClick.AddListener(() => gameObject.SetActive(false));
         upgrade.onClick.AddListener(() => selectedObject.uiController.OnOpenUpgradeInfo(objInfo));
     }
