@@ -60,6 +60,8 @@ public class GameTimeManager : MonoBehaviour, ISaveLoadData
 
     TimeService service;
 
+    public TimeService TimeService => service;
+
     private void Awake()
     {
         Load();

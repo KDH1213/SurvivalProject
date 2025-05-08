@@ -71,6 +71,7 @@ public class RestUI : MonoBehaviour
         }
         restEndButton.gameObject.SetActive(true);
         currentStructure.SetRest(slider.value * 5);
+        currentStructure.endRest.AddListener(() => OnEndRest());
     }
 
     public void OnEndRest()
