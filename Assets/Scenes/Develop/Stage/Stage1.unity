@@ -900,6 +900,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: onSeleteEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 381748727}
+    - target: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: onDisableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 381748723}
+    - target: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: onSeleteEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSkillLevelUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: onDisableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_enabled
+      objectReference: {fileID: 0}
     - target: {fileID: 5280915333358436423, guid: 70c08347409d3aa4192ae5f03989de4e,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -4955,7 +4975,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnChangeSkillPointEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1558717194}
     - target: {fileID: 936364590328128479, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: OnChangeSkillPointEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -5441,6 +5461,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8b9eb58e483610408f67b652283eed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &381748727 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 936364590328128479, guid: 226405ed50c9e3f41844037cac5bab94,
+    type: 3}
+  m_PrefabInstance: {fileID: 381748722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a628e2e6d92204aabd1b2269be407a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &381748728 stripped
@@ -7600,7 +7632,7 @@ PrefabInstance:
     - target: {fileID: 7498830838678327946, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: <IsMarker>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
@@ -11834,6 +11866,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 88e12b48e1c7c9d438a15f6ea77b9649,
         type: 2}
+    - target: {fileID: 7498830838678327946, guid: f929db85fe8ecbc4b9028b12484cdac0,
+        type: 3}
+      propertyPath: <IsMarker>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16110,6 +16147,18 @@ Transform:
   - {fileID: 2045416662}
   m_Father: {fileID: 1899875489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1558717194 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 23844170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9d7c1d55ad5414891196df171cfda5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1575684448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23613,7 +23662,7 @@ PrefabInstance:
     - target: {fileID: 7498830838678327946, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: <IsMarker>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
@@ -28683,7 +28732,7 @@ PrefabInstance:
     - target: {fileID: 7498830838678327946, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
       propertyPath: <IsMarker>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7903975475496117467, guid: f929db85fe8ecbc4b9028b12484cdac0,
         type: 3}
