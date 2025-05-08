@@ -31,8 +31,8 @@ public class RestUI : MonoBehaviour
 
     private RestStructure currentStructure;
 
-    private readonly string reduceFormat = "ÇÇ·Îµµ {0}% °¨¼Ò";
-    private readonly string timeFormat = "{0}ºÐ ÈÞ½Ä";
+    private readonly string reduceFormat = "ï¿½Ç·Îµï¿½ {0}% ï¿½ï¿½ï¿½ï¿½";
+    private readonly string timeFormat = "{0}ï¿½ï¿½ ï¿½Þ½ï¿½";
 
     private void Update()
     {

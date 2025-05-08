@@ -23,8 +23,16 @@ public class BaseStructure : PlacementObject
 
     private void OnEnable()
     {
-        SetData();
+        // SetData();
         Load();
+    }
+
+    private void Start()
+    {
+        if (returnCount >= maxRelics)
+        {
+            onMaxCollectRelicsEvent?.Invoke();
+        }
     }
 
     public override void SetData()
@@ -67,13 +75,19 @@ public class BaseStructure : PlacementObject
     public override void Load()
     {
         var data = SaveLoadManager.Data.basePointerSaveInfo;
-        Hp = data.hp;
-        returnCount = data.returnCount;
+
         var table = GetComponent<StructureStats>().CurrentStatTable;
-        table.Clear();
-        var hpStat = new StatValue(StatType.HP, Hp, maxHp);
-        table.Add(StatType.HP, hpStat);
+        var hpStat = table[StatType.HP];
         hpStat.OnChangeValue += (hp) => Hp = hp;
+
+        if (data != null)
+        {
+            Hp = data.hp;
+            returnCount = data.returnCount;
+            
+            hpStat.SetValue(Hp);
+        }
+
     }
 
     public override void Interact(GameObject interactor)

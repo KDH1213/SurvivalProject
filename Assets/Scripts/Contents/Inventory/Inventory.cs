@@ -267,6 +267,12 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 if (itemList[i].Amount >= count)
                 {
                     itemList[i].Amount -= count;
+
+                    if(itemList[i].Amount == 0)
+                    {
+                        inventoryItemTable[id].Remove(itemSlotInfos[itemList[i].index]);
+                        itemSlotInfos[itemList[i].index].Empty();
+                    }
                     UpdateSlot(itemList[i].index);
                     break;
                 }

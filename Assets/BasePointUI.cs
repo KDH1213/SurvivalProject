@@ -59,8 +59,9 @@ public class BasePointUI : MonoBehaviour
         hpFill.fillAmount = selectedObject.Hp / selectedObject.maxHp;
         returnCount.text = $"{selectedObject.ReturnCount.ToString()} / {selectedObject.MaxRelics}";
 
+        totalRelics = 0;
 
-        var relics = inventory.InventroyItemTable.Where(item => item.Value[0].itemData.ItemType == ItemType.Relics);
+        var relics = inventory.InventroyItemTable.Where(item => (item.Value.Count > 0 && item.Value[0].itemData.ItemType == ItemType.Relics));
         foreach (var relic in relics)
         {
             totalRelics += inventory.GetTotalItem(relic.Key);

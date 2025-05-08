@@ -69,8 +69,7 @@ public class RestStructure : PlacementObject
 
     public void SetRest(float endTime)
     {
-        recoverEndTime = endTime;
-        // Time.timeScale *= timeScale;
+        recoverEndTime = Time.time + endTime;
 
         Time.timeScale = 8;
         isRest = true;
