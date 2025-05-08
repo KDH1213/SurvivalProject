@@ -88,6 +88,7 @@ public class SaveDataV1 : SaveData
         waveMonsterSaveInfos.Clear();
         spawnerSaveInfoList.Clear();
         monsterWaveSaveInfo = new MonsterWaveSaveInfo();
+        basePointerSaveInfo = null;
         playerSaveInfo.position = Vector3.left * 3f;
     }
 }

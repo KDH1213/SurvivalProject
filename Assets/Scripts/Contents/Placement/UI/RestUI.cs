@@ -57,6 +57,6 @@ public class RestUI : MonoBehaviour
 
     public void Rest()
     {
-        currentStructure.SetRest(slider.value * 5);
+        currentStructure.SetRest(slider.value);
     }
 }
