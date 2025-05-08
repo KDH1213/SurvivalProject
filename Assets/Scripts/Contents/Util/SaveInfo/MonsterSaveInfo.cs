@@ -11,6 +11,20 @@ public struct MonsterSaveInfo
     public float hp;
 }
 
+public struct EliteMonsterSaveInfo
+{
+    public Vector3 position;
+    public bool isDeath;
+    public float hp;
+
+    public EliteMonsterSaveInfo(Vector3 position, float hp, bool isDeath)
+    {
+        this.position = position;
+        this.hp = hp;
+        this.isDeath = isDeath;
+    }
+}
+
 public struct WaveMonsterSaveInfo
 {
     public Vector3 position;

@@ -8062,6 +8062,10 @@ MonoBehaviour:
         m_CallState: 2
   stageTemperatureData: {fileID: 11400000, guid: dc4311945ecdc5d49acf3d5465a6f38f,
     type: 2}
+  eliteMonsterList:
+  - {fileID: 176132054}
+  - {fileID: 326336559}
+  - {fileID: 1206422516}
   startQuestID: 240011
   onChangeTemperatureEvent:
     m_PersistentCalls:
@@ -13531,6 +13535,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534940397456781889, guid: 70b7be9581630af489a58d0b0503113c,
+        type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534940397456781889, guid: 70b7be9581630af489a58d0b0503113c,
+        type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

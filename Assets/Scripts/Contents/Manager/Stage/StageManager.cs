@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct RespawnInfo
@@ -31,6 +30,9 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     [SerializeField]
     private StageTemperatureData stageTemperatureData;
+
+    [SerializeField]
+    private List<GameObject> eliteMonsterList = new List<GameObject>();
 
     [SerializeField]
     private int startQuestID = 240011;
@@ -244,6 +246,25 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             }
         }
 
+        var relicsInteractType = InteractType.Relics;
+        if (interactTable.ContainsKey(relicsInteractType))
+        {
+            var gatherSaveInfoList = new List<GatherSaveInfo>();
+            var list = interactTable[relicsInteractType];
+            for (int i = 0; i < list.Count; ++i)
+            {
+                var gatherSaveInfo = new GatherSaveInfo();
+                var respawnInfo = list[i].GetComponent<IRespawn>();
+                gatherSaveInfo.remainingTime = respawnInfo.RemainingTime;
+                gatherSaveInfo.respawnPosition = respawnInfo.RespawnPosition;
+                gatherSaveInfo.isRespawn = respawnInfo.IsRespawn;
+                gatherSaveInfo.position = list[i].transform.position;
+                gatherSaveInfoList.Add(gatherSaveInfo);
+            }
+
+            SaveLoadManager.Data.gatherSaveInfoTable.Add(relicsInteractType, gatherSaveInfoList);
+        }
+
         var monsterSaveInfoList = new List<MonsterSaveInfo>();
         var monsterList = interactTable[InteractType.Monster];
         for (int i = 0; i < monsterList.Count; ++i)
@@ -274,7 +295,17 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         }
 
         SaveLoadManager.Data.monsterSaveInfoList = monsterSaveInfoList;
-}
+
+        var eliteMonsterSaveInfoList = new List<EliteMonsterSaveInfo>();
+
+        for (int i = 0; i < eliteMonsterList.Count; ++i)
+        {
+            var monsterStats = eliteMonsterList[i].GetComponent<MonsterStats>();
+            eliteMonsterSaveInfoList.Add(new EliteMonsterSaveInfo(eliteMonsterList[i].transform.position, monsterStats.Hp, monsterStats.IsDead));
+        }
+
+        SaveLoadManager.Data.eliteMonsterSaveInfoList = eliteMonsterSaveInfoList;
+    }
 
     public void Load()
     {
@@ -308,6 +339,21 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             }
         }
 
+        var relicsInteractType = InteractType.Relics;
+        if (gatherSaveInfoTable.ContainsKey(relicsInteractType))
+        {
+            var gatherSaveInfoList = gatherSaveInfoTable[relicsInteractType];
+            var list = interactTable[relicsInteractType];
+            for (int i = 0; i < gatherSaveInfoList.Count; ++i)
+            {
+                if(gatherSaveInfoList[i].isRespawn)
+                {
+                    list[i].gameObject.SetActive(false);
+                }
+            }
+        }
+
+
         var monsterSaveInfoList = SaveLoadManager.Data.monsterSaveInfoList;
         var monsterList = interactTable[InteractType.Monster];
         for (int i = 0; i < monsterSaveInfoList.Count; ++i)
@@ -324,5 +370,13 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             }
         }
 
+        var eliteMonsterSaveInfoList = SaveLoadManager.Data.eliteMonsterSaveInfoList;
+
+        for (int i = 0; i < eliteMonsterSaveInfoList.Count; ++i)
+        {
+            eliteMonsterList[i].transform.position = eliteMonsterSaveInfoList[i].position;
+            eliteMonsterList[i].GetComponent<MonsterStats>().LoadStats(eliteMonsterSaveInfoList[i].hp);
+            eliteMonsterList[i].gameObject.SetActive(!eliteMonsterSaveInfoList[i].isDeath);
+        }
     }
 }

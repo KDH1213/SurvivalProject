@@ -20,6 +20,7 @@ public class SaveDataV1 : SaveData
     public List<SpawnerSaveInfo> spawnerSaveInfoList = new List<SpawnerSaveInfo>();
     public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
     public BasePointerSaveInfo basePointerSaveInfo = new BasePointerSaveInfo();
+    public List<EliteMonsterSaveInfo> eliteMonsterSaveInfoList = new List<EliteMonsterSaveInfo>();
 
     public List<int> equipmentItemIDList = new List<int>();
     public List<EquipmentItemInfoSaveData> equipmentItemInfoSaveDataList = new List<EquipmentItemInfoSaveData>();
@@ -67,6 +68,7 @@ public class SaveDataV1 : SaveData
         waveMonsterSaveInfos.Clear();
         spawnerSaveInfoList.Clear();
         equipmentItemIDList.Clear();
+        eliteMonsterSaveInfoList.Clear();
 
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;
@@ -87,6 +89,7 @@ public class SaveDataV1 : SaveData
         monsterSaveInfoList.Clear();
         waveMonsterSaveInfos.Clear();
         spawnerSaveInfoList.Clear();
+        eliteMonsterSaveInfoList.Clear();
         monsterWaveSaveInfo = new MonsterWaveSaveInfo();
         basePointerSaveInfo = null;
         playerSaveInfo.position = Vector3.left * 3f;
