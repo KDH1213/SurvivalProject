@@ -9,5 +9,6 @@ public enum InteractType
     Box,
     Monster,
     Placement,
+    Relics,
     End
 }
