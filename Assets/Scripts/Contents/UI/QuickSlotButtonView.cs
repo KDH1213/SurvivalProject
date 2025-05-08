@@ -32,6 +32,7 @@ public class QuickSlotButtonView : MonoBehaviour
     private void Empty()
     {
         itemImage.sprite = null;
+        itemImage.color = new Color(1, 1, 1, 0);
         amountView.gameObject.SetActive(false);
     }
 
@@ -44,6 +45,7 @@ public class QuickSlotButtonView : MonoBehaviour
         else
         {
             itemImage.sprite = equipmentSocket.ItemData.ItemImage;
+            itemImage.color = Color.white;
             amountText.text = equipmentSocket.Amount.ToString();
             amountView.gameObject.SetActive(true);
         }

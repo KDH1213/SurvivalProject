@@ -29,6 +29,6 @@ public class UIBaseTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltipView.SetActive(true);
+        tooltipView.SetActive(false);
     }
 }
