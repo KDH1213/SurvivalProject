@@ -17,10 +17,13 @@ public class UIPlayerStatus : MonoBehaviour
 
     [SerializeField]
     private Slider experienceSlider;
+    [SerializeField]
+    private TextMeshProUGUI experienceText;
 
     private readonly string levelFormat = "Lv.{0}";
     private readonly string hpFormat = "{0} / {1}";
     private const string pointFormat = "F0";
+    private readonly string experienceFormat = "{0}/{1}";
 
     private void Awake()
     {
@@ -36,6 +39,7 @@ public class UIPlayerStatus : MonoBehaviour
     public void OnChangeExperienceSlider(float currentValue, float maxValue)
     {
         experienceSlider.value = currentValue / maxValue;
+        experienceText.text = string.Format(experienceFormat, currentValue.ToString(), maxValue.ToString());
     }
 
     public void OnChangeLevel(int level)
