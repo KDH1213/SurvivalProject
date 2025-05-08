@@ -399,10 +399,16 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         PlacementObject placementObject = newObject.transform.GetChild(0).GetComponent<PlacementObject>();
         placementObject.IsPlaced = true;
         placementObject.ID = placeObjInfo.ID;
+        placementObject.Hp = placeObjInfo.DefaultHp;
         placementObject.Rank = placeObjInfo.Rank;
         placementObject.Position = before.Position;
         placementObject.Rotation = before.Rotation;
         placementObject.uiController = placementUI;
+
+        var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+        table.Clear();
+        table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
         placementObject.SetData();
         placementObject.CreateActInfo();
         ConsumePenalty(placementObject);

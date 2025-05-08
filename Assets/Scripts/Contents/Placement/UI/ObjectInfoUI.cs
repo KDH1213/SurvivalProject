@@ -40,6 +40,10 @@ public class ObjectInfoUI : MonoBehaviour
         {
             upgrade.interactable = false;
         }
+        else
+        {
+            upgrade.interactable = true;
+        }
 
         upgrade.onClick.AddListener(() => gameObject.SetActive(false));
         upgrade.onClick.AddListener(() => selectedObject.uiController.OnOpenUpgradeInfo(objInfo));
