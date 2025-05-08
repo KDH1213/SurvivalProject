@@ -73,7 +73,9 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
 
     public virtual void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
+        var data =  GetComponent<StructureStats>().CurrentStatTable;
         Hp -= damageInfo.damage;
+        data[StatType.HP].SetValue(Hp);
 
         if (Hp <= 0 && gameObject.activeSelf)
         {
