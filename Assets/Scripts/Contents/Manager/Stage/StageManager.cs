@@ -53,7 +53,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
         onSaveEvent += Save;
 
-        for (int i = 0; i < (int)InteractType.End; ++i)
+        for (int i = 0; i < (int)InteractType.Placement; ++i)
         {
             var type = (InteractType)i;
             if (interactTable.ContainsKey(type))
@@ -291,7 +291,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             if (gatherSaveInfoTable.ContainsKey((InteractType)i))
             {
                 var gatherSaveInfoList = gatherSaveInfoTable[interactType];
-                var list = interactTable[(InteractType)i];
+                var list = interactTable[interactType];
                 for (int j = 0; j < gatherSaveInfoList.Count; ++j)
                 {
                     var respawn = list[j].GetComponent<Gather>();

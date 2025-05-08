@@ -11,7 +11,6 @@ public class SceneLoader : Singleton<SceneLoader>
 {
     public UnityEvent onStartLoadSceneEvent;
 
-    public string loadSceneAddress = "Assets/Scenes/LoadScene.unity";
     [SerializeField]
     private string NextSceneAddress;
     private bool isLoadScene = false;
@@ -36,7 +35,7 @@ public class SceneLoader : Singleton<SceneLoader>
         NextSceneAddress = nextScene;
         if (useFade)
         {
-            LoadScene(loadSceneAddress);
+            LoadScene(SceneName.LoadScene);
             //FadeController.Instance.FadeIn(() =>
             //{
             //    LoadScene(loadSceneAddress);
@@ -44,14 +43,14 @@ public class SceneLoader : Singleton<SceneLoader>
         }
         else
         {
-            LoadScene(loadSceneAddress);
+            LoadScene(SceneName.LoadScene);
         }
     }
 
     public void StartSwitchScene(string nextScene)
     {
         NextSceneAddress = nextScene;
-        LoadScene(NextSceneAddress);
+        LoadNextScene(NextSceneAddress);
     }
 
     private void LoadScene(string nextScene)

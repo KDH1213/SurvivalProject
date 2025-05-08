@@ -35,7 +35,7 @@ public class SaveDataV1 : SaveData
 
     public bool isRestart = false;
 
-    public string startStage = SceneName.Develop;
+    public string startStage = SceneName.Stage1;
     public SaveDataV1()
     {
         Version = 1;

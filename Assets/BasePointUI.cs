@@ -41,7 +41,7 @@ public class BasePointUI : MonoBehaviour
 
     public void OnReturnRelics()
     {
-        var relics = inventory.InventroyItemTable.Where(item => item.Value[0].itemData.ItemType == ItemType.Relics);
+        var relics = inventory.InventroyItemTable.Where(item => item.Value.Count > 0 && item.Value[0].itemData.ItemType == ItemType.Relics);
         foreach (var relic in relics)
         {
             inventory.ConsumeItem(relic.Key, inventory.GetTotalItem(relic.Key));
