@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,11 @@ public class RestUI : MonoBehaviour
 
     [SerializeField]
     private Slider slider;
+
+    [SerializeField]
+    private Button restEndButton;
+    [SerializeField]
+    private List<GameObject> disableUI;
 
     private RestStructure currentStructure;
 
@@ -53,10 +59,27 @@ public class RestUI : MonoBehaviour
         objectDescription.text = stringTable.Get(data.DescriptID);
 
         currentStructure = selectedObject;
+        restEndButton.onClick.AddListener(() => OnEndRest());
+
     }
 
     public void Rest()
     {
+        foreach(var ui in disableUI)
+        {
+            ui.SetActive(false);
+        }
+        restEndButton.gameObject.SetActive(true);
         currentStructure.SetRest(slider.value * 5);
+    }
+
+    public void OnEndRest()
+    {
+        foreach (var ui in disableUI)
+        {
+            ui.SetActive(true);
+        }
+        restEndButton.gameObject.SetActive(false);
+        currentStructure.OnEndRest();
     }
 }
