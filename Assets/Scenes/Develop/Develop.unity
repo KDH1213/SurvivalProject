@@ -5569,6 +5569,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8917425791441709734, guid: f8f569ca41324f149b1597ed37744842,
         type: 3}
+      propertyPath: maxRelics
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8917425791441709734, guid: f8f569ca41324f149b1597ed37744842,
+        type: 3}
       propertyPath: baseUIController
       value: 
       objectReference: {fileID: 273784014}
@@ -32096,7 +32101,7 @@ PrefabInstance:
     - target: {fileID: 8676461818350303045, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8676461818350529381, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
@@ -32204,7 +32209,7 @@ PrefabInstance:
     - target: {fileID: 8676461818350303045, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8676461818350529381, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
@@ -32458,7 +32463,7 @@ PrefabInstance:
     - target: {fileID: 8676461818350303045, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8676461818350529381, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
@@ -32705,7 +32710,7 @@ PrefabInstance:
     - target: {fileID: 8676461818350303045, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8676461818350529381, guid: 5251c73c6a9503c44953325e926122a6,
         type: 3}
@@ -33396,6 +33401,16 @@ PrefabInstance:
       propertyPath: onDisableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2030048894}
+    - target: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: onSeleteEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSkillLevelUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101450090847527325, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: onDisableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_enabled
+      objectReference: {fileID: 0}
     - target: {fileID: 5280915333358436423, guid: 70c08347409d3aa4192ae5f03989de4e,
         type: 3}
       propertyPath: m_AnchorMax.x
