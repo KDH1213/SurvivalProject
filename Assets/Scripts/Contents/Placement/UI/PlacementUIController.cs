@@ -142,7 +142,7 @@ public class PlacementUIController : MonoBehaviour
         {
             foreach (var data in database.objects)
             {
-                if(data.Rank != 1)
+                if(data.Rank != 1 || SaveLoadManager.Data.startStage != data.Stage)
                 {
                     continue;
                 }

@@ -64,7 +64,7 @@ public class FarmInfoUi : MonoBehaviour
         objectHp.text = $"HP : {selectedObject.Hp}";
 
         objectDescription.text = stringTable.Get(data.DescriptID);
-        objectDescription.text = $"{data.ProductionCycle}초 마다 {itemData.ItemName} {data.AmountPerProduction}개 생성";
+        objectInfo.text = $"{data.ProductionCycle}초 마다 {itemData.ItemName} {data.AmountPerProduction}개 생성";
 
         currentObject = selectedObject;
 
