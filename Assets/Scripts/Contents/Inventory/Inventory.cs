@@ -320,6 +320,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        OnCheckEraseGatherItem(itemSlotInfos[SelectedSlotIndex]);
         if (inventoryItemTable.TryGetValue(itemSlotInfos[SelectedSlotIndex].itemData.ID, out var itemInfoList))
         {
             itemInfoList.Remove(itemSlotInfos[SelectedSlotIndex]);
@@ -328,7 +329,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
             --useSlotCount;
         }
 
-        OnCheckEraseGatherItem(itemSlotInfos[SelectedSlotIndex]);
 
         UpdateSlot(SelectedSlotIndex);
     }

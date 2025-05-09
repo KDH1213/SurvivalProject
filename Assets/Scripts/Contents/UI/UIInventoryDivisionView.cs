@@ -113,6 +113,11 @@ public class UIInventoryDivisionView : MonoBehaviour
 
     public void OnDivision()
     {
+        if(currentDivisionCount == 0)
+        {
+            return;
+        }
+
         onDivisionEvent?.Invoke(currentDivisionCount);
     }
     //[SerializeField]
