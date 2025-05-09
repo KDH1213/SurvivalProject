@@ -149,7 +149,6 @@ MonoBehaviour:
       Value: {fileID: 330748230576279924}
   <ID>k__BackingField: 130021101
   <Animator>k__BackingField: {fileID: 2507840223945853206}
-  <Agent>k__BackingField: {fileID: 1331222237362438822}
   <Weapon>k__BackingField: {fileID: 11400000, guid: bcce40906cacfc842a6bdf8156297f15,
     type: 2}
   <AttackPoint>k__BackingField: {fileID: 3235689225779695706}
@@ -347,6 +346,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onChangeHpEvnet:
+    m_PersistentCalls:
+      m_Calls: []
   HpBarSlider: {fileID: 7970647817235894501}
 --- !u!114 &1781135921706458158
 MonoBehaviour:
@@ -938,7 +940,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5936832581677462223}
         m_TargetAssemblyTypeName: MonsterFSM, Assembly-CSharp
-        m_MethodName: OnHit
+        m_MethodName: OnEndHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
