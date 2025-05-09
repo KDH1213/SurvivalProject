@@ -207,7 +207,9 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     public void OnEquip()
     {
-        if (SelectedSlotIndex == -1 || itemSlotInfos[SelectedSlotIndex].itemData == null || itemSlotInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Material)
+        if (SelectedSlotIndex == -1 || itemSlotInfos[SelectedSlotIndex].itemData == null 
+            || itemSlotInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Material
+            || itemSlotInfos[SelectedSlotIndex].itemData.ItemType == ItemType.Relics)
         {
             return;
         }
