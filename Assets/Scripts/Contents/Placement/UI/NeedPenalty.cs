@@ -12,6 +12,6 @@ public class NeedPenalty : MonoBehaviour
     public void SetNeedPenalty(SurvivalStatType type, int needCount)
     {
         //itemImage.sprite = image;
-        needCountTxt.text = $"{needCount} %";
+        needCountTxt.text = $"{needCount * 100 / 10000 } %";
     }
 }

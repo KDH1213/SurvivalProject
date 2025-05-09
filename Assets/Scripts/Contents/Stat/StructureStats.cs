@@ -39,6 +39,10 @@ public class StructureStats : CharactorStats, ISaveLoadData
 
     private void OnEnable()
     {
+        if(!IsDead)
+        {
+            return;
+        }
         currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
         IsDead = false;
 
