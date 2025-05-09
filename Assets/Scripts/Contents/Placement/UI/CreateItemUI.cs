@@ -81,7 +81,8 @@ public class CreateItemUI : MonoBehaviour
         foreach (var itemData in data)
         {
             var itemInfo = DataTableManager.ItemCreateTable.Get(itemData.Key);
-            if (DataTableManager.ItemTable.Get(itemData.Key) == null || itemInfo.RecipeCategory != structureData.BuildingSubType)
+            if (DataTableManager.ItemTable.Get(itemData.Key) == null 
+                || itemInfo.RecipeCategory != structureData.BuildingSubType)
             {
                 continue;
             }
