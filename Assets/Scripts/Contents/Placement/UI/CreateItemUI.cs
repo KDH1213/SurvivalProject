@@ -71,14 +71,17 @@ public class CreateItemUI : MonoBehaviour
         this.target = target;
         int index = 0;
         var data = DataTableManager.ItemCreateTable.GetAll();
+        var structureData = DataTableManager.StructureTable.Get(structure.ID);
         foreach (var item in createList)
         {
             Destroy(item.gameObject);
         }
         createList.Clear();
+        disableSlots.Clear();
         foreach (var itemData in data)
         {
-            if(DataTableManager.ItemTable.Get(itemData.Key) == null)
+            var itemInfo = DataTableManager.ItemCreateTable.Get(itemData.Key);
+            if (DataTableManager.ItemTable.Get(itemData.Key) == null || itemInfo.RecipeCategory != structureData.BuildingSubType)
             {
                 continue;
             }
