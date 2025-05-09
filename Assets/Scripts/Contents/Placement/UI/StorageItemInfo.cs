@@ -70,7 +70,7 @@ public class StorageItemInfo : MonoBehaviour
     private void SetArmorInfo(ItemData itemData)
     {
         var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
-        itemStatsText.text = string.Format(armorFormat, armorData.defance.ToString(), armorData.moveSpeed.ToString());
+        itemStatsText.text = string.Format(armorFormat, armorData.DefensePower.ToString(), armorData.MovementSpeed.ToString());
 
     }
 

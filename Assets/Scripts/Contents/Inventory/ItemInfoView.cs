@@ -151,7 +151,7 @@ public class ItemInfoView : MonoBehaviour
     private void SetArmorInfo(ItemData itemData, bool isItemSlot)
     {
         var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
-        itemStatsText.text = string.Format(armorFormat, armorData.defance.ToString(), armorData.moveSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
+        itemStatsText.text = string.Format(armorFormat, armorData.DefensePower.ToString(), armorData.MovementSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
 
         useButton.interactable = false;
 

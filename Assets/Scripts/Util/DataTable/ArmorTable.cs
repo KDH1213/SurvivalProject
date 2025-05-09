@@ -8,27 +8,20 @@ public class ArmorData
 {
 
     [field: SerializeField]
-    public int ID { get; set; }
+    public int ItemID { get; set; }
     [field: SerializeField]
-    public int itemNameID { get; set; }
+    public string PrefabName { get; set; }
     [field: SerializeField]
-    public int itemDescriptionID { get; set; }
-    [field: SerializeField]
-    public int prefabID { get; set; }
-    [field: SerializeField]
-    public string itemIconSpriteID { get; set; }
+    public int EquipType { get; set; }
 
     [field: SerializeField]
-    public ArmorType ArmorType { get; set; }
+    public float DefensePower { get; set; }
 
     [field: SerializeField]
-    public int isDisposible { get; set; }
+    public float MovementSpeed { get; set; }
 
     [field: SerializeField]
-    public float defance { get; set; }
-
-    [field: SerializeField]
-    public float moveSpeed { get; set; }
+    public int Durability { get; set; }
 
     [field: SerializeField]
     public int ColdResistance { get; set; }
@@ -36,8 +29,8 @@ public class ArmorData
     [field: SerializeField]
     public int HeatResistance { get; set; }
 
-    public Sprite ItemImage;
-    public string ItemName { get { return DataTableManager.StringTable.Get(itemNameID); } }
+
+    public ArmorType ArmorType => (ArmorType)EquipType;
 }
 public class ArmorTable : DataTable
 {
@@ -54,14 +47,13 @@ public class ArmorTable : DataTable
 
         foreach (var item in itemDataList)
         {
-            if (!armorDataTable.ContainsKey(item.ID))
+            if (!armorDataTable.ContainsKey(item.ItemID))
             {
-                armorDataTable.Add(item.ID, item);
-                item.ItemImage = (Sprite)(Resources.Load(string.Format(assetIconPath, item.itemIconSpriteID), typeof(Sprite)));
+                armorDataTable.Add(item.ItemID, item);
             }
             else
             {
-                Debug.LogError($"Key Duplicated {item.ID}");
+                Debug.LogError($"Key Duplicated {item.ItemID}");
             }
         }
     }
