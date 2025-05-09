@@ -108,7 +108,6 @@ public class StorageUI : MonoBehaviour
             
             itemSlots.Add(slot);
         }
-        UpdateSlots(itemInfos, itemSlots);
 
         if (parent == inventorySlotParent)
         {
@@ -120,10 +119,11 @@ public class StorageUI : MonoBehaviour
             for (int j = count; j < itemInfos.Length; j++)
             {
                 itemSlots[j].GetComponent<Button>().interactable = false;
+                
             }
             storageItemSlots = itemSlots;
         }
-        
+        UpdateSlots(itemInfos, itemSlots);
     }
 
     private void UpdateSlots(ItemSlotInfo[] items, List<ItemSlot> itemSlots)

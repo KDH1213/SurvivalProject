@@ -8,7 +8,8 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 {
     [SerializeField]
     private Image image;
-
+    [SerializeField]
+    private Sprite lockSprite;
     [SerializeField]
     private Slider durabilitySlider;
 
@@ -67,7 +68,15 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         }
         else
         {
-            image.color = new Color(1, 1, 1, 0);
+            if(!button.interactable)
+            {
+                image.sprite = lockSprite;
+                image.color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                image.color = new Color(1, 1, 1, 0);
+            }
             textGameObject.SetActive(false);
             durabilitySlider.gameObject.SetActive(false);
         }
