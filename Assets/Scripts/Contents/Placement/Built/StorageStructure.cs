@@ -31,6 +31,8 @@ public class StorageStructure : PlacementObject
     {
         int index = SaveLoadManager.Data.storagePlacementSaveInfo.FindIndex(x => x.position == Position && x.id == ID);
         inventory.Load(index);
+        var data = SaveLoadManager.Data.storagePlacementSaveInfo.Find(x => x.position == Position && x.id == ID);
+        Hp = data.hp;
     }
 
     public override void Save()

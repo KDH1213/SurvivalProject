@@ -35,6 +35,7 @@ public class ThirstStat : SurvivalStatBehaviour
         survivalStatType = SurvivalStatType.Thirst;
         value = MaxValue;
         totalValueDownTime = valueDownTime;
+
         Load();
         OnChangeValue();
 
@@ -81,6 +82,15 @@ public class ThirstStat : SurvivalStatBehaviour
         {
             OnStartPenalty();
         }
+        else if (isOnDebuff)
+        {
+            isOnDebuff = IsActivationCheckPenalty();
+
+            if (!isOnDebuff)
+            {
+                OnStopPenalty();
+            }
+        }
     }
 
     public override void SubPenaltyValue(float value)
@@ -92,6 +102,15 @@ public class ThirstStat : SurvivalStatBehaviour
         if (!isOnDebuff && IsActivationCheckPenalty())
         {
             OnStartPenalty();
+        }
+        else if (isOnDebuff)
+        {
+            isOnDebuff = IsActivationCheckPenalty();
+
+            if (!isOnDebuff)
+            {
+                OnStopPenalty();
+            }
         }
     }
     public void OnSetThirstSkillValue(float value)
