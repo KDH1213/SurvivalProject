@@ -19,6 +19,7 @@ public class SaveDataV1 : SaveData
     public List<WaveMonsterSaveInfo> waveMonsterSaveInfos = new List<WaveMonsterSaveInfo>();
     public List<SpawnerSaveInfo> spawnerSaveInfoList = new List<SpawnerSaveInfo>();
     public MonsterWaveSaveInfo monsterWaveSaveInfo = new MonsterWaveSaveInfo();
+    public BasePointerSaveInfo basePointerSaveInfo = new BasePointerSaveInfo();
 
     public List<int> equipmentItemIDList = new List<int>();
     public List<EquipmentItemInfoSaveData> equipmentItemInfoSaveDataList = new List<EquipmentItemInfoSaveData>();
@@ -33,6 +34,8 @@ public class SaveDataV1 : SaveData
     public QuestProgressSaveInfo quesetProgressSaveInfo = new QuestProgressSaveInfo();
 
     public bool isRestart = false;
+
+    public string startStage = SceneName.Develop;
     public SaveDataV1()
     {
         Version = 1;
@@ -73,5 +76,18 @@ public class SaveDataV1 : SaveData
         isRestart = true;
 
         // monsterWaveSaveInfo;
+    }
+
+    public void NextStageInitiailze()
+    {
+        placementSaveInfoList.Clear();
+        farmPlacementSaveInfos.Clear();
+        storagePlacementSaveInfo.Clear();
+        gatherSaveInfoTable.Clear();
+        monsterSaveInfoList.Clear();
+        waveMonsterSaveInfos.Clear();
+        spawnerSaveInfoList.Clear();
+        monsterWaveSaveInfo = new MonsterWaveSaveInfo();
+        playerSaveInfo.position = Vector3.left * 3f;
     }
 }

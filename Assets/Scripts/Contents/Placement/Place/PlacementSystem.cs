@@ -18,6 +18,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private Inventory inventory;
     [SerializeField]
+    private BaseStructure baseStructure;
+    [SerializeField]
     private Grid grid;
 
     //[SerializeField]
@@ -85,6 +87,8 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
             Load();
         }
+
+        placementUI.SetObjectList(Database);
     }
 
     private void Update()
@@ -246,6 +250,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.Position = gridPosition;
         placementObject.Rotation = preview.PreviewObject.transform.GetChild(0).rotation;
         placementObject.uiController = placementUI;
+
+        var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+        table.Clear();
+        table.Add(StatType.HP, new StatValue(StatType.HP, objData.DefaultHp));
+
         placementObject.SetData();
         placementObject.CreateActInfo();
         ConsumePenalty(placementObject);
@@ -269,12 +278,6 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             Storages.Add(placementObject as StorageStructure);
         }
 
-        int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
-        if(left <= 0)
-        {
-            StopPlacement();
-            return;
-        }
 
         bool invenValidity = true;
         if (inventory == null)
@@ -298,11 +301,19 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             return;
         }
 
+        PlacedGameObjects.Add(placementObject);
+        int left = placementUI.OnSetObjectListUi(Database, placementObject.PlacementData.ID, PlacedGameObjects);
+        if (left <= 0)
+        {
+            StopPlacement();
+            return;
+        }
+
 
         Vector3Int nextPos = gridData.SearchSide(gridPosition, Database.objects[SelectedObjectIndex].Size);
         preview.UpdatePosition(grid.CellToWorld(nextPos),
             CheckPlacementValidity(nextPos, SelectedObjectIndex));
-        PlacedGameObjects.Add(placementObject);
+        
         inputManager.LastPosition = grid.CellToWorld(nextPos);
         //StopPlacement();
     }
@@ -489,12 +500,13 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Data.farmPlacementSaveInfos.Clear();
         SaveLoadManager.Data.storagePlacementSaveInfo.Clear();
         SaveLoadManager.Data.placementSaveInfoList.Clear();
+        SaveLoadManager.Data.basePointerSaveInfo = null;
 
         foreach (var placedGameObject in PlacedGameObjects)
         {
             placedGameObject.Save();
         }
-
+        baseStructure.Save();
     }
 
     public void Load()
@@ -543,6 +555,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
+
+            var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
             placementObject.SetData();
             placementObject.Load();
 
@@ -568,7 +585,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
 
     public void Repair(Dictionary<int, int> needItems, Dictionary<SurvivalStatType, int> needPenalties)
     {
-        if (GameObject.FindWithTag(Tags.Player) == null)
+        if (GameObject.FindWithTag(Tags.Player) == null || SelectedObject == null)
         {
             return;
         }
@@ -579,6 +596,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         }
         var target = GameObject.FindWithTag(Tags.Player).GetComponent<PenaltyController>();
         target.OnPlayAct(needPenalties);
+        var structureData = DataTableManager.StructureTable.Get(SelectedObject.ID);
+        var table = SelectedObject.GetComponent<StructureStats>().CurrentStatTable;
+        table.Clear();
+        table.Add(StatType.HP, new StatValue(StatType.HP, structureData.BuildingHealth));
+        SelectedObject.Hp = structureData.BuildingHealth;
 
     }
 
@@ -604,6 +626,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
+
+            var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
             placementObject.SetData();
             placementObject.Load();
 
@@ -649,6 +676,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             placementObject.Position = placement.position;
             placementObject.Rotation = placement.rotation;
             placementObject.uiController = placementUI;
+
+            var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
+            table.Clear();
+            table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+
             placementObject.SetData();
             placementObject.Load();
 

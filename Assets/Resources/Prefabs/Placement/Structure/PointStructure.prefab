@@ -129,7 +129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+        m_MethodName: 
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+        m_MethodName: 
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -394,6 +394,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3006362247655384109}
+    - targetCorrespondingSourceObject: {fileID: 1367997974350908, guid: be0b768028397264d9c378dbd4f93277,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8917425791441709734}
   m_SourcePrefab: {fileID: 100100000, guid: be0b768028397264d9c378dbd4f93277, type: 3}
 --- !u!4 &2348121571062534756 stripped
 Transform:
@@ -459,6 +463,9 @@ MonoBehaviour:
   damegedEvent:
     m_PersistentCalls:
       m_Calls: []
+  onChangeHpEvnet:
+    m_PersistentCalls:
+      m_Calls: []
   HpBarSlider: {fileID: 0}
 --- !u!208 &6002964933206272144
 NavMeshObstacle:
@@ -501,3 +508,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &8917425791441709734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2350298242560651198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5cc5c770035d864eb05a201e6876338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeUI:
+    m_PersistentCalls:
+      m_Calls: []
+  baseUIController: {fileID: 0}
+  maxHp: 900000
+  returnCount: 0
+  maxRelics: 5

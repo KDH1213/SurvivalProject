@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 
 public class StructureTable : DataTable
