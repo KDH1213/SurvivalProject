@@ -39,6 +39,8 @@ public class ItemInfoView : MonoBehaviour
 
     // private void OnSetItemInfo()
 
+    private int[] valus = new int[4];
+
     private readonly string armorFormat = "방어력 : {0}\n이동 속도 : {1}\n더위 저항 : {2}\n추위 저항 : {3}\n";
     private readonly string weaponFormat = "공격력 : {0}\n공격 속도 : {1}\n";
     private readonly string consumableFormat = "체력 : {0}\n포만감 : {1}%\n수분 : {2}%\n피로도 : {3}%\n";
@@ -189,9 +191,19 @@ public class ItemInfoView : MonoBehaviour
         // "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
 
         var maxValue = SurvivalStatBehaviour.MaxValue;
+        var itemUseEffectInfoList = itemData.ItemUseEffectInfoList;
 
+        for (int i = 0; i < 4; ++i)
+        {
+            valus[i] = 0;
+        }
 
-        itemStatsText.text = string.Format(consumableFormat, itemData.Value1.ToString(), ((itemData.Value2 / maxValue) * 100f).ToString(), ((itemData.Value3 / maxValue) * 100f).ToString(), ((itemData.Value4 / maxValue) * 100f).ToString());
+        for (int i = 0; i <  itemUseEffectInfoList.Count; ++i)
+        {
+            valus[(int)itemUseEffectInfoList[i].itemUseEffectType - 1] = itemUseEffectInfoList[i].value;
+        }
+        
+        itemStatsText.text = string.Format(consumableFormat, valus[0].ToString(), ((valus[1] / maxValue) * 100f).ToString(), ((valus[2] / maxValue) * 100f).ToString(), ((valus[3] / maxValue) * 100f).ToString());
 
         useButton.interactable = true;
 
