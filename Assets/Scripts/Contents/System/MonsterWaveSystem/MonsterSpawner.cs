@@ -13,6 +13,9 @@ public class MonsterSpawner : MonoBehaviour, IMonsterSpawner
     [SerializeField]
     protected MonsterObjectPool monsterObjectPool;
 
+    [SerializeField]
+    protected UIHpBarObjectPool hpBarObjectPool;
+
     protected float spawnTime;
     protected float currentSpawnTime = 0f;
     protected int currentSpawnCount = 0;

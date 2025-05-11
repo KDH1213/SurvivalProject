@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MonsterStats : CharactorStats
 {
-    [SerializeField]
-    private Slider HpBarSlider;
+    [field: SerializeField]
+    public Vector3 HpBarOffsetPosition { private set; get; }
+
 
     protected override void Awake()
     {
@@ -14,11 +14,21 @@ public class MonsterStats : CharactorStats
         {
             CreateStat();
         }
-        deathEvent.AddListener(() => 
-        { 
-            if (HpBarSlider != null)
-                HpBarSlider.gameObject.SetActive(false);
-        });
+    }
+
+
+    private void Start()
+    {
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, HpBarOffsetPosition);
+            hpBar.SetTarget(this);
+
+            deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+        }
+
         OnChangeHp();
     }
 
@@ -34,10 +44,13 @@ public class MonsterStats : CharactorStats
         {
             currentStatTable[StatType.HP].SetValue(currentStatTable[StatType.HP].MaxValue);
             IsDead = false;
-
-            HpBarSlider.gameObject.SetActive(true);
         }
         OnChangeHp();
+    }
+
+    private void OnDisable()
+    {
+        deathEvent.RemoveAllListeners();
     }
 
 
@@ -91,9 +104,9 @@ public class MonsterStats : CharactorStats
 
     public void OnChangeHp() //*HP °»½Å
     {
-        HpBarSlider.value = Hp / currentStatTable[StatType.HP].MaxValue;
+        onChangeHpEvnet?.Invoke(currentStatTable[StatType.HP].PersentValue);
 
-        if(Hp <= 0f)
+        if (Hp <= 0f)
         {
             IsDead = true;
         }
