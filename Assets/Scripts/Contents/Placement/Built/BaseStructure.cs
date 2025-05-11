@@ -17,6 +17,7 @@ public class BaseStructure : PlacementObject
     public int MaxRelics => maxRelics;
 
     public UnityEvent onMaxCollectRelicsEvent;
+    public UnityEvent<int> onChangeReturnRelicsCountEvent;
 
 
     public bool IsMaxCollectRelics => returnCount >= maxRelics;
@@ -60,8 +61,9 @@ public class BaseStructure : PlacementObject
     public void OnReturnRelicsCount(int count)
     {
         returnCount += count;
+        onChangeReturnRelicsCountEvent?.Invoke(count);
 
-        if(returnCount >= maxRelics)
+        if (returnCount >= maxRelics)
         {
             onMaxCollectRelicsEvent?.Invoke();
         }
