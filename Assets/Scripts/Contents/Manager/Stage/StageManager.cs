@@ -32,13 +32,8 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     [SerializeField]
     private StageTemperatureData stageTemperatureData;
 
-    [SerializeField]
-    private int startQuestID = 240011;
-
     public UnityEvent<int> onChangeTemperatureEvent;
     private int stageTemperature = 0;
-
-    private bool isClearStage = false;
 
     private void Awake()
     {
@@ -185,22 +180,10 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     public void OnRestart()
     {
         SaveLoadManager.Data.ResetStageInfo();
-        sceneSwitcher.SwitchScene(sceneSwitcher.CurrentStageName);
+        sceneSwitcher.SwitchScene(SceneName.Develop);
         SaveLoadManager.Data.playerSaveInfo.hp = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>().GetStat(StatType.HP).MaxValue;
-        SaveLoadManager.Data.quesetProgressSaveInfo.questID = startQuestID;
+        SaveLoadManager.Data.quesetProgressSaveInfo.questID = 240011;
         SaveLoadManager.Data.quesetProgressSaveInfo.questProgressInfoList.Clear();
-
-        SaveLoadManager.Data.startStage = sceneSwitcher.CurrentStageName;
-        SaveLoadManager.Save();
-    }
-
-    public void OnNextStage()
-    {
-        onSaveEvent?.Invoke();
-        GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().Save();
-        SaveLoadManager.Data.NextStageInitiailze();
-        sceneSwitcher.SwitchScene(sceneSwitcher.NextStageName);
-        SaveLoadManager.Data.startStage = sceneSwitcher.NextStageName;
         SaveLoadManager.Save();
     }
 

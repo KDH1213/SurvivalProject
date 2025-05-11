@@ -51,9 +51,7 @@ public class PlacementUIController : MonoBehaviour
     [SerializeField]
     private RestUI restUI; // ÈÞ½Ä UI
     [SerializeField]
-    private TurretUI turretUI; // Æ÷Å¾ UI
-    [SerializeField]
-    private BasePointUI basePointUI; // °ÅÁ¡ UI
+    private TurretUI turretUI; // ÈÞ½Ä UI
 
     private void Awake()
     {
@@ -133,11 +131,6 @@ public class PlacementUIController : MonoBehaviour
 
     public void SetObjectList(PlacementObjectList database)
     {
-        if(placementSystem == null)
-        {
-            placementSystem = GetComponent<PlacementSystem>();
-        }
-
         if (objectcontents.Count <= 0)
         {
             foreach (var data in database.objects)
@@ -290,11 +283,5 @@ public class PlacementUIController : MonoBehaviour
     {
         turretUI.gameObject.SetActive(true);
         turretUI.SetUI(structure);
-    }
-
-    public void OnOpenBasePointUI(GameObject target, BaseStructure structure)
-    {
-        basePointUI.gameObject.SetActive(true);
-        basePointUI.SetUI(target, structure);
     }
 }

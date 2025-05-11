@@ -16,6 +16,14 @@ public class PlacementUIObjectInfo : MonoBehaviour
     private Button clickButton;
     private PlacementUIController uiController;
 
+    private void Awake()
+    {
+        if(clickButton == null)
+        {
+            clickButton = GetComponent<Button>();
+        }
+    }
+
     public void SetUIObjectInfo(PlacementObjectInfo info, PlacementSystem system)
     {
         placementInfo = info;

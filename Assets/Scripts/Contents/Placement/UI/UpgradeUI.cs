@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class UpgradeUI : MonoBehaviour
 {
@@ -30,13 +28,12 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField]
     private Button upgradeButton;
     private Inventory inventory;
-    private PlacementSystem system;
 
     private readonly string hpFormat = "HP : {0}";
 
     public void SetUIInfo(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
-        system = selectedObject.uiController.GetComponent<PlacementSystem>();
+        var system = selectedObject.uiController.GetComponent<PlacementSystem>();
         if (GameObject.FindWithTag(Tags.Player) != null)
         {
             inventory = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerFSM>().PlayerInventory;
@@ -86,8 +83,7 @@ public class UpgradeUI : MonoBehaviour
             else
             {
                 needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
-                    item.Value, inventory.GetTotalItem(item.Key) +
-                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(item.Key)));
+                    item.Value, inventory.GetTotalItem(item.Key));
             }
             needItems.Add(needItems[index]);
             index++;
@@ -194,8 +190,7 @@ public class UpgradeUI : MonoBehaviour
         {
             if (inventory == null)
                 break;
-            if (inventory.GetTotalItem(data.Key) +
-                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(data.Key)) < data.Value)
+            if (inventory.GetTotalItem(data.Key) < data.Value)
             {
                 return false;
             }

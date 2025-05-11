@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StructureStats : CharactorStats, ISaveLoadData
@@ -28,7 +27,6 @@ public class StructureStats : CharactorStats, ISaveLoadData
     public void OnDestoryStructure()
     {
         IsDead = true;
-        deathEvent?.Invoke();
     }
 
     public void OnRepair(float repair)

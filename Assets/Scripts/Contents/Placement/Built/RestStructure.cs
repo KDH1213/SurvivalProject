@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class RestStructure : PlacementObject
 {
@@ -22,18 +21,6 @@ public class RestStructure : PlacementObject
     public bool isRest = false;
     private int timeScale = 2;
 
-    private Vector3 startTargetRestPosition;
-
-    private void Awake()
-    {
-        var charactorStats = GetComponent<CharactorStats>();
-
-        if(charactorStats != null)
-        {
-            charactorStats.deathEvent.AddListener(OnEndRest);
-        }
-    }
-
     private void Update()
     {
         if(!isRest)
@@ -43,7 +30,7 @@ public class RestStructure : PlacementObject
         if (Time.time > recoverEndTime)
         {
             Time.timeScale = 1;
-            OnEndRest();
+            isRest = false;
         }
         else if (Time.time > recoverCurTime)
         {
@@ -69,55 +56,8 @@ public class RestStructure : PlacementObject
 
     public void SetRest(float endTime)
     {
-        recoverEndTime = endTime;
+        // recoverEndTime = endTime;
         // Time.timeScale *= timeScale;
-
-        Time.timeScale = 8;
-        isRest = true;
-
-        startTargetRestPosition = target.transform.position;
-        target.SetActive(false);
-    }
-
-    public void OnEndRest()
-    {
-        if(!isRest)
-        {
-            return;
-        }
-
-        Time.timeScale = 1;
-        target.SetActive(true);
-
-        var charactorStats = GetComponent<CharactorStats>();
-        if(charactorStats.IsDead)
-        {
-            if(NavMesh.SamplePosition(transform.position, out var hit, 100f, NavMesh.AllAreas))
-            {
-                target.transform.position = hit.position;
-            }
-            else
-            {
-                target.transform.position = startTargetRestPosition;
-            }
-        }
-        else
-        {
-            target.transform.position = startTargetRestPosition;
-        }
-
-        isRest = false;
-
-    }
-
-    public void OnStartRest()
-    {
-
-    }
-
-    public override void Load()
-    {
-        var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
-        Hp = data.hp;
+        // isRest = true;
     }
 }

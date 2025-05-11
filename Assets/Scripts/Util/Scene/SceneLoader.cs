@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -10,6 +11,7 @@ using UnityEngine.UI;
 public class SceneLoader : Singleton<SceneLoader>
 {
     public UnityEvent onStartLoadSceneEvent;
+
 
     public string loadSceneAddress = "Assets/Scenes/LoadScene.unity";
     [SerializeField]
@@ -46,12 +48,6 @@ public class SceneLoader : Singleton<SceneLoader>
         {
             LoadScene(loadSceneAddress);
         }
-    }
-
-    public void StartSwitchScene(string nextScene)
-    {
-        NextSceneAddress = nextScene;
-        LoadScene(NextSceneAddress);
     }
 
     private void LoadScene(string nextScene)

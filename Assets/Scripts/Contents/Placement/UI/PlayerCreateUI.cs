@@ -36,10 +36,6 @@ public class PlayerCreateUI : MonoBehaviour
 
     public UnityEvent<int, int> onCreateItemEvent;
 
-    private void OnEnable()
-    {
-        SetUI();
-    }
     private void Awake()
     {
         var player = GameObject.FindWithTag(Tags.Player);
@@ -82,7 +78,6 @@ public class PlayerCreateUI : MonoBehaviour
             createList.Add(item);
             index++;
         }
-        createButton.interactable = false;
     }
 
     private void UpdateInfo(int index)
@@ -134,7 +129,6 @@ public class PlayerCreateUI : MonoBehaviour
         createItem.id = data.ID;  
         createItem.itemData = data;
         createItem.amount = createData.ResultValue;
-        createItem.durability = data.Durability;
         if (inventory != null)
         {
             ConsumItem(createData.NeedItemList);

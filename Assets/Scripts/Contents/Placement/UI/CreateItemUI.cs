@@ -1,16 +1,14 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CreateItemUI : MonoBehaviour
 {
-    private readonly string armorFormat = "방어력 : {0}\t이동 속도 : {1}\n";
-    private readonly string weaponFormat = "공격력 : {0}\t공격 속도 : {1}\n";
-    private readonly string consumableFormat = "체력 : {0}\t포만감 : {1}\t수분 : {2}\t피로도 : {3}\n";
+    private readonly string armorFormat = "방어력 : {0}\n이동 속도 : {1}\n";
+    private readonly string weaponFormat = "공격력 : {0}\n공격 속도 : {1}\n";
+    private readonly string consumableFormat = "체력 : {0}\n포만감 : {1}\n수분 : {2}\n피로도 : {3}\n";
 
     [SerializeField]
     private GameObject createListContents;
@@ -26,8 +24,6 @@ public class CreateItemUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI itemDescript;
     [SerializeField]
-    private TextMeshProUGUI itemPerform;
-    [SerializeField]
     private Button createButton;
 
     private int selectIndex;
@@ -35,11 +31,8 @@ public class CreateItemUI : MonoBehaviour
 
     public TestInventory inven;
 
-    private PlacementSystem system;
-
     private CreateStructure currentObject;
     private GameObject target;
-    private List<CreateItemSlot> disableSlots = new List<CreateItemSlot>();
 
     public UnityEvent<int, int> onCreateItemEvent;
 
@@ -66,7 +59,6 @@ public class CreateItemUI : MonoBehaviour
     [ContextMenu("openCreate")]
     public void SetUI(GameObject target, CreateStructure structure)
     {
-        system = structure.uiController.GetComponent<PlacementSystem>();
         currentObject = structure;
         this.target = target;
         int index = 0;
@@ -89,23 +81,15 @@ public class CreateItemUI : MonoBehaviour
             if (itemData.Value.Rank > structure.Rank)
             {
                 item.SetButtonDisable();
-                disableSlots.Add(item);
             }
             else
             {
                 item.GetComponent<Button>().onClick.AddListener(() => UpdateInfo(item.index));
-                item.GetComponent<Button>().onClick.AddListener(() => SetFormat(item.index));
             }
             createList.Add(item);
             index++;
         }
-        
-        foreach (var item in disableSlots)
-        {
-            item.transform.SetAsLastSibling();
-        }
         currentObject.closeUI.AddListener(() => gameObject.SetActive(false));
-
     }
 
     private void UpdateInfo(int index)
@@ -130,8 +114,7 @@ public class CreateItemUI : MonoBehaviour
             {
                 var item = DataTableManager.ItemTable.Get(itemData.Key);
                 needItemList[itemIdx].gameObject.SetActive(true);
-                needItemList[itemIdx].SetNeedItem(item.ItemImage, itemData.Value, inventory.GetTotalItem(itemData.Key) +
-                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(itemData.Key)));
+                needItemList[itemIdx].SetNeedItem(item.ItemImage, itemData.Value, inventory.GetTotalItem(itemData.Key));
                 itemIdx++;
             }
         }
@@ -157,7 +140,6 @@ public class CreateItemUI : MonoBehaviour
         createItem.id = data.ID;  
         createItem.itemData = data;
         createItem.amount = createData.ResultValue;
-        createItem.durability = data.Durability;
         if (inventory != null)
         {
             ConsumItem(createData.NeedItemList);
@@ -223,33 +205,6 @@ public class CreateItemUI : MonoBehaviour
             if (inventory == null)
                 break;
             inventory.ConsumeItem(data.Key, data.Value);
-        }
-    }
-
-    private void SetFormat(int index)
-    {
-        var info = createList[index].ItemInfo.data;
-        switch (info.ItemType)
-        {
-            case ItemType.None:
-                break;
-            case ItemType.Material:
-                break;
-            case ItemType.Consumable:
-                itemPerform.text = string.Format(consumableFormat, info.Value1.ToString(),
-                    info.Value2.ToString(), info.Value3.ToString(), info.Value4.ToString());
-                break;
-            case ItemType.Relics:
-                break;
-            case ItemType.Weapon:
-                var weaponData = DataTableManager.WeaponTable.Get(info.ID);
-                itemPerform.text = string.Format(weaponFormat, weaponData.AttackPower.ToString(), weaponData.AttackSpeed.ToString());
-                break;
-            case ItemType.Armor:
-                var armorData = DataTableManager.ArmorTable.Get(info.ID);
-                itemPerform.text = string.Format(armorFormat, armorData.defance.ToString(),
-                    armorData.moveSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
-                break;
         }
     }
 }

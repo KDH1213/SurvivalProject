@@ -10,6 +10,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public Vector3Int Position { get; set; }
     public Quaternion Rotation { get; set; }
     public bool IsPlaced { get; set; } = false;
+    public bool IsCollision { get; set; } = false;
     public int Rank { get; set; } = 1;
     public int ID { get; set; }
     public float Hp { get; set; }

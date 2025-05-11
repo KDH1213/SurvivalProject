@@ -6,15 +6,6 @@ public class SceneSwitcher : MonoBehaviour
 {
     public UnityEvent onSceneSwitchEvent;
 
-    [SerializeField]
-    private string nextStageName;
-
-    public string NextStageName => nextStageName;
-    [SerializeField]
-    private string currentStageName;
-
-    public string CurrentStageName => currentStageName;
-
     public virtual void SwitchScene(string sceneName)
     {
         onSceneSwitchEvent?.Invoke();

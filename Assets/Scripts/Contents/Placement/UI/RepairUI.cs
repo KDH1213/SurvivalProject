@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,13 +28,10 @@ public class RepairUI : MonoBehaviour
     private Dictionary<int, int> consumeItem = new();
     private Dictionary<SurvivalStatType, int> consumePenalty = new();
 
-    private PlacementObject currentObject;
-
     private float hpPercent;
 
     public void SetUI(PlacementObjectInfo objInfo, PlacementObject selectedObject)
     {
-        currentObject = selectedObject;
         if (GameObject.FindWithTag("Player") != null)
         {
             inventory = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerFSM>().PlayerInventory;
@@ -104,14 +100,12 @@ public class RepairUI : MonoBehaviour
                 if (inventory.GetTotalItem(item.Key) < item.Value)
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
-                        Mathf.FloorToInt(item.Value * percent), inventory.GetTotalItem(item.Key) +
-                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(item.Key)));
+                        Mathf.FloorToInt(item.Value * percent), inventory.GetTotalItem(item.Key));
                 }
                 else
                 {
                     needItems[index].SetNeedItem(itemTable.Get(item.Key).ItemImage,
-                        Mathf.FloorToInt(item.Value * percent), inventory.GetTotalItem(item.Key) +
-                        system.Storages.Sum(storage => storage.inventory.GetTotalItem(item.Key)));
+                        Mathf.FloorToInt(item.Value * percent), inventory.GetTotalItem(item.Key));
                 }
                 consumeItem.Add(item.Key, Mathf.FloorToInt(item.Value * percent));
                 needItems.Add(needItems[index]);

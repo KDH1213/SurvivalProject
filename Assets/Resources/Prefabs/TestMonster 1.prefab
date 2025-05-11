@@ -956,7 +956,10 @@ MonoBehaviour:
       Value: {fileID: 3585911724266889897}
   <ID>k__BackingField: 0
   <Animator>k__BackingField: {fileID: 5272701081797501969}
+  <Agent>k__BackingField: {fileID: 3264490063815481508}
   <Weapon>k__BackingField: {fileID: 11400000, guid: bcce40906cacfc842a6bdf8156297f15,
+    type: 2}
+  <MonsterData>k__BackingField: {fileID: 11400000, guid: 33228d193f2ee44439ed283ee4ce126e,
     type: 2}
   <AttackPoint>k__BackingField: {fileID: 5933162592300425331}
   onEndInteractEvent:
@@ -1153,9 +1156,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onChangeHpEvnet:
-    m_PersistentCalls:
-      m_Calls: []
   HpBarSlider: {fileID: 3688793983588463359}
 --- !u!114 &4201301101808922029
 MonoBehaviour:
@@ -1246,6 +1246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436dc8c00e8b8b243ad8ea748f8ac7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experience: 100
 --- !u!114 &908389265763302010
 MonoBehaviour:
   m_ObjectHideFlags: 0
