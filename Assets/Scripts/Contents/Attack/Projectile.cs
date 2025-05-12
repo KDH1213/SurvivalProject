@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour, IProjectileable
 {
     [SerializeField]
-    private Weapon weapon;
+    private MonsterWeapon weapon;
 
     [SerializeField]
     private float lifeTime;

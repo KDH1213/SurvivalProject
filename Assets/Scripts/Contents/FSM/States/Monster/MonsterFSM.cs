@@ -12,7 +12,7 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
     public Animator Animator { get; private set; }
 
     [field: SerializeField]
-    public Weapon Weapon { get; private set; }
+    public MonsterWeapon Weapon { get; private set; }
 
     public MonsterData MonsterData { get; private set; } = null;
 

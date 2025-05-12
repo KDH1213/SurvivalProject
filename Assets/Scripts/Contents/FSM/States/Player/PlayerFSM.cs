@@ -9,7 +9,7 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     [field: SerializeField]
     public CharacterController CharacterController { get; private set; }
     [field: SerializeField]
-    public Weapon Weapon { get; private set; }
+    public MonsterWeapon Weapon { get; private set; }
     [field: SerializeField]
     public Inventory PlayerInventory { get; private set; }
     [field: SerializeField]

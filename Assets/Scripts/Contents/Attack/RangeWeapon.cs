@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RangeWeapon.asset", menuName = "Attack/RangeWeapon")]
-public class RangeWeapon : Weapon
+public class RangeWeapon : MonsterWeapon
 {
     [SerializeField]
     public GameObject weaponPrefab;

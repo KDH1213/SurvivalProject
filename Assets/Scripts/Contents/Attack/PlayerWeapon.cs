@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "Weapon.asset", menuName = "Attack/Weapon")]
-public class Weapon : AttackDefinition
+
+[CreateAssetMenu(fileName = "Weapon.asset", menuName = "Attack/PlayerWeapon")]
+public class PlayerWeapon : AttackDefinition
 {
 
     [field: SerializeField]
@@ -15,20 +16,52 @@ public class Weapon : AttackDefinition
     public LayerMask WeaponLayerMask;
 
     [SerializeField]
-    public Collider[] AttackTargets = new Collider[1];
+    public Collider[] AttackTargets = new Collider[20];
+
+    private PriorityQueue<CharactorStats, float> attackTagetQueue = new PriorityQueue<CharactorStats, float>();
+
+    [SerializeField]
+    private int maxAttackCount = 5;
 
     public void StartAttack(Transform attackPoint, GameObject owner)
     {
         int index = Physics.OverlapBoxNonAlloc(attackPoint.position, CreateSize, AttackTargets, owner.transform.rotation, WeaponLayerMask);
 
-        for (int i = 0; i < index; ++i)
+        if(index <= maxAttackCount)
         {
-            var target = AttackTargets[i].GetComponent<CharactorStats>();
-            if (target != null)
+            for (int i = 0; i < index; ++i)
             {
-                Execute(owner.gameObject, target.gameObject);
+                var target = AttackTargets[i].GetComponent<CharactorStats>();
+
+                if (target != null)
+                {
+                    Execute(owner.gameObject, target.gameObject);
+                }
             }
         }
+        else
+        {
+            CharactorStats target = null;
+
+            for (int i = 0; i < index; ++i)
+            {
+                target = AttackTargets[i].GetComponent<CharactorStats>();
+
+
+            }
+
+            for (int i = 0; i < maxAttackCount; ++i)
+            {
+                target = attackTagetQueue.Dequeue();
+
+                if (target != null)
+                {
+                    Execute(owner.gameObject, target.gameObject);
+                }
+            }
+        }
+
+        attackTagetQueue.Clear();
     }
 
     public override void Execute(GameObject attacker, GameObject defender)
@@ -36,7 +69,7 @@ public class Weapon : AttackDefinition
         CharactorStats aStats = attacker.GetComponent<CharactorStats>();
         CharactorStats dStats = defender.GetComponent<CharactorStats>();
 
-        if(dStats.IsDead || !dStats.CanHit)
+        if (dStats.IsDead || !dStats.CanHit)
         {
             return;
         }
