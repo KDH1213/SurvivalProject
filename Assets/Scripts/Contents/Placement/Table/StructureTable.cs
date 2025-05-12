@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StructureTable : DataTable
@@ -31,7 +32,7 @@ public class StructureTable : DataTable
         public int ReturnedItem4 { get; set; }
         public int ReturnedItemCount4 { get; set; }
         public int NextUpgradeID { get; set; }
-        public int StageSpecifier { get; set; } 
+        public string StageSpecifier { get; set; } 
         public int FatigueReductionPerMinute { get; set; }
 
         public Dictionary<int, int> ReturnItemList { get; set; } = new Dictionary<int, int>();
@@ -52,6 +53,12 @@ public class StructureTable : DataTable
         {
             if (!dictionoary.ContainsKey(item.BuildingID))
             {
+                var stages = item.StageSpecifier.Split("_");
+                if (!stages.Contains(SaveLoadManager.Data.sceneStage.ToString()))
+                {
+                    continue;
+                }
+
                 if (item.ReturnedItem1 != 0)
                 {
                     item.ReturnItemList.Add(item.ReturnedItem1, item.ReturnedItemCount1);
@@ -68,6 +75,7 @@ public class StructureTable : DataTable
                 {
                     item.ReturnItemList.Add(item.ReturnedItem4, item.ReturnedItemCount4);
                 }
+
                 dictionoary.Add(item.BuildingID, item);
             }
             else
