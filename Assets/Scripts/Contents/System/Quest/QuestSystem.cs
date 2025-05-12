@@ -82,7 +82,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private UnityEvent<DropItemInfo> onQuestCompensationEvent = new();
     private UnityAction onIconDisableAction;
-    private UnityEvent<GameObject, float> onAddExperienceEvent;
+    private UnityEvent<GameObject, float> onAddExperienceEvent = new();
 
     private bool isLoad = false;
 
