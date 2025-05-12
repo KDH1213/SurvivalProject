@@ -84,14 +84,4 @@ public class MonsterAttackState : MonsterBaseState
     {
         this.attacker = attacker;
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        if (MonsterFSM != null && MonsterFSM.Weapon != null)
-        {
-            MonsterFSM.Weapon.OnGizmos(MonsterFSM.AttackPoint);
-        }
-    }
-#endif
 }

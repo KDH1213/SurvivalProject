@@ -4,8 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon.asset", menuName = "Attack/Weapon")]
 public class Weapon : AttackDefinition
 {
-    [field: SerializeField]
-    public Vector3 CreateOffset { get; private set; }
 
     [field: SerializeField]
     public Vector3 CreateSize { get; private set; }
