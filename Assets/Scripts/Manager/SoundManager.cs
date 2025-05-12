@@ -75,6 +75,13 @@ public class SoundManager : Singleton<SoundManager>
             masterMixer.SetFloat(masterName, Mathf.Log10(masterVolume) * 20f);
     }
 
+    public void OnValueChangedMasterVolume(float volume)
+    {
+        masterMixer.SetFloat(masterName, Mathf.Log10(volume) * 20);
+        masterMixer.SetFloat(bgmName, Mathf.Log10(volume) * 20);
+        masterMixer.SetFloat(effectName, Mathf.Log10(volume * 0.5f) * 20);
+    }
+
     public void OnValueChangedEffectVolume(float volume)
     {
         masterMixer.SetFloat(effectName, Mathf.Log10(volume) * 20f);
