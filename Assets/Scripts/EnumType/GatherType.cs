@@ -7,8 +7,8 @@ public enum GatherType
     Tree,
     Rock,
     Stone,
-    Box,        
-
+    Box,
+    Relics,
     End
 }
 
@@ -23,5 +23,5 @@ public enum GatherTypeMask
     Rock = 1 << GatherType.Rock,
     Stone = 1 << GatherType.Stone,
     Box = 1 << GatherType.Box,
-
+    Relics = 1 << GatherType.Relics,
 }

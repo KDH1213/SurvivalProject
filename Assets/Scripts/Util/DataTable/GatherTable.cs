@@ -36,6 +36,11 @@ public class GatherData
     [field: SerializeField]
     public float RespawnTime { get; set; }
 
+    [field: SerializeField]
+    public int DropExperience { get; set; }
+    
+
+
     public GatherType GatherType;
     public GameObject Prefab;
     public List<ActInfo> actInfoList = new List<ActInfo>();

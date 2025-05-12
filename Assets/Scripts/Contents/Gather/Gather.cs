@@ -32,7 +32,7 @@ public class Gather : MonoBehaviour, IInteractable, IRespawn, IInteractCollision
     public float RespawnTime => GatherData.RespawnTime;
     public float InteractTime => GatherData.InteractTime;
 
-    public float Experience => 100f;
+    public float Experience => GatherData.DropExperience;
 
     public int DropID => GatherData.DropID;
 
