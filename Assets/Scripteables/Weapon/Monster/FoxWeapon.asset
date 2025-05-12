@@ -10,22 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e1b8ee93bd2f764a80cbf007ec121e1, type: 3}
-  m_Name: MonsterWeapon
+  m_Name: FoxWeapon
   m_EditorClassIdentifier: 
-  <CoolDown>k__BackingField: 1
-  <Range>k__BackingField: 2
-  <MinDamage>k__BackingField: 5
-  <MaxDamage>k__BackingField: 5
-  <CriticalChanse>k__BackingField: 1.2
-  <CriticalMultipler>k__BackingField: 1
-  weaponPrefab: {fileID: 0}
-  weaponLayerMask:
+  <CreateSize>k__BackingField: {x: 1.2, y: 2, z: 2}
+  FindTargetColliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  WeaponLayerMask:
     serializedVersion: 2
-    m_Bits: 1024
-  attackTargets:
+    m_Bits: 33920
+  AttackTargets:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  attackDot: 0

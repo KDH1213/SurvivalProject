@@ -168,4 +168,16 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
             MonsterPool.Release(this);
         }
     }
+
+
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (Weapon != null)
+        {
+            Weapon.OnGizmos(AttackPoint);
+        }
+    }
+#endif
 }
