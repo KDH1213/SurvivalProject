@@ -5,12 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon.asset", menuName = "Attack/PlayerWeapon")]
 public class PlayerWeapon : AttackDefinition
 {
-
     [field: SerializeField]
     public Vector3 CreateSize { get; private set; }
-
-    [SerializeField]
-    public Collider[] FindTargetColliders = new Collider[5];
 
     [SerializeField]
     public LayerMask WeaponLayerMask;
@@ -18,16 +14,24 @@ public class PlayerWeapon : AttackDefinition
     [SerializeField]
     public Collider[] AttackTargets = new Collider[20];
 
+    [SerializeField]
+    public LayerMask wallLayerMask;
+
     private PriorityQueue<CharactorStats, float> attackTagetQueue = new PriorityQueue<CharactorStats, float>();
 
     [SerializeField]
     private int maxAttackCount = 5;
 
+    private Ray ray = new Ray();
+    private RaycastHit[] raycastHit = new RaycastHit[1];
+
     public void StartAttack(Transform attackPoint, GameObject owner)
     {
         int index = Physics.OverlapBoxNonAlloc(attackPoint.position, CreateSize, AttackTargets, owner.transform.rotation, WeaponLayerMask);
 
-        if(index <= maxAttackCount)
+        ray.origin = owner.transform.position;
+
+        if (index <= maxAttackCount)
         {
             for (int i = 0; i < index; ++i)
             {
@@ -35,7 +39,7 @@ public class PlayerWeapon : AttackDefinition
 
                 if (target != null)
                 {
-                    Execute(owner.gameObject, target.gameObject);
+                    Excute(owner, target);
                 }
             }
         }
@@ -47,16 +51,26 @@ public class PlayerWeapon : AttackDefinition
             {
                 target = AttackTargets[i].GetComponent<CharactorStats>();
 
-
+                if (target == null || target.IsDead || !target.CanHit)
+                {
+                    continue;
+                }
+                attackTagetQueue.Enqueue(target, (target.transform.position - owner.transform.position).sqrMagnitude);
             }
 
-            for (int i = 0; i < maxAttackCount; ++i)
+            int attackCount = 0;
+            for (int i = 0; i < attackTagetQueue.Count; ++i)
             {
                 target = attackTagetQueue.Dequeue();
 
-                if (target != null)
+                if (Excute(owner, target))
                 {
-                    Execute(owner.gameObject, target.gameObject);
+                    ++attackCount;
+                }
+
+                if (attackCount == maxAttackCount)
+                {
+                    break;
                 }
             }
         }
@@ -82,6 +96,33 @@ public class PlayerWeapon : AttackDefinition
         {
             attackable.OnAttack(attacker, attack);
         }
+    }
+
+    public bool Excute(GameObject attacker, CharactorStats dStats)
+    {
+        CharactorStats aStats = attacker.GetComponent<CharactorStats>();
+
+        var direction = (ray.origin - attacker.transform.position);
+
+        ray.direction = direction.normalized;
+        direction.y = 0;
+        float distance = direction.magnitude;
+
+        if (Physics.RaycastNonAlloc(ray, raycastHit, distance, wallLayerMask) != 0)
+        {
+            return false;
+        }
+
+        DamageInfo attack = CreateAttack(aStats, dStats);
+        IAttackable[] attackables = dStats.GetComponents<IAttackable>();
+
+        foreach (var attackable in attackables)
+        {
+            attackable.OnAttack(attacker, attack);
+        }
+
+
+        return true;
     }
 
     public void OnGizmos(Transform owner)
