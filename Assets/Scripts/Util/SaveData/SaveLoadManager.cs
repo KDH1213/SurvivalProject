@@ -23,6 +23,8 @@ public static class SaveLoadManager
         "Save3.json",
     };
 
+    public static string DefaultSaveFileName => SaveFileName[0];
+
     private static JsonSerializerSettings settings = new JsonSerializerSettings
     {
         Formatting = Formatting.Indented,
@@ -31,7 +33,7 @@ public static class SaveLoadManager
        
     };
 
-    private static string SaveDirectory
+    public static string SaveDirectory
     {
         get
         {
