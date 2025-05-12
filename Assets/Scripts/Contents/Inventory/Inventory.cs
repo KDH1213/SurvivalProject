@@ -135,47 +135,47 @@ public class Inventory : MonoBehaviour, ISaveLoadData
                 }
             }
 
-            var Item = DataTableManager.ItemTable.Get(1201004);
+            //var Item = DataTableManager.ItemTable.Get(1201004);
 
-            var testInfo = new DropItemInfo();
-            testInfo.amount = 500;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
+            //var testInfo = new DropItemInfo();
+            //testInfo.amount = 500;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
 
-            Item = DataTableManager.ItemTable.Get(1111119);
+            //Item = DataTableManager.ItemTable.Get(1111119);
 
-            testInfo = new DropItemInfo();
-            testInfo.amount = 1;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
-
-
-            Item = DataTableManager.ItemTable.Get(1111125);
-
-            testInfo = new DropItemInfo();
-            testInfo.amount = 1;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
+            //testInfo = new DropItemInfo();
+            //testInfo.amount = 1;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
 
 
-            Item = DataTableManager.ItemTable.Get(1111131);
+            //Item = DataTableManager.ItemTable.Get(1111125);
 
-            testInfo = new DropItemInfo();
-            testInfo.amount = 1;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
+            //testInfo = new DropItemInfo();
+            //testInfo.amount = 1;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
 
-            Item = DataTableManager.ItemTable.Get(1111137);
 
-            testInfo = new DropItemInfo();
-            testInfo.amount = 1;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
+            //Item = DataTableManager.ItemTable.Get(1111131);
+
+            //testInfo = new DropItemInfo();
+            //testInfo.amount = 1;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
+
+            //Item = DataTableManager.ItemTable.Get(1111137);
+
+            //testInfo = new DropItemInfo();
+            //testInfo.amount = 1;
+            //testInfo.itemData = Item;
+            //testInfo.id = Item.ID;
+            //AddItem(testInfo);
         }
     }
 

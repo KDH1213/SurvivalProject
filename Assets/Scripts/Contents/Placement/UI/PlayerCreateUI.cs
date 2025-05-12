@@ -224,8 +224,8 @@ public class PlayerCreateUI : MonoBehaviour
                 break;
             case ItemType.Armor:
                 var armorData = DataTableManager.ArmorTable.Get(info.ID);
-                itemPerform.text = string.Format(armorFormat, armorData.defance.ToString(), 
-                    armorData.moveSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
+                itemPerform.text = string.Format(armorFormat, armorData.DefensePower.ToString(), 
+                    armorData.MovementSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
                 break;
         }
     }

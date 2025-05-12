@@ -82,6 +82,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
 
     private UnityEvent<DropItemInfo> onQuestCompensationEvent = new();
     private UnityAction onIconDisableAction;
+    private UnityEvent<GameObject, float> onAddExperienceEvent = new();
 
     private bool isLoad = false;
 
@@ -98,7 +99,6 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
             stageManager.GetComponent<StageManager>().onSaveEvent += Save;
         }
 
-
         Initialized();
         // currentQuestData = DataTableManager.QuestTable.Get(currentQuestID);      
         playerTransform = GameObject.FindWithTag(Tags.Player).transform;
@@ -106,6 +106,14 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         var playerFsm = playerTransform.GetComponent<PlayerFSM>();
         playerTransform.GetComponent<PlayerStats>().onUseItemEvent.AddListener(OnUseItem);
         onQuestCompensationEvent.AddListener(playerFsm.OnDropItem);
+
+        onAddExperienceEvent.AddListener(playerFsm.GetComponent<LifeStat>().OnAddExperience);
+        var baseStructure = GameObject.FindWithTag("PointStructure").GetComponentInChildren<BaseStructure>();
+
+        if(baseStructure != null)
+        {
+            baseStructure.onChangeReturnRelicsCountEvent.AddListener(OnReturnRelics);
+        }
 
         var placementSystemObject = GameObject.FindWithTag(Tags.PlacementSystem);
         if(placementSystemObject != null)
@@ -388,6 +396,28 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         }
     }
 
+    public void OnReturnRelics(int collectionCount)
+    {
+        if (currentRelicsCollectionQuestCount == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentRelicsCollectionQuestCount; ++i)
+        {
+            currentRelicsCollectionQuestList[i].currentCount += collectionCount;
+            onChangeValueEvent?.Invoke(currentRelicsCollectionQuestList[i].index, currentRelicsCollectionQuestList[i].currentCount, currentRelicsCollectionQuestList[i].maxCount);
+            if (currentRelicsCollectionQuestList[i].IsClear())
+            {
+                currentRelicsCollectionQuestList.Remove(currentRelicsCollectionQuestList[i]);
+                --currentRelicsCollectionQuestCount;
+                --activeQuestCount;
+                CheckQuestClear();
+            }
+            break;
+        }
+    }
+
     private void OnCheckQuestClear(ref List<QuestProgressInfo> questProgressInfoList, ref int questCount)
     {
         for (int i = 0; i < questProgressInfoList.Count; ++i)
@@ -409,12 +439,6 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         tempQuestClearList.Clear();
     }
 
-
-    public void OnCollectionRelics(int collectionCount)
-    {
-
-    }
-
     private void CheckQuestClear()
     {
         if(activeQuestCount == 0)
@@ -433,6 +457,8 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
         //{
         //    onQuestCompensationEvent?.Invoke(dropItem);
         //}
+
+        onAddExperienceEvent?.Invoke(this.gameObject, currentQuestData.DropExp);
 
         if (currentQuestData.questInfoList[0].questType == QuestType.Movement)
         {

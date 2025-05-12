@@ -5618,7 +5618,8 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2903480082288881626, guid: f8f569ca41324f149b1597ed37744842, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8f569ca41324f149b1597ed37744842, type: 3}
@@ -19122,6 +19123,34 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 978743617}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &980562390 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9002412497890996589, guid: 70c08347409d3aa4192ae5f03989de4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8757678969903300238}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &980562391 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4685862972215569745, guid: 70c08347409d3aa4192ae5f03989de4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8757678969903300238}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &980562393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980562390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d845e3b4c28fe7545be4a6153120a3dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBarPrefab: {fileID: 8330920848344171314, guid: fa529e77d0352ca4485a1c475582cabf,
+    type: 3}
+  createPoint: {fileID: 980562391}
+  hpBarCanvasRectTransform: {fileID: 980562391}
 --- !u!114 &985078466 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1725011946382245991, guid: 70c08347409d3aa4192ae5f03989de4e,
@@ -30307,11 +30336,6 @@ PrefabInstance:
       propertyPath: <PlayerInventory>k__BackingField
       value: 
       objectReference: {fileID: 552497856}
-    - target: {fileID: 4766854409604859175, guid: 226405ed50c9e3f41844037cac5bab94,
-        type: 3}
-      propertyPath: interactableTargetLayerMask.m_Bits
-      value: 33408
-      objectReference: {fileID: 0}
     - target: {fileID: 4888348775712051221, guid: 226405ed50c9e3f41844037cac5bab94,
         type: 3}
       propertyPath: fatigueSlider
@@ -34312,6 +34336,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9002412497890996589, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9159422273820735644, guid: 70c08347409d3aa4192ae5f03989de4e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -34365,7 +34394,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9002412497890996589, guid: 70c08347409d3aa4192ae5f03989de4e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 980562393}
   m_SourcePrefab: {fileID: 100100000, guid: 70c08347409d3aa4192ae5f03989de4e, type: 3}
 --- !u!114 &8757678969903300239 stripped
 MonoBehaviour:

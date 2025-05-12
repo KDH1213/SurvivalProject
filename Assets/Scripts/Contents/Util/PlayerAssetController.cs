@@ -96,7 +96,7 @@ public class PlayerAssetController : MonoBehaviour
 
     private void OnEquipmentArmor(ArmorData armorData)
     {
-        var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ID);
+        var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ItemID);
 
         if (meshList == null)
         {
@@ -144,7 +144,7 @@ public class PlayerAssetController : MonoBehaviour
 
     private void OnUnEquipmentArmor(ArmorData armorData)
     {
-        var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ID);
+        var meshList = armorMeshData.GetMeshList(armorData.ArmorType, armorData.ItemID);
         int index = (int)armorData.ArmorType - 1;
 
         if (skinnedMeshRendererLists.Count == 0)

@@ -17,6 +17,7 @@ public class BaseStructure : PlacementObject
     public int MaxRelics => maxRelics;
 
     public UnityEvent onMaxCollectRelicsEvent;
+    public UnityEvent<int> onChangeReturnRelicsCountEvent;
 
 
     public bool IsMaxCollectRelics => returnCount >= maxRelics;
@@ -32,6 +33,17 @@ public class BaseStructure : PlacementObject
         if (returnCount >= maxRelics)
         {
             onMaxCollectRelicsEvent?.Invoke();
+        }
+
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            var stats = GetComponent<StructureStats>();
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+            hpBar.SetTarget(stats);
+
+            stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
         }
     }
 
@@ -49,8 +61,9 @@ public class BaseStructure : PlacementObject
     public void OnReturnRelicsCount(int count)
     {
         returnCount += count;
+        onChangeReturnRelicsCountEvent?.Invoke(count);
 
-        if(returnCount >= maxRelics)
+        if (returnCount >= maxRelics)
         {
             onMaxCollectRelicsEvent?.Invoke();
         }

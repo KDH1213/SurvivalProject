@@ -85,8 +85,8 @@ public class ItemData
         {
             var armorData = DataTableManager.ArmorTable.Get(ID);
 
-            list.Add(new StatInfo(StatType.Defense, armorData.defance));
-            list.Add(new StatInfo(StatType.MovementSpeed, armorData.moveSpeed));
+            list.Add(new StatInfo(StatType.Defense, armorData.DefensePower));
+            list.Add(new StatInfo(StatType.MovementSpeed, armorData.MovementSpeed));
             list.Add(new StatInfo(StatType.ColdResistance, armorData.ColdResistance));
             list.Add(new StatInfo(StatType.HeatResistance, armorData.HeatResistance));
         }
