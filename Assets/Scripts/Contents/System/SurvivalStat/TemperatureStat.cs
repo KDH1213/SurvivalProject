@@ -100,11 +100,11 @@ public class TemperatureStat : MonoBehaviour
 
         var currentTemprature = currentColdResistance + stageTemperature;
 
-        if (coldPenaltyValueInfo.step2PenaltyValue > currentTemprature)
+        if (coldPenaltyValueInfo.step2PenaltyValue >= currentTemprature)
         {
             onColdPenaltyEvenet?.Invoke(2);
         }
-        else if (coldPenaltyValueInfo.step1PenaltyValue > currentTemprature)
+        else if (coldPenaltyValueInfo.step1PenaltyValue >= currentTemprature)
         {
             onColdPenaltyEvenet?.Invoke(1);
         }
@@ -127,11 +127,11 @@ public class TemperatureStat : MonoBehaviour
         currentColdResistance = (int)value;
         var currentTemprature = currentColdResistance - stageTemperature;
 
-        if (heatPenaltyValueInfo.step2PenaltyValue > currentTemprature)
+        if (heatPenaltyValueInfo.step2PenaltyValue >= currentTemprature)
         {
             onHeatPenaltyEvenet?.Invoke(2);
         }
-        else if (heatPenaltyValueInfo.step1PenaltyValue > currentTemprature)
+        else if (heatPenaltyValueInfo.step1PenaltyValue >= currentTemprature)
         {
             onHeatPenaltyEvenet?.Invoke(1);
         }

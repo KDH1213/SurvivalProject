@@ -65,16 +65,16 @@ public class GameTimeManager : MonoBehaviour, ISaveLoadData
     private void Awake()
     {
         Load();
+        if (service == null)
+        {
+            service = new TimeService(timeSettings);
+        }
+
     }
 
     private void Start()
     {
 
-        if(service == null)
-        {
-            service = new TimeService(timeSettings);
-        }
-        
         volume.profile.TryGet(out colorAdjustments);
 
         // initialDialRotation = dial.rotation.eulerAngles.z;

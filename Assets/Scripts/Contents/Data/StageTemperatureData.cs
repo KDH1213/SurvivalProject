@@ -9,6 +9,9 @@ public class StageTemperatureData : ScriptableObject
     public int StageDefalutTemperature { get; private set; }
 
     [field: SerializeField]
+    public IntMinMax StageMinMaxTemperature { get; private set; }
+
+    [field: SerializeField]
     public List<IntMinMax> DailyTemperatureRangeList { get; private set; } = new List<IntMinMax>();
 
     [ContextMenu("Init")]
@@ -17,7 +20,22 @@ public class StageTemperatureData : ScriptableObject
         DailyTemperatureRangeList.Clear();
         for (int i = 0; i < 24; ++i)
         {
-            DailyTemperatureRangeList.Add(new IntMinMax());
+            DailyTemperatureRangeList.Add(new IntMinMax(-2, 2));
         }
+    }
+
+    public int GetRandomTemperature(int hour)
+    {
+        if (hour < 0 || DailyTemperatureRangeList.Count <= hour)
+        {
+            return 0;
+        }
+
+        return DailyTemperatureRangeList[hour].GetRendomValue();
+    }
+
+    public int ClampTemperature(int temperature)
+    {
+        return Mathf.Clamp(temperature, StageMinMaxTemperature.min, StageMinMaxTemperature.max);
     }
 }

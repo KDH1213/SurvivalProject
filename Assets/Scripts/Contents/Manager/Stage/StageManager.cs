@@ -32,6 +32,9 @@ public class StageManager : MonoBehaviour, ISaveLoadData
     private StageTemperatureData stageTemperatureData;
 
     [SerializeField]
+    private GameTimeManager gameTimeManager;
+
+    [SerializeField]
     private List<GameObject> eliteMonsterList = new List<GameObject>();
 
     [SerializeField]
@@ -77,7 +80,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     private void Start()
     {
-        // GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().OnHourChange += OnChangeTemperature;
+        gameTimeManager.OnHourChange += OnChangeTemperature;
         onChangeTemperatureEvent?.Invoke(stageTemperature);
     }
 
@@ -150,6 +153,9 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     public void OnChangeTemperature(int hour)
     {
+        int value = stageTemperatureData.GetRandomTemperature(hour);
+        stageTemperature = stageTemperatureData.ClampTemperature(stageTemperature + value);
+
         onChangeTemperatureEvent?.Invoke(stageTemperature);
     }
 
@@ -305,6 +311,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         }
 
         SaveLoadManager.Data.eliteMonsterSaveInfoList = eliteMonsterSaveInfoList;
+        SaveLoadManager.Data.stageTemperature = stageTemperature;
     }
 
     public void Load()
@@ -378,5 +385,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
             eliteMonsterList[i].GetComponent<MonsterStats>().LoadStats(eliteMonsterSaveInfoList[i].hp);
             eliteMonsterList[i].gameObject.SetActive(!eliteMonsterSaveInfoList[i].isDeath);
         }
+
+        stageTemperature = SaveLoadManager.Data.stageTemperature;
     }
 }
