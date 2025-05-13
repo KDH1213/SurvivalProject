@@ -64,41 +64,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2860464542849029667}
     m_Modifications:
-    - target: {fileID: 2255053725849693838, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2255053725849693838, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2255053725849693839, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3008925982948753929, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3008925982948753929, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9162984605186550963, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9162984605186550963, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 179844, guid: c2aeb3b938cb0f540a7cc83906bea6b0, type: 3}
       propertyPath: m_Name
       value: SM_Bld_Church_Tower_02
@@ -166,6 +131,41 @@ PrefabInstance:
     - target: {fileID: 420454, guid: c2aeb3b938cb0f540a7cc83906bea6b0, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2255053725849693838, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2255053725849693838, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2255053725849693839, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008925982948753929, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008925982948753929, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9162984605186550963, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9162984605186550963, guid: ee9a457c0c3e4674e9c09f97a7836d6c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2255053725849693839, guid: ee9a457c0c3e4674e9c09f97a7836d6c, type: 3}
@@ -260,7 +260,6 @@ MonoBehaviour:
   onChangeHpEvnet:
     m_PersistentCalls:
       m_Calls: []
-  HpBarSlider: {fileID: 0}
 --- !u!65 &3094698123071009929
 BoxCollider:
   m_ObjectHideFlags: 0

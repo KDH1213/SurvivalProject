@@ -47,25 +47,6 @@ public class PlacementObjectList
 
             objInfo.Rank = data.Value.Rank;
 
-            switch (data.Value.StageSpecifier)
-            {
-                case 1:
-                    objInfo.Stage = SceneName.Stage1;
-                    break;
-                case 2:
-                    objInfo.Stage = SceneName.Stage2;
-                    break;
-                case 3:
-                    objInfo.Stage = SceneName.Stage3;
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                default:
-                    break;
-            }
-
             objInfo.SubType = data.Value.BuildingSubType;
             objInfo.Size = new Vector2Int(data.Value.BuildingSizeX, data.Value.BuildingSizeY);
 

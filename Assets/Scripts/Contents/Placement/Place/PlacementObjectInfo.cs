@@ -7,7 +7,6 @@ public class PlacementObjectInfo
     public int ID { get; set; }
     public int NextStructureID { get; set; }
     public int Rank { get; set; }
-    public string Stage { get; set; }
     public Vector2Int Size { get; set; } = Vector2Int.one;
     public StructureKind Kind { get; set; }
     public int SubType { get; set; }

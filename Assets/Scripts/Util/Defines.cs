@@ -114,6 +114,15 @@ public static class SceneName
     public static readonly string LoadScene = "Assets/Scenes/LoadScene.unity";
 }
 
+public static class SceneStage
+{
+    public static readonly int Develop = -1;
+    public static readonly int Stage1 = 1;
+    public static readonly int Stage2 = 2;
+    public static readonly int Stage3 = 3;
+    public static readonly int LoadScene = 999;
+}
+
 
 public static class TypeName
 {

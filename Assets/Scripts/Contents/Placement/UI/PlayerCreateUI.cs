@@ -195,6 +195,11 @@ public class PlayerCreateUI : MonoBehaviour
 
     private void ConsumItem(Dictionary<int, int> needItems)
     {
+        if (inventory.IsFullInventory())
+        {
+            ToastMsg.Instance.ShowMessage("¿Œ∫•≈‰∏Æ∞° ≤À √°Ω¿¥œ¥Ÿ.");
+            return;
+        }
         foreach (var data in needItems)
         {
             if (inventory == null)
