@@ -63,6 +63,13 @@ public static class DataTableManager
             tables.Add(id, table);
         }
 
+        foreach (var id in PlayerLevelTableIds.String)
+        {
+            var table = new PlayerLevelTable();
+            table.Load(id);
+            tables.Add(id, table);
+        }
+
         var tableConstruction = new ConstructionTable();
         string idConstruction = PlacementTableIds.ConstructionTable;
         tableConstruction.Load(idConstruction);
@@ -153,6 +160,12 @@ public static class DataTableManager
         }
     }
 
+    public static PlayerLevelTable PlayerLevelTable
+    {
+        get { return Get<PlayerLevelTable>(PlayerLevelTableIds.String[0]); }
+    }
+
+
     public static ConstructionTable ConstructionTable
     {
         get { return Get<ConstructionTable>(PlacementTableIds.ConstructionTable); }
@@ -162,6 +175,7 @@ public static class DataTableManager
     {
         get { return Get<StructureTable>(PlacementTableIds.StructureTable); }
     }
+
     public static ItemCreateTable ItemCreateTable
     {
         get { return Get<ItemCreateTable>(PlacementTableIds.ItemCreateTable); }
