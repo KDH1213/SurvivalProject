@@ -11152,7 +11152,7 @@ GameObject:
   - component: {fileID: 2168981727419170743}
   - component: {fileID: 365111890991721901}
   m_Layer: 10
-  m_Name: TestPlayer
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11541,8 +11541,20 @@ MonoBehaviour:
     m_ActionName: Object/Drag[/Mouse/leftButton,/Mouse/delta]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a6619684-70f9-49d3-9573-9bc696720cd7
-    m_ActionName: Object/ZoomMouse[/Mouse/scroll/down,/Mouse/scroll/up]
+    m_ActionId: 2e8ba676-0ee6-4ded-b5a7-19981776112e
+    m_ActionName: Object/PrimaryFingerPosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 22cf863c-d8bd-4e56-9a6e-c360f92a6ab7
+    m_ActionName: Object/SecondaryFingerPosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2a5997cd-862b-4e7d-9ec1-d4c653675589
+    m_ActionName: Object/Touch #0
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6800d039-a0cf-435a-9240-eac429173d67
+    m_ActionName: Object/Touch #1
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -11635,7 +11647,7 @@ MonoBehaviour:
       Value: {fileID: 2449569301793440573}
   <Animator>k__BackingField: {fileID: 1379409574410569205}
   <CharacterController>k__BackingField: {fileID: 7632884530578718145}
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 4a15fe52cc995204e95ed1c67d0cea03,
+  <Weapon>k__BackingField: {fileID: 11400000, guid: 4408f783b75600442bd6c2d44a60293f,
     type: 2}
   <PlayerInventory>k__BackingField: {fileID: 0}
   <AttackPoint>k__BackingField: {fileID: 932908305792836729}
