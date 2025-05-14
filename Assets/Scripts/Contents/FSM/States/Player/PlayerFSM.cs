@@ -91,7 +91,6 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
         IsInputAttack = isInput;
         if (!IsAttack && IsInputAttack)
         {
-            IsAttack = true;
             ChangeState(PlayerStateType.Attack);
         }
     }
@@ -125,6 +124,11 @@ public class PlayerFSM : FSMController<PlayerStateType>, ISaveLoadData
     {
         GetComponent<PlayerStats>().OnResurrection();
         ChangeState(PlayerStateType.Idle);
+    }
+
+    public void OnStartAttack()
+    {
+        IsAttack = true;
     }
 
     public void OnEndAttack()
