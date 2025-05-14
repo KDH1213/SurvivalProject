@@ -13,12 +13,15 @@ public class SettingUI : MonoBehaviour
     private float masterOrigin;
     private float sfxOrigin;
     private float bgmOrigin;
+    private float timeScaleOrigin;
 
     private void OnEnable()
     {
         masterOrigin = master.value;
         sfxOrigin = sfx.value;
         bgmOrigin = bgm.value;
+        timeScaleOrigin = Time.timeScale;
+        Time.timeScale = 0;
     }
 
     public void OnValueChangeMaster()
@@ -38,8 +41,15 @@ public class SettingUI : MonoBehaviour
 
     public void OnClickCancle()
     {
-       master.value = masterOrigin;
-       sfx.value = sfxOrigin;
-       bgm.value = bgmOrigin;
+        master.value = masterOrigin;
+        sfx.value = sfxOrigin;
+        bgm.value = bgmOrigin;
+        Time.timeScale = timeScaleOrigin;
+        gameObject.SetActive(false);
+    }
+    public void OnClickOK()
+    {
+        Time.timeScale = timeScaleOrigin;
+        gameObject.SetActive(false);
     }
 }
