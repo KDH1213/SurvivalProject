@@ -16,6 +16,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     [SerializeField]
     private Image itemIcon;
 
+    [SerializeField] 
+    private Sprite defalutIcon;
+
     [SerializeField]
     private Slider durabilitySlider;
 
@@ -118,10 +121,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     protected void OnEmpty()
     {
-        itemIcon.sprite = null;
+        itemIcon.sprite = defalutIcon;
         ItemData = null;
 
-        itemIcon.color = new Color(1, 1, 1, 0);
         durabilitySlider.gameObject.SetActive(false);
         amountView.gameObject.SetActive(false);
     }
