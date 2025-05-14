@@ -23,12 +23,16 @@ public class UIGameOverView : MonoBehaviour
     private GameObject gameoverPanel;
 
     private bool isSelete = false;
+    private AdController adController;
 
     private void Awake()
     {
         var stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+        adController = GameObject.FindWithTag(Tags.AdManager).GetComponent<AdController>();
 
-        resurrectionButton.onClick.AddListener(() => { gameoverPanel.SetActive(false); isSelete = true; });
+        resurrectionButton.onClick.AddListener(adController.ShowInterstitialAd);
+        adController.rewardEvent.AddListener(() => { gameoverPanel.SetActive(false); isSelete = true; });
+        //resurrectionButton.onClick.AddListener(() => { gameoverPanel.SetActive(false); isSelete = true; });
 
         restartButton.onClick.AddListener(stageManager.OnRestart);
         restartButton.onClick.AddListener(() => { gameoverPanel.SetActive(false); isSelete = true; });
@@ -68,6 +72,11 @@ public class UIGameOverView : MonoBehaviour
 
     public void SetResurrectionAction(UnityAction resurrectionAction)
     {
-        resurrectionButton.onClick.AddListener(resurrectionAction);
+        if(adController == null)
+        {
+            adController = GameObject.FindWithTag(Tags.AdManager).GetComponent<AdController>();
+        }
+        adController.rewardEvent.AddListener(resurrectionAction);
+        //resurrectionButton.onClick.AddListener(resurrectionAction);
     }
 }
