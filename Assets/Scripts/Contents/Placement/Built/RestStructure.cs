@@ -52,9 +52,9 @@ public class RestStructure : PlacementObject
             Time.timeScale = 1;
             endRest.Invoke();
         }
-        else if (service.CurrentTime > recoverCurTime)
+        if (service.CurrentTime > recoverCurTime)
         {
-            recoverCurTime = service.GetCalculateTime(recoverPerTime);
+            recoverCurTime = service.GetCalculateTime(recoverPerTime / 5 / 60);
             target.GetComponent<FatigueStat>().SubPenaltyValue(recoverPerFatigue);
         }
 
@@ -90,7 +90,7 @@ public class RestStructure : PlacementObject
         timeManager = GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>();
         service = timeManager.TimeService;
         recoverEndTime = service.GetCalculateTime(endTime / 5);
-        recoverCurTime = service.GetCalculateTime(recoverPerTime / 5);
+        recoverCurTime = service.GetCalculateTime(recoverPerTime / 5 / 60);
 
         Time.timeScale = 8;
         isRest = true;

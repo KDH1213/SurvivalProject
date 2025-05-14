@@ -50,7 +50,7 @@ public class RestUI : MonoBehaviour
 
     public void SetUI(PlacementObjectInfo objInfo, GameObject target, RestStructure selectedObject)
     {
-        maxFatigue = FatigueStat.MaxValue - GameObject.FindWithTag(Tags.Player).GetComponent<FatigueStat>().Value;
+        maxFatigue = GameObject.FindWithTag(Tags.Player).GetComponent<FatigueStat>().Value;
         slider.maxValue = 100;
         slider.minValue = 10;
 
