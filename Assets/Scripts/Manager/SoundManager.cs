@@ -28,6 +28,17 @@ public class SoundPool
         sfxPlayerList[lastPlayIndex++].PlaySFX();
     }
 
+    public void Play(Transform target)
+    {
+        if (lastPlayIndex == maxPlayCount)
+            lastPlayIndex = 0;
+
+        sfxPlayerList[lastPlayIndex].StopSFX();
+        sfxPlayerList[lastPlayIndex].transform.parent = target;
+        sfxPlayerList[lastPlayIndex].transform.localPosition = Vector3.zero;
+        sfxPlayerList[lastPlayIndex++].PlaySFX();
+    }
+
     public bool CheckPool()
     {
         return sfxPlayerList.Count == maxPlayCount;
@@ -36,8 +47,8 @@ public class SoundPool
 
 public class SoundManager : Singleton<SoundManager>
 {
-    [SerializedDictionary, SerializeField]
-    private SerializedDictionary<int, SFXPlayer> soundTable;
+    [SerializeField]
+    private SoundTableData soundTableData;
 
     private Dictionary<int, SoundPool> playSoundTable = new Dictionary<int, SoundPool>();
 
@@ -52,10 +63,25 @@ public class SoundManager : Singleton<SoundManager>
     public bool isOnSound = true;
 
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if(soundTableData == null)
+        {
+            soundTableData = Resources.Load<SoundTableData>("Scripteables/Sound/SoundData");
+        }
+    }
+
     private void Start()
     {
         playSoundTable.Clear();
         playSoundTable = new Dictionary<int, SoundPool>();
+
+        if(masterMixer == null)
+        {
+            return;
+        }
 
         masterMixer.SetFloat(masterName, Mathf.Log10(masterVolume) * 20);
         masterMixer.SetFloat(bgmName, Mathf.Log10(masterVolume) * 20);
@@ -70,9 +96,13 @@ public class SoundManager : Singleton<SoundManager>
         isOnSound = useSound;
 
         if (!isOnSound)
+        {
             masterMixer.SetFloat(masterName, Mathf.Log10(-80f) * 20f);
+        }
         else
+        {
             masterMixer.SetFloat(masterName, Mathf.Log10(masterVolume) * 20f);
+        }
     }
 
     public void OnValueChangedMasterVolume(float volume)
@@ -95,10 +125,15 @@ public class SoundManager : Singleton<SoundManager>
     {
         if(!playSoundTable.ContainsKey(Id))
         {
-            playSoundTable.Add(Id, new SoundPool(Id));
-            var sfx = Instantiate(soundTable[Id]);
-            playSoundTable[Id].sfxPlayerList.Add(sfx);
-            sfx.PlaySFX();
+            var soundPrefab = soundTableData.GetSFXPlayer(Id);
+
+            if (soundPrefab != null)
+            {
+                playSoundTable.Add(Id, new SoundPool(Id));
+                var sfx = Instantiate(soundPrefab);
+                playSoundTable[Id].sfxPlayerList.Add(sfx);
+                sfx.PlaySFX();
+            }
         }
         else
         {
@@ -108,7 +143,36 @@ public class SoundManager : Singleton<SoundManager>
             }
             else
             {
-                var sfx = Instantiate(soundTable[Id]);
+                var sfx = Instantiate(soundTableData.GetSFXPlayer(Id));
+                playSoundTable[Id].sfxPlayerList.Add(sfx);
+                sfx.PlaySFX();
+            }
+        }
+    }
+
+    public void OnSFXPlay(Transform target, int Id)
+    {
+        if (!playSoundTable.ContainsKey(Id))
+        {
+            var soundPrefab = soundTableData.GetSFXPlayer(Id);
+
+            if (soundPrefab != null)
+            {
+                playSoundTable.Add(Id, new SoundPool(Id));
+                var sfx = Instantiate(soundPrefab, target);
+                playSoundTable[Id].sfxPlayerList.Add(sfx);
+                sfx.PlaySFX();
+            }
+        }
+        else
+        {
+            if (playSoundTable[Id].CheckPool())
+            {
+                playSoundTable[Id].Play(target);
+            }
+            else
+            {
+                var sfx = Instantiate(soundTableData.GetSFXPlayer(Id), target);
                 playSoundTable[Id].sfxPlayerList.Add(sfx);
                 sfx.PlaySFX();
             }
