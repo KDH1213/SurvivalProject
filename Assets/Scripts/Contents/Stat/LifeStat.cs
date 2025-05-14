@@ -20,19 +20,19 @@ public class SkillInfo
 
 public class LifeStat : LevelStat, ISaveLoadData
 {
-    [SerializeField]
-    private LifeStatData lifeStatData;
+    [field: SerializeField]
+    public LifeStatData SkillStatData { get; private set; }
 
     [SerializedDictionary, SerializeField]
-    private SerializedDictionary<LifeSkillType, int> skillLevelTable = new SerializedDictionary<LifeSkillType, int>();
-    public SerializedDictionary<LifeSkillType, int> SkillLevelTable => skillLevelTable;
+    private SerializedDictionary<SkillType, int> skillLevelTable = new SerializedDictionary<SkillType, int>();
+    public SerializedDictionary<SkillType, int> SkillLevelTable => skillLevelTable;
 
     public UnityEvent onLevelUpEvent;
     public UnityEvent<int> onChangeLevelEvent;
 
     public UnityEvent<int> OnChangeSkillPointEvent;
-    public UnityEvent<LifeSkillType> OnChangeSkillLevelEvent;
-    public UnityEvent<LifeSkillType, int, int> OnChangeSkillLevelCountEvent;
+    public UnityEvent<SkillType> OnChangeSkillLevelEvent;
+    public UnityEvent<SkillType, int, int> OnChangeSkillLevelCountEvent;
 
     public UnityEvent<float, float> onChangeExperienceEvent;
 
@@ -57,7 +57,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         maxLevel = DataTableManager.PlayerLevelTable.PlayerLevelDataList.Count;
 
         currentSkillStatValueList.Clear();
-        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        for (int i = 0; i < (int)SkillType.End; ++i)
         {
             currentSkillStatValueList.Add(0f);
         }
@@ -74,11 +74,11 @@ public class LifeStat : LevelStat, ISaveLoadData
         onChangeExperienceEvent?.Invoke(currentExperience, levelUpExperience);
         onChangeLevelEvent?.Invoke(currentLevel);
 
-        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        for (int i = 0; i < (int)SkillType.End; ++i)
         {
             if (currentSkillStatValueList[i] != 0f)
             {
-                OnChangeSkillLevelEvent?.Invoke((LifeSkillType)i);
+                OnChangeSkillLevelEvent?.Invoke((SkillType)i);
             }
         }
     }
@@ -102,17 +102,17 @@ public class LifeStat : LevelStat, ISaveLoadData
 
     public void OnSkillLevelUp(int skilType)
     {
-        var type = (LifeSkillType)skilType;
+        var type = (SkillType)skilType;
 
         if (skillLevelTable.ContainsKey(type))
         {
             ++skillLevelTable[type];
-            currentSkillStatValueList[skilType] = lifeStatData.LifeSkillStatTable[type] * skillLevelTable[type];
+            currentSkillStatValueList[skilType] = SkillStatData.SkillStatTable[type][skillLevelTable[type]];
         }
         else
         {
             skillLevelTable.Add(type, 1);
-            currentSkillStatValueList[skilType] = lifeStatData.LifeSkillStatTable[type];
+            currentSkillStatValueList[skilType] = SkillStatData.SkillStatTable[type][0];
         }
 
         --skillPoint;
@@ -146,9 +146,9 @@ public class LifeStat : LevelStat, ISaveLoadData
     {
         skillPoint = currentLevel;
 
-        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        for (int i = 0; i < (int)SkillType.End; ++i)
         {
-            var lifeType = (LifeSkillType)i;
+            var lifeType = (SkillType)i;
             currentSkillStatValueList[i] = 0f;
             OnChangeSkillLevelEvent?.Invoke(lifeType);
             skillLevelTable[lifeType] = 0;
@@ -158,7 +158,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         OnChangeSkillPointEvent?.Invoke(skillPoint);
     }
 
-    public void OnSkillLevelUp(LifeSkillType lifeSkillType)
+    public void OnSkillLevelUp(SkillType lifeSkillType)
     {
         if(skillPoint == 0)
         {
@@ -168,12 +168,12 @@ public class LifeStat : LevelStat, ISaveLoadData
         if (skillLevelTable.ContainsKey(lifeSkillType))
         {
             ++skillLevelTable[lifeSkillType];
-            currentSkillStatValueList[(int)lifeSkillType] = lifeStatData.LifeSkillStatTable[lifeSkillType] * skillLevelTable[lifeSkillType];
+            currentSkillStatValueList[(int)lifeSkillType] = SkillStatData.SkillStatTable[lifeSkillType][skillLevelTable[lifeSkillType]];
         }
         else
         {
             skillLevelTable.Add(lifeSkillType, 1);
-            currentSkillStatValueList[(int)lifeSkillType] = lifeStatData.LifeSkillStatTable[lifeSkillType];
+            currentSkillStatValueList[(int)lifeSkillType] = SkillStatData.SkillStatTable[lifeSkillType][0];
         }
 
         --skillPoint;
@@ -214,8 +214,8 @@ public class LifeStat : LevelStat, ISaveLoadData
                 continue;
             }
 
-            skillLevelTable.Add((LifeSkillType)i, list[i]);
-            currentSkillStatValueList[i] = lifeStatData.LifeSkillStatTable[(LifeSkillType)i] * list[i];
+            skillLevelTable.Add((SkillType)i, list[i]);
+            currentSkillStatValueList[i] = SkillStatData.SkillStatTable[(SkillType)i][list[i]];
         }
     }
 
@@ -228,9 +228,9 @@ public class LifeStat : LevelStat, ISaveLoadData
         levelInfo.Experience = currentExperience;
         levelInfo.skillLevelList = new List<int>();
 
-        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        for (int i = 0; i < (int)SkillType.End; ++i)
         {
-            if (skillLevelTable.TryGetValue((LifeSkillType)i, out var value))
+            if (skillLevelTable.TryGetValue((SkillType)i, out var value))
             {
                 levelInfo.skillLevelList.Add(value);
             }

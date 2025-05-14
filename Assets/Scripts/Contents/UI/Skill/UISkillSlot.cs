@@ -20,14 +20,14 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private TextMeshProUGUI skillPointText;
 
-    public UnityEvent<LifeSkillType> onLifeSkillUpEvent;
-    private LifeSkillType lifeSkillType;
-    public LifeSkillType LifeSkillType => lifeSkillType;
+    public UnityEvent<SkillType> onLifeSkillUpEvent;
+    private SkillType lifeSkillType;
+    public SkillType LifeSkillType => lifeSkillType;
 
     [field: SerializeField]
     public Button SkillUpButton {  get; private set; }
 
-    public UnityAction<LifeSkillType> onClickAction;
+    public UnityAction<SkillType> onClickAction;
 
     private static readonly string skillLevelFormat = "{0} / {1}";
 
@@ -37,7 +37,7 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler
 
     }
 
-    public void InitializedInfo(Sprite icon, LifeSkillType lifeSkillType, int nameID, int descriptionID)
+    public void InitializedInfo(Sprite icon, SkillType lifeSkillType, int nameID, int descriptionID)
     {
         skillIcon.sprite = icon;
         this.lifeSkillType = lifeSkillType;

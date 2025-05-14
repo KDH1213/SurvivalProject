@@ -217,40 +217,40 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         }
     }
 
-    public void OnChangeLifeStat(LifeSkillType type)
+    public void OnChangeLifeStat(SkillType type)
     {
         switch (type)
         {
-            case LifeSkillType.Damage:
+            case SkillType.Damage:
                 currentDamage = currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
                 onChangDamageValue?.Invoke(currentDamage);
                 break;
-            case LifeSkillType.MoveSpeed:
+            case SkillType.MoveSpeed:
                 currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
                 onChangeSpeedValue?.Invoke(currentSpeed);
                 break;
-            case LifeSkillType.AttackSpeed:
+            case SkillType.AttackSpeed:
                 currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
                 onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
                 break;
-            case LifeSkillType.Hungur:
+            case SkillType.Hungur:
                 GetComponent<HungerStat>().OnSetHungerSkillValue(lifeStat.Hungur);
                 break;
-            case LifeSkillType.Thirst:
+            case SkillType.Thirst:
                 GetComponent<ThirstStat>().OnSetThirstSkillValue(lifeStat.Thirst);
                 break;
-            case LifeSkillType.Defence:
+            case SkillType.Defence:
                 currentDefence = currentStatTable[StatType.Defense].Value + lifeStat.Defence;
                 onChangeDefenceValue?.Invoke(currentDefence);
                 break;
-            case LifeSkillType.HP:
+            case SkillType.HP:
                 currentStatTable[StatType.HP].AddMaxValue(5f);
                 onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
                 break;
-            case LifeSkillType.Fatigue:
+            case SkillType.Fatigue:
                 GetComponent<FatigueStat>().OnSetFatigueSkillValue(lifeStat.Fatigue);
                 break;
-            case LifeSkillType.End:
+            case SkillType.End:
                 break;
             default:
                 break;
@@ -317,9 +317,9 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         // lifeStat.Load();
 
-        if(SaveLoadManager.Data.levelStatInfo.skillLevelList.Count >(int)LifeSkillType.HP)
+        if(SaveLoadManager.Data.levelStatInfo.skillLevelList.Count >(int)SkillType.HP)
         {
-            currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)LifeSkillType.HP] * 5f);
+            currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)SkillType.HP] * 5f);
         }
 
         currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);

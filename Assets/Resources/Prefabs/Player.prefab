@@ -11742,7 +11742,6 @@ MonoBehaviour:
   attackTargetLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  attackVFX: {fileID: 0}
 --- !u!114 &6548592573739144491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12071,7 +12070,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 1
   maxLevel: 100
-  lifeStatData: {fileID: 11400000, guid: 22409b408e1246645a292b3a9d8caf23, type: 2}
+  <SkillStatData>k__BackingField: {fileID: 11400000, guid: 22409b408e1246645a292b3a9d8caf23,
+    type: 2}
   skillLevelTable:
     _serializedList: []
   onLevelUpEvent:

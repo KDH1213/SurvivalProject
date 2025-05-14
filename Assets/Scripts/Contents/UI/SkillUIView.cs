@@ -51,9 +51,9 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
 
     private void OnSetRandomSkillOption()
     {
-        if(skillTypeList.Count == 0 || skillTypeList.Count < (int)LifeSkillType.End)
+        if(skillTypeList.Count == 0 || skillTypeList.Count < (int)SkillType.End)
         {
-            for (int i = skillTypeList.Count; i < (int)LifeSkillType.End; ++i)
+            for (int i = skillTypeList.Count; i < (int)SkillType.End; ++i)
             {
                 skillTypeList.Add(i);
             }
@@ -64,7 +64,7 @@ public class SkillUIView : MonoBehaviour, ISaveLoadData
 
     public void SuffleSkillType()
     {
-        for (int i = (int)LifeSkillType.End - 1; i >= 0; --i)
+        for (int i = (int)SkillType.End - 1; i >= 0; --i)
         {
             int rand = Random.Range(0, i + 1);
             var index = skillTypeList[i];

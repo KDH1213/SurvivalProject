@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public enum LifeSkillType
+public enum SkillType
 {
     Damage,
     MoveSpeed,
