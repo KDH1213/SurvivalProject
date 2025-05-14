@@ -60,6 +60,18 @@ public class ProduceStructure : PlacementObject
         produceInfo.maxOutPut = data.MaxStorageCapacity;
         produceInfo.outPutValue = data.AmountPerProduction;
         currentTime = Time.time + produceTime;
+        
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            var stats = GetComponent<StructureStats>();
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+            hpBar.SetTarget(stats);
+
+            stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+            disableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(false); } });
+        }
     }
 
     public override void Upgrade(PlacementObject before)
