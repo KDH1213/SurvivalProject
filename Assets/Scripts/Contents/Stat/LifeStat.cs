@@ -53,7 +53,8 @@ public class LifeStat : LevelStat, ISaveLoadData
 
     private void Awake()
     {
-        levelUpExperience = lifeStatData.LevelList[currentLevel - 1];
+        levelUpExperience = DataTableManager.PlayerLevelTable.Get(0); // lifeStatData.LevelList[currentLevel - 1];
+        maxLevel = DataTableManager.PlayerLevelTable.PlayerLevelDataList.Count;
 
         currentSkillStatValueList.Clear();
         for (int i = 0; i < (int)LifeSkillType.End; ++i)
@@ -130,7 +131,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         ++currentLevel;
         ++skillPoint;
 
-        levelUpExperience = lifeStatData.LevelList[currentLevel - 1];
+        levelUpExperience = DataTableManager.PlayerLevelTable.Get(currentLevel - 1);// lifeStatData.LevelList[currentLevel - 1];
 
         OnChangeSkillPointEvent?.Invoke(skillPoint);
         onLevelUpEvent?.Invoke();
@@ -190,7 +191,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         currentLevel = levelStatInfo.level;
         skillPoint = levelStatInfo.skillPoint;
         currentExperience = levelStatInfo.Experience;
-        levelUpExperience = lifeStatData.LevelList[currentLevel];
+        levelUpExperience = DataTableManager.PlayerLevelTable.Get(currentLevel); //lifeStatData.LevelList[currentLevel];
 
         if(skillPoint != 0)
         {

@@ -16,6 +16,8 @@ public class TimeService
     readonly Observable<bool> isDayTime;
     readonly Observable<int> currentHour;
 
+    public int CurrentHour => currentHour.Value;
+
     public TimeService(TimeSettings settings)
     {
         this.settings = settings;

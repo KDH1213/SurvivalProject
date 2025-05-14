@@ -76,6 +76,13 @@ public static class DropTableIds
     };
 }
 
+public static class PlayerLevelTableIds
+{
+    public static readonly string[] String =
+    {
+        "PlayerLevelTable",
+    };
+}
 
 public static class PlacementTableIds
 {
@@ -84,6 +91,8 @@ public static class PlacementTableIds
     public static readonly string ItemCreateTable = "ItemCreateTable";
 
 }
+
+
 
 public static class Varibalbes
 {

@@ -35,6 +35,7 @@ public class SaveDataV1 : SaveData
     public QuestProgressSaveInfo quesetProgressSaveInfo = new QuestProgressSaveInfo();
 
     public bool isRestart = false;
+    public int stageTemperature = 0;
 
     public string startStage = SceneName.Stage1;
     public int sceneStage = SceneStage.Stage1;
@@ -76,6 +77,7 @@ public class SaveDataV1 : SaveData
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Fatigue] = 0;
         playerSaveInfo.position = Vector3.left * 3f;
 
+        stageTemperature = 0;
         isRestart = true;
 
         // monsterWaveSaveInfo;
@@ -93,6 +95,7 @@ public class SaveDataV1 : SaveData
         eliteMonsterSaveInfoList.Clear();
         monsterWaveSaveInfo = new MonsterWaveSaveInfo();
         basePointerSaveInfo = null;
+        stageTemperature = 0;
         playerSaveInfo.position = Vector3.left * 3f;
     }
 }
