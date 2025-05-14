@@ -28,6 +28,7 @@ public class StorageStructure : PlacementObject
 
             stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
             disableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(false); } });
+            enableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(true); } });
         }
     }
 
