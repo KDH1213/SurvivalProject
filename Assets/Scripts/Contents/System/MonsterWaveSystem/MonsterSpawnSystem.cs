@@ -107,6 +107,8 @@ public class MonsterSpawnSystem : MonoBehaviour, ISaveLoadData
         wavePanel.SetActive(false);
         activeWaveSpawnerCount = 0;
 
+        SoundManager.Instance.OnSFXPlay((int)SoundType.StartMonsterWave);
+
         currentWaveLevel = Mathf.Clamp(currentWaveLevel, 0, monsterWaveDatas.Count - 1);
         if (currentWaveLevel < 0)
         {
