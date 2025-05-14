@@ -11,6 +11,8 @@ public class PlayerAttackState : PlayerBaseState
 
     private bool isChangeMove = true;
 
+    [SerializeField]
+    private ParticleSystem attackVFX;
     protected override void Awake()
     {
         base.Awake();
@@ -49,6 +51,8 @@ public class PlayerAttackState : PlayerBaseState
     // TODO :: Resources/Animation/PlayerAttackAnim 애니메이션 이벤트에 연결
     public void OnEndAttackAnimationPlayer()
     {
+        attackVFX.gameObject.SetActive(false);
+
         if (playerFSM.CurrentStateType == PlayerStateType.Attack)
         {
             if(playerFSM.IsInputAttack)
@@ -67,6 +71,9 @@ public class PlayerAttackState : PlayerBaseState
     {
         isChangeMove = false;
         PlayerFSM.Weapon.StartAttack(PlayerFSM.AttackPoint, gameObject);
+
+        attackVFX.gameObject.SetActive(true);
+        attackVFX.Play();
     }
 
     private void FindTarget()
