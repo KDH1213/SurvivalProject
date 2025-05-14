@@ -199,6 +199,8 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Data.quesetProgressSaveInfo.questProgressInfoList.Clear();
 
         SaveLoadManager.Data.startStage = sceneSwitcher.CurrentStageName;
+        SaveLoadManager.Data.sceneStage = SceneName.GetStageNumber(sceneSwitcher.CurrentStageName);
+
         SaveLoadManager.Save();
     }
 
@@ -209,6 +211,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Data.NextStageInitiailze();
         sceneSwitcher.SwitchScene(sceneSwitcher.NextStageName);
         SaveLoadManager.Data.startStage = sceneSwitcher.NextStageName;
+        SaveLoadManager.Data.sceneStage = SceneName.GetStageNumber(sceneSwitcher.NextStageName);
         SaveLoadManager.Save();
     }
 

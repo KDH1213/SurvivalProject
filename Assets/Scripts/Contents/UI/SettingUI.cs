@@ -41,11 +41,9 @@ public class SettingUI : MonoBehaviour
 
     public void OnClickCancle()
     {
-        master.value = masterOrigin;
-        sfx.value = sfxOrigin;
-        bgm.value = bgmOrigin;
         Time.timeScale = timeScaleOrigin;
         gameObject.SetActive(false);
+        Application.Quit();
     }
     public void OnClickOK()
     {

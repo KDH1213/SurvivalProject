@@ -1,3 +1,5 @@
+using System;
+
 public enum Languages
 {
     Korea,
@@ -121,6 +123,34 @@ public static class SceneName
     public static readonly string Stage2 = "Stage2";
     public static readonly string Stage3 = "Stage3";
     public static readonly string LoadScene = "Assets/Scenes/LoadScene.unity";
+
+    public static int GetStageNumber(string sceneName)
+    {
+        if(sceneName == Develop)
+        {
+            return SceneStage.Develop;
+        }
+        else if (sceneName == Stage1)
+        {
+            return SceneStage.Stage1;
+        } 
+        else if (sceneName == Stage2)
+        {
+            return SceneStage.Stage2;
+        }
+        else if (sceneName == Stage3)
+        {
+            return SceneStage.Stage3;
+        }
+        else if (sceneName == LoadScene)
+        {
+            return SceneStage.LoadScene;
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("존재하지 않는 Scene");
+        }
+    }
 }
 
 public static class SceneStage

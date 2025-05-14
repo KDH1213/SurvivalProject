@@ -67,4 +67,9 @@ public class StructurePlayEffet : MonoBehaviour
         effects[id].Stop();
     }
 
+    public void AttackedPlay()
+    {
+
+    }
+
 }
