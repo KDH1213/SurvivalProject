@@ -26,6 +26,7 @@ public class BaseStructure : PlacementObject
     {
         // SetData();
         Load();
+        
     }
 
     private void Start()
@@ -100,7 +101,8 @@ public class BaseStructure : PlacementObject
             
             hpStat.SetValue(Hp);
         }
-
+        GetComponent<StructureStats>().damegedEvent.AddListener(
+            () => SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.BulidingHit));
     }
 
     public override void Interact(GameObject interactor)

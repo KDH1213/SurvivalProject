@@ -77,7 +77,7 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
         Hp -= damageInfo.damage;
         data[StatType.HP].SetValue(Hp);
 
-        SoundManager.Instance.OnSFXPlay(100);
+        SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.BulidingHit);
 
         if (Hp <= 0 && gameObject.activeSelf)
         {
