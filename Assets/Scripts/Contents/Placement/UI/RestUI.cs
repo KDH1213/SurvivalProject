@@ -30,6 +30,9 @@ public class RestUI : MonoBehaviour
     private List<GameObject> disableUI;
 
     private RestStructure currentStructure;
+    private float maxFatigue;
+    private float perMinusFatigue;
+    private float leftTime;
 
     private readonly string reduceFormat = "피로도 {0}% 감소";
     private readonly string timeFormat = "{0}분 휴식";
@@ -38,19 +41,23 @@ public class RestUI : MonoBehaviour
     {
         if(currentStructure != null)
         {
+
             reduceFatigue.text = string.Format(reduceFormat, slider.value);
-            restTime.text = string.Format(timeFormat, slider.value * 5);
+            leftTime = Mathf.FloorToInt(maxFatigue * slider.value * 0.01f / perMinusFatigue);
+            restTime.text = string.Format(timeFormat, leftTime);
         }
     }
 
     public void SetUI(PlacementObjectInfo objInfo, GameObject target, RestStructure selectedObject)
     {
-        //GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>().CurrentStatTable[StatType.fati];
+        maxFatigue = GameObject.FindWithTag(Tags.Player).GetComponent<FatigueStat>().Value;
         slider.maxValue = 100;
         slider.minValue = 10;
 
         var data = DataTableManager.StructureTable.Get(selectedObject.ID);
         var stringTable = DataTableManager.StringTable;
+
+        perMinusFatigue = data.FatigueReductionPerMinute;
 
         objectName.text = objInfo.Name;
         objectImage.sprite = objInfo.Icon;
@@ -70,7 +77,7 @@ public class RestUI : MonoBehaviour
             ui.SetActive(false);
         }
         restEndButton.gameObject.SetActive(true);
-        currentStructure.SetRest(slider.value * 5);
+        currentStructure.SetRest(leftTime);
         currentStructure.endRest.AddListener(() => OnEndRest());
     }
 

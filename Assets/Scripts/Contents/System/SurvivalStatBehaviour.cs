@@ -13,6 +13,8 @@ public abstract class SurvivalStatBehaviour : MonoBehaviour, IPenalty, ISaveLoad
 
 
     protected float value;
+
+    public float Value => value;
     protected bool isOnDebuff;
     public bool IsOnPenalty { get { return isOnDebuff; } }
 

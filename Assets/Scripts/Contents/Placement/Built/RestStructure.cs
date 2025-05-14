@@ -52,9 +52,9 @@ public class RestStructure : PlacementObject
             Time.timeScale = 1;
             endRest.Invoke();
         }
-        else if (service.CurrentTime > recoverCurTime)
+        if (service.CurrentTime > recoverCurTime)
         {
-            recoverCurTime = service.GetCalculateTime(recoverPerTime);
+            recoverCurTime = service.GetCalculateTime(recoverPerTime / 5 / 60);
             target.GetComponent<FatigueStat>().SubPenaltyValue(recoverPerFatigue);
         }
 
@@ -63,9 +63,20 @@ public class RestStructure : PlacementObject
     [ContextMenu("setData")]
     public override void SetData()
     {
-        
-        //recoverEndTime = Time.time + recoverDuration;
-       
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            var stats = GetComponent<StructureStats>();
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+            hpBar.SetTarget(stats);
+
+            stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+            disableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(false); } });
+            enableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(true); } });
+        }
+        recoverPerFatigue = DataTableManager.StructureTable.Get(ID).FatigueReductionPerMinute;
+
     }
 
     public override void Interact(GameObject interactor)
@@ -80,7 +91,7 @@ public class RestStructure : PlacementObject
         timeManager = GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>();
         service = timeManager.TimeService;
         recoverEndTime = service.GetCalculateTime(endTime / 5);
-        recoverCurTime = service.GetCalculateTime(recoverPerTime / 5);
+        recoverCurTime = service.GetCalculateTime(recoverPerTime / 5 / 60);
 
         Time.timeScale = 8;
         isRest = true;

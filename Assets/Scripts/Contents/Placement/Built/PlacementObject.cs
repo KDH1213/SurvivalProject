@@ -18,6 +18,8 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
     public PlacementUIController uiController { get; set; }
 
     public UnityEvent closeUI;
+    public UnityEvent disableEvent;
+    public UnityEvent enableEvent;
     public InteractType InteractType => InteractType.Placement;
 
     public bool IsInteractable => true;
@@ -37,10 +39,16 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
         actInfos.Add(new ActInfo(SurvivalStatType.Hunger, data.MinusSatiation));
         actInfos.Add(new ActInfo(SurvivalStatType.Thirst, data.MinusHydration));
     }
+
+    private void OnEnable()
+    {
+        enableEvent?.Invoke();
+    }
     private void OnDisable()
     {
-        closeUI.Invoke();
-        closeUI.RemoveAllListeners();
+        closeUI?.Invoke();
+        closeUI?.RemoveAllListeners();
+        disableEvent?.Invoke();
     }
 
     public virtual void Save()

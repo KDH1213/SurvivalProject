@@ -7,6 +7,18 @@ public class WallStructrue : PlacementObject
 
     public override void SetData()
     {
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            var stats = GetComponent<StructureStats>();
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+            hpBar.SetTarget(stats);
+
+            stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+            disableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(false); } });
+            enableEvent.AddListener(() => { if (hpBar != null) { hpBar.gameObject.SetActive(true); } });
+        }
     }
 
     public override void Load()
