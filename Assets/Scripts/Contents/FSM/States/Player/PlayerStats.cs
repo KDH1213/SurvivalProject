@@ -80,7 +80,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         currentDamage = currentStatTable[StatType.BasicAttackPower].Value;
         currentDefence = currentStatTable[StatType.Defense].Value;
 
-        lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeLifeStat);
+        lifeStat.OnChangeSkillLevelEvent.AddListener(OnChangeNormalStat);
     }
 
     public void Start()
@@ -217,35 +217,47 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         }
     }
 
+    public void OnChangeNormalStat(NormalSkillType type)
+    {
+        switch (type)
+        {
+            case NormalSkillType.Damage:
+                currentDamage = currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
+                onChangDamageValue?.Invoke(currentDamage);
+                break;
+            case NormalSkillType.MoveSpeed:
+                currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
+                onChangeSpeedValue?.Invoke(currentSpeed);
+                break;
+            case NormalSkillType.AttackSpeed:
+                currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
+                onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
+                break;
+          
+            case NormalSkillType.Defence:
+                currentDefence = currentStatTable[StatType.Defense].Value + lifeStat.Defence;
+                onChangeDefenceValue?.Invoke(currentDefence);
+                break;
+            case NormalSkillType.HP:
+                currentStatTable[StatType.HP].AddMaxValue(5f);
+                onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
+                break;
+            case NormalSkillType.End:
+                break;
+            default:
+                break;
+        }
+    }
+
     public void OnChangeLifeStat(LifeSkillType type)
     {
         switch (type)
         {
-            case LifeSkillType.Damage:
-                currentDamage = currentStatTable[StatType.BasicAttackPower].Value + lifeStat.Damage;
-                onChangDamageValue?.Invoke(currentDamage);
-                break;
-            case LifeSkillType.MoveSpeed:
-                currentSpeed = currentStatTable[StatType.MovementSpeed].Value + lifeStat.MoveSpeed;
-                onChangeSpeedValue?.Invoke(currentSpeed);
-                break;
-            case LifeSkillType.AttackSpeed:
-                currentAttackSpeed = currentStatTable[StatType.AttackSpeed].Value + lifeStat.AttackSpeed;
-                onChangeAttackSpeedValue?.Invoke(currentAttackSpeed);
-                break;
             case LifeSkillType.Hungur:
                 GetComponent<HungerStat>().OnSetHungerSkillValue(lifeStat.Hungur);
                 break;
             case LifeSkillType.Thirst:
                 GetComponent<ThirstStat>().OnSetThirstSkillValue(lifeStat.Thirst);
-                break;
-            case LifeSkillType.Defence:
-                currentDefence = currentStatTable[StatType.Defense].Value + lifeStat.Defence;
-                onChangeDefenceValue?.Invoke(currentDefence);
-                break;
-            case LifeSkillType.HP:
-                currentStatTable[StatType.HP].AddMaxValue(5f);
-                onChangeHpEvent?.Invoke(currentStatTable[StatType.HP]);
                 break;
             case LifeSkillType.Fatigue:
                 GetComponent<FatigueStat>().OnSetFatigueSkillValue(lifeStat.Fatigue);
@@ -256,6 +268,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
                 break;
         }
     }
+
+    // public void OnChangeLifeStat(NormalSkillType type)
 
     public void OnChangeSpeedValue(float value)
     {
@@ -317,9 +331,9 @@ public class PlayerStats : CharactorStats, ISaveLoadData
     {
         // lifeStat.Load();
 
-        if(SaveLoadManager.Data.levelStatInfo.skillLevelList.Count >(int)LifeSkillType.HP)
+        if(SaveLoadManager.Data.levelStatInfo.skillLevelList.Count >(int)NormalSkillType.HP)
         {
-            currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)LifeSkillType.HP] * 5f);
+            currentStatTable[StatType.HP].AddMaxValue(SaveLoadManager.Data.levelStatInfo.skillLevelList[(int)NormalSkillType.HP] * 5f);
         }
 
         currentStatTable[StatType.HP].SetValue(SaveLoadManager.Data.playerSaveInfo.hp);

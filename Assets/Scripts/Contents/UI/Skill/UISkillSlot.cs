@@ -20,14 +20,14 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private TextMeshProUGUI skillPointText;
 
-    public UnityEvent<LifeSkillType> onLifeSkillUpEvent;
-    private LifeSkillType lifeSkillType;
-    public LifeSkillType LifeSkillType => lifeSkillType;
+    public UnityEvent<NormalSkillType> onLifeSkillUpEvent;
+    private NormalSkillType lifeSkillType;
+    public NormalSkillType LifeSkillType => lifeSkillType;
 
     [field: SerializeField]
     public Button SkillUpButton {  get; private set; }
 
-    public UnityAction<LifeSkillType> onClickAction;
+    public UnityAction<NormalSkillType> onClickAction;
 
     private static readonly string skillLevelFormat = "{0} / {1}";
 
@@ -37,16 +37,16 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler
 
     }
 
-    public void InitializedInfo(Sprite icon, LifeSkillType lifeSkillType, int nameID, int descriptionID)
+    public void InitializedInfo(Sprite icon, NormalSkillType normalSkillType, int nameID, int descriptionID)
     {
         skillIcon.sprite = icon;
-        this.lifeSkillType = lifeSkillType;
-        skillNameText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType];// DataTableManager.StringTable.Get(nameID);
-        skillDescriptionText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType]; // DataTableManager.StringTable.Get(descriptionID);
+        this.lifeSkillType = normalSkillType;
+        skillNameText.text = TypeName.LifeSkillTypeName[(int)normalSkillType];// DataTableManager.StringTable.Get(nameID);
+        skillDescriptionText.text = TypeName.LifeSkillTypeName[(int)normalSkillType]; // DataTableManager.StringTable.Get(descriptionID);
 
         var lifeStat = GameObject.FindWithTag(Tags.Player).GetComponent<LifeStat>();
 
-        if(lifeStat.SkillLevelTable.TryGetValue(lifeSkillType, out var value))
+        if(lifeStat.NormalSkillLevelTable.TryGetValue(normalSkillType, out var value))
         {
             OnChangeSkillLevel(value, 100);
         }

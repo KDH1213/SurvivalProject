@@ -32,10 +32,10 @@ public class UISkillView : MonoBehaviour
 
     private List<float> valueList;
 
-    public UnityEvent<LifeSkillType> onSkillLevelUpEvent;
+    public UnityEvent<NormalSkillType> onSkillLevelUpEvent;
     public UnityEvent onResetSkillEvent;
 
-    private LifeSkillType currentLifeSkillType = LifeSkillType.End;
+    private NormalSkillType currentLifeSkillType = NormalSkillType.End;
 
     private string normalText;
     private string lifeText;
@@ -44,7 +44,7 @@ public class UISkillView : MonoBehaviour
 
     private void OnDisable()
     {
-        currentLifeSkillType = LifeSkillType.End;
+        currentLifeSkillType = NormalSkillType.End;
     }
 
     private void Awake()
@@ -58,10 +58,14 @@ public class UISkillView : MonoBehaviour
 
         valueList = lifeStat.SkillStatValueList;
 
-        for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        var skillData = lifeStat.SkillStatData;
+
+        for (int i = 0; i < (int)NormalSkillType.End; ++i)
         {
+            var skillType = (NormalSkillType)i;
+
             var createSkillSlot = Instantiate(uISkillSlotPrefab, noramlContentPoint);
-            createSkillSlot.InitializedInfo(null, (LifeSkillType)i, i, i);
+            createSkillSlot.InitializedInfo(skillData.NormalSkillSpriteTable[skillType], skillType, i, i);
             createSkillSlot.onLifeSkillUpEvent.AddListener(OnSkillLevelUp);
             lifeStat.OnChangeSkillLevelCountEvent.AddListener((lifeType, currentLevel, maxLevel) =>
             {
@@ -73,13 +77,36 @@ public class UISkillView : MonoBehaviour
 
             createSkillSlot.onClickAction += OnSetDescription;
 
-            if (lifeStat.SkillLevelTable.TryGetValue((LifeSkillType)i, out var value))
+            if (lifeStat.NormalSkillLevelTable.TryGetValue(skillType, out var value))
             {
-                OnChangeSkillLevel((LifeSkillType)i, value, 100);
+                OnChangeSkillLevel((NormalSkillType)i, value, skillData.NormalSkillStatTable[skillType].Count);
             }
         }
 
-       
+        //for (int i = 0; i < (int)LifeSkillType.End; ++i)
+        //{
+        //    var skillType = (LifeSkillType)i;
+
+        //    var createSkillSlot = Instantiate(uISkillSlotPrefab, lifeContentPoint);
+        //    createSkillSlot.InitializedInfo(skillData.LifeSkillStatTable[skillType], skillType, i, i);
+        //    createSkillSlot.onLifeSkillUpEvent.AddListener(OnSkillLevelUp);
+        //    lifeStat.OnChangeSkillLevelCountEvent.AddListener((lifeType, currentLevel, maxLevel) =>
+        //    {
+        //        if (createSkillSlot.LifeSkillType == lifeType)
+        //        {
+        //            createSkillSlot.OnChangeSkillLevel(currentLevel, maxLevel);
+        //        }
+        //    });
+
+        //    createSkillSlot.onClickAction += OnSetDescription;
+
+        //    if (lifeStat.NormalSkillLevelTable.TryGetValue(skillType, out var value))
+        //    {
+        //        OnChangeSkillLevel((NormalSkillType)i, value, skillData.NormalSkillStatTable[skillType].Count);
+        //    }
+        //}
+
+
 
         //for (int i = 0; i < (int)LifeSkillType.End; ++i)
         //{
@@ -92,7 +119,7 @@ public class UISkillView : MonoBehaviour
         //}
     }
 
-    public void OnSkillLevelUp(LifeSkillType lifeSkillType)
+    public void OnSkillLevelUp(NormalSkillType lifeSkillType)
     {
         onSkillLevelUpEvent?.Invoke(lifeSkillType);
     }
@@ -112,7 +139,7 @@ public class UISkillView : MonoBehaviour
         }
     }
 
-    public void OnSetDescription(LifeSkillType lifeSkillType)
+    public void OnSetDescription(NormalSkillType lifeSkillType)
     {
         if(currentLifeSkillType == lifeSkillType)
         {
@@ -123,7 +150,7 @@ public class UISkillView : MonoBehaviour
         skillDescriptionText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType]; // DataTableManager.StringTable.Get(descriptionID);
     }
 
-    public void OnChangeSkillLevel(LifeSkillType lifeSkillType, int value, int maxLevel)
+    public void OnChangeSkillLevel(NormalSkillType lifeSkillType, int value, int maxLevel)
     {
         int index = (int)lifeSkillType;
         normalTextList[index].gameObject.SetActive(true);
