@@ -133,6 +133,8 @@ public class LifeStat : LevelStat, ISaveLoadData
 
         levelUpExperience = DataTableManager.PlayerLevelTable.Get(currentLevel - 1);// lifeStatData.LevelList[currentLevel - 1];
 
+        SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerLevelUp);
+
         OnChangeSkillPointEvent?.Invoke(skillPoint);
         onLevelUpEvent?.Invoke();
         onChangeLevelEvent?.Invoke(currentLevel);

@@ -29,6 +29,7 @@ public class PlayerInteractState : PlayerBaseState
     private List<ItemSlotInfo> gatherItemSlotInfoList;
     private EquipmentSocket weaponEquipmentSocket;
 
+    private SFXPlayer soundPlayer;
     protected override void Awake()
     {
         base.Awake();
@@ -133,6 +134,12 @@ public class PlayerInteractState : PlayerBaseState
             interactSilder.gameObject.SetActive(false);
             axe.SetActive(false);
             pickaxe.SetActive(false);
+        }
+
+        if(soundPlayer != null)
+        {
+            soundPlayer.StopSFX();
+            soundPlayer = null;
         }
     }
 
@@ -255,5 +262,17 @@ public class PlayerInteractState : PlayerBaseState
         var targetPosition = target.transform.position;
         targetPosition.y = transform.position.y;
         transform.LookAt(targetPosition);
+    }
+
+    public void OnPlayGatherSound()
+    {
+        if(targetInteractable.InteractType == InteractType.Tree)
+        {
+            soundPlayer = SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.GatherTree);
+        }
+        else
+        {
+            soundPlayer = SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.GatherStone);
+        }
     }
 }

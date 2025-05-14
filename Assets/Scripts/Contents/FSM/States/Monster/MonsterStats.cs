@@ -14,6 +14,8 @@ public class MonsterStats : CharactorStats
         {
             CreateStat();
         }
+
+        damegedEvent.AddListener(() => { SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.MonsterHit); });
     }
 
 

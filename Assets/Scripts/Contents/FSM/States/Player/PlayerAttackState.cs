@@ -23,6 +23,8 @@ public class PlayerAttackState : PlayerBaseState
         playerFSM.Animator.SetTrigger(PlayerAnimationHashCode.hashAttack);
         playerFSM.Animator.speed = PlayerStats.AttackSpeed;
         isChangeMove = true;
+
+        SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerHandAttack);
     }
 
     public override void ExecuteUpdate()

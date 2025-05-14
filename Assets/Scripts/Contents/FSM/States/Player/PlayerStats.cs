@@ -55,6 +55,8 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         onUnEquipmentItemEvent.AddListener(playerAssetController.OnUnEquipmentItem);
 
         damegedEvent.AddListener(OnTakeDamage);
+        damegedEvent.AddListener(() => { SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerHit); });
+        
         takeDamageInvincibilityWaitForSeconds = new WaitForSeconds(takeDamageinvincibilityTime);
 
         if (SaveLoadManager.Data != null)
@@ -66,6 +68,7 @@ public class PlayerStats : CharactorStats, ISaveLoadData
         playerFSM.onActAction += survivalStats.OnPlayAct;
 
         deathEvent.AddListener(() => playerFSM.ChangeState(PlayerStateType.Death));
+        deathEvent.AddListener(() => { SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerDeath); });
 
         currentStatTable[StatType.MovementSpeed].OnChangeValueAction(OnChangeSpeedValue);
         currentStatTable[StatType.AttackSpeed].OnChangeValueAction(OnChangeAttackSpeedValue);

@@ -28,7 +28,7 @@ public class SoundPool
         sfxPlayerList[lastPlayIndex++].PlaySFX();
     }
 
-    public void Play(Transform target)
+    public SFXPlayer Play(Transform target)
     {
         if (lastPlayIndex == maxPlayCount)
             lastPlayIndex = 0;
@@ -37,6 +37,8 @@ public class SoundPool
         sfxPlayerList[lastPlayIndex].transform.parent = target;
         sfxPlayerList[lastPlayIndex].transform.localPosition = Vector3.zero;
         sfxPlayerList[lastPlayIndex++].PlaySFX();
+
+        return sfxPlayerList[lastPlayIndex - 1];
     }
 
     public bool CheckPool()
@@ -150,7 +152,7 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    public void OnSFXPlay(Transform target, int Id)
+    public SFXPlayer OnSFXPlay(Transform target, int Id)
     {
         if (!playSoundTable.ContainsKey(Id))
         {
@@ -162,21 +164,27 @@ public class SoundManager : Singleton<SoundManager>
                 var sfx = Instantiate(soundPrefab, target);
                 playSoundTable[Id].sfxPlayerList.Add(sfx);
                 sfx.PlaySFX();
+
+                return sfx;
             }
         }
         else
         {
             if (playSoundTable[Id].CheckPool())
             {
-                playSoundTable[Id].Play(target);
+                return playSoundTable[Id].Play(target);
             }
             else
             {
                 var sfx = Instantiate(soundTableData.GetSFXPlayer(Id), target);
                 playSoundTable[Id].sfxPlayerList.Add(sfx);
                 sfx.PlaySFX();
+
+                return sfx;
             }
         }
+
+        return null;
     }
 }
 
