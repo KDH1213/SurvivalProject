@@ -151,18 +151,21 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 
     public void OnColdPanelty(int step)
     {
-        if(step == 0)
+        if (step == 0)
         {
             currentSpeedPersent = 1f;
             currentAttackSpeedPersent = 1f;
+            isOnColdTemperaturePenalty = false;
         }
         else if(step == 1)
         {
+            isOnColdTemperaturePenalty = true;
             currentSpeedPersent = coldTemperaturePenalty.step1SpeedDownPersent;
             currentAttackSpeedPersent = coldTemperaturePenalty.step1SpeedDownPersent;
         }
         else
         {
+            isOnColdTemperaturePenalty = true;
             currentSpeedPersent = coldTemperaturePenalty.step2SpeedDownPersent;
             currentAttackSpeedPersent = coldTemperaturePenalty.step2SpeedDownPersent;
         }
@@ -176,16 +179,23 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         {
             currentSpeedPersent = 1f;
             currentAttackSpeedPersent = 1f;
+
+            isOnHeatTemperaturePenalty = false;
         }
         else if (step == 1)
         {
             currentSpeedPersent = heatTemperaturePenalty.step1SpeedDownPersent;
             currentAttackSpeedPersent = heatTemperaturePenalty.step1SpeedDownPersent;
+
+            isOnHeatTemperaturePenalty = true;
         }
         else
         {
             currentSpeedPersent = heatTemperaturePenalty.step2SpeedDownPersent;
             currentAttackSpeedPersent = heatTemperaturePenalty.step2SpeedDownPersent;
+
+
+            isOnHeatTemperaturePenalty = true;
         }
 
         CheckOtherPanelty();

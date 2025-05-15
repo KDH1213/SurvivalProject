@@ -506,6 +506,7 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         // if ()
         if ((int)ItemData.ConvertEquipmentType(itemSlotInfos[dragSeletedSlotIndex].itemData.ID, itemSlotInfos[dragSeletedSlotIndex].itemData.ItemType) != (int)equipmentSocket.EquipmentType)
         {
+            OnEquip();
             return;
         }
 

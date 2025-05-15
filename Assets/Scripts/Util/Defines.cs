@@ -120,10 +120,10 @@ public static class Tags
 public static class SceneName
 {
     public static readonly string Develop = "Assets/Scenes/Develop/Develop.unity";
-    public static readonly string Stage1 = "Assets/Scenes/Develop/Stage/Stage1.unity";
+    public static readonly string Stage1 = "Stage1";
     public static readonly string Stage2 = "Stage2";
     public static readonly string Stage3 = "Stage3";
-    public static readonly string LoadScene = "Assets/Scenes/LoadScene.unity";
+    public static readonly string LoadScene = "LoadingScene";
 
     public static int GetStageNumber(string sceneName)
     {
