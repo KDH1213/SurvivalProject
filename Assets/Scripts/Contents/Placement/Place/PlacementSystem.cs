@@ -254,6 +254,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
         table.Clear();
         table.Add(StatType.HP, new StatValue(StatType.HP, objData.DefaultHp));
+        table[StatType.HP].SetMaxValue(objData.DefaultHp);
 
         placementObject.SetData();
         placementObject.CreateActInfo();
@@ -412,6 +413,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
         table.Clear();
         table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+        table[StatType.HP].SetMaxValue(placeObjInfo.DefaultHp);
 
         placementObject.SetData();
         placementObject.CreateActInfo();
@@ -574,6 +576,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
             table.Clear();
             table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+            table[StatType.HP].SetMaxValue(placeObjInfo.DefaultHp);
 
             placementObject.SetData();
             placementObject.Load();
@@ -645,6 +648,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
             table.Clear();
             table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+            table[StatType.HP].SetMaxValue(placeObjInfo.DefaultHp);
 
             placementObject.SetData();
             placementObject.Load();
@@ -695,6 +699,7 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
             var table = placementObject.GetComponent<StructureStats>().CurrentStatTable;
             table.Clear();
             table.Add(StatType.HP, new StatValue(StatType.HP, placeObjInfo.DefaultHp));
+            table[StatType.HP].SetMaxValue(placeObjInfo.DefaultHp);
 
             placementObject.SetData();
             placementObject.Load();

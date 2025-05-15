@@ -29,7 +29,7 @@ public class StructureStats : CharactorStats, ISaveLoadData
 
     public void OnChangeHp() //*HP °»½Å
     {
-        //HpBarSlider.value = HP / currentStatTable[StatType.HP].MaxValue;
+        onChangeHpEvnet?.Invoke(currentStatTable[StatType.HP].PersentValue);
 
         //if (HP <= 0f)
         //{

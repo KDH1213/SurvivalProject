@@ -108,6 +108,8 @@ public class ProduceStructure : PlacementObject
         produceInfo.outPut = data.outPut;
         Hp = data.hp;
         currentTime = Time.time + data.createTime;
+        var table = GetComponent<StructureStats>().CurrentStatTable;
+        table[StatType.HP].SetValue(Hp);
     }
 
     public override void Interact(GameObject interactor)

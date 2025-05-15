@@ -80,6 +80,8 @@ public class TurretStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
         Hp = data.hp;
+        var table = GetComponent<StructureStats>().CurrentStatTable;
+        table[StatType.HP].SetValue(Hp);
     }
 
     /*private void OnCollisionEnter(Collision collision)
