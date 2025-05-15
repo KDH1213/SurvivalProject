@@ -225,7 +225,7 @@ public class CreateItemUI : MonoBehaviour
     {
         if (inventory.IsFullInventory())
         {
-            ToastMsg.Instance.ShowMessage("¿Œ∫•≈‰∏Æ∞° ≤À √°Ω¿¥œ¥Ÿ.");
+            ToastMsg.Instance.ShowMessage("¿Œ∫•≈‰∏Æ∞° ≤À √°Ω¿¥œ¥Ÿ.",Color.red);
             return;
         }
         foreach (var data in needItems)
