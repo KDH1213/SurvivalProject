@@ -10,8 +10,9 @@ public class ToastMsg : Singleton<ToastMsg>
     private static ToastMsg instance = null;
     Sequence sequence;
 
-    public void ShowMessage(string msg)
+    public void ShowMessage(string msg, Color color)
     {
+        txt.color = color;
         Color originalColor = txt.color;
         txt.text = msg;
         

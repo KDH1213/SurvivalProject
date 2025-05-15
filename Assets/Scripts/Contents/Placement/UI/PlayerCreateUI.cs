@@ -197,7 +197,7 @@ public class PlayerCreateUI : MonoBehaviour
     {
         if (inventory.IsFullInventory())
         {
-            ToastMsg.Instance.ShowMessage("¿Œ∫•≈‰∏Æ∞° ≤À √°Ω¿¥œ¥Ÿ.");
+            ToastMsg.Instance.ShowMessage("¿Œ∫•≈‰∏Æ∞° ≤À √°Ω¿¥œ¥Ÿ.", Color.green);
             return;
         }
         foreach (var data in needItems)
