@@ -231,7 +231,7 @@ public class QuestSystem : MonoBehaviour, ISaveLoadData
                     if (questInfoList[i].includeMine)
                     {
                         var monsterSpawnSystem = GameObject.FindWithTag(Tags.MonsterSpawnSystem).GetComponent<MonsterSpawnSystem>();
-                        OnDestroyMonsterStrongpoint(monsterSpawnSystem.ActiveSpwanerCount, monsterSpawnSystem.TotalSpawnerCount);
+                        OnDestroyMonsterStrongpoint(monsterSpawnSystem.TotalSpawnerCount - monsterSpawnSystem.ActiveSpwanerCount, monsterSpawnSystem.TotalSpawnerCount);
                     }
                     break;
                 case QuestType.RelicsCollection:
