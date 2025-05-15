@@ -164,9 +164,13 @@ public class CreateItemUI : MonoBehaviour
         createItem.durability = data.Durability;
         if (inventory != null)
         {
-            ConsumItem(createData.NeedItemList);
-            inventory.AddItem(createItem);
-            onCreateItemEvent?.Invoke(createItem.id, createItem.amount);
+            if(ConsumItem(createData.NeedItemList))
+            {
+                inventory.AddItem(createItem);
+                ToastMsg.Instance.ShowMessage($"{createItem.itemData.ItemName} 이(가) 생성되었습니다.", Color.green);
+                onCreateItemEvent?.Invoke(createItem.id, createItem.amount);
+            }
+            
         }
         else
         {
@@ -221,12 +225,12 @@ public class CreateItemUI : MonoBehaviour
         return true;
     }
 
-    private void ConsumItem(Dictionary<int, int> needItems)
+    private bool ConsumItem(Dictionary<int, int> needItems)
     {
         if (inventory.IsFullInventory())
         {
             ToastMsg.Instance.ShowMessage("인벤토리가 꽉 찼습니다.",Color.red);
-            return;
+            return false;
         }
         foreach (var data in needItems)
         {
@@ -234,6 +238,7 @@ public class CreateItemUI : MonoBehaviour
                 break;
             inventory.ConsumeItem(data.Key, data.Value);
         }
+        return true;
     }
 
     private void SetFormat(int index)
