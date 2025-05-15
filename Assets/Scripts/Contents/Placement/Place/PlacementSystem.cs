@@ -258,7 +258,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.SetData();
         placementObject.CreateActInfo();
         ConsumePenalty(placementObject);
-        
+
+        var structInfo = DataTableManager.StructureTable.Get(placementObject.ID);
+        float exp = DataTableManager.ConstructionTable.Get(structInfo.PlaceBuildingID).DropExp;
+        GameObject.FindWithTag(Tags.Player).GetComponent<LifeStat>().OnAddExperience(newObject, exp);
+
         if (PlacedGameObjectTable.ContainsKey(placementObject.ID))
         {
             ++PlacedGameObjectTable[placementObject.ID];
@@ -412,6 +416,11 @@ public class PlacementSystem : MonoBehaviour, ISaveLoadData
         placementObject.SetData();
         placementObject.CreateActInfo();
         ConsumePenalty(placementObject);
+
+        var structInfo = DataTableManager.StructureTable.Get(before.ID);
+        float exp = DataTableManager.ConstructionTable.Get(structInfo.NextUpgradeID).DropExp;
+        GameObject.FindWithTag(Tags.Player).GetComponent<LifeStat>().OnAddExperience(newObject, exp);
+
         placementObject.Upgrade(before);
         RemoveStructure(before);
 
