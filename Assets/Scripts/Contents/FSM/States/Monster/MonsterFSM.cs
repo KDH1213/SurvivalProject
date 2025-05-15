@@ -44,6 +44,9 @@ public class MonsterFSM : FSMController<MonsterStateType>, IInteractable, IRespa
 
     public Vector3 RespawnPosition { get { return FirstPosition; } private set { FirstPosition = value; } }
 
+    [field : SerializeField]
+    public MonsterType MonsterType { get; private set; } = MonsterType.Normal;
+
     public float RespawnTime => MonsterData.RespawnTime;
 
     public float RemainingTime { get; private set; }

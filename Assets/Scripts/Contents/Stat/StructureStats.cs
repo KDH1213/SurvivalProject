@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class StructureStats : CharactorStats, ISaveLoadData
 {
@@ -14,15 +12,15 @@ public class StructureStats : CharactorStats, ISaveLoadData
 
     private void Start()
     {
-        //if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
-        //{
-        //    var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
-        //    var hpBar = hpBarObjectPool.GetHpBar();
-        //    hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.down * 2f);
-        //    hpBar.SetTarget(this);
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+            hpBar.SetTarget(this);
 
-        //    deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
-        //}
+            deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+        }
 
         OnChangeHp();
     }

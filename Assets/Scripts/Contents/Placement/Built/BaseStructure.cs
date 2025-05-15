@@ -36,16 +36,16 @@ public class BaseStructure : PlacementObject
             onMaxCollectRelicsEvent?.Invoke();
         }
 
-        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
-        {
-            var stats = GetComponent<StructureStats>();
-            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
-            var hpBar = hpBarObjectPool.GetHpBar();
-            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
-            hpBar.SetTarget(stats);
+        //if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        //{
+        //    var stats = GetComponent<StructureStats>();
+        //    var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+        //    var hpBar = hpBarObjectPool.GetHpBar();
+        //    hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+        //    hpBar.SetTarget(stats);
 
-            stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
-        }
+        //    stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+        //}
     }
 
     public override void SetData()
