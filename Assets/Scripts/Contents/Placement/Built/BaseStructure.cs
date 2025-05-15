@@ -90,6 +90,11 @@ public class BaseStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.basePointerSaveInfo;
 
+        if(data == null)
+        {
+            return;
+        }
+
         var table = GetComponent<StructureStats>().CurrentStatTable;
         var hpStat = table[StatType.HP];
         hpStat.OnChangeValue += (hp) => Hp = hp;
