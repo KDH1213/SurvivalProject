@@ -24,13 +24,13 @@ public class BaseStructure : PlacementObject
 
     private void OnEnable()
     {
-        // SetData();
+        SetData();
         Load();
-        
     }
 
     private void Start()
     {
+        var table = GetComponent<StructureStats>().CurrentStatTable;
         if (returnCount >= maxRelics)
         {
             onMaxCollectRelicsEvent?.Invoke();
@@ -51,12 +51,13 @@ public class BaseStructure : PlacementObject
     public override void SetData()
     {
         var table = GetComponent<StructureStats>().CurrentStatTable;
-        table.Clear();
-
-        var hpStat = new StatValue(StatType.HP, Hp, maxHp);
-        table.Add(StatType.HP, hpStat);
-
-        hpStat.OnChangeValue += (hp) => Hp = hp;
+        Position = Vector3Int.zero;
+        Rotation = Quaternion.identity;
+        IsPlaced = true;
+        Rank = -1;
+        ID = -1;
+        Hp = table[StatType.HP].MaxValue;
+        table[StatType.HP].SetValue(Hp);
     }
 
     public void OnReturnRelicsCount(int count)
@@ -90,16 +91,11 @@ public class BaseStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.basePointerSaveInfo;
 
-        if(data == null)
-        {
-            return;
-        }
-
         var table = GetComponent<StructureStats>().CurrentStatTable;
         var hpStat = table[StatType.HP];
         hpStat.OnChangeValue += (hp) => Hp = hp;
 
-        if (data != null)
+        if (data != null && data.id == -1)
         {
             Hp = data.hp;
             returnCount = data.returnCount;
