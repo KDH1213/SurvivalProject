@@ -2,5 +2,5 @@
 public enum MonsterType
 {
     Normal,
-    Boss
+    Eite,
 }

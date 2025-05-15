@@ -138,6 +138,11 @@ public class StageManager : MonoBehaviour, ISaveLoadData
                 continue;
             }
 
+            if(interact.InteractType == InteractType.Monster && gameObject.GetComponent<MonsterFSM>().MonsterType == MonsterType.Eite)
+            {
+                continue;
+            }
+
             if (interactTable.ContainsKey(interact.InteractType))
             {
                 interactTable[interact.InteractType].Add(gameObject);
