@@ -87,7 +87,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
         else
         {
-            itemIcon.color = new Color(1, 1, 1, 0);
+            itemIcon.sprite = defalutIcon;
             durabilitySlider.gameObject.SetActive(false);
             amountView.gameObject.SetActive(false);
         }
