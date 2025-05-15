@@ -141,5 +141,7 @@ public class RestStructure : PlacementObject
     {
         var data = SaveLoadManager.Data.placementSaveInfoList.Find(x => x.position == Position && x.id == ID);
         Hp = data.hp;
+        var table = GetComponent<StructureStats>().CurrentStatTable;
+        table[StatType.HP].SetValue(Hp);
     }
 }

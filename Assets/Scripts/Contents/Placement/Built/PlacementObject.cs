@@ -81,9 +81,11 @@ public abstract class PlacementObject : MonoBehaviour, ISaveLoadData, IInteracta
 
     public virtual void OnAttack(GameObject attacker, DamageInfo damageInfo)
     {
-        var data =  GetComponent<StructureStats>().CurrentStatTable;
+        var stat = GetComponent<StructureStats>();
+        var table = stat.CurrentStatTable;
         Hp -= damageInfo.damage;
-        data[StatType.HP].SetValue(Hp);
+        table[StatType.HP].AddValue(-damageInfo.damage);
+        stat.OnChangeHp();
 
         SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.BulidingHit);
 

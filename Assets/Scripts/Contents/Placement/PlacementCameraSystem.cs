@@ -44,6 +44,7 @@ public class PlacementCameraSystem : MonoBehaviour
     [SerializeField]
     private float scrollSpeed = 2f; 
     private float moveSpeed = 20f;
+    private Vector3 placementDir;
 
     private float prevMagnitude = 0;
     private int touchCount = 0;
@@ -57,7 +58,12 @@ public class PlacementCameraSystem : MonoBehaviour
         inputManager = GetComponent<PlacementInput>();
         moveSpeed = minSpeed;
         blendList.m_Loop = false;
-        startCameraPos = placementCamera.transform.position;
+        var playerPos = GameObject.FindWithTag(Tags.Player).gameObject.transform.position;
+
+        placementDir = (currentCamera.transform.position - playerPos).normalized;
+
+        placementCamera.transform.position = currentCamera.transform.position;
+        startCameraPos = Vector3.zero + placementDir * 20;
 
         vCam1 = currentCamera.GetComponent<CinemachineVirtualCameraBase>();
         vCam2 = placementCamera.GetComponent<CinemachineVirtualCameraBase>();
@@ -72,7 +78,12 @@ public class PlacementCameraSystem : MonoBehaviour
     // todo : 배치 시스템 화면 <- 플레이 화면
     public void InPlacementCamera()
     {
-        placementCamera.transform.position = cameraDefaultPosition;
+        var playerPos = GameObject.FindWithTag(Tags.Player).gameObject.transform.position;
+
+        placementDir = (currentCamera.transform.position - playerPos).normalized;
+        placementCamera.transform.position = currentCamera.transform.position;
+        placementCamera.transform.position += placementDir * 20;
+        //placementCamera.transform.position = cameraDefaultPosition;
         placementCamera.m_Lens.FieldOfView = cameraDefaultFOV;
 
         blendList.m_Instructions[0].m_VirtualCamera = vCam1;

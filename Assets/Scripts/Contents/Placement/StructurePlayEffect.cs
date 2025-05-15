@@ -19,6 +19,10 @@ public class StructurePlayEffet : MonoBehaviour
     {
         foreach (var effect in effects)
         {
+            if(effect.Value == null)
+            {
+                continue;
+            }
             effect.Value.Stop();
             effect.Value.gameObject.SetActive(false);
         }
