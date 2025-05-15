@@ -12,22 +12,22 @@ public class StructureStats : CharactorStats, ISaveLoadData
 
     private void Start()
     {
-        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
-        {
-            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
-            var hpBar = hpBarObjectPool.GetHpBar();
-            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
-            hpBar.SetTarget(this);
+        //if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        //{
+        //    var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+        //    var hpBar = hpBarObjectPool.GetHpBar();
+        //    hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.zero);
+        //    hpBar.SetTarget(this);
 
-            deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
-        }
+        //    deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+        //}
 
         OnChangeHp();
     }
 
     public void OnChangeHp() //*HP °»½Å
     {
-        onChangeHpEvnet?.Invoke(currentStatTable[StatType.HP].PersentValue);
+        // onChangeHpEvnet?.Invoke(currentStatTable[StatType.HP].PersentValue);
 
         //if (HP <= 0f)
         //{
