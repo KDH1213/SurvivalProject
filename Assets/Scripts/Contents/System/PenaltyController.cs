@@ -151,23 +151,21 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 
     public void OnColdPanelty(int step)
     {
-        if (step == 0)
-        {
-            currentSpeedPersent = 1f;
-            currentAttackSpeedPersent = 1f;
-            isOnColdTemperaturePenalty = false;
-        }
-        else if(step == 1)
+        currentSpeedPersent = 1f;
+        currentAttackSpeedPersent = 1f;
+        isOnColdTemperaturePenalty = false;
+
+        if (step == 1)
         {
             isOnColdTemperaturePenalty = true;
-            currentSpeedPersent = coldTemperaturePenalty.step1SpeedDownPersent;
-            currentAttackSpeedPersent = coldTemperaturePenalty.step1SpeedDownPersent;
+            currentSpeedPersent -= coldTemperaturePenalty.step1SpeedDownPersent;
+            currentAttackSpeedPersent -= coldTemperaturePenalty.step1SpeedDownPersent;
         }
-        else
+        else if (step == 2)
         {
             isOnColdTemperaturePenalty = true;
-            currentSpeedPersent = coldTemperaturePenalty.step2SpeedDownPersent;
-            currentAttackSpeedPersent = coldTemperaturePenalty.step2SpeedDownPersent;
+            currentSpeedPersent -= coldTemperaturePenalty.step2SpeedDownPersent;
+            currentAttackSpeedPersent -= coldTemperaturePenalty.step2SpeedDownPersent;
         }
 
         CheckOtherPanelty();
@@ -175,24 +173,21 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 
     public void OnHeatPanelty(int step)
     {
-        if (step == 0)
+        currentSpeedPersent = 1f;
+        currentAttackSpeedPersent = 1f;
+        isOnColdTemperaturePenalty = false;
+        
+        if (step == 1)
         {
-            currentSpeedPersent = 1f;
-            currentAttackSpeedPersent = 1f;
-
-            isOnHeatTemperaturePenalty = false;
-        }
-        else if (step == 1)
-        {
-            currentSpeedPersent = heatTemperaturePenalty.step1SpeedDownPersent;
-            currentAttackSpeedPersent = heatTemperaturePenalty.step1SpeedDownPersent;
+            currentSpeedPersent -= heatTemperaturePenalty.step1SpeedDownPersent;
+            currentAttackSpeedPersent -= heatTemperaturePenalty.step1SpeedDownPersent;
 
             isOnHeatTemperaturePenalty = true;
         }
-        else
+        else if (step == 2)
         {
-            currentSpeedPersent = heatTemperaturePenalty.step2SpeedDownPersent;
-            currentAttackSpeedPersent = heatTemperaturePenalty.step2SpeedDownPersent;
+            currentSpeedPersent -= heatTemperaturePenalty.step2SpeedDownPersent;
+            currentAttackSpeedPersent -= heatTemperaturePenalty.step2SpeedDownPersent;
 
 
             isOnHeatTemperaturePenalty = true;
