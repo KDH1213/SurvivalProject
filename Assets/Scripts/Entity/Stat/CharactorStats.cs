@@ -55,6 +55,11 @@ public class CharactorStats : MonoBehaviour
         }
     }
 
+    public void OnChangeCanHit(bool isHit)
+    {
+        CanHit = isHit; 
+    }
+
     public void OnDeath()
     {
         IsDead = true;
