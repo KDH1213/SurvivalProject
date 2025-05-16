@@ -16,11 +16,14 @@ public class UIDebuffIconTooltipView : MonoBehaviour
     {
         var targetRectTransform = targetDebuffSlot.GetComponent<RectTransform>();
         var position = targetRectTransform.anchoredPosition;
-        position.x -= targetRectTransform.sizeDelta.x;
-        position.y += 20f;
+        position.x += targetRectTransform.sizeDelta.x;
+        position.y += 50f;
 
         rectTransform.anchoredPosition = position;
         nameText.text = targetDebuffSlot.DebuffName;
         descriptionText.text = targetDebuffSlot.Descript;
+
+
+
     }
 }
