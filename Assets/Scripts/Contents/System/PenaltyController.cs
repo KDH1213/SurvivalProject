@@ -88,7 +88,14 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
         var actInfoList = placementObj.actInfos; // ActManager.actDataTable[id].actInfoList;
         foreach (var act in actInfoList)
         {
-            penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
+            if(act.penaltyType == SurvivalStatType.Fatigue)
+            {
+                penaltyTable[act.penaltyType].AddPenaltyValue(act.value);
+            }
+            else
+            {
+                penaltyTable[act.penaltyType].SubPenaltyValue(act.value);
+            }
         }
     }
 
@@ -96,7 +103,14 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
     {
         foreach (var act in penalties)
         {
-            penaltyTable[act.Key].AddPenaltyValue(act.Value);
+            if (act.Key == SurvivalStatType.Fatigue)
+            {
+                penaltyTable[act.Key].AddPenaltyValue(act.Value);
+            }
+            else
+            {
+                penaltyTable[act.Key].SubPenaltyValue(act.Value);
+            }
         }
     }
 
