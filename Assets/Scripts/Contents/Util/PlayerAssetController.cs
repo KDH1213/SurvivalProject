@@ -27,6 +27,8 @@ public class PlayerAssetController : MonoBehaviour
 
     private GameObject currentEquipmentWeapon = null;
 
+    public bool IsEquipmentWeapon => currentEquipmentWeapon != null;
+
     private void Awake()
     {
         Initialized();

@@ -11,12 +11,16 @@ public class PlayerAttackState : PlayerBaseState
 
     private bool isChangeMove = true;
 
+    private PlayerAssetController playerAssetController;
+
     //[SerializeField]
     //private ParticleSystem attackVFX;
     protected override void Awake()
     {
         base.Awake();
         stateType = PlayerStateType.Attack;
+
+        playerAssetController = GetComponent<PlayerAssetController>();
     }
 
     public override void Enter()
@@ -28,8 +32,14 @@ public class PlayerAttackState : PlayerBaseState
 
         playerFSM.OnStartAttack();
 
-        SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerHandAttack);
-        Debug.Log("Test");
+        if(playerAssetController.IsEquipmentWeapon)
+        {
+            SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerWeaponAttack);
+        }
+        else
+        {
+            SoundManager.Instance.OnSFXPlay(transform, (int)SoundType.PlayerHandAttack);
+        }
     }
 
     public override void ExecuteUpdate()
