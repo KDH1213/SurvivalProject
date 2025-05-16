@@ -1,6 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+public class SettingData
+{
+    public float masterValue;
+    public float sfxValue;
+    public float bgmValue;
+}
 public class SettingUI : MonoBehaviour
 {
     [SerializeField]
@@ -22,6 +28,7 @@ public class SettingUI : MonoBehaviour
         bgmOrigin = bgm.value;
         timeScaleOrigin = Time.timeScale;
         Time.timeScale = 0;
+        Load();
     }
 
     public void OnValueChangeMaster()
@@ -43,11 +50,31 @@ public class SettingUI : MonoBehaviour
     {
         Time.timeScale = timeScaleOrigin;
         gameObject.SetActive(false);
+        Save();
         Application.Quit();
     }
     public void OnClickOK()
     {
         Time.timeScale = timeScaleOrigin;
         gameObject.SetActive(false);
+        Save();
+    }
+
+    public void Save()
+    {
+        SettingData settingInfo = new SettingData();
+        settingInfo.masterValue =  master.value;
+        settingInfo.sfxValue =  sfx.value;
+        settingInfo.bgmValue =  bgm.value;
+
+        SaveLoadManager.Data.settingInfo = settingInfo;
+    }
+
+    public void Load()
+    {
+        var data = SaveLoadManager.Data.settingInfo;
+        master.value = data.masterValue;
+        sfx.value = data.sfxValue;
+        bgm.value = data.bgmValue;
     }
 }

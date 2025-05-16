@@ -34,6 +34,8 @@ public class SaveDataV1 : SaveData
     public System.DateTime gameTime = new System.DateTime();
     public QuestProgressSaveInfo quesetProgressSaveInfo = new QuestProgressSaveInfo();
 
+    public SettingData settingInfo = new SettingData();
+
     public bool isRestart = false;
     public int stageTemperature = 0;
 
