@@ -68,6 +68,11 @@ public class StructurePlayEffet : MonoBehaviour
             StopFire(StructureEffectKind.LowHp);
             PlayFire(StructureEffectKind.HighHp);
         }
+        else
+        {
+            StopFire(StructureEffectKind.HighHp);
+            StopFire(StructureEffectKind.LowHp);
+        }
     }
 
     private void PlayFire(StructureEffectKind id)

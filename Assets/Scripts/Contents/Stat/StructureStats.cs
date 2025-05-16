@@ -27,7 +27,11 @@ public class StructureStats : CharactorStats, ISaveLoadData
 
     public void OnChangeHp() //*HP °»½Å
     {
-        // onChangeHpEvnet?.Invoke(currentStatTable[StatType.HP].PersentValue);
+        if(!currentStatTable.ContainsKey(StatType.HP))
+        {
+            return;
+        }
+        onChangeHpEvnet?.Invoke(currentStatTable[StatType.HP].PersentValue);
 
         //if (HP <= 0f)
         //{

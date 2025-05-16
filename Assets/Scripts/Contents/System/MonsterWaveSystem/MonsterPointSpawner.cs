@@ -10,6 +10,23 @@ public class MonsterPointSpawner : MonsterSpawner
 
     [SerializeField]
     private Vector3 targetPoint;
+
+    private void Start()
+    {
+        var stats = GetComponent<StructureStats>();
+        if (ObjectPoolManager.Instance.ObjectPoolTable.TryGetValue(ObjectPoolType.HpBar, out var component))
+        {
+            
+            var hpBarObjectPool = component.GetComponent<UIHpBarObjectPool>();
+            var hpBar = hpBarObjectPool.GetHpBar();
+            hpBar.GetComponent<UITargetFollower>().SetTarget(transform, Vector3.down);
+            hpBar.SetTarget(stats);
+            stats.CurrentStatTable[StatType.HP].SetValue(stats.CurrentStatTable[StatType.HP].MaxValue);
+
+            stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+        }
+        stats.OnChangeHp();
+    }
     public override void ISpawn()
     {
         monsterObjectPool.SetMonsterData(waveData.GetRandomMonster());
