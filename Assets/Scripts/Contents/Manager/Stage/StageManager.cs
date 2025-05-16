@@ -45,6 +45,10 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     private bool isClearStage = false;
 
+    [SerializeField]
+    private Vector3 startPosition;
+    public Vector3 StartPosition => startPosition;
+
     private void Awake()
     {
         stageTemperature = stageTemperatureData.StageDefalutTemperature;
@@ -200,6 +204,7 @@ public class StageManager : MonoBehaviour, ISaveLoadData
         SaveLoadManager.Data.ResetStageInfo();
         sceneSwitcher.SwitchScene(sceneSwitcher.CurrentStageName);
         SaveLoadManager.Data.playerSaveInfo.hp = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>().GetStat(StatType.HP).MaxValue;
+        SaveLoadManager.Data.playerSaveInfo.position = startPosition;
         SaveLoadManager.Data.quesetProgressSaveInfo.questID = startQuestID;
         SaveLoadManager.Data.quesetProgressSaveInfo.questProgressInfoList.Clear();
 
