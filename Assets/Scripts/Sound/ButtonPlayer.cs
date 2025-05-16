@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public  class ButtonPlayer : MonoBehaviour
 {
-    public void ButtonPlay()
+    public void Awake()
     {
-        SoundManager.Instance.OnSFXPlay((int)SoundType.ButtonClick);
+        var button = GetComponent<Button>();
+        button.onClick.AddListener(() => SoundManager.Instance.OnSFXPlay((int)SoundType.ButtonClick));
     }
 }
