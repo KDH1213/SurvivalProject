@@ -207,8 +207,27 @@ public class PlayerInteractState : PlayerBaseState
             {
                 var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
 
-                if(weaponData != null &&
-                    (targetInteractable.InteractType == InteractType.Stone && weaponData.GatherType == 2) 
+                if(weaponData == null)
+                {
+                    if (gatherItemSlotInfoList.Count == 0)
+                    {
+                        ToastMsg.Instance.ShowMessage("필요한 장비가 없습니다!", Color.red);
+                        return;
+                    }
+
+                    var itemSlotInfo = gatherItemSlotInfoList[0];
+                    int count = gatherItemSlotInfoList.Count;
+                    for (int i = 1; i < count; ++i)
+                    {
+                        if (itemSlotInfo.index > gatherItemSlotInfoList[i].index)
+                        {
+                            itemSlotInfo = gatherItemSlotInfoList[i];
+                        }
+                    }
+
+                    itemSlotInfo.OnUseDurability();
+                }
+                else if((targetInteractable.InteractType == InteractType.Stone && weaponData.GatherType == 2) 
                    || (targetInteractable.InteractType == InteractType.Tree && weaponData.GatherType == 1))
                 {
                     weaponEquipmentSocket.OnUseDurability();
