@@ -161,7 +161,7 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
             currentSpeedPersent -= coldTemperaturePenalty.step1SpeedDownPersent;
             currentAttackSpeedPersent -= coldTemperaturePenalty.step1SpeedDownPersent;
         }
-        else
+        else if (step == 2)
         {
             isOnColdTemperaturePenalty = true;
             currentSpeedPersent -= coldTemperaturePenalty.step2SpeedDownPersent;
@@ -184,7 +184,7 @@ public class PenaltyController : MonoBehaviour, IAct, ISaveLoadData
 
             isOnHeatTemperaturePenalty = true;
         }
-        else
+        else if (step == 2)
         {
             currentSpeedPersent -= heatTemperaturePenalty.step2SpeedDownPersent;
             currentAttackSpeedPersent -= heatTemperaturePenalty.step2SpeedDownPersent;

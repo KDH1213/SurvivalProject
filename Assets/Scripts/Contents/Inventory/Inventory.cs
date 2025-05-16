@@ -119,31 +119,6 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         }
 
         equipmentSocketView.Initialize();
-
-        if (useSlotCount == 0)
-        {
-            var equipmentItemList = SaveLoadManager.Data.equipmentItemIDList;
-
-            if (equipmentItemList != null)
-            {
-                foreach (var equipmentItem in equipmentItemList)
-                {
-                    if (equipmentItem != -1)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            var Item = DataTableManager.ItemTable.Get(1201004);
-
-            var testInfo = new DropItemInfo();
-            testInfo.amount = 500;
-            testInfo.itemData = Item;
-            testInfo.id = Item.ID;
-            AddItem(testInfo);
-
-        }
     }
 
     private void UpdateSlots(ItemSlotInfo[] items)
