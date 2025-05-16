@@ -39,31 +39,33 @@ public class PlayerInteractState : PlayerBaseState
 
     public override void Enter()
     {
-        //if (targetInteractable.InteractType == InteractType.Tree)
-        //{
-        //    gatherItemSlotInfoList = playerFSM.PlayerInventory.GatherItemSlotInfoList[0];
-            
-        //    var count = gatherItemSlotInfoList.Count;
-        //    var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
-
-        //    if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
-        //    {
-        //        playerFSM.ChangeState(PlayerStateType.Idle);
-        //        return;
-        //    }
-        //}
-        //else if (targetInteractable.InteractType == InteractType.Stone)
-        //{
-        //    gatherItemSlotInfoList = playerFSM.PlayerInventory.GatherItemSlotInfoList[1];
-        //    var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
-        //    var count = gatherItemSlotInfoList.Count;
-
-        //    if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
-        //    {
-        //        playerFSM.ChangeState(PlayerStateType.Idle);
-        //        return;
-        //    }
-        //}
+        if (targetInteractable.InteractType == InteractType.Tree)
+        {
+            gatherItemSlotInfoList = playerFSM.PlayerInventory.GatherItemSlotInfoList[0];
+          
+            var count = gatherItemSlotInfoList.Count;
+            var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
+        
+            if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
+            {
+                playerFSM.ChangeState(PlayerStateType.Idle);
+                ToastMsg.Instance.ShowMessage("도끼류 장비가 착용되어 있지 않습니다!", Color.red);
+                return;
+            }
+        }
+        else if (targetInteractable.InteractType == InteractType.Stone)
+        {
+            gatherItemSlotInfoList = playerFSM.PlayerInventory.GatherItemSlotInfoList[1];
+            var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
+            var count = gatherItemSlotInfoList.Count;
+        
+            if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
+            {
+                playerFSM.ChangeState(PlayerStateType.Idle);
+                ToastMsg.Instance.ShowMessage("곡괭이류 장비가 착용되어 있지 않습니다!", Color.red);
+                return;
+            }
+        }
 
         Collider collider = target.GetComponentInChildren<Collider>();
         closestPoint = collider.ClosestPoint(transform.position);
@@ -200,37 +202,38 @@ public class PlayerInteractState : PlayerBaseState
     {
         if(target != null)
         {
-            //if(targetInteractable.InteractType == InteractType.Stone
-            //    || targetInteractable.InteractType == InteractType.Tree)
-            //{
-            //    var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
+            if(targetInteractable.InteractType == InteractType.Stone
+                || targetInteractable.InteractType == InteractType.Tree)
+            {
+                var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
 
-            //    if(weaponData != null &&
-            //        (targetInteractable.InteractType == InteractType.Stone && weaponData.GatherType == 2) 
-            //       || (targetInteractable.InteractType == InteractType.Tree && weaponData.GatherType == 1))
-            //    {
-            //        weaponEquipmentSocket.OnUseDurability();
-            //    }
-            //    else
-            //    {
-            //        if (gatherItemSlotInfoList.Count == 0)
-            //        {
-            //            return;
-            //        }
+                if(weaponData != null &&
+                    (targetInteractable.InteractType == InteractType.Stone && weaponData.GatherType == 2) 
+                   || (targetInteractable.InteractType == InteractType.Tree && weaponData.GatherType == 1))
+                {
+                    weaponEquipmentSocket.OnUseDurability();
+                }
+                else
+                {
+                    if (gatherItemSlotInfoList.Count == 0)
+                    {
+                        ToastMsg.Instance.ShowMessage("필요한 장비가 없습니다!", Color.red);
+                        return;
+                    }
 
-            //        var itemSlotInfo = gatherItemSlotInfoList[0];
-            //        int count = gatherItemSlotInfoList.Count;
-            //        for (int i = 1; i < count; ++i)
-            //        {
-            //            if (itemSlotInfo.index > gatherItemSlotInfoList[i].index)
-            //            {
-            //                itemSlotInfo = gatherItemSlotInfoList[i];
-            //            }
-            //        }
+                    var itemSlotInfo = gatherItemSlotInfoList[0];
+                    int count = gatherItemSlotInfoList.Count;
+                    for (int i = 1; i < count; ++i)
+                    {
+                        if (itemSlotInfo.index > gatherItemSlotInfoList[i].index)
+                        {
+                            itemSlotInfo = gatherItemSlotInfoList[i];
+                        }
+                    }
 
-            //        itemSlotInfo.OnUseDurability();
-            //    }           
-            //}
+                    itemSlotInfo.OnUseDurability();
+                }           
+            }
 
             targetInteractable.Interact(this.gameObject);
 
