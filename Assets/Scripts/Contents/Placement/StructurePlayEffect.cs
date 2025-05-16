@@ -38,7 +38,18 @@ public class StructurePlayEffet : MonoBehaviour
         {
             return;
         }
-        int maxHp = DataTableManager.StructureTable.Get(structure.ID).BuildingHealth;
+
+        float maxHp;
+        if (structure.ID == -1)
+        {
+            maxHp = structure.GetComponent<StructureStats>().CurrentStatTable[StatType.HP].MaxValue;
+        }
+        else
+        {
+            maxHp = DataTableManager.StructureTable.Get(structure.ID).BuildingHealth;
+        }
+
+        
         if (structure.Hp / maxHp < 0.2)
         {
             if (effects[StructureEffectKind.LowHp].isPlaying)
