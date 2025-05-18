@@ -22,7 +22,7 @@ public class UISkillSlot : MonoBehaviour, IPointerDownHandler
 
     public UnityEvent<SkillType> onLifeSkillUpEvent;
     private SkillType lifeSkillType;
-    public SkillType LifeSkillType => lifeSkillType;
+    public SkillType SkillType => lifeSkillType;
 
     [field: SerializeField]
     public Button SkillUpButton {  get; private set; }

@@ -107,7 +107,7 @@ public class LifeStat : LevelStat, ISaveLoadData
         if (skillLevelTable.ContainsKey(type))
         {
             ++skillLevelTable[type];
-            currentSkillStatValueList[skilType] = SkillStatData.SkillStatTable[type][skillLevelTable[type]];
+            currentSkillStatValueList[skilType] += SkillStatData.SkillStatTable[type][skillLevelTable[type]];
         }
         else
         {
@@ -168,7 +168,16 @@ public class LifeStat : LevelStat, ISaveLoadData
         if (skillLevelTable.ContainsKey(lifeSkillType))
         {
             ++skillLevelTable[lifeSkillType];
-            currentSkillStatValueList[(int)lifeSkillType] = SkillStatData.SkillStatTable[lifeSkillType][skillLevelTable[lifeSkillType]];
+
+            var tableList = SkillStatData.SkillStatTable[lifeSkillType];
+            if(tableList.Count <= skillLevelTable[lifeSkillType])
+            {
+                currentSkillStatValueList[(int)lifeSkillType] += tableList[tableList.Count - 1];
+            }
+            else
+            {
+                currentSkillStatValueList[(int)lifeSkillType] += tableList[skillLevelTable[lifeSkillType]];
+            }
         }
         else
         {
@@ -215,7 +224,11 @@ public class LifeStat : LevelStat, ISaveLoadData
             }
 
             skillLevelTable.Add((SkillType)i, list[i]);
-            currentSkillStatValueList[i] = SkillStatData.SkillStatTable[(SkillType)i][list[i]];
+
+            for (int j = 0; j < list[i]; ++j)
+            {
+                currentSkillStatValueList[i] += SkillStatData.SkillStatTable[(SkillType)i][j];
+            }
         }
     }
 

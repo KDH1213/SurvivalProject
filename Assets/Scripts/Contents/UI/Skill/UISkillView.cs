@@ -42,6 +42,8 @@ public class UISkillView : MonoBehaviour
     private string craftingText;
     private readonly string skillPointFormat = "스킬 포인트 : {0}";
 
+    private LifeStatData skillStatData;
+
     private void OnDisable()
     {
         currentLifeSkillType = SkillType.End;
@@ -51,7 +53,7 @@ public class UISkillView : MonoBehaviour
     {
         var lifeStat = GameObject.FindWithTag(Tags.Player).GetComponent<LifeStat>();
 
-        var skillStatData = lifeStat.SkillStatData;
+        skillStatData = lifeStat.SkillStatData;
         onSkillLevelUpEvent.AddListener(lifeStat.OnSkillLevelUp);
         lifeStat.OnChangeSkillLevelCountEvent.AddListener(OnChangeSkillLevel);
         lifeStat.OnChangeSkillPointEvent.AddListener(OnChangeSkillPoint);
@@ -68,11 +70,12 @@ public class UISkillView : MonoBehaviour
             var createSkillSlot = Instantiate(uISkillSlotPrefab, noramlContentPoint);
             createSkillSlot.InitializedInfo(skillStatData.SkillSpriteTable[normalSkillTypeList[i]], normalSkillTypeList[i], (int)normalSkillTypeList[i], (int)normalSkillTypeList[i]);
             createSkillSlot.onLifeSkillUpEvent.AddListener(OnSkillLevelUp);
+            int maxCount = skillStatData.SkillStatTable[normalSkillTypeList[i]].Count;
             lifeStat.OnChangeSkillLevelCountEvent.AddListener((lifeType, currentLevel, maxLevel) =>
             {
-                if(createSkillSlot.LifeSkillType == lifeType)
+                if(createSkillSlot.SkillType == lifeType)
                 {
-                    createSkillSlot.OnChangeSkillLevel(currentLevel, skillStatData.SkillStatTable[normalSkillTypeList[i]].Count);
+                    createSkillSlot.OnChangeSkillLevel(currentLevel, maxLevel);
                 }
             });
 
@@ -80,7 +83,7 @@ public class UISkillView : MonoBehaviour
 
             if (lifeStat.SkillLevelTable.TryGetValue((SkillType)i, out var value))
             {
-                OnChangeSkillLevel((SkillType)i, value, skillStatData.SkillStatTable[normalSkillTypeList[i]].Count);
+                OnChangeSkillLevel((SkillType)i, value, maxCount);
             }
         }
 
@@ -91,11 +94,15 @@ public class UISkillView : MonoBehaviour
             var createSkillSlot = Instantiate(uISkillSlotPrefab, lifeContentPoint);
             createSkillSlot.InitializedInfo(skillStatData.SkillSpriteTable[lifeSkillTypeList[i]], lifeSkillTypeList[i], (int)lifeSkillTypeList[i], (int)lifeSkillTypeList[i]);
             createSkillSlot.onLifeSkillUpEvent.AddListener(OnSkillLevelUp);
+
+
+            int maxCount = skillStatData.SkillStatTable[normalSkillTypeList[i]].Count;
+
             lifeStat.OnChangeSkillLevelCountEvent.AddListener((lifeType, currentLevel, maxLevel) =>
             {
-                if (createSkillSlot.LifeSkillType == lifeType)
+                if (createSkillSlot.SkillType == lifeType)
                 {
-                    createSkillSlot.OnChangeSkillLevel(currentLevel, skillStatData.SkillStatTable[lifeSkillTypeList[i]].Count);
+                    createSkillSlot.OnChangeSkillLevel(currentLevel, maxLevel);
                 }
             });
 
@@ -103,7 +110,7 @@ public class UISkillView : MonoBehaviour
 
             if (lifeStat.SkillLevelTable.TryGetValue((SkillType)i, out var value))
             {
-                OnChangeSkillLevel((SkillType)i, value, skillStatData.SkillStatTable[lifeSkillTypeList[i]].Count);
+                OnChangeSkillLevel((SkillType)i, value, maxCount);
             }
         }
 
@@ -116,7 +123,7 @@ public class UISkillView : MonoBehaviour
             createSkillSlot.onLifeSkillUpEvent.AddListener(OnSkillLevelUp);
             lifeStat.OnChangeSkillLevelCountEvent.AddListener((lifeType, currentLevel, maxLevel) =>
             {
-                if (createSkillSlot.LifeSkillType == lifeType)
+                if (createSkillSlot.SkillType == lifeType)
                 {
                     createSkillSlot.OnChangeSkillLevel(currentLevel, skillStatData.SkillStatTable[craftingSkillTypeList[i]].Count);
                 }
