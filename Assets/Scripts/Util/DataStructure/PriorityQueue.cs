@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class PriorityQueue<TElement, TPriority>
 {
-    public int Count { protected set; get; }
+    public int Count { protected set; get; } = 0;
     public int Capacity { protected set; get; } = 10;
     protected (TElement element, TPriority priority)[] values;
     protected IComparer<TPriority> comparer;
@@ -116,6 +116,11 @@ public class PriorityQueue<TElement, TPriority>
 
     public void Clear()
     {
+        if(Count > values.Length)
+        {
+            Count = values.Length;
+        }
+
         for (int i = 0; i < Count; ++i)
         {
             values[i] = default;

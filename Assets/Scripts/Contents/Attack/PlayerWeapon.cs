@@ -31,6 +31,8 @@ public class PlayerWeapon : AttackDefinition
 
         ray.origin = owner.transform.position;
 
+        attackTagetQueue.Clear();
+
         if (index <= maxAttackCount)
         {
             for (int i = 0; i < index; ++i)
@@ -74,8 +76,6 @@ public class PlayerWeapon : AttackDefinition
                 }
             }
         }
-
-        attackTagetQueue.Clear();
     }
 
     public override void Execute(GameObject attacker, GameObject defender)
