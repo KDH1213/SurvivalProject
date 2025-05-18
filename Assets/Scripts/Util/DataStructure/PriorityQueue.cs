@@ -118,6 +118,7 @@ public class PriorityQueue<TElement, TPriority>
     {
         if(Count > values.Length)
         {
+            System.Array.Resize(ref values, Capacity);
             Count = values.Length;
         }
 
