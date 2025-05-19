@@ -3,9 +3,9 @@ public enum ItemUseEffectType
 {
     None,
     Hp,
-    Fatigue,
     Hunger,
     Thirst,
+    Fatigue,
 }
 
 public struct ItemUseEffectInfo
