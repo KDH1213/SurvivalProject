@@ -28,7 +28,7 @@ public class TurretStructure : PlacementObject
     private void Update()
     {
 
-        if(!IsPlaced || type == TurretType.Timing)
+        if(!IsPlaced || type != TurretType.Timing)
         {
             return;
         }
