@@ -57,6 +57,7 @@ public class BaseStructure : PlacementObject
         Rank = -1;
         ID = -1;
         Hp = table[StatType.HP].MaxValue;
+        maxHp = Hp;
         table[StatType.HP].SetValue(Hp);
     }
 
