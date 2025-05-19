@@ -490,10 +490,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         // equipmentSocket.onChangeEquipEvent?.Invoke(equipmentSocket.eq)
     }
 
-    public void OnSetEquipmentItem(ItemData itemData, int amount)
+    public void OnSetEquipmentItem(ItemData itemData, int amount, int durability)
     {
         itemSlotInfos[dragSeletedSlotIndex].itemData = itemData;
         itemSlotInfos[dragSeletedSlotIndex].Amount = amount;
+        itemSlotInfos[dragSeletedSlotIndex].Durability = durability;
 
         if (inventoryItemTable.ContainsKey(itemData.ID))
         {

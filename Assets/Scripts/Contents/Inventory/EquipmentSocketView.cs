@@ -188,7 +188,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
             if (itemSlot.ItemData == null)
             {
                 playerStats.OnUnEquipmentItem(equipmentSockets[seleteSocket].ItemData);
-                inventory.OnSetEquipmentItem(equipmentSockets[seleteSocket].ItemData, equipmentSockets[seleteSocket].Amount);
+                inventory.OnSetEquipmentItem(equipmentSockets[seleteSocket].ItemData, equipmentSockets[seleteSocket].Amount, equipmentSockets[seleteSocket].Durability);
                 equipmentSockets[seleteSocket].OnUnEquipment();
             }
             else
