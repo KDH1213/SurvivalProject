@@ -10,6 +10,8 @@
 유니티 2022.3.60f1
 ### 지원 플랫폼
 안드로이드
+### 플레이 스토어
+https://play.google.com/store/apps/details?id=com.Kyungil.SurvivalProject
 ## 스크린샷
 <img width="1280" alt="1" src="https://github.com/user-attachments/assets/66be23ac-88f0-44e4-82fd-05077acc2465" />
 <img width="1280" alt="2" src="https://github.com/user-attachments/assets/712edd96-386a-4107-b885-8cd183260770" />
