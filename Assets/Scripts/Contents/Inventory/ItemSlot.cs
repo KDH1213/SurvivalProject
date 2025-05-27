@@ -13,6 +13,12 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField]
     private Slider durabilitySlider;
 
+    [SerializeField] 
+    private Image durationImage;
+
+    [SerializeField]
+    private ItemDurabilityData durabilityData;
+
     [SerializeField]
     private GameObject textGameObject;
 
@@ -63,6 +69,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 durabilitySlider.gameObject.SetActive(true);
                 durabilitySlider.value = (float)ItemInfo.Durability / ItemData.Durability;
                 textGameObject.SetActive(false);
+                durationImage.color = durabilityData.GetDurabilityColor(ItemInfo.Durability, ItemInfo.itemData.Durability);
             }
             
         }

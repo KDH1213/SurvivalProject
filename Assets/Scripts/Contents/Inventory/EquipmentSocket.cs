@@ -22,6 +22,12 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     [SerializeField]
     private Slider durabilitySlider;
 
+    [SerializeField] 
+    private Image durabilityImage;
+
+    [SerializeField]
+    private ItemDurabilityData itemDurabilityData;
+
     [SerializeField]
     protected GameObject amountView;
 
@@ -76,7 +82,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             itemIcon.sprite = itemData.ItemImage;
             itemIcon.color = new Color(1, 1, 1, 1);
             durabilitySlider.gameObject.SetActive(true);
-            durabilitySlider.value = (float)Durability / ItemData.Durability;
+            var percent = (float)Durability / ItemData.Durability;
+            durabilitySlider.value = percent;
+            durabilityImage.color = itemDurabilityData.GetDurabilityColor(percent);
 
             if (EquipmentType.Consumable == equipmentType)
             {
@@ -111,7 +119,9 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
 
         --Durability;
-        durabilitySlider.value = (float)Durability / ItemData.Durability;
+        var percent = (float)Durability / ItemData.Durability;
+        durabilitySlider.value = percent;
+        durabilityImage.color = itemDurabilityData.GetDurabilityColor(percent);
 
         if (Durability <= 0)
         {
