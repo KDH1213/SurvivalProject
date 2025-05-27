@@ -59,7 +59,7 @@ public class PlayerInteractState : PlayerBaseState
             var weaponData = weaponEquipmentSocket.ItemInfo.itemData != null ? DataTableManager.WeaponTable.Get(weaponEquipmentSocket.ItemInfo.itemData.ID) : null;
             var count = gatherItemSlotInfoList.Count;
         
-            if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
+            if (count == 0 && (weaponData == null || weaponData.GatherType != 2))
             {
                 playerFSM.ChangeState(PlayerStateType.Idle);
                 ToastMsg.Instance.ShowMessage("곡괭이류 장비가 착용되어 있지 않습니다!", Color.red);
