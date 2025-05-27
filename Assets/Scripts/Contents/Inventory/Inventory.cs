@@ -121,6 +121,11 @@ public class Inventory : MonoBehaviour, ISaveLoadData
         equipmentSocketView.Initialize();
     }
 
+    public void SetDragSeletedSlotIndex(int index)
+    {
+        dragSeletedSlotIndex = index;
+    }
+
     private void UpdateSlots(ItemSlotInfo[] items)
     {
         for (int i = 0; i < maxSlot; ++i)

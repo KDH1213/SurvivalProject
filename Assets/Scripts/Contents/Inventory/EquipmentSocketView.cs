@@ -142,7 +142,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
     public void OnSeleteSocket(EquipmentType equipmentType)
     {
         seleteSocket = (int)equipmentType;
-        itemInfoView.OnSetEquipmentItemInfo(equipmentSockets[seleteSocket].ItemData);
+        itemInfoView.OnSetEquipmentItemInfo(equipmentSockets[seleteSocket].ItemInfo);
     }
 
     public void OnChangeEquipment(EquipmentType equipmentType, int amount, int durability)
@@ -184,7 +184,10 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
                 continue;
             }
 
-            itemSlot.onDragEnter?.Invoke();
+            inventory.SetDragSeletedSlotIndex(itemSlot.SlotIndex);
+
+            // dragSeletedSlotIndex = itemSlot.SlotIndex;
+            // itemSlot.onDragEnter?.Invoke();
             if (itemSlot.ItemData == null)
             {
                 playerStats.OnUnEquipmentItem(equipmentSockets[seleteSocket].ItemData);

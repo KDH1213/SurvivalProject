@@ -41,8 +41,8 @@ public class ItemInfoView : MonoBehaviour
 
     private int[] valus = new int[4];
 
-    private readonly string armorFormat = "방어력 : {0}\n이동 속도 : {1}\n더위 저항 : {2}\n추위 저항 : {3}\n";
-    private readonly string weaponFormat = "공격력 : {0}\n공격 속도 : {1}\n";
+    private readonly string armorFormat = "방어력 : {0}\n이동 속도 : {1}\n더위 저항 : {2}\n추위 저항 : {3}\n내구도 : {4}/{5}\n";
+    private readonly string weaponFormat = "공격력 : {0}\n공격 속도 : {1}\n내구도 : {2}/{3}\n";
     private readonly string consumableFormat = "체력 : {0}\n포만감 : {1}%\n수분 : {2}%\n피로도 : {3}%\n";
 
     private void Awake()
@@ -65,7 +65,7 @@ public class ItemInfoView : MonoBehaviour
         }
 
         var itemData = itemInfo.itemData;
-        OnSetItemData(itemData, isItemSlot);
+        OnSetItemData(itemData, itemInfo.Durability, isItemSlot);
 
         if (isItemSlot && itemInfo.Amount > 1 && !onDisableDivisionButtonFunc())
         {
@@ -77,7 +77,7 @@ public class ItemInfoView : MonoBehaviour
         }
     }
 
-    private void OnSetItemData(ItemData itemData, bool isItemSlot)
+    private void OnSetItemData(ItemData itemData, int durability, bool isItemSlot)
     {
         if (itemData == null)
         {
@@ -115,10 +115,10 @@ public class ItemInfoView : MonoBehaviour
             case ItemType.Relics:
                 break;
             case ItemType.Armor:
-                SetArmorInfo(itemData, isItemSlot);
+                SetArmorInfo(itemData, durability, isItemSlot);
                 break;
             case ItemType.Weapon:
-                SetWeaponInfo(itemData, isItemSlot);
+                SetWeaponInfo(itemData, durability, isItemSlot);
                 break;
             default:
                 break;
@@ -131,10 +131,16 @@ public class ItemInfoView : MonoBehaviour
         onSetItemInfoEvent?.Invoke(itemInfo);
     }
 
-    public void OnSetEquipmentItemInfo(ItemData itemData)
+    public void OnSetEquipmentItemInfo(ItemInfo itemInfo)
     {
-
-        OnSetItemData(itemData, false);
+        if(itemInfo == null)
+        {
+            Empty();
+        }
+        else
+        {
+            OnSetItemData(itemInfo.itemData, itemInfo.Durability, false);
+        }
     }
 
     private void Empty()
@@ -150,10 +156,11 @@ public class ItemInfoView : MonoBehaviour
         divisionButton.interactable = false;
     }
 
-    private void SetArmorInfo(ItemData itemData, bool isItemSlot)
+    private void SetArmorInfo(ItemData itemData, int durability, bool isItemSlot)
     {
         var armorData = DataTableManager.ArmorTable.Get(itemData.ID);
-        itemStatsText.text = string.Format(armorFormat, armorData.DefensePower.ToString(), armorData.MovementSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString());
+        itemStatsText.text = string.Format(armorFormat, armorData.DefensePower.ToString(), armorData.MovementSpeed.ToString(), armorData.HeatResistance.ToString(), armorData.ColdResistance.ToString()
+            , durability.ToString(), itemData.Durability.ToString());
 
         useButton.interactable = false;
 
@@ -169,10 +176,10 @@ public class ItemInfoView : MonoBehaviour
        
     }
 
-    private void SetWeaponInfo(ItemData itemData, bool isItemSlot)
+    private void SetWeaponInfo(ItemData itemData, int durability, bool isItemSlot)
     {
         var weaponData = DataTableManager.WeaponTable.Get(itemData.ID);
-        itemStatsText.text = string.Format(weaponFormat, weaponData.AttackPower.ToString(), weaponData.AttackSpeed.ToString());
+        itemStatsText.text = string.Format(weaponFormat, weaponData.AttackPower.ToString(), weaponData.AttackSpeed.ToString(), durability.ToString(), itemData.Durability.ToString());
 
         useButton.interactable = false;
 
