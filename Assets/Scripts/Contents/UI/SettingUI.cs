@@ -3,10 +3,12 @@ using UnityEngine.UI;
 
 public class SettingData
 {
-    public float masterValue;
-    public float sfxValue;
-    public float bgmValue;
-    public int targetFrameRate;
+    public float masterValue = 0f;
+    public float sfxValue = 0f;
+    public float bgmValue = 0f;
+    public int targetFrameRate = 144;
+
+
 }
 public class SettingUI : MonoBehaviour
 {
