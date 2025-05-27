@@ -82,6 +82,7 @@ public class SaveDataV1 : SaveData
         spawnerSaveInfoList.Clear();
         equipmentItemIDList.Clear();
         eliteMonsterSaveInfoList.Clear();
+        basePointerSaveInfo = null;
 
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Hunger] = 10000;
         playerSaveInfo.survivalStatValues[(int)SurvivalStatType.Thirst] = 10000;

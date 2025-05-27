@@ -177,9 +177,25 @@ public class StageManager : MonoBehaviour, ISaveLoadData
 
     private void OnApplicationQuit()
     {
+
         onSaveEvent?.Invoke();
         GameObject.FindWithTag(Tags.GameTimer).GetComponent<GameTimeManager>().Save();
+
+        if (SaveLoadManager.Data.playerSaveInfo.hp <= 0 || SaveLoadManager.Data.basePointerSaveInfo.hp <= 0)
+        {
+            SaveLoadManager.Data.ResetStageInfo();
+            SaveLoadManager.Data.playerSaveInfo.hp = GameObject.FindWithTag(Tags.Player).GetComponent<PlayerStats>().GetStat(StatType.HP).MaxValue;
+            SaveLoadManager.Data.playerSaveInfo.position = startPosition;
+            SaveLoadManager.Data.quesetProgressSaveInfo.questID = startQuestID;
+            SaveLoadManager.Data.quesetProgressSaveInfo.questProgressInfoList.Clear();
+
+            SaveLoadManager.Data.startStage = sceneSwitcher.CurrentStageName;
+            SaveLoadManager.Data.sceneStage = SceneName.GetStageNumber(sceneSwitcher.CurrentStageName);
+        }
+
         SaveLoadManager.Save();
+
+     
     }
 
 #if !UNITY_EDITOR
