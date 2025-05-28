@@ -13,6 +13,7 @@
 ### 플레이 스토어
 https://play.google.com/store/apps/details?id=com.Kyungil.SurvivalProject
 ## 스크린샷
+![image](https://github.com/user-attachments/assets/19975005-c460-4ee8-b383-e0f9e4fb836a)
 <img width="1280" alt="1" src="https://github.com/user-attachments/assets/66be23ac-88f0-44e4-82fd-05077acc2465" />
 <img width="1280" alt="2" src="https://github.com/user-attachments/assets/712edd96-386a-4107-b885-8cd183260770" />
 <img width="1280" alt="3" src="https://github.com/user-attachments/assets/343a499c-4e7b-40d2-9df9-1524c69c9197" />
