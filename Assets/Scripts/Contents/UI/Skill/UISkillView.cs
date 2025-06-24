@@ -166,7 +166,8 @@ public class UISkillView : MonoBehaviour
         }
 
         skillNameText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType];// DataTableManager.StringTable.Get(nameID);
-        skillDescriptionText.text = TypeName.LifeSkillTypeName[(int)lifeSkillType]; // DataTableManager.StringTable.Get(descriptionID);
+        skillDescriptionText.text = string.Format(TypeName.LifeSkillTypeNameFormat[(int)lifeSkillType], skillStatData.SkillStatTable[lifeSkillType][0]);
+         // DataTableManager.StringTable.Get(descriptionID);
     }
 
     public void OnChangeSkillLevel(SkillType lifeSkillType, int value, int maxLevel)
