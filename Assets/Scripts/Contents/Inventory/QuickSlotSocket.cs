@@ -17,7 +17,9 @@ public class QuickSlotSocket : EquipmentSocket
 
         var player = GameObject.FindWithTag(Tags.Player);
         onUseItemEvent.AddListener(player.GetComponent<PlayerStats>().OnUseItem);
-        onAmountEvent.AddListener(quickSlotButtonView.OnSetAmount);
+        onAmountEvent.AddListener(quickSlotButtonView. OnSetAmount);
+
+        player.GetComponent<PlayerFSM>().PlayerInventory.addQuickSlotItemFunc += IsAddItem;
     }
 
     public override void OnEquipment(EquipmentType equipmentType, ItemData itemData, int amount, int durability)
@@ -45,6 +47,34 @@ public class QuickSlotSocket : EquipmentSocket
             OnEmpty();
             quickSlotButtonView.OnSetItemInfo();
         }
-
     }
+
+    public int IsAddItem(ItemData addItemData, int addAmount)
+    {
+        if (ItemInfo != null && ItemInfo.itemData != null 
+            && ItemInfo.itemData.ID == addItemData.ID)
+        {
+            int maxStack = ItemInfo.itemData.MaxStack;
+
+            ItemInfo.Amount += addAmount;
+            int amountRemaining = ItemInfo.Amount - maxStack;
+
+            if(amountRemaining > 0)
+            {
+                ItemInfo.Amount = maxStack;
+                onAmountEvent?.Invoke(ItemInfo.Amount);
+                amountText.text = Amount.ToString();
+                return amountRemaining;
+            }
+            else
+            {
+                onAmountEvent?.Invoke(ItemInfo.Amount);
+                amountText.text = Amount.ToString();
+                return 0;
+            }
+        }
+
+        return addAmount;
+    }
+
 }

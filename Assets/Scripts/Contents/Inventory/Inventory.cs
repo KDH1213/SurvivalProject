@@ -39,6 +39,8 @@ public class Inventory : MonoBehaviour, ISaveLoadData
 
     private PlayerStats playerStats;
 
+    public Func<ItemData, int, int> addQuickSlotItemFunc;
+
     public int SelectedSlotIndex { get; private set; } = -1;
 
     private int dragSeletedSlotIndex;
@@ -327,9 +329,21 @@ public class Inventory : MonoBehaviour, ISaveLoadData
     }
 
     // string으로 찾는 경우 추 후 아이템 id로 변경
-    public void AddItem(DropItemInfo dropItemInfo)
+    public void AddItem(DropItemInfo dropItemInfo, bool UnEquipSocket = false)
     {
-        if(inventoryItemTable.ContainsKey(dropItemInfo.id))
+        if(!UnEquipSocket)
+        {
+            int dropItemCount = addQuickSlotItemFunc?.Invoke(dropItemInfo.itemData, dropItemInfo.amount) ?? dropItemInfo.amount;
+
+            if (dropItemCount == 0)
+            {
+                return;
+            }
+            dropItemInfo.amount = dropItemCount;
+
+        }
+
+        if (inventoryItemTable.ContainsKey(dropItemInfo.id))
         {
             var itemList = inventoryItemTable[dropItemInfo.id];
 

@@ -53,15 +53,7 @@ public class SaveDataV1 : SaveData
         quesetProgressSaveInfo.questID = 240011;
         quesetProgressSaveInfo.questProgressInfoList = new List<QuestProgressInfo>();
 
-        var stageManager = GameObject.FindWithTag(Tags.StageManager);
-        if(stageManager != null)
-        {
-            playerSaveInfo.position = stageManager.GetComponent<StageManager>().StartPosition;
-        }
-        else
-        {
-            playerSaveInfo.position = Vector3.right * 5f;
-        }
+        playerSaveInfo.position = new Vector3(-74f, 0.1f, 4.5f);
     }
 
     public override SaveData VersionUp()

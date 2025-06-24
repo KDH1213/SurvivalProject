@@ -123,7 +123,7 @@ public class EquipmentSocketView : MonoBehaviour, ISaveLoadData
         }
 
         DropItemInfo dropItemInfo = new DropItemInfo(equipmentSockets[seleteSocket].ItemInfo);
-       inventory.AddItem(dropItemInfo);
+        inventory.AddItem(dropItemInfo, true);
 
         equipmentSockets[seleteSocket].OnUnEquipment();
         playerStats.OnUnEquipmentItem(dropItemInfo.itemData);
