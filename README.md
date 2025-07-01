@@ -3,7 +3,7 @@
 
 - **개발 기간**: 2025.03.20 -2025.05.19
 
-**팀 구성**
+💂‍♂️ **팀 구성**
 - **개발** : 김동현, 신규현
 - **기획** : 정희재, 최상철, 임경태
 ## 🎮 프로젝트 소개
@@ -17,7 +17,7 @@
 - 유니티 2022.3.60f1
 ### 📱 지원 플랫폼
 - 안드로이드
-### 플레이 스토어
+### 🎲 플레이 스토어
 https://play.google.com/store/apps/details?id=com.Kyungil.SurvivalProject
 
 ![aOyT3q027HNDmiEnVweevvDSvWuZoWEmhm9Zd-5T18Sr1a3ORMMtrgoH53OzPUkimMUk](https://github.com/user-attachments/assets/d7f511e0-89fc-4a7d-a8be-c72ed0ba8f43)
