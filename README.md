@@ -15,4 +15,4 @@
 안드로이드
 ### 플레이 스토어
 https://play.google.com/store/apps/details?id=com.Kyungil.SurvivalProject
-![image](https://github.com/user-attachments/assets/19975005-c460-4ee8-b383-e0f9e4fb836a)
+[image](https://github.com/user-attachments/assets/19975005-c460-4ee8-b383-e0f9e4fb836a)
