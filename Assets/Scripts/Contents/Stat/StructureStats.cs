@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StructureStats : CharactorStats, ISaveLoadData
 {
     public float HP { get { return currentStatTable[StatType.HP].Value; } }
+    public UnityEvent onRepairEvent;
 
     protected override void Awake()
     {
@@ -50,6 +52,7 @@ public class StructureStats : CharactorStats, ISaveLoadData
     {
         IsDead = false;
         currentStatTable[StatType.HP].SetValue(repair);
+        onRepairEvent?.Invoke();
     }
 
     private void OnEnable()

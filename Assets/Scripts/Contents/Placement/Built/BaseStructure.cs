@@ -45,6 +45,7 @@ public class BaseStructure : PlacementObject
             hpBar.SetTarget(stats);
 
             stats.deathEvent.AddListener(() => { hpBar.gameObject.SetActive(false); });
+            stats.onRepairEvent.AddListener(() => { hpBar.gameObject.SetActive(true); });
         }
     }
 
@@ -94,6 +95,7 @@ public class BaseStructure : PlacementObject
 
         var table = GetComponent<StructureStats>().CurrentStatTable;
         var hpStat = table[StatType.HP];
+
         hpStat.OnChangeValue += (hp) => Hp = hp;
 
         if (data != null && data.id == -1)

@@ -13,7 +13,15 @@ public class UIHpBar : MonoBehaviour
 
     public void OnChangeHpBar(float persent)
     {
-        hpBarSlider.value = persent;
+        if(persent > 1f)
+        {
+            hpBarSlider.value = targetStats.CurrentStatTable[StatType.HP].PersentValue;
+        }
+        else
+        {
+            hpBarSlider.value = persent;
+        }
+
     }
 
     public void SetPool(IObjectPool<UIHpBar> hpBarObjectPool)
@@ -31,8 +39,8 @@ public class UIHpBar : MonoBehaviour
         targetStats = charactorStats;
     }
 
-    private void OnDisable()
-    {
-        targetStats.CurrentStatTable[StatType.HP].OnChangeValue -= OnChangeHpBar;
-    }
+    //private void OnDisable()
+    //{
+    //    targetStats.CurrentStatTable[StatType.HP].OnChangeValue -= OnChangeHpBar;
+    //}
 }

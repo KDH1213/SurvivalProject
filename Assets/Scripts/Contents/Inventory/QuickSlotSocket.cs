@@ -30,6 +30,12 @@ public class QuickSlotSocket : EquipmentSocket
         onAmountEvent?.Invoke(amount);
     }
 
+    public override void OnUnEquipment()
+    {
+        OnEmpty();
+        quickSlotButtonView.OnSetItemInfo();
+    }
+
     public void OnUseItem()
     {
         if(ItemData == null)

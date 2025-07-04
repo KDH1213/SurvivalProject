@@ -106,7 +106,7 @@ public class EquipmentSocket : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         Equiment(itemData, amount, durability);
     }
 
-    public void OnUnEquipment()
+    public virtual void OnUnEquipment()
     {
         OnEmpty();
     }
