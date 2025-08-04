@@ -21,3 +21,12 @@
 https://play.google.com/store/apps/details?id=com.Kyungil.SurvivalProject
 
 ![aOyT3q027HNDmiEnVweevvDSvWuZoWEmhm9Zd-5T18Sr1a3ORMMtrgoH53OzPUkimMUk](https://github.com/user-attachments/assets/d7f511e0-89fc-4a7d-a8be-c72ed0ba8f43)
+
+### 📑 주요 구현
+- 맵 배치 툴
+- 건물 하우징 시스템
+- 미니맵
+- 인벤토리
+- 퀘스트 시스템
+- 스테이지 관리자
+- 세이브 로드 시스템
