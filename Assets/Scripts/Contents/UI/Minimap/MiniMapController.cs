@@ -43,9 +43,11 @@ public class MiniMapController : MonoBehaviour
     private List<UIQuestIcon> uIQuestIconList = new List<UIQuestIcon>();
     private List<UIQuestIcon> activeUIQuestIconList = new List<UIQuestIcon>();
 
+    private float worldPixelPerUnit = 10f;
+
     private void Awake()
     {
-        Vector2 mapSize = mapPlane.transform.localScale.ConvertVector2() * 10f;
+        Vector2 mapSize = mapPlane.transform.localScale.ConvertVector2() * worldPixelPerUnit;
 
         mapRatio.x = mapImage.rectTransform.rect.width / mapSize.x;
         mapRatio.y = mapImage.rectTransform.rect.height / mapSize.y;
@@ -53,8 +55,7 @@ public class MiniMapController : MonoBehaviour
         mapSize.x /= mapImage.rectTransform.rect.width;
         mapSize.y /= mapImage.rectTransform.rect.height;
 
-        mapScale = mapSize;
-
+        this.mapScale = mapSize;
         mapRectTransform = mapImage.rectTransform;
     }
     public void AddObject(MiniMapObject createObject)
