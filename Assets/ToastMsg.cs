@@ -2,12 +2,11 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-public class ToastMsg : Singleton<ToastMsg>
+public class ToastMsg : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI txt;
     private float fadeInOutTime = 0.5f;
-    private static ToastMsg instance = null;
     Sequence sequence;
 
     public void ShowMessage(string msg, Color color)

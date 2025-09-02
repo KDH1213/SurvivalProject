@@ -115,6 +115,7 @@ public static class Tags
     public static readonly string MonsterSpawnSystem = "MonsterSpawnSystem";
     public static readonly string UIDebuffIcon = "UIDebuffIcon";
     public static readonly string AdManager = "AdManager";
+    public static readonly string ToastMsg = "ToastMsg";
 }
 
 public static class SceneName

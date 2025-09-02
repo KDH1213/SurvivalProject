@@ -30,11 +30,15 @@ public class PlayerInteractState : PlayerBaseState
     private EquipmentSocket weaponEquipmentSocket;
 
     private SFXPlayer soundPlayer;
+
+    private ToastMsg toastMsg;
     protected override void Awake()
     {
         base.Awake();
         stateType = PlayerStateType.Interact;
         agent = gameObject.GetComponent<NavMeshAgent>();
+
+        toastMsg = GameObject.FindWithTag(Tags.ToastMsg).GetComponent<ToastMsg>();
     }
 
     public override void Enter()
@@ -49,7 +53,7 @@ public class PlayerInteractState : PlayerBaseState
             if (count == 0 && (weaponData == null || weaponData.GatherType != 1))
             {
                 playerFSM.ChangeState(PlayerStateType.Idle);
-                ToastMsg.Instance.ShowMessage("도끼류 장비가 착용되어 있지 않습니다!", Color.red);
+                toastMsg.ShowMessage("도끼류 장비가 착용되어 있지 않습니다!", Color.red);
                 return;
             }
         }
@@ -62,7 +66,7 @@ public class PlayerInteractState : PlayerBaseState
             if (count == 0 && (weaponData == null || weaponData.GatherType != 2))
             {
                 playerFSM.ChangeState(PlayerStateType.Idle);
-                ToastMsg.Instance.ShowMessage("곡괭이류 장비가 착용되어 있지 않습니다!", Color.red);
+                toastMsg.ShowMessage("곡괭이류 장비가 착용되어 있지 않습니다!", Color.red);
                 return;
             }
         }
@@ -211,7 +215,7 @@ public class PlayerInteractState : PlayerBaseState
                 {
                     if (gatherItemSlotInfoList.Count == 0)
                     {
-                        ToastMsg.Instance.ShowMessage("필요한 장비가 없습니다!", Color.red);
+                        toastMsg.ShowMessage("필요한 장비가 없습니다!", Color.red);
                         return;
                     }
 
@@ -236,7 +240,7 @@ public class PlayerInteractState : PlayerBaseState
                 {
                     if (gatherItemSlotInfoList.Count == 0)
                     {
-                        ToastMsg.Instance.ShowMessage("필요한 장비가 없습니다!", Color.red);
+                        toastMsg.ShowMessage("필요한 장비가 없습니다!", Color.red);
                         return;
                     }
 

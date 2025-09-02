@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -43,6 +42,8 @@ public class CreateItemUI : MonoBehaviour
 
     public UnityEvent<int, int> onCreateItemEvent;
 
+    private ToastMsg toastMsg;
+
     private void Awake()
     {
         var player = GameObject.FindWithTag(Tags.Player);
@@ -56,6 +57,10 @@ public class CreateItemUI : MonoBehaviour
         {
             onCreateItemEvent.AddListener(questSystem.GetComponent<QuestSystem>().OnCreateItem);
         }
+
+
+
+        toastMsg = GameObject.FindWithTag(Tags.ToastMsg).GetComponent<ToastMsg>();
     }
 
     private void OnDisable()
@@ -167,7 +172,7 @@ public class CreateItemUI : MonoBehaviour
             if(ConsumItem(createData.NeedItemList))
             {
                 inventory.AddItem(createItem);
-                ToastMsg.Instance.ShowMessage($"{createItem.itemData.ItemName} 이(가) 생성되었습니다.", Color.green);
+                toastMsg.ShowMessage($"{createItem.itemData.ItemName} 이(가) 생성되었습니다.", Color.green);
                 onCreateItemEvent?.Invoke(createItem.id, createItem.amount);
             }
             
@@ -229,7 +234,7 @@ public class CreateItemUI : MonoBehaviour
     {
         if (inventory.IsFullInventory())
         {
-            ToastMsg.Instance.ShowMessage("인벤토리가 꽉 찼습니다.",Color.red);
+            toastMsg.ShowMessage("인벤토리가 꽉 찼습니다.",Color.red);
             return false;
         }
         foreach (var data in needItems)

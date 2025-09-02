@@ -35,6 +35,7 @@ public class PlayerCreateUI : MonoBehaviour
     public TestInventory inven;
 
     public UnityEvent<int, int> onCreateItemEvent;
+    private ToastMsg toastMsg;
 
     private void OnEnable()
     {
@@ -53,6 +54,8 @@ public class PlayerCreateUI : MonoBehaviour
         {
             onCreateItemEvent.AddListener(questSystem.GetComponent<QuestSystem>().OnCreateItem);
         }
+
+        toastMsg = GameObject.FindWithTag(Tags.ToastMsg).GetComponent<ToastMsg>();
     }
 
 
@@ -140,7 +143,7 @@ public class PlayerCreateUI : MonoBehaviour
             if (ConsumItem(createData.NeedItemList))
             {
                 inventory.AddItem(createItem);
-                ToastMsg.Instance.ShowMessage($"{createItem.itemData.ItemName} 이(가) 생성되었습니다.", Color.green);
+                toastMsg.ShowMessage($"{createItem.itemData.ItemName} 이(가) 생성되었습니다.", Color.green);
                 onCreateItemEvent?.Invoke(createItem.id, createItem.amount);
             }
         }
@@ -200,7 +203,7 @@ public class PlayerCreateUI : MonoBehaviour
     {
         if (inventory.IsFullInventory())
         {
-            ToastMsg.Instance.ShowMessage("인벤토리가 꽉 찼습니다.", Color.red);
+            toastMsg.ShowMessage("인벤토리가 꽉 찼습니다.", Color.red);
             return false;
         }
         foreach (var data in needItems)
