@@ -13,6 +13,11 @@ public class SFXPlayer : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
 
+    private void OnDisable()
+    {
+        sfxSource.Stop();
+    }
+
     public void StopSFX()
     {
         sfxSource.Stop();
