@@ -43,20 +43,21 @@ public class BuildProcessor
         var enableAab = extension == "aab"; // AAB 빌드 여부
         var enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true"; // Dev Build 여부
         var enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true"; // Dev Build 여부
-        var outputFileName = GetCommandLineArgument(ArgName_OutputFileName);
+        var outputFileName = GetCommandLineArgument(ArgName_OutputFileName); 
+        var fullOutputPath = System.IO.Path.Combine(outputPath, outputFileName);
 
         // BuildPlayerOptions 설정하는 부분. 빌드 세팅에서 추가한 Scene들
         var buildPlayerOptions = new BuildPlayerOptions
         {
             scenes = FindEnabledEditorScenes(),
-            locationPathName = outputPath,
+            locationPathName = fullOutputPath,
             target = BuildTarget.Android
         };
 
         EditorUserBuildSettings.buildAppBundle = enableAab; //.aab로 추출한것인지
         EditorUserBuildSettings.development = enableDev;
         EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDeepProfiling;
-
+        
         // PlayerSettings
         PlayerSettings.bundleVersion = version;
         PlayerSettings.Android.bundleVersionCode = buildNum;
