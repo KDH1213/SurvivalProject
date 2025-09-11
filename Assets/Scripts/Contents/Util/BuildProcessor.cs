@@ -60,8 +60,8 @@ public class BuildProcessor
         }
 
         var fullOutputPath = System.IO.Path.Combine(outputPath, outputFileName);
+        Debug.Log($"Full Output Path: {fullOutputPath}");
 
-       
 
         // BuildPlayerOptions 설정하는 부분. 빌드 세팅에서 추가한 Scene들
         var buildPlayerOptions = new BuildPlayerOptions
@@ -111,6 +111,8 @@ public class BuildProcessor
         {
             if (!scene.enabled) continue;
             editorScenes.Add(scene.path);
+
+            Debug.Log($"Full Output Path: {scene}");
         }
 
         return editorScenes.ToArray();
