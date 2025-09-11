@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class BuildProcessor
 {
-    private const string KeystorePath = "KeystorePath/keystore.keystore";
-    private const string keystorePass = "keystorePass1234";
-    private const string KeyaliasName = "keyAliasName";
-    private const string KeyaliasPass = "keyAliasPass";
+    private const string KeystorePath = "user.keystore";
+    private const string keystorePass = "944512";
+    private const string KeyaliasName = "release";
+    private const string KeyaliasPass = "944512";
 
 
     private const string ArgName_BuildNum = "buildNum";
@@ -61,7 +61,7 @@ public class BuildProcessor
         PlayerSettings.bundleVersion = version;
         PlayerSettings.Android.bundleVersionCode = buildNum;
         PlayerSettings.Android.useCustomKeystore = true;
-        PlayerSettings.Android.keystoreName = KeystorePath;
+        PlayerSettings.Android.keystoreName =  System.IO.Path.Combine(Application.dataPath, $"../{KeystorePath}"); ;
         PlayerSettings.Android.keystorePass = keystorePass;
         PlayerSettings.Android.keyaliasName = KeyaliasName;
         PlayerSettings.Android.keyaliasPass = KeyaliasPass;
