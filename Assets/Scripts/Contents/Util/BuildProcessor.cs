@@ -37,7 +37,12 @@ public class BuildProcessor
 #if UNITY_ANDROID
         // Jenkins 에서 세팅한 Arguments들
         var buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum));
-        var outputPath = GetCommandLineArgument(Application.dataPath);
+
+        var workspacePath = Application.dataPath + "/..";  // Assets 상위 = 프로젝트 루트
+        var outputPath = System.IO.Path.Combine(workspacePath);
+
+        // var outputPath = GetCommandLineArgument(ArgName_OutputPath);
+
         var version = GetCommandLineArgument(ArgName_BuildVersion);
         var extension = GetCommandLineArgument(ArgName_BuildType);
         var enableAab = extension == "aab"; // AAB 빌드 여부
