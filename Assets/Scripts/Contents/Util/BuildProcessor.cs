@@ -19,7 +19,7 @@ public class BuildProcessor
     private const string ArgName_BuildVersion = "buildVersion";
     private const string ArgName_EnableDev = "enableDev";
     private const string ArgName_EnableDeepProfiling = "enableDeepProfiling";
-    private const string ArgName_OutputFileName = "outputFileName";
+    private const string ArgName_OutputFileName = "SurvivalProject";
 
     private static string GetCommandLineArgument(string name)
     {
@@ -37,7 +37,7 @@ public class BuildProcessor
 #if UNITY_ANDROID
         // Jenkins 에서 세팅한 Arguments들
         var buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum));
-        var outputPath = GetCommandLineArgument(ArgName_OutputPath);
+        var outputPath = GetCommandLineArgument(Application.dataPath);
         var version = GetCommandLineArgument(ArgName_BuildVersion);
         var extension = GetCommandLineArgument(ArgName_BuildType);
         var enableAab = extension == "aab"; // AAB 빌드 여부
