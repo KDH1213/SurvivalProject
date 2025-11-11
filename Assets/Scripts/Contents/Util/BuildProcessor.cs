@@ -179,12 +179,13 @@ public class BuildProcessor
         {
             scenes = scenes,
             target = BuildTarget.Android,
+            targetGroup = BuildTargetGroup.Android,
             locationPathName = outputFile,
-            options = buildOptions
+            options = buildOptions,
         };
 
         Debug.Log($"[AAB] Build start -> {outputFile}");
-        bool isSucceeded = AppBundlePublisher.Build(buildPlayerOptions, new AssetPackConfig(), true);
+        bool isSucceeded = AppBundlePublisher.Build(buildPlayerOptions, AssetPackConfigSerializer.LoadConfig(), true);
 
         if (isSucceeded)
         {
