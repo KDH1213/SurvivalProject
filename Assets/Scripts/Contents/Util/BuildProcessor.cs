@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Google.Android.AppBundle.Editor;
+using Google.Android.AppBundle.Editor.Internal;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using UnityEditor.Android;
-using Google.Android.AppBundle.Editor.Internal;
-using Google.Android.AppBundle.Editor.Internal.Config;
 
 public class BuildProcessor
 {
@@ -63,8 +61,8 @@ public class BuildProcessor
         string outputPathArg = GetCommandLineArgument(ArgName_OutputPath);
 
         // ----- Determine Output Path -----
-        string workspacePath = Application.dataPath + "/.."; // Unity 프로젝트 루트
-        string outputDirectory = string.IsNullOrEmpty(outputPathArg) ? System.IO.Path.Combine(workspacePath, "Builds/Android") : outputPathArg;
+        string workspacePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
+        string outputDirectory = string.IsNullOrEmpty(outputPathArg) ? System.IO.Path.Combine(workspacePath, "Builds/Android") : System.IO.Path.GetFullPath(outputPathArg);
 
         if (!System.IO.Directory.Exists(outputDirectory))
         {
@@ -133,13 +131,80 @@ public class BuildProcessor
                 break;
         }
 #endif
-    
-}
+
+    }
 
     public static void BuildGoogleAppBundle()
     {
 #if UNITY_ANDROID
-        AppBundlePublisher.Build();
+        // 명령줄 인자 받기
+        string buildVersion = GetCommandLineArgument("buildVersion") ?? "1.0.0";
+        int buildNum = int.Parse(GetCommandLineArgument("buildNum") ?? "1");
+        string outputPathArg = GetCommandLineArgument("outputPath");
+        bool enableDev = GetCommandLineArgument("enableDev") == "true";
+
+        // 출력 경로 계산
+        string workspacePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
+        string outputDirectory = string.IsNullOrEmpty(outputPathArg)
+            ? System.IO.Path.Combine(workspacePath, "Builds/Android")
+            : System.IO.Path.GetFullPath(outputPathArg);
+
+        System.IO.Directory.CreateDirectory(outputDirectory);
+        string outputFile = System.IO.Path.Combine(outputDirectory, $"SurvivalProject_{buildVersion}_{buildNum}.aab");
+
+        Debug.Log($"[BuildProcessor] App Bundle Output => {outputFile}");
+
+        PlayerSettings.bundleVersion = buildVersion;
+        PlayerSettings.Android.bundleVersionCode = buildNum;
+
+        PlayerSettings.Android.useCustomKeystore = true;
+        PlayerSettings.Android.keystoreName  = System.IO.Path.Combine(workspacePath, KeystorePath);
+        PlayerSettings.Android.keystorePass  = KeystorePass;
+        PlayerSettings.Android.keyaliasName  = KeyaliasName;
+        PlayerSettings.Android.keyaliasPass  = KeyaliasPass;
+
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+        EditorUserBuildSettings.development = enableDev;
+        EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDev;
+
+        // 4) BuildPlayerOptions 구성 (locationPathName = 최종 .aab 전체 경로)
+        var scenes = FindEnabledEditorScenes();
+        var buildOptions = enableDev ? BuildOptions.Development : BuildOptions.None;
+        if (enableDev)
+        {
+            buildOptions |= BuildOptions.EnableDeepProfilingSupport;
+        }
+
+        var bpo = new BuildPlayerOptions
+        {
+            scenes = scenes,
+            target = BuildTarget.Android,
+            locationPathName = outputFile,
+            options = buildOptions
+        };
+
+        // 5) AssetPackConfig (없으면 빈 것으로 전달)
+        //    * 필요 시 아래처럼 Fast-follow/On-demand 팩을 추가하세요.
+        // var apConfig = new AssetPackConfig();
+        // apConfig.AddAssetPack("ff-pack", AssetPackDeliveryMode.FastFollow, "Assets/AssetPacks/FastFollow");
+        // apConfig.AddAssetPack("od-pack", AssetPackDeliveryMode.OnDemand, "Assets/AssetPacks/OnDemand");
+        var apConfig = new AssetPackConfig();
+
+        // 6) 동기 빌드 여부 (CI라면 true 권장)
+        bool forceSync = true;
+
+        // 7) 실제 빌드 실행
+        Debug.Log($"[AAB] Build start -> {outputFile}");
+        bool ok = AppBundlePublisher.Build(bpo, apConfig, forceSync);
+
+        if (ok)
+        {
+            Debug.Log($"[AAB] ✅ Build Succeeded: {outputFile}");
+        }
+        else
+        {
+            Debug.LogError("[AAB] ❌ Build Failed (AppBundlePublisher.Build returned false)");
+        }
 #endif
     }
 
