@@ -1,5 +1,7 @@
 ﻿using Google.Android.AppBundle.Editor;
+using Google.Android.AppBundle.Editor.AssetPacks;
 using Google.Android.AppBundle.Editor.Internal;
+using Google.Android.AppBundle.Editor.Internal.BuildTools;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -70,7 +72,7 @@ public class BuildProcessor
         }
 
         string fileExtension = "apk";
-        string outputFileName = $"{DefaultOutputName}_{buildVersion}_{buildNum}.{fileExtension}";
+        string outputFileName = $"{DefaultOutputName}.{fileExtension}";
         string fullOutputPath = System.IO.Path.Combine(outputDirectory, outputFileName);
 
         Debug.Log($"[BuildProcessor] Building Android => {fullOutputPath}");
@@ -150,9 +152,7 @@ public class BuildProcessor
             : System.IO.Path.GetFullPath(outputPathArg);
 
         System.IO.Directory.CreateDirectory(outputDirectory);
-        string outputFile = System.IO.Path.Combine(outputDirectory, $"SurvivalProject_{buildVersion}_{buildNum}.aab");
-
-        Debug.Log($"[BuildProcessor] App Bundle Output => {outputFile}");
+        string outputFile = System.IO.Path.Combine(outputDirectory, $"SurvivalProject.aab");
 
         PlayerSettings.bundleVersion = buildVersion;
         PlayerSettings.Android.bundleVersionCode = buildNum;
@@ -175,7 +175,7 @@ public class BuildProcessor
             buildOptions |= BuildOptions.EnableDeepProfilingSupport;
         }
 
-        var bpo = new BuildPlayerOptions
+        var buildPlayerOptions = new BuildPlayerOptions
         {
             scenes = scenes,
             target = BuildTarget.Android,
@@ -183,21 +183,10 @@ public class BuildProcessor
             options = buildOptions
         };
 
-        // 5) AssetPackConfig (없으면 빈 것으로 전달)
-        //    * 필요 시 아래처럼 Fast-follow/On-demand 팩을 추가하세요.
-        // var apConfig = new AssetPackConfig();
-        // apConfig.AddAssetPack("ff-pack", AssetPackDeliveryMode.FastFollow, "Assets/AssetPacks/FastFollow");
-        // apConfig.AddAssetPack("od-pack", AssetPackDeliveryMode.OnDemand, "Assets/AssetPacks/OnDemand");
-        var apConfig = new AssetPackConfig();
-
-        // 6) 동기 빌드 여부 (CI라면 true 권장)
-        bool forceSync = true;
-
-        // 7) 실제 빌드 실행
         Debug.Log($"[AAB] Build start -> {outputFile}");
-        bool ok = AppBundlePublisher.Build(bpo, apConfig, forceSync);
+        bool isSucceeded = AppBundlePublisher.Build(buildPlayerOptions, new AssetPackConfig(), true);
 
-        if (ok)
+        if (isSucceeded)
         {
             Debug.Log($"[AAB] ✅ Build Succeeded: {outputFile}");
         }
