@@ -4,6 +4,9 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
+using UnityEditor.Android;
+using Google.Android.AppBundle.Editor.Internal;
+using Google.Android.AppBundle.Editor.Internal.Config;
 
 public class BuildProcessor
 {
@@ -30,10 +33,27 @@ public class BuildProcessor
         }
         return null;
     }
-
     public static void BuildAndroid()
     {
-#if !UNITY_ANDROID
+        string buildType = GetCommandLineArgument("buildType") ?? "apk";
+        bool useGoogleBundle = buildType.Equals("aab", StringComparison.OrdinalIgnoreCase);
+
+        if (useGoogleBundle)
+        {
+            BuildGoogleAppBundle();
+        }
+        else
+        {
+            BuildRegularApk();
+        }
+
+
+       
+    }
+
+    public static void BuildRegularApk()
+    {
+#if UNITY_ANDROID
         // ----- Jenkins Arguments -----
         int buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum) ?? "1");
         string buildVersion = GetCommandLineArgument(ArgName_BuildVersion) ?? "0.0.1";
@@ -51,13 +71,11 @@ public class BuildProcessor
             System.IO.Directory.CreateDirectory(outputDirectory);
         }
 
-        bool enableAab = buildType.Equals("aab", StringComparison.OrdinalIgnoreCase);
-        string fileExtension = enableAab ? "aab" : "apk";
+        string fileExtension = "apk";
         string outputFileName = $"{DefaultOutputName}_{buildVersion}_{buildNum}.{fileExtension}";
         string fullOutputPath = System.IO.Path.Combine(outputDirectory, outputFileName);
 
         Debug.Log($"[BuildProcessor] Building Android => {fullOutputPath}");
-        Debug.Log($"[BuildProcessor] Dev={enableDev}, DeepProfile={enableDeepProfiling}, AAB={enableAab}");
 
         // ----- BuildPlayerOptions -----
         var buildPlayerOptions = new BuildPlayerOptions
@@ -88,7 +106,7 @@ public class BuildProcessor
         PlayerSettings.Android.keyaliasPass = KeyaliasPass;
 
         // ----- Google AAB 빌드 설정 -----
-        EditorUserBuildSettings.buildAppBundle = enableAab;
+        EditorUserBuildSettings.buildAppBundle = false;
         EditorUserBuildSettings.development = enableDev;
         EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDeepProfiling;
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
@@ -102,18 +120,26 @@ public class BuildProcessor
         switch (summary.result)
         {
             case BuildResult.Succeeded:
-                Debug.Log("[BuildProcessor] ✅ Android Build succeeded!");
+                Debug.Log("[BuildProcessor] Android Build succeeded!");
                 break;
             case BuildResult.Failed:
-                Debug.LogError("[BuildProcessor] ❌ Android Build failed!");
+                Debug.LogError("[BuildProcessor] Android Build failed!");
                 break;
             case BuildResult.Cancelled:
-                Debug.LogWarning("[BuildProcessor] ⚠️ Android Build cancelled!");
+                Debug.LogWarning("[BuildProcessor] Android Build cancelled!");
                 break;
             default:
-                Debug.LogWarning("[BuildProcessor] ⚠️ Unknown build result.");
+                Debug.LogWarning("[BuildProcessor] Unknown build result.");
                 break;
         }
+#endif
+    
+}
+
+    public static void BuildGoogleAppBundle()
+    {
+#if UNITY_ANDROID
+        AppBundlePublisher.Build();
 #endif
     }
 
