@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Build;
@@ -8,10 +8,9 @@ using UnityEngine;
 public class BuildProcessor
 {
     private const string KeystorePath = "user.keystore";
-    private const string keystorePass = "944512";
+    private const string KeystorePass = "944512";
     private const string KeyaliasName = "release";
     private const string KeyaliasPass = "944512";
-
 
     private const string ArgName_BuildNum = "buildNum";
     private const string ArgName_OutputPath = "outputPath";
@@ -19,11 +18,11 @@ public class BuildProcessor
     private const string ArgName_BuildVersion = "buildVersion";
     private const string ArgName_EnableDev = "enableDev";
     private const string ArgName_EnableDeepProfiling = "enableDeepProfiling";
-    private const string ArgName_OutputFileName = "SurvivalProject";
+    private const string DefaultOutputName = "SurvivalProject";
 
     private static string GetCommandLineArgument(string name)
     {
-        var args = System.Environment.GetCommandLineArgs();
+        var args = Environment.GetCommandLineArgs();
         for (var i = 0; i < args.Length; i++)
         {
             if (args[i] == $"-{name}" && i + 1 < args.Length)
@@ -34,87 +33,100 @@ public class BuildProcessor
 
     public static void BuildAndroid()
     {
-#if UNITY_ANDROID
-        // Jenkins ø°º≠ ºº∆√«— ArgumentsµÈ
-        var buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum));
+#if !UNITY_ANDROID
+        // ----- Jenkins Arguments -----
+        int buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum) ?? "1");
+        string buildVersion = GetCommandLineArgument(ArgName_BuildVersion) ?? "0.0.1";
+        string buildType = GetCommandLineArgument(ArgName_BuildType) ?? "apk";
+        bool enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true";
+        bool enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true";
+        string outputPathArg = GetCommandLineArgument(ArgName_OutputPath);
 
-        var workspacePath = Application.dataPath + "/..";  // Assets ªÛ¿ß = «¡∑Œ¡ß∆Æ ∑Á∆Æ
-        var outputPath = System.IO.Path.Combine(workspacePath);
+        // ----- Determine Output Path -----
+        string workspacePath = Application.dataPath + "/.."; // Unity ÌîÑÎ°úÏ†ùÌä∏ Î£®Ìä∏
+        string outputDirectory = string.IsNullOrEmpty(outputPathArg) ? System.IO.Path.Combine(workspacePath, "Builds/Android") : outputPathArg;
 
-        // var outputPath = GetCommandLineArgument(ArgName_OutputPath);
-
-        var version = GetCommandLineArgument(ArgName_BuildVersion);
-        var extension = GetCommandLineArgument(ArgName_BuildType);
-        var enableAab = extension == "aab"; // AAB ∫ÙµÂ ø©∫Œ
-        var enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true"; // Dev Build ø©∫Œ
-        var enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true"; // Dev Build ø©∫Œ
-        var outputFileName = GetCommandLineArgument(ArgName_OutputFileName);
-
-        if (extension == "aab")
+        if (!System.IO.Directory.Exists(outputDirectory))
         {
-            outputFileName += ".aab";
-        }
-        else
-        {
-            outputFileName += ".apk";
+            System.IO.Directory.CreateDirectory(outputDirectory);
         }
 
-        var fullOutputPath = System.IO.Path.Combine(outputPath, outputFileName);
-        Debug.Log($"Full Output Path: {fullOutputPath}");
+        bool enableAab = buildType.Equals("aab", StringComparison.OrdinalIgnoreCase);
+        string fileExtension = enableAab ? "aab" : "apk";
+        string outputFileName = $"{DefaultOutputName}_{buildVersion}_{buildNum}.{fileExtension}";
+        string fullOutputPath = System.IO.Path.Combine(outputDirectory, outputFileName);
 
+        Debug.Log($"[BuildProcessor] Building Android => {fullOutputPath}");
+        Debug.Log($"[BuildProcessor] Dev={enableDev}, DeepProfile={enableDeepProfiling}, AAB={enableAab}");
 
-        // BuildPlayerOptions º≥¡§«œ¥¬ ∫Œ∫–. ∫ÙµÂ ºº∆√ø°º≠ √ﬂ∞°«— SceneµÈ
+        // ----- BuildPlayerOptions -----
         var buildPlayerOptions = new BuildPlayerOptions
         {
             scenes = FindEnabledEditorScenes(),
             locationPathName = fullOutputPath,
-            target = BuildTarget.Android
+            target = BuildTarget.Android,
+            options = BuildOptions.None
         };
 
-        EditorUserBuildSettings.buildAppBundle = enableAab; //.aab∑Œ √ﬂ√‚«—∞Õ¿Œ¡ˆ
-        EditorUserBuildSettings.development = enableDev;
-        EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDeepProfiling;
-        
-        // PlayerSettings
-        PlayerSettings.bundleVersion = version;
+        if (enableDev)
+        {
+            buildPlayerOptions.options |= BuildOptions.Development;
+        }
+        if (enableDeepProfiling)
+        {
+            buildPlayerOptions.options |= BuildOptions.EnableDeepProfilingSupport;
+        }
+
+        // ----- Player Settings -----
+        PlayerSettings.bundleVersion = buildVersion;
         PlayerSettings.Android.bundleVersionCode = buildNum;
+
         PlayerSettings.Android.useCustomKeystore = true;
-        PlayerSettings.Android.keystoreName =  System.IO.Path.Combine(Application.dataPath, $"../{KeystorePath}"); ;
-        PlayerSettings.Android.keystorePass = keystorePass;
+        PlayerSettings.Android.keystoreName = System.IO.Path.Combine(workspacePath, KeystorePath);
+        PlayerSettings.Android.keystorePass = KeystorePass;
         PlayerSettings.Android.keyaliasName = KeyaliasName;
         PlayerSettings.Android.keyaliasPass = KeyaliasPass;
 
-        // ø©±‚º≠ πÈ±◊∂ÛøÓµÂ∏¶ ≈Î«ÿ batchmode∑Œ Ω«¡¶∑Œ ∫ÙµÂ∞° Ω««‡µ»¥Ÿ. 
-        // ¿⁄ºº«— ∑Œ±◊¥¬ fastlane cmd ≥™ Jenkins logø°º≠ »Æ¿Œ¿Ã ∞°¥…«œ¥Ÿ. (ø°∑Ø ≈Õ¡ˆ∏È æÍ≥◊µÈ∑Œ √£æ∆æﬂ«‘)
-        var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        // ----- Google AAB ÎπåÎìú ÏÑ§Ï†ï -----
+        EditorUserBuildSettings.buildAppBundle = enableAab;
+        EditorUserBuildSettings.development = enableDev;
+        EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDeepProfiling;
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 
-        switch (report.summary.result)
+        // ----- Ïã§Ï†ú ÎπåÎìú Ïã§Ìñâ -----
+        var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        var summary = report.summary;
+
+        Debug.Log($"[BuildProcessor] Result={summary.result}, Time={summary.totalTime.TotalSeconds:F1}s, Size={(summary.totalSize / (1024f * 1024f)):F1} MB");
+
+        switch (summary.result)
         {
             case BuildResult.Succeeded:
+                Debug.Log("[BuildProcessor] ‚úÖ Android Build succeeded!");
+                break;
             case BuildResult.Failed:
-            case BuildResult.Unknown:
+                Debug.LogError("[BuildProcessor] ‚ùå Android Build failed!");
+                break;
             case BuildResult.Cancelled:
-                Debug.Log($"∫ÙµÂ ∞·∞˙ : {report.summary.result}");
+                Debug.LogWarning("[BuildProcessor] ‚ö†Ô∏è Android Build cancelled!");
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                Debug.LogWarning("[BuildProcessor] ‚ö†Ô∏è Unknown build result.");
+                break;
         }
 #endif
     }
 
-    // Enable √≥∏Æµ» SceneµÈ ∞°¡Æø¿¥¬ ∫Œ∫–
     private static string[] FindEnabledEditorScenes()
     {
         var editorScenes = new List<string>();
-
         foreach (var scene in EditorBuildSettings.scenes)
         {
-            if (!scene.enabled) continue;
-            editorScenes.Add(scene.path);
-
-            Debug.Log($"Full Output Path: {scene}");
+            if (scene.enabled)
+            {
+                editorScenes.Add(scene.path);
+            }
         }
-
         return editorScenes.ToArray();
     }
 }
