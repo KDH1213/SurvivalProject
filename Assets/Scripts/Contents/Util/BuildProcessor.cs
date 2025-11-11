@@ -1,7 +1,6 @@
-﻿using Google.Android.AppBundle.Editor;
+﻿#if UNITY_EDITOR
 using Google.Android.AppBundle.Editor.AssetPacks;
 using Google.Android.AppBundle.Editor.Internal;
-using Google.Android.AppBundle.Editor.Internal.BuildTools;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -20,6 +19,7 @@ public class BuildProcessor
     private const string ArgName_BuildType = "buildType";
     private const string ArgName_BuildVersion = "buildVersion";
     private const string ArgName_EnableDev = "enableDev";
+    private const string ArgName_EnableGoogleAppBundle = "enableGoogleAppBundle";
     private const string ArgName_EnableDeepProfiling = "enableDeepProfiling";
     private const string DefaultOutputName = "SurvivalProject";
 
@@ -35,8 +35,7 @@ public class BuildProcessor
     }
     public static void BuildAndroid()
     {
-        string buildType = GetCommandLineArgument("buildType") ?? "apk";
-        bool useGoogleBundle = buildType.Equals("aab", StringComparison.OrdinalIgnoreCase);
+        bool useGoogleBundle = GetCommandLineArgument(ArgName_EnableGoogleAppBundle) == "true";
 
         if (useGoogleBundle)
         {
@@ -46,9 +45,6 @@ public class BuildProcessor
         {
             BuildRegularApk();
         }
-
-
-       
     }
 
     public static void BuildRegularApk()
@@ -56,23 +52,23 @@ public class BuildProcessor
 #if UNITY_ANDROID
         // ----- Jenkins Arguments -----
         int buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum) ?? "1");
-        string buildVersion = GetCommandLineArgument(ArgName_BuildVersion) ?? "0.0.1";
-        string buildType = GetCommandLineArgument(ArgName_BuildType) ?? "apk";
+        string outputPath = GetCommandLineArgument(ArgName_OutputPath);
+        string buildVersion = GetCommandLineArgument(ArgName_BuildVersion);
+        string buildType = GetCommandLineArgument(ArgName_BuildType);
+        bool enalbeAab = buildType == "aab";
         bool enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true";
         bool enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true";
-        string outputPathArg = GetCommandLineArgument(ArgName_OutputPath);
+        string outputFileName = $"{DefaultOutputName}.{buildType}";
 
         // ----- Determine Output Path -----
         string workspacePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
-        string outputDirectory = string.IsNullOrEmpty(outputPathArg) ? System.IO.Path.Combine(workspacePath, "Builds/Android") : System.IO.Path.GetFullPath(outputPathArg);
+        string outputDirectory = string.IsNullOrEmpty(outputPath) ? System.IO.Path.Combine(workspacePath, "Builds\\Android") : System.IO.Path.GetFullPath(outputPath);
 
         if (!System.IO.Directory.Exists(outputDirectory))
         {
             System.IO.Directory.CreateDirectory(outputDirectory);
         }
 
-        string fileExtension = "apk";
-        string outputFileName = $"{DefaultOutputName}.{fileExtension}";
         string fullOutputPath = System.IO.Path.Combine(outputDirectory, outputFileName);
 
         Debug.Log($"[BuildProcessor] Building Android => {fullOutputPath}");
@@ -83,6 +79,7 @@ public class BuildProcessor
             scenes = FindEnabledEditorScenes(),
             locationPathName = fullOutputPath,
             target = BuildTarget.Android,
+            targetGroup = BuildTargetGroup.Android,
             options = BuildOptions.None
         };
 
@@ -95,23 +92,19 @@ public class BuildProcessor
             buildPlayerOptions.options |= BuildOptions.EnableDeepProfilingSupport;
         }
 
-        // ----- Player Settings -----
         PlayerSettings.bundleVersion = buildVersion;
         PlayerSettings.Android.bundleVersionCode = buildNum;
-
         PlayerSettings.Android.useCustomKeystore = true;
         PlayerSettings.Android.keystoreName = System.IO.Path.Combine(workspacePath, KeystorePath);
         PlayerSettings.Android.keystorePass = KeystorePass;
         PlayerSettings.Android.keyaliasName = KeyaliasName;
         PlayerSettings.Android.keyaliasPass = KeyaliasPass;
 
-        // ----- Google AAB 빌드 설정 -----
-        EditorUserBuildSettings.buildAppBundle = false;
+        EditorUserBuildSettings.buildAppBundle = enalbeAab;
         EditorUserBuildSettings.development = enableDev;
         EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDeepProfiling;
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 
-        // ----- 실제 빌드 실행 -----
         var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
         var summary = report.summary;
 
@@ -120,17 +113,13 @@ public class BuildProcessor
         switch (summary.result)
         {
             case BuildResult.Succeeded:
-                Debug.Log("[BuildProcessor] Android Build succeeded!");
-                break;
             case BuildResult.Failed:
-                Debug.LogError("[BuildProcessor] Android Build failed!");
-                break;
+            case BuildResult.Unknown:
             case BuildResult.Cancelled:
-                Debug.LogWarning("[BuildProcessor] Android Build cancelled!");
+                Debug.Log($"빌드 결과 : {report.summary.result}");
                 break;
             default:
-                Debug.LogWarning("[BuildProcessor] Unknown build result.");
-                break;
+                throw new ArgumentOutOfRangeException();
         }
 #endif
 
@@ -148,7 +137,7 @@ public class BuildProcessor
         // 출력 경로 계산
         string workspacePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
         string outputDirectory = string.IsNullOrEmpty(outputPathArg)
-            ? System.IO.Path.Combine(workspacePath, "Builds/Android")
+            ? System.IO.Path.Combine(workspacePath, "Builds\\Android")
             : System.IO.Path.GetFullPath(outputPathArg);
 
         System.IO.Directory.CreateDirectory(outputDirectory);
@@ -189,11 +178,11 @@ public class BuildProcessor
 
         if (isSucceeded)
         {
-            Debug.Log($"[AAB] ✅ Build Succeeded: {outputFile}");
+            Debug.Log($"[AAB] Build Succeeded: {outputFile}");
         }
         else
         {
-            Debug.LogError("[AAB] ❌ Build Failed (AppBundlePublisher.Build returned false)");
+            Debug.LogError("[AAB] Build Failed (AppBundlePublisher.Build returned false)");
         }
 #endif
     }
@@ -211,3 +200,4 @@ public class BuildProcessor
         return editorScenes.ToArray();
     }
 }
+#endif
