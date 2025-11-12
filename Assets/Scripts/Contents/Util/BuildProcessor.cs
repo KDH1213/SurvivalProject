@@ -15,6 +15,8 @@ public class BuildProcessor
     private const string KeyaliasPass = "944512";
 
     private const string ArgName_BuildNum = "buildNum";
+
+    private const string ArgName_BuildDirectory = "buildDirectory";
     private const string ArgName_OutputPath = "outputPath";
     private const string ArgName_BuildType = "buildType";
     private const string ArgName_BuildVersion = "buildVersion";
@@ -53,6 +55,7 @@ public class BuildProcessor
         var buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum));
         string buildType = GetCommandLineArgument(ArgName_BuildType);
         var outputPath = GetCommandLineArgument(ArgName_OutputPath);
+        var buildDirectory = GetCommandLineArgument(ArgName_BuildDirectory);
         var version = GetCommandLineArgument(ArgName_BuildVersion);
         var extension = GetCommandLineArgument(ArgName_BuildType);
         var enableAab = extension == "aab";
@@ -60,9 +63,9 @@ public class BuildProcessor
         var enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true";
 
 
-        if (!System.IO.Directory.Exists(outputPath))
+        if (!System.IO.Directory.Exists(buildDirectory))
         {
-            System.IO.Directory.CreateDirectory(outputPath);
+            System.IO.Directory.CreateDirectory(buildDirectory);
         }
 
         var buildOptions = enableDev ? BuildOptions.Development : BuildOptions.None;
@@ -110,18 +113,19 @@ public class BuildProcessor
     {
 #if UNITY_ANDROID
         // 명령줄 인자 받기
-        string buildVersion = GetCommandLineArgument("buildVersion") ?? "1.0.0";
-        int buildNum = int.Parse(GetCommandLineArgument("buildNum") ?? "1");
-        string outputPathArg = GetCommandLineArgument("outputPath");
-        bool enableDev = GetCommandLineArgument("enableDev") == "true";
+        string buildVersion = GetCommandLineArgument(ArgName_BuildVersion) ?? "1.0.0";
+        int buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum) ?? "1");
+        string outputPath = GetCommandLineArgument(ArgName_OutputPath);
+        var buildDirectory = GetCommandLineArgument(ArgName_BuildDirectory);
+        bool enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true";
 
         // 출력 경로 계산
         string workspacePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
-        string outputDirectory = string.IsNullOrEmpty(outputPathArg)
-            ? System.IO.Path.Combine(workspacePath, "Builds\\Android")
-            : System.IO.Path.GetFullPath(outputPathArg);
 
-        System.IO.Directory.CreateDirectory(outputDirectory);
+        if (!System.IO.Directory.Exists(buildDirectory))
+        {
+            System.IO.Directory.CreateDirectory(buildDirectory);
+        }
 
         PlayerSettings.bundleVersion = buildVersion;
         PlayerSettings.Android.bundleVersionCode = buildNum;
@@ -149,16 +153,16 @@ public class BuildProcessor
             scenes = scenes,
             target = BuildTarget.Android,
             targetGroup = BuildTargetGroup.Android,
-            locationPathName = outputFile,
+            locationPathName = outputPath,
             options = buildOptions,
         };
 
-        Debug.Log($"[AAB] Build start -> {outputFile}");
+        Debug.Log($"[AAB] Build start -> {outputPath}");
         bool isSucceeded = AppBundlePublisher.Build(buildPlayerOptions, AssetPackConfigSerializer.LoadConfig(), true);
 
         if (isSucceeded)
         {
-            Debug.Log($"[AAB] Build Succeeded: {outputFile}");
+            Debug.Log($"[AAB] Build Succeeded: {outputPath}");
         }
         else
         {
