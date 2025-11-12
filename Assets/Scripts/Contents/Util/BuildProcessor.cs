@@ -70,11 +70,14 @@ public class BuildProcessor
             System.IO.Directory.CreateDirectory(outputPath);
         }
 
+        var buildOptions = enableDev ? BuildOptions.Development : BuildOptions.None;
         var buildPlayerOptions = new BuildPlayerOptions
         {
             scenes = FindEnabledEditorScenes(),
             locationPathName = fullOutputPath,
-            target = BuildTarget.Android
+            target = BuildTarget.Android,
+            targetGroup = BuildTargetGroup.Android,
+            options = buildOptions,
         };
 
         EditorUserBuildSettings.buildAppBundle = enableAab;
