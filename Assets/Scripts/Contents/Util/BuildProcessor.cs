@@ -21,6 +21,7 @@ public class BuildProcessor
     private const string ArgName_EnableDev = "enableDev";
     private const string ArgName_EnableGoogleAppBundle = "enableGoogleAppBundle";
     private const string ArgName_EnableDeepProfiling = "enableDeepProfiling";
+
     private const string DefaultOutputName = "SurvivalProject";
 
     private static string GetCommandLineArgument(string name)
@@ -50,73 +51,55 @@ public class BuildProcessor
     public static void BuildRegularApk()
     {
 #if UNITY_ANDROID
-        // ----- Jenkins Arguments -----
-        int buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum) ?? "1");
-        string outputPath = GetCommandLineArgument(ArgName_OutputPath);
-        string buildVersion = GetCommandLineArgument(ArgName_BuildVersion);
+
+        var buildNum = int.Parse(GetCommandLineArgument(ArgName_BuildNum));
         string buildType = GetCommandLineArgument(ArgName_BuildType);
-        bool enalbeAab = buildType == "aab";
-        bool enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true";
-        bool enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true";
-        string outputFileName = $"{DefaultOutputName}.{buildType}";
+        var outputPath = GetCommandLineArgument(ArgName_OutputPath);
+        var version = GetCommandLineArgument(ArgName_BuildVersion);
+        var extension = GetCommandLineArgument(ArgName_BuildType);
+        var enableAab = extension == "aab";
+        var enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true";
+        var enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true";
 
-        // ----- Determine Output Path -----
-        string workspacePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath, ".."));
-        string outputDirectory = string.IsNullOrEmpty(outputPath) ? System.IO.Path.Combine(workspacePath, "Builds\\Android") : System.IO.Path.GetFullPath(outputPath);
+        var outputFileName = $"{DefaultOutputName}.{buildType}";
+        var fullOutputPath = System.IO.Path.Combine(outputPath, outputFileName);
 
-        if (!System.IO.Directory.Exists(outputDirectory))
+
+        if (!System.IO.Directory.Exists(outputPath))
         {
-            System.IO.Directory.CreateDirectory(outputDirectory);
+            System.IO.Directory.CreateDirectory(outputPath);
         }
 
-        string fullOutputPath = System.IO.Path.Combine(outputDirectory, outputFileName);
-
-        Debug.Log($"[BuildProcessor] Building Android => {fullOutputPath}");
-
-        // ----- BuildPlayerOptions -----
         var buildPlayerOptions = new BuildPlayerOptions
         {
             scenes = FindEnabledEditorScenes(),
             locationPathName = fullOutputPath,
-            target = BuildTarget.Android,
-            targetGroup = BuildTargetGroup.Android,
-            options = BuildOptions.None
+            target = BuildTarget.Android
         };
 
-        if (enableDev)
-        {
-            buildPlayerOptions.options |= BuildOptions.Development;
-        }
-        if (enableDeepProfiling)
-        {
-            buildPlayerOptions.options |= BuildOptions.EnableDeepProfilingSupport;
-        }
-
-        PlayerSettings.bundleVersion = buildVersion;
-        PlayerSettings.Android.bundleVersionCode = buildNum;
-        PlayerSettings.Android.useCustomKeystore = true;
-        PlayerSettings.Android.keystoreName = System.IO.Path.Combine(workspacePath, KeystorePath);
-        PlayerSettings.Android.keystorePass = KeystorePass;
-        PlayerSettings.Android.keyaliasName = KeyaliasName;
-        PlayerSettings.Android.keyaliasPass = KeyaliasPass;
-
-        EditorUserBuildSettings.buildAppBundle = enalbeAab;
+        EditorUserBuildSettings.buildAppBundle = enableAab;
         EditorUserBuildSettings.development = enableDev;
         EditorUserBuildSettings.buildWithDeepProfilingSupport = enableDeepProfiling;
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 
+        // PlayerSettings
+        PlayerSettings.bundleVersion = version;
+        PlayerSettings.Android.bundleVersionCode = buildNum;
+        PlayerSettings.Android.useCustomKeystore = true;
+        PlayerSettings.Android.keystoreName =  System.IO.Path.Combine(Application.dataPath, $"../{KeystorePath}"); ;
+        PlayerSettings.Android.keystorePass = KeystorePass;
+        PlayerSettings.Android.keyaliasName = KeyaliasName;
+        PlayerSettings.Android.keyaliasPass = KeyaliasPass;
+
         var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-        var summary = report.summary;
 
-        Debug.Log($"[BuildProcessor] Result={summary.result}, Time={summary.totalTime.TotalSeconds:F1}s, Size={(summary.totalSize / (1024f * 1024f)):F1} MB");
-
-        switch (summary.result)
+        switch (report.summary.result)
         {
             case BuildResult.Succeeded:
             case BuildResult.Failed:
             case BuildResult.Unknown:
             case BuildResult.Cancelled:
-                Debug.Log($"빌드 결과 : {report.summary.result}");
+                Debug.Log($"��� ��� : {report.summary.result}");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
