@@ -22,8 +22,6 @@ public class BuildProcessor
     private const string ArgName_EnableGoogleAppBundle = "enableGoogleAppBundle";
     private const string ArgName_EnableDeepProfiling = "enableDeepProfiling";
 
-    private const string DefaultOutputName = "SurvivalProject";
-
     private static string GetCommandLineArgument(string name)
     {
         var args = Environment.GetCommandLineArgs();
@@ -61,9 +59,6 @@ public class BuildProcessor
         var enableDev = GetCommandLineArgument(ArgName_EnableDev) == "true";
         var enableDeepProfiling = GetCommandLineArgument(ArgName_EnableDeepProfiling) == "true";
 
-        var outputFileName = $"{DefaultOutputName}.{buildType}";
-        var fullOutputPath = System.IO.Path.Combine(outputPath, outputFileName);
-
 
         if (!System.IO.Directory.Exists(outputPath))
         {
@@ -74,7 +69,7 @@ public class BuildProcessor
         var buildPlayerOptions = new BuildPlayerOptions
         {
             scenes = FindEnabledEditorScenes(),
-            locationPathName = fullOutputPath,
+            locationPathName = outputPath,
             target = BuildTarget.Android,
             targetGroup = BuildTargetGroup.Android,
             options = buildOptions,
@@ -127,7 +122,6 @@ public class BuildProcessor
             : System.IO.Path.GetFullPath(outputPathArg);
 
         System.IO.Directory.CreateDirectory(outputDirectory);
-        string outputFile = System.IO.Path.Combine(outputDirectory, $"SurvivalProject.aab");
 
         PlayerSettings.bundleVersion = buildVersion;
         PlayerSettings.Android.bundleVersionCode = buildNum;
